@@ -14,4 +14,3 @@ function PeopleList({people}) {
 }
 
 export default PeopleList;
-

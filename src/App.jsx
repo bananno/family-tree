@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
 import HomePage from './HomePage';
 import PeoplePage from './PeoplePage';
+import PersonProfilePage from './PersonProfilePage';
 import PageNotFound from './PageNotFound';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="people" element={<PeoplePage />} />
+          <Route path="person/:personId" element={<PersonProfilePage />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
