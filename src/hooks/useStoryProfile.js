@@ -16,7 +16,7 @@ function useStoryProfile({storyId}) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [storyId]);
 
   return {story: response, isLoading};
 }

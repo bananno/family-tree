@@ -16,7 +16,7 @@ function useSourceProfile({sourceId}) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [sourceId]);
 
   return {source: response, isLoading};
 }

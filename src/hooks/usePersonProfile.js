@@ -16,7 +16,7 @@ function usePersonList({personId}) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [personId]);
 
   return {person: response, isLoading};
 }
