@@ -1,6 +1,6 @@
 import React from 'react';
 
-import StoryLink from './StoryLink';
+import StoryList from './StoryList';
 import useStoryList from './hooks/useStoryList';
 
 function StoriesPage() {
@@ -10,16 +10,9 @@ function StoriesPage() {
     <div>
       <h2>stories</h2>
       {isLoading && <p>loading...</p>}
-      <ul>
-        {stories.map(story => (
-          <li key={story.id}>
-            <StoryLink story={story}/>
-          </li>
-        ))}
-      </ul>
+      <StoryList stories={stories}/>
     </div>
   );
 }
 
 export default StoriesPage;
-

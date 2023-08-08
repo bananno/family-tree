@@ -1,11 +1,11 @@
 import {useState, useEffect} from 'react';
 
-function usePersonProfile({personId}) {
+function useNotationProfile({notationId}) {
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:9000/api/person-profile/${personId}`)
+    fetch(`http://localhost:9000/api/notation-profile/${notationId}`)
       .then((res) => res.json())
       .then((res) => {
         setResponse(res.data);
@@ -16,9 +16,9 @@ function usePersonProfile({personId}) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [personId]);
+  }, [notationId]);
 
-  return {person: response, isLoading};
+  return {notation: response, isLoading};
 }
 
-export default usePersonProfile;
+export default useNotationProfile;

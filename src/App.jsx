@@ -7,7 +7,8 @@ import ToDoPage from './ToDoPage';
 import PageNotFound from './PageNotFound';
 
 import EventsPage from './EventsPage';
-import NotationsPage from './NotationsPage';
+import NotationIndexPage from './notation/NotationIndexPage';
+import NotationProfilePage from './notation/NotationProfilePage';
 import PersonIndexPage from './person/PersonIndexPage';
 import PersonProfilePage from './person/PersonProfilePage';
 import SourcesPage from './SourcesPage';
@@ -22,7 +23,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="events" element={<EventsPage />} />
-          <Route path="notations" element={<NotationsPage />} />
+          <Route path="notations" element={<NotationIndexPage />} />
+          <Route path="notation/:notationId" element={<NotationProfilePage />} />
           <Route path="people" element={<PersonIndexPage />} />
           <Route path="person/:personId" element={<PersonProfilePage />} />
           <Route path="sources" element={<SourcesPage />} />

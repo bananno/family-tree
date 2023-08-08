@@ -1,6 +1,7 @@
 import React from 'react';
 
-import useNotationList from './hooks/useNotationList';
+import NotationLink from './NotationLink';
+import useNotationList from '../hooks/useNotationList';
 
 function NotationsPage() {
   const {notations} = useNotationList();
@@ -11,7 +12,7 @@ function NotationsPage() {
       <ul>
         {notations.map(notation => (
           <li key={notation.id}>
-            {notation.title || '(empty)'}
+            <NotationLink notation={notation}/>
           </li>
         ))}
       </ul>
