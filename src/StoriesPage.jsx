@@ -1,24 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import StoryLink from './StoryLink';
+import useStoryList from './useStoryList';
 
 function StoriesPage() {
-  const [stories, setStories] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:9000/api/story-index')
-      .then((res) => res.json())
-      .then((res) => {
-        setStories(res.data);
-      })
-      .catch((err) => {
-        console.log('ERROR', err.message);
-      });
-  }, []);
+  const {stories, isLoading} = useStoryList();
 
   return (
     <div>
       <h2>stories</h2>
+      {isLoading && <p>loading...</p>}
       <ul>
         {stories.map(story => (
           <li key={story.id}>

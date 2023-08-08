@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useParams} from 'react-router-dom';
 
 import FormatDate from './FormatDate';
@@ -7,28 +7,13 @@ import LinkList from './LinkList';
 import PeopleList from './PeopleList';
 import StoryLink from './StoryLink';
 import TagList from './TagList';
+import useSourceProfile from './useSourceProfile';
 
 function SourceProfilePage() {
   const {sourceId} = useParams();
+  const {source, isLoading} = useSourceProfile({sourceId});
 
-  const [loading, setLoading] = useState(true);
-  const [source, setSource] = useState([]);
-
-  useEffect(() => {
-    fetch(`http://localhost:9000/api/source-profile/${sourceId}`)
-      .then((res) => res.json())
-      .then((res) => {
-        setSource(res.data);
-      })
-      .catch((err) => {
-        console.log('ERROR', err.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [sourceId]);
-
-  if (loading) {
+  if (isLoading) {
     return (<div>loading...</div>);
   }
 
@@ -60,4 +45,3 @@ function SourceProfilePage() {
 }
 
 export default SourceProfilePage;
-

@@ -1,18 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+
+import useEventList from './useEventList';
 
 function EventsPage() {
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:9000/api/event-index')
-      .then((res) => res.json())
-      .then((res) => {
-        setEvents(res.data);
-      })
-      .catch((err) => {
-        console.log('ERROR', err.message);
-      });
-  }, []);
+  const {events} = useEventList();
 
   return (
     <div>
@@ -29,4 +20,3 @@ function EventsPage() {
 }
 
 export default EventsPage;
-

@@ -1,23 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 
-function SourcesPage() {
-  const [sources, setSources] = useState([]);
+import useSourceList from './useSourceList';
 
-  useEffect(() => {
-    fetch('http://localhost:9000/api/source-index')
-      .then((res) => res.json())
-      .then((res) => {
-        setSources(res.data);
-      })
-      .catch((err) => {
-        console.log('ERROR', err.message);
-      });
-  }, []);
+function SourcesPage() {
+  const {sources, isLoading} = useSourceList();
 
   return (
     <div>
       <h2>sources</h2>
+      {isLoading && <p>loading...</p>}
       <ul>
         {sources.map(source => {
           const sourceProfileUrl = `/source/${source.id}`;

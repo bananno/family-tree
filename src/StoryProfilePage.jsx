@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useParams} from 'react-router-dom';
 
 import FormatDate from './FormatDate';
@@ -6,28 +6,13 @@ import FormatLocation from './FormatLocation';
 import LinkList from './LinkList';
 import PeopleList from './PeopleList';
 import TagList from './TagList';
+import useStoryProfile from './useStoryProfile';
 
 function StoryProfilePage() {
   const {storyId} = useParams();
+  const {story, isLoading} = useStoryProfile({storyId});
 
-  const [loading, setLoading] = useState(true);
-  const [story, setStory] = useState([]);
-
-  useEffect(() => {
-    fetch(`http://localhost:9000/api/story-profile/${storyId}`)
-      .then((res) => res.json())
-      .then((res) => {
-        setStory(res.data);
-      })
-      .catch((err) => {
-        console.log('ERROR', err.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [storyId]);
-
-  if (loading) {
+  if (isLoading) {
     return (<div>loading...</div>);
   }
 
@@ -57,4 +42,3 @@ function StoryProfilePage() {
 }
 
 export default StoryProfilePage;
-

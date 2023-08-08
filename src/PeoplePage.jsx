@@ -1,23 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+
 import PeopleList from './PeopleList';
+import usePersonList from './usePersonList';
 
 function PeoplePage() {
-  const [people, setPeople] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:9000/api/people-index')
-      .then((res) => res.json())
-      .then((res) => {
-        setPeople(res.data);
-      })
-      .catch((err) => {
-        console.log('ERROR', err.message);
-      });
-  }, []);
+  const {people, isLoading} = usePersonList();
 
   return (
     <div>
       <h2>people</h2>
+      {isLoading && <p>loading...</p>}
       <PeopleList people={people}/>
     </div>
   );

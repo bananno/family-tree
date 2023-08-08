@@ -1,18 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+
+import useNotationList from './useNotationList';
 
 function NotationsPage() {
-  const [notations, setNotations] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:9000/api/notation-index')
-      .then((res) => res.json())
-      .then((res) => {
-        setNotations(res.data);
-      })
-      .catch((err) => {
-        console.log('ERROR', err.message);
-      });
-  }, []);
+  const {notations} = useNotationList();
 
   return (
     <div>
@@ -29,4 +20,3 @@ function NotationsPage() {
 }
 
 export default NotationsPage;
-

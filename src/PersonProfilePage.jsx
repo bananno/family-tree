@@ -1,31 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useParams} from 'react-router-dom';
 
 import LinkList from './LinkList';
 import PeopleList from './PeopleList';
 import TagList from './TagList';
+import usePersonProfile from './usePersonProfile';
 
-function PersonProfilePage(props) {
+function PersonProfilePage() {
   const {personId} = useParams();
+  const {person, isLoading} = usePersonProfile({personId});
 
-  const [loading, setLoading] = useState(true);
-  const [person, setPerson] = useState([]);
-
-  useEffect(() => {
-    fetch(`http://localhost:9000/api/person-profile/${personId}`)
-      .then((res) => res.json())
-      .then((res) => {
-        setPerson(res.data);
-      })
-      .catch((err) => {
-        console.log('ERROR', err.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [personId]);
-
-  if (loading) {
+  if (isLoading) {
     return (<div>loading...</div>);
   }
 
