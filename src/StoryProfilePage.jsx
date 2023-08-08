@@ -1,0 +1,60 @@
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+
+import FormatDate from './FormatDate';
+import FormatLocation from './FormatLocation';
+import LinkList from './LinkList';
+import PeopleList from './PeopleList';
+import TagList from './TagList';
+
+function StoryProfilePage() {
+  const {storyId} = useParams();
+
+  const [loading, setLoading] = useState(true);
+  const [story, setStory] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:9000/api/story-profile/${storyId}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setStory(res.data);
+      })
+      .catch((err) => {
+        console.log('ERROR', err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [storyId]);
+
+  if (loading) {
+    return (<div>loading...</div>);
+  }
+
+  return (
+    <div>
+      <h2>STORY:</h2>
+      <h2>{story.title}</h2>
+      <hr/>
+      <h2>sharing</h2>
+      <p>{String(story.sharing)}</p>
+      <h2>type</h2>
+      <p>{story.type}</p>
+      <h2>tags</h2>
+      <TagList tags={story.tags}/>
+      <h2>date</h2>
+      <p><FormatDate date={story.date}/></p>
+      <h2>location</h2>
+      <p><FormatLocation location={story.location}/></p>
+      <h2>people</h2>
+      <PeopleList people={story.people}/>
+      <h2>links</h2>
+      <LinkList links={story.links}/>
+      <h2>sources</h2>
+      <p>(to do)</p>
+    </div>
+  );
+}
+
+export default StoryProfilePage;
+

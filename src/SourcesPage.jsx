@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 
 function SourcesPage() {
   const [sources, setSources] = useState([]);
@@ -18,11 +19,14 @@ function SourcesPage() {
     <div>
       <h2>sources</h2>
       <ul>
-        {sources.map(source => (
-          <li key={source.id}>
-            {source.fullTitle}
-          </li>
-        ))}
+        {sources.map(source => {
+          const sourceProfileUrl = `/source/${source.id}`;
+          return (
+            <li key={source.id}>
+              <Link to={sourceProfileUrl}>{source.fullTitle}</Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

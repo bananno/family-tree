@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
+import StoryLink from './StoryLink';
+
 function StoriesPage() {
   const [stories, setStories] = useState([]);
 
@@ -20,7 +22,7 @@ function StoriesPage() {
       <ul>
         {stories.map(story => (
           <li key={story.id}>
-            {story.title}
+            <StoryLink story={story}/>
           </li>
         ))}
       </ul>

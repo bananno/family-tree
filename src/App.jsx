@@ -11,7 +11,9 @@ import NotationsPage from './NotationsPage';
 import PeoplePage from './PeoplePage';
 import PersonProfilePage from './PersonProfilePage';
 import SourcesPage from './SourcesPage';
+import SourceProfilePage from './SourceProfilePage';
 import StoriesPage from './StoriesPage';
+import StoryProfilePage from './StoryProfilePage';
 
 function App() {
   return (
@@ -24,7 +26,9 @@ function App() {
           <Route path="people" element={<PeoplePage />} />
           <Route path="person/:personId" element={<PersonProfilePage />} />
           <Route path="sources" element={<SourcesPage />} />
+          <Route path="source/:sourceId" element={<SourceProfilePage />} />
           <Route path="stories" element={<StoriesPage />} />
+          <Route path="story/:storyId" element={<StoryProfilePage />} />
 
           <Route path="map" element={<ToDoPage title="map"/>} />
           <Route path="checklist" element={<ToDoPage title="checklist"/>} />
