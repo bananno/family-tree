@@ -4,9 +4,9 @@ import {useParams} from 'react-router-dom';
 import FormatDate from './FormatDate';
 import FormatLocation from './FormatLocation';
 import LinkList from './LinkList';
-import PeopleList from './PeopleList';
+import PersonList from './person/PersonList';
 import TagList from './TagList';
-import useStoryProfile from './useStoryProfile';
+import useStoryProfile from './hooks/useStoryProfile';
 
 function StoryProfilePage() {
   const {storyId} = useParams();
@@ -32,7 +32,7 @@ function StoryProfilePage() {
       <h2>location</h2>
       <p><FormatLocation location={story.location}/></p>
       <h2>people</h2>
-      <PeopleList people={story.people}/>
+      <PersonList people={story.people}/>
       <h2>links</h2>
       <LinkList links={story.links}/>
       <h2>sources</h2>

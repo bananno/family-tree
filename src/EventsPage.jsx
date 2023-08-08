@@ -1,6 +1,6 @@
 import React from 'react';
 
-import useEventList from './useEventList';
+import useEventList from './hooks/useEventList';
 
 function EventsPage() {
   const {events} = useEventList();

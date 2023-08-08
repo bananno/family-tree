@@ -1,7 +1,7 @@
 import React from 'react';
 
 import StoryLink from './StoryLink';
-import useStoryList from './useStoryList';
+import useStoryList from './hooks/useStoryList';
 
 function StoriesPage() {
   const {stories, isLoading} = useStoryList();

@@ -1,16 +1,16 @@
 import React from 'react';
-import PersonItem from './PersonItem';
+import PersonLink from './PersonLink';
 
-function PeopleList({people}) {
+function PersonList({people}) {
   return (
     <ul>
       {people.map(person => (
         <li key={person.id}>
-          <PersonItem person={person}/>
+          <PersonLink person={person}/>
         </li>
       ))}
     </ul>
   );
 }
 
-export default PeopleList;
+export default PersonList;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import useSourceList from './useSourceList';
+import useSourceList from './hooks/useSourceList';
 
 function SourcesPage() {
   const {sources, isLoading} = useSourceList();

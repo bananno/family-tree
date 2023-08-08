@@ -1,7 +1,7 @@
 import React from 'react';
 
-import PeopleList from './PeopleList';
-import usePersonList from './usePersonList';
+import PersonList from './PersonList';
+import usePersonList from '../hooks/usePersonList';
 
 function PeoplePage() {
   const {people, isLoading} = usePersonList();
@@ -10,7 +10,7 @@ function PeoplePage() {
     <div>
       <h2>people</h2>
       {isLoading && <p>loading...</p>}
-      <PeopleList people={people}/>
+      <PersonList people={people}/>
     </div>
   );
 }

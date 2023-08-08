@@ -8,8 +8,8 @@ import PageNotFound from './PageNotFound';
 
 import EventsPage from './EventsPage';
 import NotationsPage from './NotationsPage';
-import PeoplePage from './PeoplePage';
-import PersonProfilePage from './PersonProfilePage';
+import PersonIndexPage from './person/PersonIndexPage';
+import PersonProfilePage from './person/PersonProfilePage';
 import SourcesPage from './SourcesPage';
 import SourceProfilePage from './SourceProfilePage';
 import StoriesPage from './StoriesPage';
@@ -23,7 +23,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="events" element={<EventsPage />} />
           <Route path="notations" element={<NotationsPage />} />
-          <Route path="people" element={<PeoplePage />} />
+          <Route path="people" element={<PersonIndexPage />} />
           <Route path="person/:personId" element={<PersonProfilePage />} />
           <Route path="sources" element={<SourcesPage />} />
           <Route path="source/:sourceId" element={<SourceProfilePage />} />

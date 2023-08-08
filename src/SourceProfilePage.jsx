@@ -4,10 +4,10 @@ import {useParams} from 'react-router-dom';
 import FormatDate from './FormatDate';
 import FormatLocation from './FormatLocation';
 import LinkList from './LinkList';
-import PeopleList from './PeopleList';
+import PersonList from './person/PersonList';
 import StoryLink from './StoryLink';
 import TagList from './TagList';
-import useSourceProfile from './useSourceProfile';
+import useSourceProfile from './hooks/useSourceProfile';
 
 function SourceProfilePage() {
   const {sourceId} = useParams();
@@ -31,7 +31,7 @@ function SourceProfilePage() {
       <h2>tags</h2>
       <TagList tags={source.tags}/>
       <h2>people</h2>
-      <PeopleList people={source.people}/>
+      <PersonList people={source.people}/>
       <h2>links</h2>
       <LinkList links={source.links}/>
       <h2>images</h2>

@@ -1,10 +1,10 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 
-import LinkList from './LinkList';
-import PeopleList from './PeopleList';
-import TagList from './TagList';
-import usePersonProfile from './usePersonProfile';
+import LinkList from '../LinkList';
+import PersonList from './PersonList';
+import TagList from '../TagList';
+import usePersonProfile from '../hooks/usePersonProfile';
 
 function PersonProfilePage() {
   const {personId} = useParams();
@@ -22,13 +22,13 @@ function PersonProfilePage() {
       <h3>tags</h3>
       <TagList tags={person.tags}/>
       <h3>parents</h3>
-      <PeopleList people={person.parents}/>
+      <PersonList people={person.parents}/>
       <h3>siblings</h3>
-      <PeopleList people={person.siblings}/>
+      <PersonList people={person.siblings}/>
       <h3>spouses</h3>
-      <PeopleList people={person.spouses}/>
+      <PersonList people={person.spouses}/>
       <h3>children</h3>
-      <PeopleList people={person.children}/>
+      <PersonList people={person.children}/>
       <h3>links</h3>
       <LinkList links={person.links}/>
     </div>
