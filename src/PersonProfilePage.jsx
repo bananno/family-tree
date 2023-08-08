@@ -42,6 +42,8 @@ function PersonProfilePage(props) {
       <PeopleList people={person.siblings}/>
       <h3>spouses</h3>
       <PeopleList people={person.spouses}/>
+      <h3>children</h3>
+      <PeopleList people={person.children}/>
       <h3>links</h3>
       <LinkList links={person.links}/>
     </div>

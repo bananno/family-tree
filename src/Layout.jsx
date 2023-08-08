@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import {Outlet, Link} from 'react-router-dom';
 
 const HomePage = () => {
   return (
@@ -8,6 +8,13 @@ const HomePage = () => {
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/people">People</Link></li>
+        <li><Link to="/stories">Stories</Link></li>
+        <li><Link to="/sources">Sources</Link></li>
+        <li><Link to="/events">Events</Link></li>
+        <li><Link to="/notations">Notations</Link></li>
+        <li><Link to="/map">Map</Link></li>
+        <li><Link to="/checklist">Checklist</Link></li>
+        <li><Link to="/tags">Tags</Link></li>
         <li><Link to="/404">404</Link></li>
       </ul>
       <Outlet/>
