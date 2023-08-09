@@ -67,7 +67,6 @@ function CitationList({citations, showPerson = true, showSource = true}) {
             sourceClasses.push(classes.borderBottom);
           }
 
-          // TO DO: split the item column into two pieces (e.g. birth / date)
           return (
             <tr key={citation.id}>
               {showPerson && <td className={personClasses.join(' ')}>

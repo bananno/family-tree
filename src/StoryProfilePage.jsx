@@ -1,6 +1,7 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 
+import FormatContent from './FormatContent';
 import FormatDate from './FormatDate';
 import FormatLocation from './FormatLocation';
 import LinkList from './LinkList';
@@ -35,6 +36,8 @@ function StoryProfilePage() {
       <PersonList people={story.people}/>
       <h2>links</h2>
       <LinkList links={story.links}/>
+      <h2>content</h2>
+      <FormatContent content={story.content}/>
       <h2>sources</h2>
       <p>(to do)</p>
     </div>

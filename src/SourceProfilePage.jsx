@@ -2,6 +2,7 @@ import React from 'react';
 import {useParams} from 'react-router-dom';
 
 import CitationList from './CitationList';
+import FormatContent from './FormatContent';
 import FormatDate from './FormatDate';
 import FormatLocation from './FormatLocation';
 import LinkList from './LinkList';
@@ -38,7 +39,7 @@ function SourceProfilePage() {
       <h2>images</h2>
       <p>(to do)</p>
       <h2>content</h2>
-      <p>(to do)</p>
+      <FormatContent content={source.content}/>
       <h2>citations</h2>
       <CitationList citations={source.citations} showSource={false}/>
     </div>
