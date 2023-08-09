@@ -1,16 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 
+import Filter from '../Filter';
 import StoryList from './StoryList';
 import useStoryList from '../hooks/useStoryList';
 
 function StoryIndexPage() {
   const {stories, isLoading} = useStoryList();
+  const [filterWords, setFilterWords] = useState([]);
+
+  const filteredStories = filterWords.length > 0
+    ? stories.filter(story => !filterWords.some(word => !word.test(story.title)))
+    : stories;
 
   return (
     <div>
-      <h2>stories</h2>
+      <h1>stories</h1>
       {isLoading && <p>loading...</p>}
-      <StoryList stories={stories}/>
+      <Filter onChange={setFilterWords}/>
+      <StoryList stories={filteredStories}/>
     </div>
   );
 }

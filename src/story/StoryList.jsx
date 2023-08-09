@@ -2,7 +2,7 @@ import React from 'react';
 
 import StoryLink from './StoryLink';
 
-function StoriesPage({stories}) {
+function StoryList({stories}) {
   return (
     <ul>
       {stories.map(story => (
@@ -14,4 +14,4 @@ function StoriesPage({stories}) {
   );
 }
 
-export default StoriesPage;
+export default StoryList;
