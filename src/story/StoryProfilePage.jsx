@@ -1,13 +1,13 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 
-import FormatContent from './FormatContent';
-import FormatDate from './FormatDate';
-import FormatLocation from './FormatLocation';
-import LinkList from './LinkList';
-import PersonList from './person/PersonList';
-import TagList from './TagList';
-import useStoryProfile from './hooks/useStoryProfile';
+import FormatContent from '../FormatContent';
+import FormatDate from '../FormatDate';
+import FormatLocation from '../FormatLocation';
+import LinkList from '../LinkList';
+import PersonList from '../person/PersonList';
+import TagList from '../TagList';
+import useStoryProfile from '../hooks/useStoryProfile';
 
 function StoryProfilePage() {
   const {storyId} = useParams();

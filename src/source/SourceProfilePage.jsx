@@ -1,15 +1,15 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 
-import CitationList from './CitationList';
-import FormatContent from './FormatContent';
-import FormatDate from './FormatDate';
-import FormatLocation from './FormatLocation';
-import LinkList from './LinkList';
-import PersonList from './person/PersonList';
-import StoryLink from './StoryLink';
-import TagList from './TagList';
-import useSourceProfile from './hooks/useSourceProfile';
+import CitationList from '../CitationList';
+import FormatContent from '../FormatContent';
+import FormatDate from '../FormatDate';
+import FormatLocation from '../FormatLocation';
+import LinkList from '../LinkList';
+import PersonList from '../person/PersonList';
+import StoryLink from '../story/StoryLink';
+import TagList from '../TagList';
+import useSourceProfile from '../hooks/useSourceProfile';
 
 function SourceProfilePage() {
   const {sourceId} = useParams();

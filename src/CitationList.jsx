@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PersonLink from './person/PersonLink';
-import SourceLink from './SourceLink';
+import SourceLink from './source/SourceLink';
 import classes from './CitationList.module.scss';
 
 function CitationList({citations, showPerson = true, showSource = true}) {

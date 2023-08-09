@@ -1,9 +1,9 @@
 import React from 'react';
 
 import StoryList from './StoryList';
-import useStoryList from './hooks/useStoryList';
+import useStoryList from '../hooks/useStoryList';
 
-function StoriesPage() {
+function StoryIndexPage() {
   const {stories, isLoading} = useStoryList();
 
   return (
@@ -15,4 +15,4 @@ function StoriesPage() {
   );
 }
 
-export default StoriesPage;
+export default StoryIndexPage;

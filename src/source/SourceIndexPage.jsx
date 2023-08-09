@@ -1,9 +1,9 @@
 import React from 'react';
 
 import SourceLink from './SourceLink';
-import useSourceList from './hooks/useSourceList';
+import useSourceList from '../hooks/useSourceList';
 
-function SourcesPage() {
+function SourceIndexPage() {
   const {sources, isLoading} = useSourceList();
 
   return (
@@ -24,4 +24,4 @@ function SourcesPage() {
   );
 }
 
-export default SourcesPage;
+export default SourceIndexPage;

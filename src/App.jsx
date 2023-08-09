@@ -11,10 +11,10 @@ import NotationIndexPage from './notation/NotationIndexPage';
 import NotationProfilePage from './notation/NotationProfilePage';
 import PersonIndexPage from './person/PersonIndexPage';
 import PersonProfilePage from './person/PersonProfilePage';
-import SourcesPage from './SourcesPage';
-import SourceProfilePage from './SourceProfilePage';
-import StoriesPage from './StoriesPage';
-import StoryProfilePage from './StoryProfilePage';
+import SourceIndexPage from './source/SourceIndexPage';
+import SourceProfilePage from './source/SourceProfilePage';
+import StoryIndexPage from './story/StoryIndexPage';
+import StoryProfilePage from './story/StoryProfilePage';
 
 function App() {
   return (
@@ -27,9 +27,9 @@ function App() {
           <Route path="notation/:notationId" element={<NotationProfilePage />} />
           <Route path="people" element={<PersonIndexPage />} />
           <Route path="person/:personId" element={<PersonProfilePage />} />
-          <Route path="sources" element={<SourcesPage />} />
+          <Route path="sources" element={<SourceIndexPage />} />
           <Route path="source/:sourceId" element={<SourceProfilePage />} />
-          <Route path="stories" element={<StoriesPage />} />
+          <Route path="stories" element={<StoryIndexPage />} />
           <Route path="story/:storyId" element={<StoryProfilePage />} />
 
           <Route path="map" element={<ToDoPage title="map"/>} />

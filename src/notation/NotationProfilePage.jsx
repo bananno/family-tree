@@ -2,7 +2,7 @@ import React from 'react';
 import {useParams} from 'react-router-dom';
 
 import PersonList from '../person/PersonList';
-import StoryList from '../StoryList';
+import StoryList from '../story/StoryList';
 import TagList from '../TagList';
 import useNotationProfile from '../hooks/useNotationProfile';
 
