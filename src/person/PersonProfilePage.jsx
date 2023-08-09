@@ -33,7 +33,7 @@ function PersonProfilePage() {
       <h3>links</h3>
       <LinkList links={person.links}/>
       <h3>citations</h3>
-      <CitationList citations={person.citations || []}/>
+      <CitationList citations={person.citations} showPerson={false}/>
     </div>
   );
 }

@@ -1,10 +1,11 @@
 import React from 'react';
 
+import PersonLink from './person/PersonLink';
 import SourceLink from './SourceLink';
 import classes from './CitationList.module.scss';
 
-function CitationList({citations}) {
-  let previousItem, previousInfo;
+function CitationList({citations, showPerson = true, showSource = true}) {
+  let previousPersonId, previousItem, previousInfo;
   return (
     <table className={classes.CitationList}>
       <thead>
@@ -16,41 +17,62 @@ function CitationList({citations}) {
       </thead>
       <tbody>
         {citations.map((citation, i) => {
-          let itemText, infoText;
+          let displayPersonLink, displayItemText, displayInformationText;
 
-          const itemClasses = [classes.borderLeft];
+          const personClasses = [classes.borderLeft];
+          const itemClasses = [];
           const informationClasses = [];
           const sourceClasses = [classes.borderTop, classes.borderRight];
 
+          if (showPerson) {
+            personClasses.push(classes.borderLeft);
+            if (previousPersonId !== citation.person.id) {
+              previousPersonId = citation.person.id;
+              displayPersonLink = true;
+              itemClasses.push(classes.borderTop);
+            }
+          } else {
+            itemClasses.push(classes.borderLeft);
+          }
+
           if (previousItem !== citation.item) {
-            itemText = citation.item;
             previousItem = citation.item;
+            displayItemText = true;
             itemClasses.push(classes.borderTop);
           }
 
           if (previousInfo !== citation.information) {
-            infoText = citation.information;
             previousInfo = citation.information;
+            displayInformationText = true;
             informationClasses.push(classes.borderTop);
           }
 
+          if (!showSource) {
+            informationClasses.push(classes.borderRight);
+          }
+
           if (i === citations.length - 1) {
+            personClasses.push(classes.borderBottom);
             itemClasses.push(classes.borderBottom);
             informationClasses.push(classes.borderBottom);
             sourceClasses.push(classes.borderBottom);
           }
 
+          // TO DO: split the item column into two pieces (e.g. birth / date)
           return (
             <tr key={citation.id}>
+              {showPerson && <td className={personClasses.join(' ')}>
+                {displayPersonLink && <PersonLink person={citation.person}/>}
+              </td>}
               <td className={itemClasses.join(' ')}>
-                {itemText}
+                {displayItemText && citation.item}
               </td>
               <td className={informationClasses.join(' ')}>
-                {infoText}
+                {displayInformationText && citation.information}
               </td>
-              <td className={sourceClasses.join(' ')}>
+              {showSource && <td className={sourceClasses.join(' ')}>
                 <SourceLink source={citation.source}/>
-              </td>
+              </td>}
             </tr>
           );
         })}
