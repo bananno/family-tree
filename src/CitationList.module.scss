@@ -1,0 +1,27 @@
+.CitationList {
+  border-collapse: collapse;
+
+  td, th {
+    padding: 5px 10px;
+  }
+
+  th {
+    border: 1px solid gray;
+  }
+
+  .borderLeft {
+    border-left: 1px solid gray;
+  }
+
+  .borderRight {
+    border-right: 1px solid gray;
+  }
+
+  .borderBottom {
+    border-bottom: 1px solid gray;
+  }
+
+  .borderTop {
+    border-top: 1px solid gray;
+  }
+}

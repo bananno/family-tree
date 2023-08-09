@@ -1,6 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 
+import SourceLink from './SourceLink';
 import useSourceList from './hooks/useSourceList';
 
 function SourcesPage() {
@@ -15,7 +15,7 @@ function SourcesPage() {
           const sourceProfileUrl = `/source/${source.id}`;
           return (
             <li key={source.id}>
-              <Link to={sourceProfileUrl}>{source.fullTitle}</Link>
+              <SourceLink to={sourceProfileUrl} source={source}/>
             </li>
           );
         })}
@@ -25,4 +25,3 @@ function SourcesPage() {
 }
 
 export default SourcesPage;
-

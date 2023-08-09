@@ -1,6 +1,7 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 
+import CitationList from '../CitationList';
 import LinkList from '../LinkList';
 import PersonList from './PersonList';
 import TagList from '../TagList';
@@ -31,6 +32,8 @@ function PersonProfilePage() {
       <PersonList people={person.children}/>
       <h3>links</h3>
       <LinkList links={person.links}/>
+      <h3>citations</h3>
+      <CitationList citations={person.citations || []}/>
     </div>
   );
 }
