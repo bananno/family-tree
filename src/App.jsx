@@ -14,6 +14,7 @@ import PersonProfilePage from './person/PersonProfilePage';
 import SourceIndexPage from './source/SourceIndexPage';
 import SourceProfilePage from './source/SourceProfilePage';
 import StoryIndexPage from './story/StoryIndexPage';
+import StoryNonEntrySourcesPage from './story/StoryNonEntrySourcesPage';
 import StoryProfilePage from './story/StoryProfilePage';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="source/:sourceId" element={<SourceProfilePage />} />
           <Route path="stories" element={<StoryIndexPage />} />
           <Route path="stories/:storyType" element={<StoryIndexPage />} />
+          <Route path="stories-non-entry-sources" element={<StoryNonEntrySourcesPage />} />
           <Route path="story/:storyId" element={<StoryProfilePage />} />
 
           <Route path="map" element={<ToDoPage title="map"/>} />

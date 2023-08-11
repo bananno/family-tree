@@ -30,6 +30,9 @@ function StoryIndexPage() {
             <Link to={`/stories/${storyType}`}>{storyType}</Link>
           </li>
         ))}
+        <li>
+          <Link to="/stories-non-entry-sources">stories with non-entry sources</Link>
+        </li>
       </ul>
       <Filter onChange={setFilterWords}/>
       <StoryList stories={filteredStories}/>

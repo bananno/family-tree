@@ -4,7 +4,9 @@ function useStoryList({storyType}) {
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const requestUrl = storyType
+  const requestUrl = storyType === 'nonEntrySources'
+    ? 'http://localhost:9000/api/story-non-entry-source'
+    : storyType
     ? `http://localhost:9000/api/story-index/${storyType}`
     : 'http://localhost:9000/api/story-index';
 
