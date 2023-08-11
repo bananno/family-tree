@@ -31,6 +31,7 @@ function App() {
           <Route path="sources/:sourceType" element={<SourceIndexPage />} />
           <Route path="source/:sourceId" element={<SourceProfilePage />} />
           <Route path="stories" element={<StoryIndexPage />} />
+          <Route path="stories/:storyType" element={<StoryIndexPage />} />
           <Route path="story/:storyId" element={<StoryProfilePage />} />
 
           <Route path="map" element={<ToDoPage title="map"/>} />

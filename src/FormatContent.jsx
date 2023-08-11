@@ -17,9 +17,9 @@ function FormatContent({content = ''}) {
         tableLines.push(contentPieces[i + 1]);
         i += 1;
       }
-      contentComponents.push(<FormatContentTable tableLines={tableLines}/>);
+      contentComponents.push(<FormatContentTable key={i} tableLines={tableLines}/>);
     } else {
-      contentComponents.push(<p>{nextLine}</p>);
+      contentComponents.push(<p key={i}>{nextLine}</p>);
     }
   }
 
@@ -34,7 +34,9 @@ function FormatContentTable({tableLines}) {
   return (
     <table>
       <tbody>
-        {tableLines.map(contentRow => <FormatContentTableRow contentRow={contentRow}/>)}
+        {tableLines.map((contentRow, i) => (
+          <FormatContentTableRow key={i} contentRow={contentRow}/>
+        ))}
       </tbody>
     </table>
   );

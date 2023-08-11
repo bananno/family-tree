@@ -1,11 +1,15 @@
 import {useState, useEffect} from 'react';
 
-function useStoryList() {
+function useStoryList({storyType}) {
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const requestUrl = storyType
+    ? `http://localhost:9000/api/story-index/${storyType}`
+    : 'http://localhost:9000/api/story-index';
+
   useEffect(() => {
-    fetch('http://localhost:9000/api/story-index')
+    fetch(requestUrl)
       .then((res) => res.json())
       .then((res) => {
         setResponse(res.data);
@@ -16,7 +20,7 @@ function useStoryList() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [storyType]);
 
   return {stories: response, isLoading};
 }
