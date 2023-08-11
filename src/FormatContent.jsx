@@ -44,6 +44,7 @@ function FormatContentTable({tableLines}) {
 
 function FormatContentTableRow({contentRow}) {
   let remainingRow = contentRow;
+  let key = 0;
   const tableCellComponents = [];
   
   while (remainingRow.length) {
@@ -68,10 +69,12 @@ function FormatContentTableRow({contentRow}) {
     }
 
     if (isHeader) {
-      tableCellComponents.push(<th>{cellContent}</th>);
+      tableCellComponents.push(<th key={key}>{cellContent}</th>);
     } else {
-      tableCellComponents.push(<td>{cellContent}</td>);
+      tableCellComponents.push(<td key={key}>{cellContent}</td>);
     }
+
+    key += 1;
   }
 
   return (<tr>{tableCellComponents}</tr>);

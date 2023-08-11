@@ -6,6 +6,7 @@ import FormatDate from '../FormatDate';
 import FormatLocation from '../FormatLocation';
 import LinkList from '../LinkList';
 import PersonList from '../person/PersonList';
+import SourceList from '../source/SourceList';
 import TagList from '../TagList';
 import useStoryProfile from '../hooks/useStoryProfile';
 
@@ -36,10 +37,16 @@ function StoryProfilePage() {
       <PersonList people={story.people}/>
       <h2>links</h2>
       <LinkList links={story.links}/>
+      <h2>notes</h2>
+      <ul>
+        {story.notes.map((note, i) => (<li key={i}>{note}</li>))}
+      </ul>
       <h2>content</h2>
       <FormatContent content={story.content}/>
-      <h2>sources</h2>
-      <p>(to do)</p>
+      <h2>sources (belong to another story but relate to this story)</h2>
+      <SourceList sources={story.nonEntrySources}/>
+      <h2>entries (belong to this story)</h2>
+      <SourceList sources={story.entries} useFullTitle={false}/>
     </div>
   );
 }

@@ -36,6 +36,10 @@ function SourceProfilePage() {
       <PersonList people={source.people}/>
       <h2>links</h2>
       <LinkList links={source.links}/>
+      <h2>notes</h2>
+      <ul>
+        {source.notes.map((note, i) => (<li key={i}>{note}</li>))}
+      </ul>
       <h2>images</h2>
       <p>(to do)</p>
       <h2>content</h2>
