@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 
 function useStoryProfile({storyId}) {
-  const [response, setResponse] = useState([]);
+  const [response, setResponse] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

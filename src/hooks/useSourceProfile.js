@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 
 function useSourceProfile({sourceId}) {
-  const [response, setResponse] = useState([]);
+  const [response, setResponse] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
