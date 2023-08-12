@@ -7,7 +7,7 @@ import FormatLocation from '../FormatLocation';
 import LinkList from '../LinkList';
 import PersonList from '../person/PersonList';
 import SourceList from '../source/SourceList';
-import TagList from '../TagList';
+import TagList from '../tag/TagList';
 import useStoryProfile from '../hooks/useStoryProfile';
 
 function StoryProfilePage() {

@@ -8,7 +8,7 @@ import FormatLocation from '../FormatLocation';
 import LinkList from '../LinkList';
 import PersonList from '../person/PersonList';
 import StoryLink from '../story/StoryLink';
-import TagList from '../TagList';
+import TagList from '../tag/TagList';
 import useSourceProfile from '../hooks/useSourceProfile';
 
 function SourceProfilePage() {

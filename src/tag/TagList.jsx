@@ -1,12 +1,14 @@
 import React from 'react';
 
+import TagLink from './TagLink';
+
 function TagList({tags}) {
   // String(value) because otherwise booleans don't display
   return (
     <ul>
       {tags.map(tag => (
         <li key={tag.id}>
-          {tag.title}: {String(tag.value)}
+          <TagLink tag={tag}/>: {String(tag.value)}
         </li>
       ))}
     </ul>

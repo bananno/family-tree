@@ -1,7 +1,7 @@
 import React from 'react';
 import {Outlet, Link} from 'react-router-dom';
 
-const HomePage = () => {
+const Layout = () => {
   return (
     <div>
       <h1>family history</h1>
@@ -22,4 +22,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Layout;

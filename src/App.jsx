@@ -16,6 +16,8 @@ import SourceProfilePage from './source/SourceProfilePage';
 import StoryIndexPage from './story/StoryIndexPage';
 import StoryNonEntrySourcesPage from './story/StoryNonEntrySourcesPage';
 import StoryProfilePage from './story/StoryProfilePage';
+import TagIndexPage from './tag/TagIndexPage';
+import TagProfilePage from './tag/TagProfilePage';
 
 function App() {
   return (
@@ -23,22 +25,30 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+
           <Route path="events" element={<EventsPage />} />
+
           <Route path="notations" element={<NotationIndexPage />} />
           <Route path="notation/:notationId" element={<NotationProfilePage />} />
+
           <Route path="people" element={<PersonIndexPage />} />
           <Route path="person/:personId" element={<PersonProfilePage />} />
+
           <Route path="sources" element={<SourceIndexPage />} />
           <Route path="sources/:sourceType" element={<SourceIndexPage />} />
           <Route path="source/:sourceId" element={<SourceProfilePage />} />
+
           <Route path="stories" element={<StoryIndexPage />} />
           <Route path="stories/:storyType" element={<StoryIndexPage />} />
           <Route path="stories-non-entry-sources" element={<StoryNonEntrySourcesPage />} />
           <Route path="story/:storyId" element={<StoryProfilePage />} />
 
+          <Route path="tags" element={<TagIndexPage />} />
+          <Route path="tags/:showTagsBy" element={<TagIndexPage />} />
+          <Route path="tag/:tagId" element={<TagProfilePage />} />
+
           <Route path="map" element={<ToDoPage title="map"/>} />
           <Route path="checklist" element={<ToDoPage title="checklist"/>} />
-          <Route path="tags" element={<ToDoPage title="tags"/>} />
 
           <Route path="*" element={<PageNotFound />} />
         </Route>

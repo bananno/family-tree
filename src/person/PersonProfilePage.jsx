@@ -4,7 +4,7 @@ import {useParams} from 'react-router-dom';
 import CitationList from '../CitationList';
 import LinkList from '../LinkList';
 import PersonList from './PersonList';
-import TagList from '../TagList';
+import TagList from '../tag/TagList';
 import usePersonProfile from '../hooks/usePersonProfile';
 
 function PersonProfilePage() {

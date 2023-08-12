@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 
 import PersonList from '../person/PersonList';
 import StoryList from '../story/StoryList';
-import TagList from '../TagList';
+import TagList from '../tag/TagList';
 import useNotationProfile from '../hooks/useNotationProfile';
 
 function NotationProfilePage() {
