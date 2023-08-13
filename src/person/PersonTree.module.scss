@@ -1,0 +1,11 @@
+.PersonTreeFrame {
+  display: inline-block;
+  padding: 10px;
+  border: 2px solid gray;
+
+  .PersonTreeCell {
+    border: 1px solid gray;
+    padding: 5px 10px;
+    text-align: center;
+  }
+}
