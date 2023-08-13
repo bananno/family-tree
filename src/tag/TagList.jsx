@@ -2,7 +2,7 @@ import React from 'react';
 
 import TagLink from './TagLink';
 
-function TagList({tags, showDefinitions, showValues=true}) {
+function TagList({tags=[], showDefinitions, showValues=true}) {
   if (showValues) {
     // String(value) because otherwise booleans don't display
     return (
