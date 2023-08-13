@@ -6,34 +6,22 @@ import PersonList from '../person/PersonList';
 import SourceList from '../source/SourceList';
 import StoryList from '../story/StoryList';
 import TagList from '../tag/TagList';
+import TagDetails from '../tag/TagDetails';
+import TagNumberOfChildrenPage from '../tag/TagNumberOfChildrenPage';
 import useTagProfile from '../hooks/useTagProfile';
 
 const TagProfilePage = () => {
   const {tagId} = useParams();
   const {tag} = useTagProfile({tagId});
+
+  // TO DO: handle this in the routes later
+  if (tag.title === 'number of children') {
+    return <TagNumberOfChildrenPage tag={tag}/>
+  }
+
   return (
     <>
-      <h1><i>tag:</i> {tag.title}</h1>
-      <h2>definition</h2>
-      {
-        tag.definition?.length
-          ? tag.definition.map((text, i) => <p key={i}>{text}</p>)
-          : <p>(none)</p>
-      }
-      <h2>category</h2>
-      <p>{tag.category || '(none)'}</p>
-      <h2>value type</h2>
-      <p>{tag.valueType} - {tag.valueTypeName}</p>
-      <h2>value options</h2>
-      {
-        tag.valueType === 2
-          ? <ul>{tag.valueOptions?.map(option => <li key={option}>{option}</li>)}</ul>
-          : <p>(not applicable)</p>
-      }
-      <h2>model types</h2>
-      <TagProfileModelTypesAllowed tag={tag}/>
-      <h2>metatags</h2>
-      <TagList tags={tag.tags}/>
+      <TagDetails tag={tag}/>
       <hr/>
       <h1>items with tag</h1>
       <EventsWithTag tag={tag}/>
@@ -60,22 +48,6 @@ const TagProfilePage = () => {
       <TagsWithTag tag={tag}/>
     </>
   );
-};
-
-const TagProfileModelTypesAllowed = ({tag}) => {
-  if (tag.restrictedToModels?.length > 0) {
-    return (
-      <>
-        <p>restricted to these models only:</p>
-        <ul>
-          {tag.restrictedToModels.map(modelName => (
-            <li key={modelName}>{modelName}</li>
-          ))}
-        </ul>
-      </>
-    )
-  }
-  return <p>all models allowed</p>;
 };
 
 const EventsWithTag = ({tag}) => {
