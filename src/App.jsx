@@ -18,6 +18,7 @@ import StoryNonEntrySourcesPage from './story/StoryNonEntrySourcesPage';
 import StoryProfilePage from './story/StoryProfilePage';
 import TagIndexPage from './tag/TagIndexPage';
 import TagProfilePage from './tag/TagProfilePage';
+import UtilitiesPage from './UtilitiesPage';
 
 function App() {
   return (
@@ -47,8 +48,9 @@ function App() {
           <Route path="tags/:showTagsBy" element={<TagIndexPage />} />
           <Route path="tag/:tagId" element={<TagProfilePage />} />
 
-          <Route path="map" element={<ToDoPage title="map"/>} />
           <Route path="checklist" element={<ToDoPage title="checklist"/>} />
+          <Route path="map" element={<ToDoPage title="map"/>} />
+          <Route path="utilities" element={<UtilitiesPage/>} />
 
           <Route path="*" element={<PageNotFound />} />
         </Route>
