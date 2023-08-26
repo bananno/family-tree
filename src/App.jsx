@@ -6,6 +6,8 @@ import HomePage from './HomePage';
 import ToDoPage from './ToDoPage';
 import PageNotFound from './PageNotFound';
 
+import ChecklistIndexPage from './checklist/ChecklistIndexPage';
+import ChecklistPersonVitalsPage from './checklist/ChecklistPersonVitalsPage';
 import EventsPage from './EventsPage';
 import NotationIndexPage from './notation/NotationIndexPage';
 import NotationProfilePage from './notation/NotationProfilePage';
@@ -48,7 +50,9 @@ function App() {
           <Route path="tags/:showTagsBy" element={<TagIndexPage />} />
           <Route path="tag/:tagId" element={<TagProfilePage />} />
 
-          <Route path="checklist" element={<ToDoPage title="checklist"/>} />
+          <Route path="checklists" element={<ChecklistIndexPage/>} />
+          <Route path="checklist/person-vitals" element={<ChecklistPersonVitalsPage/>} />
+
           <Route path="map" element={<ToDoPage title="map"/>} />
           <Route path="utilities" element={<UtilitiesPage/>} />
 

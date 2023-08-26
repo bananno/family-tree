@@ -30,7 +30,7 @@ const PersonTreeBranch = ({person, safety = 0}) => {
           </td>
         </tr>
         <tr>
-          <td colspan="2"><PersonTreeCell person={person}/></td>
+          <td colSpan="2"><PersonTreeCell person={person}/></td>
         </tr>
         </tbody>
     </table>
