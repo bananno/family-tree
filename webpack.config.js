@@ -1,7 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
-module.exports = {
+module.exports = options => ({
   entry: './index.js',
   mode: 'development',
   output: {
@@ -11,7 +12,7 @@ module.exports = {
   },
   target: 'web',
   devServer: {
-    port: '1899',
+    port: options.ENVIRONMENT === 'PRODUCTION' ? '1901' : '1899',
     static: {
       directory: path.join(__dirname, 'public')
     },
@@ -50,6 +51,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html')
-    })
+    }),
+    new webpack.DefinePlugin({'ENVIRONMENT': JSON.stringify(options.ENVIRONMENT)}),
   ]
-};
+});

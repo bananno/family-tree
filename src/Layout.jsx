@@ -6,7 +6,7 @@ import globalClasses from './Global.module.scss';
 const Layout = () => {
   return (
     <div>
-      <h1>family history</h1>
+      <h1>family history ({ENVIRONMENT.toLowerCase()})</h1>
       <ul className={globalClasses.mainNavigation}>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/people">People</Link></li>
