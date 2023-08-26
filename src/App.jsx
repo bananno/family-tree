@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import {useStaticDb} from './SETTINGS';
+
 import Layout from './Layout';
 import HomePage from './HomePage';
 import ToDoPage from './ToDoPage';
@@ -29,33 +31,36 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
 
-          <Route path="events" element={<EventsPage />} />
-
-          <Route path="notations" element={<NotationIndexPage />} />
-          <Route path="notation/:notationId" element={<NotationProfilePage />} />
-
           <Route path="people" element={<PersonIndexPage />} />
           <Route path="person/:personId" element={<PersonProfilePage />} />
 
-          <Route path="sources" element={<SourceIndexPage />} />
-          <Route path="sources/:sourceType" element={<SourceIndexPage />} />
-          <Route path="source/:sourceId" element={<SourceProfilePage />} />
+          {!useStaticDb && (
+            <>
+              <Route path="events" element={<EventsPage />} />
 
-          <Route path="stories" element={<StoryIndexPage />} />
-          <Route path="stories/:storyType" element={<StoryIndexPage />} />
-          <Route path="stories-non-entry-sources" element={<StoryNonEntrySourcesPage />} />
-          <Route path="story/:storyId" element={<StoryProfilePage />} />
+              <Route path="notations" element={<NotationIndexPage />} />
+              <Route path="notation/:notationId" element={<NotationProfilePage />} />
 
-          <Route path="tags" element={<TagIndexPage />} />
-          <Route path="tags/:showTagsBy" element={<TagIndexPage />} />
-          <Route path="tag/:tagId" element={<TagProfilePage />} />
+              <Route path="sources" element={<SourceIndexPage />} />
+              <Route path="sources/:sourceType" element={<SourceIndexPage />} />
+              <Route path="source/:sourceId" element={<SourceProfilePage />} />
 
-          <Route path="checklists" element={<ChecklistIndexPage/>} />
-          <Route path="checklist/person-vitals" element={<ChecklistPersonVitalsPage/>} />
+              <Route path="stories" element={<StoryIndexPage />} />
+              <Route path="stories/:storyType" element={<StoryIndexPage />} />
+              <Route path="stories-non-entry-sources" element={<StoryNonEntrySourcesPage />} />
+              <Route path="story/:storyId" element={<StoryProfilePage />} />
 
-          <Route path="map" element={<ToDoPage title="map"/>} />
-          <Route path="utilities" element={<UtilitiesPage/>} />
+              <Route path="tags" element={<TagIndexPage />} />
+              <Route path="tags/:showTagsBy" element={<TagIndexPage />} />
+              <Route path="tag/:tagId" element={<TagProfilePage />} />
 
+              <Route path="checklists" element={<ChecklistIndexPage/>} />
+              <Route path="checklist/person-vitals" element={<ChecklistPersonVitalsPage/>} />
+
+              <Route path="map" element={<ToDoPage title="map"/>} />
+              <Route path="utilities" element={<UtilitiesPage/>} />
+            </>
+          )}
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
