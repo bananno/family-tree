@@ -5,6 +5,7 @@ function useChecklistData(checklistTitle) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`http://localhost:9000/api/checklist/${checklistTitle}`)
       .then((res) => res.json())
       .then((res) => {

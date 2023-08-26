@@ -5,6 +5,7 @@ function useStoryProfile({storyId}) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`http://localhost:9000/api/story-profile/${storyId}`)
       .then((res) => res.json())
       .then((res) => {

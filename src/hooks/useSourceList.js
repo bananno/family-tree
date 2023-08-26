@@ -9,6 +9,7 @@ function useSourceList({sourceType}) {
     : 'http://localhost:9000/api/source-index';
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(requestUrl)
       .then((res) => res.json())
       .then((res) => {

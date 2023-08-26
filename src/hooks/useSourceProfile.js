@@ -5,6 +5,7 @@ function useSourceProfile({sourceId}) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`http://localhost:9000/api/source-profile/${sourceId}`)
       .then((res) => res.json())
       .then((res) => {

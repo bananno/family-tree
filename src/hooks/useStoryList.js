@@ -11,6 +11,7 @@ function useStoryList({storyType}) {
     : 'http://localhost:9000/api/story-index';
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(requestUrl)
       .then((res) => res.json())
       .then((res) => {

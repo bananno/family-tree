@@ -5,6 +5,7 @@ function useNotationProfile({notationId}) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`http://localhost:9000/api/notation-profile/${notationId}`)
       .then((res) => res.json())
       .then((res) => {

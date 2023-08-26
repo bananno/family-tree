@@ -5,6 +5,7 @@ function usePersonList() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch('http://localhost:9000/api/person-index')
       .then((res) => res.json())
       .then((res) => {

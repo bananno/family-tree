@@ -5,6 +5,7 @@ function usePersonProfile({personId}) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`http://localhost:9000/api/person-profile/${personId}`)
       .then((res) => res.json())
       .then((res) => {

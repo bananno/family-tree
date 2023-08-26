@@ -5,6 +5,7 @@ function useNotationList() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch('http://localhost:9000/api/notation-index')
       .then((res) => res.json())
       .then((res) => {

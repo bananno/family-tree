@@ -9,6 +9,7 @@ function useTagList({displayType} = {}) {
     : 'http://localhost:9000/api/tag-index';
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(requestUrl)
       .then((res) => res.json())
       .then((res) => {
