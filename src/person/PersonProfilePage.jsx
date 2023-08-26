@@ -1,6 +1,7 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 
+import {useStaticDb} from '../SETTINGS';
 import CitationList from '../CitationList';
 import LinkList from '../LinkList';
 import PersonList from './PersonList';
@@ -19,10 +20,12 @@ const PersonProfilePage = () => {
   return (
     <div>
       <h2>PERSON: {person.name}</h2>
-      <h3>share level</h3>
-      {person.shareLevel}
-      <h3>tags</h3>
-      <TagList tags={person.tags}/>
+      {!useStaticDb && <>
+        <h3>share level</h3>
+        {person.shareLevel}
+        <h3>tags</h3>
+        <TagList tags={person.tags}/>
+      </>}
       <hr/>
       <h3>parents</h3>
       <PersonList people={person.parents}/>
@@ -33,12 +36,16 @@ const PersonProfilePage = () => {
       <h3>children</h3>
       <PersonList people={person.children}/>
       <hr/>
-      <h3>links</h3>
-      <LinkList links={person.links}/>
+      {(!useStaticDb || !person.private) && <>
+        <h3>links</h3>
+        <LinkList links={person.links}/>
+      </>}
       <h3>tree</h3>
       <PersonTree person={person}/>
-      <h3>citations</h3>
-      <CitationList citations={person.citations} showPerson={false}/>
+      {(!useStaticDb || !person.private) && <>
+        <h3>citations</h3>
+        <CitationList citations={person.citations} showPerson={false}/>
+      </>}
     </div>
   );
 };
