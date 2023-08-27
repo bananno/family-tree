@@ -1,7 +1,8 @@
+import {sortBy} from 'lodash';
 import {useState, useEffect} from 'react';
 
 import {useStaticDb} from '../SETTINGS';
-import staticDb from '../staticDb';
+import staticDb from '../database/staticDb';
 
 function usePersonProfile({personId}) {
   const [response, setResponse] = useState({});
@@ -33,7 +34,6 @@ function usePersonProfile({personId}) {
 function getStaticResponse(personId) {
   const person = findPerson(personId);
 
-  // TO DO: sort citations by item
   const citations = staticDb.citations
     .filter(citation => citation.personId === personId)
     .map(citation => ({
@@ -50,7 +50,7 @@ function getStaticResponse(personId) {
     children: person.childIds.map(findPerson).filter(Boolean),
     siblings: getSiblings(),
     links: person.links,
-    citations,
+    citations: sortBy(citations, 'sortKey'), // lodash does not sort in place
     treeParents: getTreeParents(person),
   };
 
