@@ -1,5 +1,8 @@
 import {useState, useEffect} from 'react';
 
+import {useStaticDb} from '../SETTINGS';
+import staticDb from '../database/staticDb';
+
 function useStoryList({storyType}) {
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -11,6 +14,11 @@ function useStoryList({storyType}) {
     : 'http://localhost:9000/api/story-index';
 
   useEffect(() => {
+    if (useStaticDb) {
+      setResponse(getStaticResponse(storyType));
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     fetch(requestUrl)
       .then((res) => res.json())
@@ -26,6 +34,13 @@ function useStoryList({storyType}) {
   }, [storyType]);
 
   return {stories: response, isLoading};
+}
+
+function getStaticResponse(storyType) {
+  if (storyType) {
+    return staticDb.stories.filter(story => story.type === storyType);
+  }
+  return staticDb.stories;
 }
 
 export default useStoryList;

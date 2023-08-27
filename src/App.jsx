@@ -34,6 +34,11 @@ function App() {
           <Route path="people" element={<PersonIndexPage />} />
           <Route path="person/:personId" element={<PersonProfilePage />} />
 
+          <Route path="stories" element={<StoryIndexPage />} />
+          <Route path="stories/:storyType" element={<StoryIndexPage />} />
+          {!useStaticDb && <Route path="stories-non-entry-sources" element={<StoryNonEntrySourcesPage />} />}
+          <Route path="story/:storyId" element={<StoryProfilePage />} />
+
           {!useStaticDb && (
             <>
               <Route path="events" element={<EventsPage />} />
@@ -44,11 +49,6 @@ function App() {
               <Route path="sources" element={<SourceIndexPage />} />
               <Route path="sources/:sourceType" element={<SourceIndexPage />} />
               <Route path="source/:sourceId" element={<SourceProfilePage />} />
-
-              <Route path="stories" element={<StoryIndexPage />} />
-              <Route path="stories/:storyType" element={<StoryIndexPage />} />
-              <Route path="stories-non-entry-sources" element={<StoryNonEntrySourcesPage />} />
-              <Route path="story/:storyId" element={<StoryProfilePage />} />
 
               <Route path="tags" element={<TagIndexPage />} />
               <Route path="tags/:showTagsBy" element={<TagIndexPage />} />

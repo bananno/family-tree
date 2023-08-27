@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 
+import {useStaticDb} from '../SETTINGS';
 import Filter from '../Filter';
 import StoryList from './StoryList';
 import useStoryList from '../hooks/useStoryList';
@@ -30,9 +31,9 @@ function StoryIndexPage() {
             <Link to={`/stories/${storyType}`}>{storyType}</Link>
           </li>
         ))}
-        <li>
+        {!useStaticDb && <li>
           <Link to="/stories-non-entry-sources">stories with non-entry sources</Link>
-        </li>
+        </li>}
       </ul>
       <Filter onChange={setFilterWords}/>
       <StoryList stories={filteredStories}/>

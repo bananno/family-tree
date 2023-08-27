@@ -11,7 +11,7 @@ const Layout = () => {
       <ul className={globalClasses.mainNavigation}>
         <LayoutNavItem path="/" text="Home" isPublic/>
         <LayoutNavItem path="/people" text="People" isPublic/>
-        <LayoutNavItem path="/stories" text="Stories"/>
+        <LayoutNavItem path="/stories" text="Stories" isPublic/>
         <LayoutNavItem path="/sources" text="Sources"/>
         <LayoutNavItem path="/events" text="Events"/>
         <LayoutNavItem path="/notations" text="Notations"/>

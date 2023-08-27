@@ -1,6 +1,8 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 
+import {useStaticDb} from '../SETTINGS';
+import Checkmark from '../components/Checkmark';
 import FormatContent from '../FormatContent';
 import FormatDate from '../FormatDate';
 import FormatLocation from '../FormatLocation';
@@ -23,12 +25,14 @@ function StoryProfilePage() {
       <h2>STORY:</h2>
       <h2>{story.title}</h2>
       <hr/>
-      <h2>sharing</h2>
-      <p>{String(story.sharing)}</p>
       <h2>type</h2>
       <p>{story.type}</p>
-      <h2>tags</h2>
-      <TagList tags={story.tags}/>
+      {!useStaticDb && <>
+        <h2>sharing</h2>
+        <Checkmark value={story.sharing}/>
+        <h2>tags</h2>
+        <TagList tags={story.tags}/>
+      </>}
       <h2>date</h2>
       <p><FormatDate date={story.date}/></p>
       <h2>location</h2>
