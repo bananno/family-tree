@@ -1,6 +1,7 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 
+import {useStaticDb} from '../SETTINGS';
 import CitationList from '../CitationList';
 import FormatContent from '../FormatContent';
 import FormatDate from '../FormatDate';
@@ -30,8 +31,10 @@ function SourceProfilePage() {
       <p><FormatDate date={source.date}/></p>
       <h2>location</h2>
       <p><FormatLocation location={source.location}/></p>
-      <h2>tags</h2>
-      <TagList tags={source.tags}/>
+      {!useStaticDb && <>
+        <h2>tags</h2>
+        <TagList tags={source.tags}/>
+      </>}
       <h2>people</h2>
       <PersonList people={source.people}/>
       <h2>links</h2>

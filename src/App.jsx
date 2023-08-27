@@ -39,16 +39,16 @@ function App() {
           {!useStaticDb && <Route path="stories-non-entry-sources" element={<StoryNonEntrySourcesPage />} />}
           <Route path="story/:storyId" element={<StoryProfilePage />} />
 
+          {!useStaticDb && <Route path="sources" element={<SourceIndexPage />} />}
+          {!useStaticDb && <Route path="sources/:sourceType" element={<SourceIndexPage />} />}
+          <Route path="source/:sourceId" element={<SourceProfilePage />} />
+
           {!useStaticDb && (
             <>
               <Route path="events" element={<EventsPage />} />
 
               <Route path="notations" element={<NotationIndexPage />} />
               <Route path="notation/:notationId" element={<NotationProfilePage />} />
-
-              <Route path="sources" element={<SourceIndexPage />} />
-              <Route path="sources/:sourceType" element={<SourceIndexPage />} />
-              <Route path="source/:sourceId" element={<SourceProfilePage />} />
 
               <Route path="tags" element={<TagIndexPage />} />
               <Route path="tags/:showTagsBy" element={<TagIndexPage />} />

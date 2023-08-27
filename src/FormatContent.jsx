@@ -2,19 +2,17 @@ import React from 'react';
 
 import classes from './FormatContent.module.scss';
 
-function FormatContent({content = ''}) {
-  const contentPieces = content.split('\n');
-
+function FormatContent({content}) {
   const contentComponents = [];
 
   // TO DO: add more edge cases and formatting options here
-  for (let i = 0; i < contentPieces.length; i++) {
-    const nextLine = contentPieces[i];
+  for (let i = 0; i < content.length; i++) {
+    const nextLine = content[i];
 
     if (lineIsPartOfTable(nextLine)) {
       const tableLines = [nextLine];
-      while (i < contentPieces.length - 1 && lineIsPartOfTable(contentPieces[i + 1])) {
-        tableLines.push(contentPieces[i + 1]);
+      while (i < content.length - 1 && lineIsPartOfTable(content[i + 1])) {
+        tableLines.push(content[i + 1]);
         i += 1;
       }
       contentComponents.push(<FormatContentTable key={i} tableLines={tableLines}/>);
