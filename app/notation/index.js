@@ -5,6 +5,8 @@ import {
   createController,
   getEditTableRows,
 } from '../import.js';
+import createModel from '../tools/createModel.js';
+import resources from '../resources.js';
 
 import * as notationTools from './tools.js';
 
@@ -12,6 +14,9 @@ export default function createRoutes(router) {
   router.param('id', notationTools.convertParamNotationId);
 
   router.use(notationTools.createRenderNotation);
+
+  const resource = resources.find(resource => resource.name === 'notation');
+  const Notation = createModel(resource);
 
   createController({
     Model: Notation,

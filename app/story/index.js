@@ -4,6 +4,8 @@ import {
   createController,
   getEditTableRows,
 } from '../import.js';
+import createModel from '../tools/createModel.js';
+import resources from '../resources.js';
 
 import { mainStoryTypes } from './constants.js';
 import storyChecklist from './checklist.js';
@@ -11,6 +13,9 @@ import * as storyTools from './tools.js';
 
 export default function createRoutes(router) {
   router.use(storyTools.createRenderStory);
+
+  const resource = resources.find(resource => resource.name === 'story');
+  const Story = createModel(resource);
 
   createController({
     Model: Story,

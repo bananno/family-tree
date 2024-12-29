@@ -1,10 +1,11 @@
 import {
   Citation,
   Notation,
-  Person,
   getEditTableRows,
   sorting,
 } from '../import.js';
+
+import Person from './Person.model.js';
 
 import checklistRoute from './profile.checklist.js';
 import childrenRoute from './profile.children.js';

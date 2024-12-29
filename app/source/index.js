@@ -4,6 +4,8 @@ import {
   Source,
   createController,
 } from '../import.js';
+import createModel from '../tools/createModel.js';
+import resources from '../resources.js';
 
 import { mainSourceTypes } from './constants.js';
 import sourceForm from './forms.js';
@@ -15,6 +17,9 @@ export default function createRoutes(router) {
   router.param('sourceId', sourceTools.convertParamSourceId2);
 
   router.use(sourceTools.createRenderSource);
+
+  const resource = resources.find(resource => resource.name === 'source');
+  const Source = createModel(resource);
 
   createController({
     Model: Source,

@@ -6,7 +6,7 @@ import {
   Source,
   Story,
   Tag,
-} from '../import';
+} from '../import.js';
 
 export default function createRoutes(router) {
   router.get('/api/event-index', eventIndex);

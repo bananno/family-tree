@@ -1,12 +1,9 @@
-import {
-  Event,
-  Notation,
-  Person,
-  createController,
-} from '../import.js';
+import { Event, Notation, createController } from '../import.js';
 
 import * as personTools from './tools.js';
 import personProfileRoutes from './profile.js';
+
+import Person from './Person.model.js';
 
 export default function createRoutes(router) {
   router.param('id', personTools.convertParamPersonId1);

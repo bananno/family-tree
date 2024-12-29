@@ -1,12 +1,11 @@
-const {
-  Image,
-  createController,
-  getEditTableRows,
-} = require('../import');
+import { createController, getEditTableRows } from '../import.js';
+import createModel from '../tools/createModel.js';
+import resources from '../resources.js';
 
-module.exports = createRoutes;
+export default function createRoutes(router) {
+  const resource = resources.find(resource => resource.name === 'image');
+  const Image = createModel(resource);
 
-function createRoutes(router) {
   createController({
     Model: Image,
     modelName: 'image',

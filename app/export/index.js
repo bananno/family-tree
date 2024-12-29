@@ -1,4 +1,6 @@
-const {
+import fs from 'fs';
+
+import {
   Citation,
   Event,
   Highlight,
@@ -8,14 +10,14 @@ const {
   Source,
   Story,
   Tag,
-} = require('../import');
-
-const fs = require('fs');
+} from '../import.js';
 
 export default function createRoutes(router) {
   router.get('/api/export/full', exportDatabaseBackup);
   router.get('/api/export/publish', exportPublishedData);
 }
+
+////////////////////
 
 async function exportDatabaseBackup(req, res) {
   const data = await getFullData();

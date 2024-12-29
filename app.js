@@ -1,13 +1,17 @@
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import ejs from 'ejs';
 import express from 'express';
 import createError from 'http-errors';
 import mongoose from 'mongoose';
 import logger from 'morgan';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-import resources from './app/resources.js';
-import createModel from './app/tools/createModel.js';
+import router from './app/router.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 mongoose.connect('mongodb://localhost/ancestry', {
   useNewUrlParser: true,
@@ -18,14 +22,12 @@ mongoose.connect('mongodb://localhost/ancestry', {
   console.log('\nIs mongod instance running?');
 });
 
-resources.filter(resource => resource.hasModel).forEach(createModel);
-
 const app = express();
 
 app.use(cors());
 
 app.set('views', path.join(__dirname, 'views'));
-app.engine('html', require('ejs').renderFile);
+app.engine('html', ejs.renderFile);
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
@@ -34,7 +36,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const router = require('./app/router');
 app.use('/', router);
 
 app.use((req, res, next) => {

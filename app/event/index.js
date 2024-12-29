@@ -1,12 +1,14 @@
-const {
-  Event,
-  createController,
-} = require('../import');
+import { Event, createController } from '../import.js';
+import createModel from '../tools/createModel.js';
+import resources from '../resources.js';
 
-const eventTools = require('./tools');
+import * as eventTools from './tools.js';
 
 export default function createRoutes(router) {
   router.use(createRenderEvent);
+
+  const resource = resources.find(resource => resource.name === 'event');
+  const Event = createModel(resource);
 
   createController({
     Model: Event,
@@ -21,6 +23,8 @@ export default function createRoutes(router) {
     },
   });
 }
+
+////////////////////
 
 function createRenderEvent(req, res, next) {
   res.renderEvent = (subview, options = {}) => {

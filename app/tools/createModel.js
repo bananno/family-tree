@@ -214,6 +214,8 @@ function createModel(resource) {
   mongooseSchema.statics.constants = () => constants;
 
   resource.Model = mongoose.model(modelName, mongooseSchema);
+
+  return resource.Model;
 }
 
 function capitalize(str) {

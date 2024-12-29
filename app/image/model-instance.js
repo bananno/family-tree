@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const tools = require('../tools/modelTools');
+import tools from '../tools/modelTools.js';
 
 const methods = {};
 

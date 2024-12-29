@@ -1,8 +1,8 @@
-const {
+import {
   Citation,
   Event,
   getEditTableRows,
-} = require('../import');
+} from '../import.js';
 
 const eventTypesWithCitations = [
   'birth',

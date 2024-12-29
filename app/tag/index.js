@@ -1,4 +1,6 @@
 import { Tag, createController, getEditTableRows } from '../import.js';
+import createModel from '../tools/createModel.js';
+import resources from '../resources.js';
 
 import { indexFormats, modelsThatHaveTags } from './constants.js';
 import tagTools from './tools.js';
@@ -6,6 +8,9 @@ import tagTools from './tools.js';
 export default function createRoutes(router) {
   router.use(tagTools.createRenderTag);
   router.param('id', tagTools.convertParamTagId);
+
+  const resource = resources.find(resource => resource.name === 'tag');
+  const Tag = createModel(resource);
 
   createController({
     Model: Tag,
