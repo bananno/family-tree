@@ -14,7 +14,7 @@ module.exports = options => ({
   devServer: {
     port: options.ENVIRONMENT === 'PRODUCTION' ? '1901' : '1899',
     static: {
-      directory: path.join(__dirname, 'public')
+      directory: path.join(__dirname, 'public'),
     },
     open: true,
     hot: true,
@@ -22,7 +22,7 @@ module.exports = options => ({
     historyApiFallback: true,
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.scss']
+    extensions: ['.js', '.jsx', '.json', '.scss'],
   },
   module: {
     rules: [
@@ -35,23 +35,23 @@ module.exports = options => ({
         test: /\.scss$/,
         exclude: /node_modules/,
         use: [
-          {loader: 'style-loader'},
-          {loader: 'css-loader'},
-          {loader: 'sass-loader'}
-        ]
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' },
+        ],
       },
       {
         test: /\.(jpe?g|gif|png|svg)$/i,
-        use: [
-          {loader: 'url-loader', options: {limit: 10000}}
-        ]
+        use: [{ loader: 'url-loader', options: { limit: 10000 } }],
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'public', 'index.html')
+      template: path.join(__dirname, 'public', 'index.html'),
     }),
-    new webpack.DefinePlugin({'ENVIRONMENT': JSON.stringify(options.ENVIRONMENT)}),
-  ]
+    new webpack.DefinePlugin({
+      ENVIRONMENT: JSON.stringify(options.ENVIRONMENT || 'PRODUCTION'),
+    }),
+  ],
 });
