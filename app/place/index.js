@@ -1,11 +1,6 @@
-const {
-  Event,
-  createController,
-} = require('../import');
+import { Event } from '../import.js';
 
-module.exports = createRoutes;
-
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.get('/place/:country/:region1/:region2/:city', renderShowPlace);
   router.get('/place/:country/:region1/:city', renderShowPlace);
 }

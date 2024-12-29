@@ -1,11 +1,6 @@
-const {
-  Notation,
-  Person,
-} = require('../import');
+import { Notation, Person } from '../import.js';
 
-module.exports = renderPersonChecklist;
-
-async function renderPersonChecklist(req, res) {
+export default async function renderPersonChecklist(req, res) {
   const person = await Person
     .findById(req.personId)
     .populate('children')
@@ -38,6 +33,8 @@ async function renderPersonChecklist(req, res) {
 
   res.renderPersonProfile('children', data);
 }
+
+////////////////////
 
 // this function = INCOMPLETE?
 async function getParentProfileSummaryNotations(children) {

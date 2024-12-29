@@ -1,22 +1,25 @@
-import mongoose from 'mongoose';
+import resources from './resources.js';
+import modelTools from './tools/modelTools.js';
 
-const tool = filename => require('../tools/' + filename);
+import createController from './tools/createController.js';
+import dateStructure from './tools/dateStructure.js';
+import getEditTableRows from './tools/getEditTableRows.js';
+import locationTools from './tools/locationTools.js';
+import removeDuplicatesFromList from './tools/removeDuplicatesFromList.js';
+import reorderList from './tools/reorderList.js';
+import sorting from './tools/sorting.js';
 
-const resources = require('./resources');
-const modelTools = require('./tools/modelTools');
+export {
+  createController,
+  dateStructure,
+  getEditTableRows,
+  locationTools,
+  removeDuplicatesFromList,
+  reorderList,
+  sorting,
+};
 
-const tools = [
-  'createController',
-  'dateStructure',
-  'getEditTableRows',
-  'locationTools',
-  'removeDuplicatesFromList',
-  'reorderList',
-  'sorting',
-];
-
-module.exports = {
-  mongoose,
+const importables = {
   models: [],
   modelRef: {},
   ...modelTools,
@@ -24,12 +27,22 @@ module.exports = {
 
 resources
   .filter(resource => resource.hasModel)
-  .forEach(({Model, modelName}) => {
-    module.exports[modelName] = Model;
-    module.exports.models.push(Model);
-    module.exports.modelRef[modelName] = Model;
+  .forEach(({ Model, modelName }) => {
+    importables[modelName] = Model;
+    importables.models.push(Model);
+    importables.modelRef[modelName] = Model;
   });
 
-tools.forEach(tool => {
-  module.exports[tool] = require('./tools/' + tool);
-});
+export const Citation = importables.Citation;
+export const Event = importables.Event;
+export const Highlight = importables.Highlight;
+export const Image = importables.Image;
+export const Notation = importables.Notation;
+export const Person = importables.Person;
+export const Source = importables.Source;
+export const Story = importables.Story;
+export const Tag = importables.Tag;
+
+export const models = importables.models;
+export const modelRef = importables.modelRef;
+export const sortBy = importables.sortBy;

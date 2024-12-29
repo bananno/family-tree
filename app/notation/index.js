@@ -1,17 +1,14 @@
-const {
+import {
   Citation,
   Notation,
   Person,
-  Story,
-  Tag,
   createController,
   getEditTableRows,
-} = require('../import');
+} from '../import.js';
 
-const notationTools = require('./tools');
-module.exports = createRoutes;
+import * as notationTools from './tools.js';
 
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.param('id', notationTools.convertParamNotationId);
 
   router.use(notationTools.createRenderNotation);

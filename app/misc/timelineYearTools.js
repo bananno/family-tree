@@ -1,11 +1,6 @@
-const {
-  Person,
-  sorting,
-} = require('../import');
+import { Person, sorting } from '../import.js';
 
-module.exports = {getTimelineInfo, getYearInfo};
-
-async function getTimelineInfo() {
+export async function getTimelineInfo() {
   const allPeople = await Person.find({});
 
   const anna = allPeople.find(person => person.isRoot());
@@ -68,7 +63,7 @@ async function getTimelineInfo() {
   };
 }
 
-async function getYearInfo(year) {
+export async function getYearInfo(year) {
   const people = await Person.find();
 
   await Person.populateBirthAndDeath(people);
@@ -96,7 +91,7 @@ async function getYearInfo(year) {
   return {year, peopleLists};
 }
 
-// HELPERS
+////////////////////
 
 function addPersonToYearCategories(peopleLists, person, year) {
   const birthYear = person.getBirthYear();

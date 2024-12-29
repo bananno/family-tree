@@ -1,6 +1,4 @@
-module.exports = citationSort;
-
-function citationSort(citationList, sortByType, peopleList) {
+export default function citationSort(citationList, sortByType, peopleList) {
   if (peopleList) {
     peopleList = peopleList.map(person => person._id + '');
   }

@@ -1,18 +1,14 @@
-const {
+import {
   Event,
   Notation,
   Person,
   createController,
-  reorderList,
-} = require('../import');
+} from '../import.js';
 
-const constants = require('./constants');
-const personTools = require('./tools');
-const personProfileRoutes = require('./profile');
+import * as personTools from './tools.js';
+import personProfileRoutes from './profile.js';
 
-module.exports = createRoutes;
-
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.param('id', personTools.convertParamPersonId1);
   router.param('personId', personTools.convertParamPersonId2);
   router.use(personTools.createRenderPersonProfile);
@@ -39,6 +35,8 @@ function createRoutes(router) {
   router.get('/person/:id/descendants/generation/:generation',
     personProfileRoutes.other.descendants);
 }
+
+////////////////////
 
 async function peopleIndex(req, res) {
   const people = await Person.find({});

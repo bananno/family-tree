@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 
-module.exports = createRoutes;
-
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.get('/map', showMap);
   router.post('/map/newPlace', addMapPlace);
   router.post('/map/:id/delete', deleteMapPlace);

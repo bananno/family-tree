@@ -1,13 +1,11 @@
-const {
+import {
   Event,
   Notation,
   Person,
   sorting,
-} = require('../import');
+} from '../import.js';
 
-module.exports = personDescendants;
-
-async function personDescendants(req, res) {
+export default async function personDescendants(req, res) {
   const monthNames = [
     null, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'

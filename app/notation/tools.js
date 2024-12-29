@@ -1,13 +1,6 @@
-const {
-  Notation,
-} = require('../import');
+import { Notation } from '../import.js';
 
-module.exports = {
-  convertParamNotationId,
-  createRenderNotation,
-};
-
-async function convertParamNotationId(req, res, next, notationId) {
+export async function convertParamNotationId(req, res, next, notationId) {
   if (req.originalUrl.slice(0, 10) !== '/notation/') {
     return next();
   }
@@ -34,7 +27,7 @@ async function convertParamNotationId(req, res, next, notationId) {
   next();
 }
 
-function createRenderNotation(req, res, next) {
+export function createRenderNotation(req, res, next) {
   res.renderNotation = (subview, options = {}) => {
     res.render('notation/' + subview, {
       title: 'Notation',

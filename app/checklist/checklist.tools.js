@@ -1,15 +1,11 @@
-const {
+import {
   Person,
   Source,
   removeDuplicatesFromList,
   sortBy,
-} = require('../import');
+} from '../import.js';
 
-module.exports = {
-  getObituaryChecklistData,
-};
-
-async function getObituaryChecklistData() {
+export async function getObituaryChecklistData() {
   const obituaries = await Source.findObituaries(); // populates people
 
   // Only interested in the first person in each source; it should be THEIR

@@ -1,12 +1,6 @@
-const {
-  Event,
-  Person,
-  Source,
-} = require('../import');
+import { Event, Person, Source } from '../import.js';
 
-module.exports = renderPersonTimeline;
-
-async function renderPersonTimeline(req, res) {
+export default async function renderPersonTimeline(req, res) {
   const allEvents = await Event.find({}).populate('people');
 
   Event.sortByDate(allEvents);
@@ -24,6 +18,8 @@ async function renderPersonTimeline(req, res) {
 
   res.renderPersonProfile('timeline', {timelineEvents});
 }
+
+////////////////////
 
 function convertSourceToEvent(source) {
   const event = {

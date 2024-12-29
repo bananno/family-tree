@@ -1,4 +1,4 @@
-const {
+import {
   Image,
   Notation,
   Person,
@@ -6,15 +6,13 @@ const {
   Story,
   Tag,
   sortBy,
-} = require('../import');
+} from '../import.js';
 
-const getChecklistPlacesInfo = require('./checklist.places');
-const {getObituaryChecklistData} = require('./checklist.tools');
-const getPersonVitalsChecklistData = require('./checklist.vitals');
+import getChecklistPlacesInfo from './checklist.places.js';
+import {getObituaryChecklistData} from './checklist.tools.js';
+import getPersonVitalsChecklistData from './checklist.vitals.js';
 
-module.exports = createRoutes;
-
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.use(createRenderChecklist);
 
   router.get('/checklist', checklistIndex);

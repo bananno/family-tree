@@ -1,16 +1,13 @@
-const {
-  Citation,
-  Source,
-} = require('../import');
+import { Citation } from '../import.js';
 
-module.exports = createRoutes;
-
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.param('citationId', convertParamCitationId);
   router.post('/source/:sourceId/add/citations', createCitation);
   router.post('/source/:sourceId/edit/citations/:citationId', updateCitation);
   router.post('/source/:sourceId/delete/citations/:citationId', deleteCitation);
 }
+
+////////////////////
 
 async function createCitation(req, res) {
   const newCitation = Citation.getFormData(req);

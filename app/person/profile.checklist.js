@@ -1,11 +1,6 @@
-const {
-  Person,
-  Source,
-} = require('../import');
+import { Person, Source } from '../import.js';
 
-module.exports = renderPersonChecklist;
-
-async function renderPersonChecklist(req, res) {
+export default async function renderPersonChecklist(req, res) {
   const person = await Person.findById(req.personId).populate('tags');
   req.person = person;
 
@@ -40,6 +35,8 @@ async function renderPersonChecklist(req, res) {
     incompleteSourceList,
   });
 }
+
+////////////////////
 
 function createLinkChecklist(person) {
   const links = [

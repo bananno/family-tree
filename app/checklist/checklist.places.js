@@ -1,12 +1,8 @@
-const {
-  Event,
-} = require('../import');
-
-module.exports = getChecklistPlacesInfo;
+import { Event } from '../import.js';
 
 // To Do: add other models that have locations to this checklist
 
-async function getChecklistPlacesInfo() {
+export default async function getChecklistPlacesInfo() {
   const allEvents = await Event.find();
 
   // create a map of city/state => county => number of items in county

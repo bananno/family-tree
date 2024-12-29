@@ -1,14 +1,12 @@
-const {pick} = require('lodash');
-const {
-  Person,
-  sortBy,
-} = require('../import');
+import _ from 'lodash';
 
-module.exports = getPersonVitalsChecklistData;
+import { Person, sortBy } from '../import.js';
+
+const pick = _.pick;
 
 const connectionTitle = [null, 'start', 'ancestor', 'cousin', 'marriage'];
 
-async function getPersonVitalsChecklistData() {
+export default async function getPersonVitalsChecklistData() {
   const rawPeople = await Person.find().populate('tags');
   await Person.populateBirthAndDeath(rawPeople);
 

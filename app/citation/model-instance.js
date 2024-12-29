@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const {citationItemOrder, citationItemSubOrder} = require('./citation.constants');
+import { citationItemOrder, citationItemSubOrder } from './citation.constants.js';
 
 const methods = {};
 

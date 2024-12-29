@@ -1,15 +1,13 @@
-const {
+import {
   Citation,
   Highlight,
   sorting,
   Source,
-} = require('../import');
-
-module.exports = renderPersonSources;
+} from '../import.js';
 
 const groupTitleMap = {cemetery: 'grave', index: 'web index'};
 
-async function renderPersonSources(req, res) {
+export default async function renderPersonSources(req, res) {
   const person = req.person;
   const subview = req.params.subview;
 
@@ -61,6 +59,8 @@ async function renderPersonSources(req, res) {
     pageTitle: subview ? `Sources - ${subview}` : 'Sources',
   });
 }
+
+////////////////////
 
 function filterSourcesForSubview(subview, sources) {
   if (!subview) {

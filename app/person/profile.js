@@ -1,34 +1,37 @@
-const {
+import {
   Citation,
-  Highlight,
   Notation,
   Person,
-  Source,
-  Tag,
   getEditTableRows,
   sorting,
-} = require('../import');
+} from '../import.js';
 
-const constants = require('./constants');
+import checklistRoute from './profile.checklist.js';
+import childrenRoute from './profile.children.js';
+import descendantsRoute from './profile.descendants.js';
+import sourcesRoute from './profile.sources.js';
+import timelineRoute from './profile.timeline.js';
 
-module.exports = {
+export default {
   show: personSummary,
   edit: personEdit,
   other: {
-    checklist: require('./profile.checklist'),
-    children: require('./profile.children'),
+    checklist: checklistRoute,
+    children: childrenRoute,
     connection: personConnection,
-    descendants: require('./profile.descendants'),
+    descendants: descendantsRoute,
     mentions: personMentions,
     nationality: personNationality,
     notations: personNotations,
     relatives: personRelatives,
-    sources: require('./profile.sources'),
-    'sources/:subview': require('./profile.sources'),
-    timeline: require('./profile.timeline'),
+    sources: sourcesRoute,
+    'sources/:subview': sourcesRoute,
+    timeline: timelineRoute,
     wikitree: personWikitree,
   }
 };
+
+////////////////////
 
 async function personSummary(req, res) {
   const person = await Person.findById(req.personId)

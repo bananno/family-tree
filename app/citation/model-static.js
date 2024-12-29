@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const citationSort = require('./sort');
+import citationSort from './sort.js';
 
 const methods = {};
 

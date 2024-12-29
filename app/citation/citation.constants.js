@@ -1,4 +1,4 @@
-const citationItemOrder = [
+export const citationItemOrder = [
   'name',
   'birth',
   'christening',
@@ -20,7 +20,7 @@ const citationItemOrder = [
   'residence',
 ];
 
-const citationItemSubOrder = [
+export const citationItemSubOrder = [
   '',
   'name',
   'spouse',
@@ -28,8 +28,3 @@ const citationItemSubOrder = [
   'place',
   'cause',
 ];
-
-module.exports = {
-  citationItemOrder,
-  citationItemSubOrder,
-};

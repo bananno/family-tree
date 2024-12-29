@@ -1,25 +1,18 @@
 import mongoose from 'mongoose';
 
-const Person = mongoose.model('Person');
-
-module.exports = {
-  convertParamPersonId1,
-  convertParamPersonId2,
-  createRenderPersonProfile,
-};
-
-function convertParamPersonId1(req, res, next, paramPersonId) { // person/:id
+export function convertParamPersonId1(req, res, next, paramPersonId) { // person/:id
   if (req.originalUrl.slice(0, 7) !== '/person') {
     return next();
   }
   convertParamPersonId(req, res, next, paramPersonId)
 }
 
-function convertParamPersonId2(req, res, next, paramPersonId) { // :personId
+export function convertParamPersonId2(req, res, next, paramPersonId) { // :personId
   convertParamPersonId(req, res, next, paramPersonId);
 }
 
 async function convertParamPersonId(req, res, next, paramPersonId) {
+  const Person = mongoose.model('Person');
   const person = await Person.findByAnyId(paramPersonId);
 
   if (!person) {
@@ -37,7 +30,7 @@ async function convertParamPersonId(req, res, next, paramPersonId) {
   next();
 }
 
-function createRenderPersonProfile(req, res, next) {
+export function createRenderPersonProfile(req, res, next) {
   res.renderPersonProfile = function(subview, options = {}) {
     const person = req.person;
     res.render('personProfile/_layout', {
@@ -52,6 +45,8 @@ function createRenderPersonProfile(req, res, next) {
   }
   next();
 }
+
+////////////////////
 
 function renderPersonNotFound(res, personId) {
   console.log('Found zero people with ID:' + personId);
