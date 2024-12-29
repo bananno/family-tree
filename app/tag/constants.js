@@ -1,6 +1,5 @@
-const constants = {};
-module.exports = constants;
+import modelsThatHaveTags from './constants-modelsThatHaveTags.js';
 
-constants.modelsThatHaveTags = require('./constants-modelsThatHaveTags');
+export { modelsThatHaveTags };
 
-constants.indexFormats = ['definition', 'categories', 'grid'];
+export const indexFormats = ['definition', 'categories', 'grid'];

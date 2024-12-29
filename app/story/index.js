@@ -1,20 +1,15 @@
-const {
-  Person,
+import {
   Notation,
   Story,
-  Source,
-  Tag,
   createController,
   getEditTableRows,
-} = require('../import');
+} from '../import.js';
 
-const constants = require('./constants');
-const storyTools = require('./tools');
-const storyChecklist = require('./checklist');
+import { mainStoryTypes } from './constants.js';
+import storyChecklist from './checklist.js';
+import * as storyTools from './tools.js';
 
-module.exports = createRoutes;
-
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.use(storyTools.createRenderStory);
 
   createController({
@@ -43,6 +38,8 @@ function createRoutes(router) {
   router.get('/story/:id/entries/region1/:region1', storyEntries);
 }
 
+////////////////////
+
 async function storyIndex(req, res) {
   const storyType = req.params.type;
   const stories = await Story.getAllByType(storyType);
@@ -53,7 +50,7 @@ async function storyIndex(req, res) {
     title: 'Stories',
     stories,
     subview: storyType,
-    mainStoryTypes: [...constants.mainStoryTypes, 'other'],
+    mainStoryTypes: [...mainStoryTypes, 'other'],
   });
 }
 

@@ -8,6 +8,6 @@ const locationStructure = {
   notes: String,
 };
 
-module.exports = {
+export default {
   locationStructure,
 };

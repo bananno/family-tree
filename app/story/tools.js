@@ -1,15 +1,6 @@
-const {
-  Story,
-} = require('../import');
+import { Story } from '../import.js';
 
-const constants = require('./constants');
-
-module.exports = {
-  createRenderStory,
-  getShowStoryInfo,
-};
-
-function createRenderStory(req, res, next) {
+export function createRenderStory(req, res, next) {
   res.renderStory = async (subview, options = {}) => {
     const story = req.story;
     if (!story.entries) {
@@ -26,7 +17,7 @@ function createRenderStory(req, res, next) {
   next();
 }
 
-async function getShowStoryInfo(story) {
+export async function getShowStoryInfo(story) {
   const data = {};
 
   if (story.type === 'place') {

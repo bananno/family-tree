@@ -1,14 +1,14 @@
-const mongoose = require('mongoose');
-const ObjectId = require('mongoose').Types.ObjectId;
-const Image = mongoose.model('Image');
-const Person = mongoose.model('Person');
-const reorderList = require('./reorderList');
+import mongoose from 'mongoose';
 
-module.exports = createController;
+import reorderList from './reorderList.js';
 
-function createController(specs) {
+const ObjectId = mongoose.Types.ObjectId;
+
+export default function createController(specs) {
   new Controller(specs);
 }
+
+////////////////////
 
 class Controller {
   constructor(specs) {
@@ -99,6 +99,7 @@ class Controller {
     }
 
     if (this.modelName === 'person') {
+      const Person = mongoose.model('Person');
       const item = await Person.findOne({customId: itemId});
       return {item, itemId};
     }
@@ -188,6 +189,7 @@ class Controller {
         };
 
         if (field.dataType === 'image') {
+          const Image = mongoose.model('Image');
           const newItem = await Image.create({url: newValue});
           updatedObj[field.name].push(newItem);
         } else if (field.dataType === 'link') {
@@ -233,6 +235,7 @@ class Controller {
         }
 
         if (dataType === 'image') {
+          const Image = mongoose.model('Image');
           const image = await Image.findById(deleteId);
           await image.remove();
         }

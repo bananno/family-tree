@@ -1,12 +1,11 @@
-const {
-  mongoose,
-  Tag,
-} = require('../import');
+import mongoose from 'mongoose';
 
-const constants = require('./constants');
-const getTagDataFindagraveWikitree = require('./tools-findagrave-wikitree');
+import { Tag } from '../import.js';
+
+import { modelsThatHaveTags } from './constants.js';
+import getTagDataFindagraveWikitree from './tools-findagrave-wikitree.js';
+
 const tools = {};
-module.exports = tools;
 
 tools.convertParamTagId = async (req, res, next, paramTagId) => {
   if (req.originalUrl.slice(0, 4) !== '/tag') {
@@ -40,10 +39,10 @@ tools.createRenderTag = function(req, res, next) {
 };
 
 async function forEachModel(callback) {
-  for (let i in constants.modelsThatHaveTags) {
-    const modelName = constants.modelsThatHaveTags[i].name;
+  for (let i in modelsThatHaveTags) {
+    const modelName = modelsThatHaveTags[i].name;
     const Model = mongoose.model(modelName);
-    const pluralName = constants.modelsThatHaveTags[i].plural;
+    const pluralName = modelsThatHaveTags[i].plural;
     await callback(Model, modelName, pluralName);
   }
 }
@@ -112,3 +111,5 @@ tools.getTagShowData = async function(tag) {
 
   return data;
 };
+
+export default tools;

@@ -1,4 +1,4 @@
-const modelsThatHaveTags = require('./constants-modelsThatHaveTags');
+import modelsThatHaveTags from './constants-modelsThatHaveTags.js';
 
 export default [
   {
@@ -43,6 +43,8 @@ export default [
   },
   ...modelsThatHaveTags.map(getFieldNameForAllowingModels),
 ];
+
+////////////////////
 
 function getFieldNameForAllowingModels(otherModel) {
   return {

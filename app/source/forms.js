@@ -1,8 +1,4 @@
-const {
-  Highlight,
-  Person,
-  Source,
-} = require('../import');
+import { Highlight, Source } from '../import.js';
 
 const methods = {};
 

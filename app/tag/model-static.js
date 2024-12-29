@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-const tools = require('../tools/modelTools');
-const {modelsThatHaveTags} = require('./constants');
+import tools from '../tools/modelTools.js';
+import { modelsThatHaveTags } from './constants.js';
 
 const methods = {};
 

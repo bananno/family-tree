@@ -1,6 +1,4 @@
-const {Person} = require('../import');
-
-module.exports = getTagDataFindagraveWikitree;
+import { Person } from '../import.js';
 
 const sectionKeysAndTitles = [
   ['manage-good', 'Profile managed - good condition'],
@@ -10,7 +8,7 @@ const sectionKeysAndTitles = [
   ['ignore', 'Ignore'],
 ];
 
-async function getTagDataFindagraveWikitree({tag, isFindAGrave, isWikitree}) {
+export default async function getTagDataFindagraveWikitree({tag, isFindAGrave, isWikitree}) {
   const sections = [];
   const sectionMap = {};
 

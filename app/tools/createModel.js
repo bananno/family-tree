@@ -1,16 +1,15 @@
-const mongoose = require('mongoose');
-const tools = require('./modelTools');
+import mongoose from 'mongoose';
 
-module.exports = createModel;
+import tools from './modelTools.js';
+
+export default createModel;
 
 function createModel(resource) {
   const modelName = resource.modelName;
 
-  const dir = '../' + modelName.toLowerCase() + '/';
-
-  const rawFieldList = require(dir + 'model-schema');
-  const instanceMethods = require(dir + 'model-instance');
-  const staticMethods = require(dir + 'model-static');
+  const rawFieldList = resource.modelSchema;
+  const instanceMethods = resource.instanceMethods;
+  const staticMethods = resource.staticMethods;
 
   // For schema validation
   const propFieldsUsed = [];

@@ -1,16 +1,17 @@
-const mongoose = require('mongoose');
-const Person = mongoose.model('Person');
-const Story = mongoose.model('Story');
-const Tag = mongoose.model('Tag');
+import mongoose from 'mongoose';
 
-module.exports = getEditTableRows;
+import {
+  Person,
+  Story,
+  Tag,
+} from '../import.js';
 
 /*
   Get all the data needed to build the table used for editing any model.
   For each row: whether it is editable, what type of input field, data for
   building dropdowns, etc.
 */
-async function getEditTableRows(data) {
+export default async function getEditTableRows(data) {
   const rows = [];
   const {fields} = data.item.constants();
   for (let i in fields) {

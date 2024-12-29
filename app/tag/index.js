@@ -1,15 +1,9 @@
-const {
-  Tag,
-  createController,
-  getEditTableRows,
-} = require('../import');
+import { Tag, createController, getEditTableRows } from '../import.js';
 
-const constants = require('./constants');
-const tagTools = require('./tools');
+import { indexFormats, modelsThatHaveTags } from './constants.js';
+import tagTools from './tools.js';
 
-module.exports = createRoutes;
-
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.use(tagTools.createRenderTag);
   router.param('id', tagTools.convertParamTagId);
 
@@ -30,8 +24,10 @@ function createRoutes(router) {
   router.get('/tags/:indexFormat', tagIndex);
 }
 
+////////////////////
+
 async function tagIndex(req, res) {
-  const indexFormat = req.params.indexFormat || constants.indexFormats[0];
+  const indexFormat = req.params.indexFormat || indexFormats[0];
 
   const tags = await Tag.find({});
   Tag.sortByTitle(tags);
@@ -43,8 +39,8 @@ async function tagIndex(req, res) {
     indexFormat,
     totalNumTags: tags.length,
     tags,
-    modelsThatHaveTags: constants.modelsThatHaveTags,
-    indexFormats: constants.indexFormats,
+    modelsThatHaveTags,
+    indexFormats,
   };
 
   if (indexFormat === 'definition') {
@@ -91,7 +87,7 @@ async function showTag(req, res) {
   const data = await tagTools.getTagShowData(req.tag);
   res.renderTag('show', {
     data,
-    modelsThatHaveTags: constants.modelsThatHaveTags,
+    modelsThatHaveTags,
   });
 }
 

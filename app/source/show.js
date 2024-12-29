@@ -1,13 +1,10 @@
-const {
+import {
   Source,
   Story,
-  Tag,
   getEditTableRows,
-} = require('../import');
+} from '../import.js';
 
-const constants = require('./constants');
-
-module.exports = {
+export default {
   summary: renderSummary,
   edit: renderEdit,
   other: {

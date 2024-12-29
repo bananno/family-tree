@@ -1,18 +1,16 @@
-const {
+import {
   Highlight,
   Notation,
   Source,
   createController,
-} = require('../import');
+} from '../import.js';
 
-const constants = require('./constants');
-const sourceTools = require('./tools');
-const sourceProfile = require('./show');
-const sourceForm = require('./forms');
+import { mainSourceTypes } from './constants.js';
+import sourceForm from './forms.js';
+import sourceProfile from './show.js';
+import sourceTools from './tools.js';
 
-module.exports = createRoutes;
-
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.param('id', sourceTools.convertParamSourceId1);
   router.param('sourceId', sourceTools.convertParamSourceId2);
 
@@ -32,7 +30,7 @@ function createRoutes(router) {
     },
   });
 
-  constants.mainSourceTypes.forEach(sourceType => {
+  mainSourceTypes.forEach(sourceType => {
     router.get('/sources/' + sourceType, getSourcesIndex(sourceType));
   });
 
@@ -45,6 +43,8 @@ function createRoutes(router) {
   router.post('/source/:id/form', sourceForm.saveSourceForm);
 }
 
+////////////////////
+
 function getSourcesIndex(subview) {
   return async function(req, res) {
     const sources = await sourceTools.getSourcesByType(subview);
@@ -53,7 +53,7 @@ function getSourcesIndex(subview) {
       title: 'Sources',
       sources,
       subview,
-      mainSourceTypes: constants.mainSourceTypes,
+      mainSourceTypes,
     });
   };
 }

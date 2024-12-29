@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import mongoose from 'mongoose';
 
-const tools = require('../tools/modelTools');
-const constants = require('./constants');
+import tools from '../tools/modelTools.js';
+import { noEntryStoryTypes } from './constants.js';
 
 const pick = _.pick;
 
@@ -18,7 +18,7 @@ methods.canHaveDate = function() {
 };
 
 methods.canHaveEntries = function() {
-  return !constants.noEntryStoryTypes.includes(this.type);
+  return !noEntryStoryTypes.includes(this.type);
 };
 
 methods.entriesCanHaveDate = function() {

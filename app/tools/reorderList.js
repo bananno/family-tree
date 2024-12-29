@@ -1,5 +1,4 @@
-
-function reorderList(valuelist, orderId, dataType) {
+export default function reorderList(valuelist, orderId, dataType) {
   if (['person', 'image'].includes(dataType)) {
     for (let i = 1; i < valuelist.length; i++) {
       const nextItem = valuelist[i];
@@ -20,6 +19,8 @@ function reorderList(valuelist, orderId, dataType) {
   return valuelist;
 }
 
+////////////////////
+
 function isSameItem(item1, item2) {
   let id1 = item1._id ? item1._id : item1;
   let id2 = item2._id ? item2._id : item2;
@@ -27,5 +28,3 @@ function isSameItem(item1, item2) {
   id2 = '' + id2;
   return id1 == id2;
 }
-
-module.exports = reorderList;

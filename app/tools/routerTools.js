@@ -1,10 +1,4 @@
-module.exports = {
-  getFormDataDate,
-  getFormDataLocation,
-  getFormDataTags,
-};
-
-function getFormDataDate(req) {
+export function getFormDataDate(req) {
   return {
     year: req.body.date_year,
     month: req.body.date_month,
@@ -13,7 +7,7 @@ function getFormDataDate(req) {
   };
 }
 
-function getFormDataLocation(req) {
+export function getFormDataLocation(req) {
   const location = {
     country: req.body['location-country'],
     region1: req.body['location-region1'],
@@ -31,6 +25,9 @@ function getFormDataLocation(req) {
   return location;
 }
 
-function getFormDataTags(req) {
-  return (req.body.tags || '').split('\n').map(s => s.trim()).filter(Boolean);
+export function getFormDataTags(req) {
+  return (req.body.tags || '')
+    .split('\n')
+    .map(s => s.trim())
+    .filter(Boolean);
 }

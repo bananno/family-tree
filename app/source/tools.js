@@ -1,10 +1,8 @@
-const {
-  Source,
-} = require('../import');
+import { Source } from '../import.js';
 
-const {mainSourceTypes} = require('./constants');
+import { mainSourceTypes } from './constants.js';
 
-module.exports = {
+export default {
   convertParamSourceId1,
   convertParamSourceId2,
   createRenderSource,

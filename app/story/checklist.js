@@ -1,11 +1,6 @@
-const {
-  Person,
-  Story,
-} = require('../import');
+import { Person, Story } from '../import.js';
 
-module.exports = renderStoryChecklist;
-
-async function renderStoryChecklist(req, res) {
+export default async function renderStoryChecklist(req, res) {
   req.story = await Story.findById(req.params.id).populate('tags');
 
   if (req.story.title.match('Census USA')) {
@@ -16,6 +11,8 @@ async function renderStoryChecklist(req, res) {
     return storyChecklistWorldWarDraftCards(req, res);
   }
 }
+
+////////////////////
 
 async function storyChecklistUnitedStatesCensus(req, res) {
   const story = req.story;

@@ -1,6 +1,4 @@
-module.exports = removeDuplicatesFromList;
-
-function removeDuplicatesFromList(list) {
+export default function removeDuplicatesFromList(list) {
   const done = {};
 
   return list.filter(item => {

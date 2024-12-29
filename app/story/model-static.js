@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-const tools = require('../tools/modelTools');
-const constants = require('./constants');
+import tools from '../tools/modelTools.js';
+import { mainStoryTypes } from './constants.js';
 
 const methods = {};
 
@@ -33,7 +33,7 @@ methods.getAllByType = async type => {
 
   if (type == 'other') {
     return await Story
-      .find({type: {$nin: constants.mainStoryTypes}})
+      .find({type: { $nin: mainStoryTypes }})
       .populate('tags');
   }
 

@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 
-const tools = require('../tools/modelTools');
-const {modelsThatHaveTags} = require('./constants');
-const tagModelSchema = require('./model-schema');
+import tools from '../tools/modelTools.js';
+import { modelsThatHaveTags } from './constants.js';
+import tagModelSchema from './model-schema.js';
+
 const methods = {};
 
 methods.getTagTitles = tools.getTagTitles;

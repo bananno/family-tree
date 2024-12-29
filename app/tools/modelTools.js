@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
-const sorting = require('./sorting');
-const dateStructure = require('./dateStructure');
-const locationTools = require('./locationTools');
+import mongoose from 'mongoose';
+
+import sorting from './sorting.js';
+import dateStructure from './dateStructure.js';
+import locationTools from './locationTools.js';
 
 const tools = {
   mongoose,
@@ -16,7 +17,7 @@ const tools = {
   reduceToExportData,
 };
 
-module.exports = tools;
+export default tools;
 
 function convertTags({tags, tagValues}) {
   const convertedTags = {};
