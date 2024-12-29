@@ -4,6 +4,10 @@ module.exports = router;
 
 const routerTools = require('./tools/routerTools');
 const resources = require('./resources');
+const {
+  uploadImageMiddleware,
+  uploadImageRoute,
+} = require('./image/uploadImage.route');
 
 router.use((req, res, next) => {
   res.renderOriginal = res.render;
@@ -33,3 +37,7 @@ resources.forEach(({name, hasRoutes}) => {
     require(`./${name}`)(router);
   };
 });
+
+// MISC
+
+router.post('/image/upload', uploadImageMiddleware, uploadImageRoute);

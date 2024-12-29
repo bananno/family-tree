@@ -1,3 +1,4 @@
+const cors = require('cors');
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -19,6 +20,8 @@ const createModel = require('./app/tools/createModel');
 resources.filter(resource => resource.hasModel).forEach(createModel);
 
 const app = express();
+
+app.use(cors());
 
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
