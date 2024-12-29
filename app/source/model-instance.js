@@ -1,10 +1,11 @@
-const {pick} = require('lodash');
-const mongoose = require('mongoose');
+import _ from 'lodash';
+import mongoose from 'mongoose';
 
 const tools = require('../tools/modelTools');
 
+const pick = _.pick;
+
 const methods = {};
-module.exports = methods;
 
 methods.getTagTitles = tools.getTagTitles;
 methods.getTagValue = tools.getTagValue;
@@ -343,3 +344,5 @@ methods.populateStory = async function() {
     this.story = await mongoose.model('Story').findById(this.story);
   }
 };
+
+export default methods;

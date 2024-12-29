@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 const tools = require('../tools/modelTools');
 
 const methods = {};
-module.exports = methods;
 
 methods.getTagTitles = tools.getTagTitles;
 methods.getTagValue = tools.getTagValue;
@@ -28,3 +27,5 @@ methods.src = function() {
   }
   return 'http://' + this.url;
 }
+
+export default methods;

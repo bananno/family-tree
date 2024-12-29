@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const tools = require('../tools/modelTools');
 const {modelsThatHaveTags} = require('./constants');
 
 const methods = {};
-module.exports = methods;
 
 methods.sortByTitle = tools.sortByTitle;
 
@@ -74,7 +74,9 @@ methods.populateUsageCount = async tags => {
   });
 };
 
-/////////////////////
+export default methods;
+
+////////////////////
 
 async function forEachModel(callback) {
   for (let i in modelsThatHaveTags) {

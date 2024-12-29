@@ -1,7 +1,4 @@
-import mongoose from 'mongoose';
-
 const methods = {};
-module.exports = methods;
 
 methods.addError = function(errorMsg) {
   if (!this.errors) {
@@ -53,3 +50,5 @@ methods.processForContent = function(content) {
     this.linkPath = '/story/' + this.linkStory._id;
   }
 };
+
+export default methods;

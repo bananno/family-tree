@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const methods = {};
-module.exports = methods;
 
 methods.createFromForm = req => {
   const newHighlight = {
@@ -89,3 +88,5 @@ methods.getMentionsForItem = async (findByObj) => {
 
   return mentions;
 };
+
+export default methods;

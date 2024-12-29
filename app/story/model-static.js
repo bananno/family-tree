@@ -1,8 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const tools = require('../tools/modelTools');
 const constants = require('./constants');
+
 const methods = {};
-module.exports = methods;
 
 methods.getAllSortedByTitle = async () => {
   const Story = mongoose.model('Story');
@@ -122,3 +123,5 @@ methods.sortByTitle = function(stories) {
 methods.sortByTypeTitle = function(stories) {
   tools.sortBy(stories, story => story.type + story.title);
 };
+
+export default methods;

@@ -5,7 +5,6 @@ const {
 } = require('../import');
 
 const methods = {};
-module.exports = methods;
 
 methods.getNewSourceForm = (req, res) => {
   res.render('forms/census');
@@ -138,6 +137,10 @@ methods.saveSourceForm = async (req, res) => {
 
   res.redirect(`/source/${sourceId}/form`);
 };
+
+export default methods;
+
+////////////////////
 
 function getEnumeratorInfo(content) {
   if (!content) {

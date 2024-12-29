@@ -1,8 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const tools = require('../tools/modelTools');
 const {mainSourceTypes} = require('./constants');
+
 const methods = {};
-module.exports = methods;
 
 methods.findObituaries = async () => {
   const obituariesCollection = await mongoose.model('Story').find({title: /obituaries/i});
@@ -86,3 +87,5 @@ methods.getAllByType = async sourceType => {
 methods.getFullTitle = source => {
   return `${source.story.title} - ${source.title}`;
 };
+
+export default methods;

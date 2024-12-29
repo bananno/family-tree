@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const tools = require('../tools/modelTools');
+
 const methods = {};
-module.exports = methods;
 
 methods.getAllByParent = async () => {
   const sources = await mongoose.model('Source').find({}).populate('images');
@@ -35,3 +35,5 @@ methods.sortByTags = images => {
     return [(20 - image.tags.length), ...image.getTagTitles()].join('-');
   });
 };
+
+export default methods;

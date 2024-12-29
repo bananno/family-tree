@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const citationSort = require('./sort');
+
 const methods = {};
-module.exports = methods;
 
 methods.getAllSharedData = async () => {
   const allCitations = await mongoose.model('Citation').find({})
@@ -44,3 +44,5 @@ methods.sortByItem = (citations, people) => {
 methods.sortByPerson = (citations, people) => {
   return citationSort(citations, 'person', people);
 };
+
+export default methods;

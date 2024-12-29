@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 const tools = require('../tools/modelTools');
 
 const methods = {};
-module.exports = methods;
 
 methods.getAllSharedData = async () => {
   const Notation = mongoose.model('Notation');
@@ -58,3 +57,5 @@ methods.getCitesForStory = async function(story) {
     stories: story
   });
 };
+
+export default methods;

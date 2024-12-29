@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     // _id should be included in the export; that's the only reason it is in this list
     name: '_id',

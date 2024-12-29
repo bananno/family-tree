@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 const {citationItemOrder, citationItemSubOrder} = require('./citation.constants');
 
 const methods = {};
-module.exports = methods;
 
 methods.populateStory = async function() {
   if (!this.source.title) {
@@ -70,3 +69,5 @@ methods.toSharedObject = function() {
     sortKey: this.getSortKey(),
   };
 };
+
+export default methods;

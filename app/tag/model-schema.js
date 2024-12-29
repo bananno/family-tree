@@ -1,6 +1,6 @@
 const modelsThatHaveTags = require('./constants-modelsThatHaveTags');
 
-module.exports = [
+export default [
   {
     name: 'title',
     dataType: String,

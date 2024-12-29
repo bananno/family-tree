@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const tools = require('../tools/modelTools');
 const {modelsThatHaveTags} = require('./constants');
 const tagModelSchema = require('./model-schema');
 const methods = {};
-module.exports = methods;
 
 methods.getTagTitles = tools.getTagTitles;
 methods.getTagValue = tools.getTagValue;
@@ -157,6 +157,8 @@ methods.populateAllAttachedItems = async function() {
     }
   });
 };
+
+export default methods;
 
 /////////////////////
 
