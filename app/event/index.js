@@ -5,9 +5,7 @@ const {
 
 const eventTools = require('./tools');
 
-module.exports = createRoutes;
-
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.use(createRenderEvent);
 
   createController({

@@ -1,10 +1,13 @@
-const cors = require('cors');
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const mongoose = require('mongoose');
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
+import createError from 'http-errors';
+import mongoose from 'mongoose';
+import logger from 'morgan';
+import path from 'path';
+
+import resources from './app/resources.js';
+import createModel from './app/tools/createModel.js';
 
 mongoose.connect('mongodb://localhost/ancestry', {
   useNewUrlParser: true,
@@ -15,8 +18,6 @@ mongoose.connect('mongodb://localhost/ancestry', {
   console.log('\nIs mongod instance running?');
 });
 
-const resources = require('./app/resources');
-const createModel = require('./app/tools/createModel');
 resources.filter(resource => resource.hasModel).forEach(createModel);
 
 const app = express();
@@ -51,4 +52,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-module.exports = app;
+export default app;

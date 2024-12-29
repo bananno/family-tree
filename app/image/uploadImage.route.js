@@ -1,16 +1,12 @@
-const multer = require('multer');
+import multer from 'multer';
 
-const upload = multer({
+export const upload = multer({
   storage: multer.memoryStorage(),
 });
 
-async function uploadImage(req, res) {
+export async function uploadImage(req, res) {
   console.log('---> Uploaded. FILE:')
   console.log(req.file)
   res.send('SUCCESS');
 }
 
-module.exports = {
-  uploadImageMiddleware: upload.single('image'),
-  uploadImageRoute: uploadImage,
-};

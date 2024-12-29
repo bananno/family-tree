@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const tools = require('../tools/modelTools');
 
 const methods = {};
-module.exports = methods;
 
 methods.sortByDate = tools.sorting.sortByDate;
 
@@ -55,3 +55,5 @@ methods.getFormDataNew = req => {
 
   return newEvent;
 };
+
+export default methods;

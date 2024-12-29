@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
-const {pick} = require('lodash');
+import _ from 'lodash';
+import mongoose from 'mongoose';
 
-module.exports = getAllSharedData;
+const pick = _.pick;
 
-async function getAllSharedData() {
+export default async function getAllSharedData() {
   const rawPeople = await mongoose.model('Person').find({}).populate('tags');
   const ancestors = {};
 
@@ -63,7 +63,7 @@ async function getAllSharedData() {
   return people;
 }
 
-////////////
+////////////////////
 
 function getSharedTagObj(rawPerson) {
   const tags = rawPerson.convertTags();

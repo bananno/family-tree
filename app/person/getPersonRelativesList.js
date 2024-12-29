@@ -1,13 +1,10 @@
-const {
-  mongoose,
-  sorting,
-} = require('../tools/modelTools');
+import mongoose from 'mongoose';
+
+import sorting from '../tools/modelTools.js';
 
 const relationshipNames = getRelationshipNameList();
 
-module.exports = getRelativesList;
-
-function getRelativesList(allPeople) {
+export default function getRelativesList(allPeople) {
   const Person = mongoose.model('Person');
   const person = this;
 
@@ -98,6 +95,8 @@ function getRelativesList(allPeople) {
     nextGroupList.push({ person: person, generation: generation, track: track });
   }
 }
+
+////////////////////
 
 function getRelationshipName(track) {
   const relationship = relationshipNames[track];

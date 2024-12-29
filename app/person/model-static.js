@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const tools = require('../tools/modelTools');
-const getAllSharedData = require('./person.getAllSharedData');
+import tools from '../tools/modelTools.js';
+import getAllSharedData from './person.getAllSharedData.js';
+
 const methods = {};
-module.exports = methods;
 
 methods.populateAncestors = populateAncestors;
 methods.findInList = findInList;
@@ -274,3 +274,5 @@ function calculateNationality(person, people, nationality = {}, percentage = 100
 
   return nationality;
 }
+
+export default methods;

@@ -12,9 +12,7 @@ const {
 
 const fs = require('fs');
 
-module.exports = createRoutes;
-
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.get('/api/export/full', exportDatabaseBackup);
   router.get('/api/export/publish', exportPublishedData);
 }

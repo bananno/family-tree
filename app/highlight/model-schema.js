@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     // Highlight belongs to this source and it points to text within this source.
     name: 'source',

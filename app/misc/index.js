@@ -1,8 +1,6 @@
-module.exports = createRoutes;
-
 const {getTimelineInfo, getYearInfo} = require('./timelineYearTools');
 
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.get('/timeline', showTimeline);
   router.get('/year/:year', showYear);
 }

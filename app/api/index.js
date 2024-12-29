@@ -1,4 +1,4 @@
-const {
+import {
   Citation,
   Event,
   Notation,
@@ -6,11 +6,9 @@ const {
   Source,
   Story,
   Tag,
-} = require('../import');
+} from '../import';
 
-module.exports = createRoutes;
-
-function createRoutes(router) {
+export default function createRoutes(router) {
   router.get('/api/event-index', eventIndex);
   router.get('/api/notation-index', notationIndex);
   router.get('/api/notation-profile/:id', notationProfile);

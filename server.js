@@ -1,6 +1,9 @@
-const app = require('./app');
-const debug = require('debug')('ancestry9:server');
-const http = require('http');
+import debug from 'debug';
+import http from 'http';
+
+import app from './app.js';
+
+const debugServer = debug('ancestry9:server');
 
 const port = normalizePort(process.env.PORT || '9000');
 app.set('port', port);
@@ -54,5 +57,5 @@ function onListening() {
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  debugServer('Listening on ' + bind);
 }

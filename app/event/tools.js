@@ -4,11 +4,6 @@ const {
   getEditTableRows,
 } = require('../import');
 
-module.exports = {
-  getEditEventInfo,
-  getShowEventInfo,
-};
-
 const eventTypesWithCitations = [
   'birth',
   'christening',
@@ -19,7 +14,7 @@ const eventTypesWithCitations = [
   'death',
 ];
 
-async function getEditEventInfo(eventId) {
+export async function getEditEventInfo(eventId) {
   const event = await Event.findById(eventId).populate('people').populate('tags');
 
   if (!event) {
@@ -41,7 +36,7 @@ async function getEditEventInfo(eventId) {
   };
 }
 
-async function getShowEventInfo(event) {
+export async function getShowEventInfo(event) {
   const data = {
     showMoreInfo: false,
   };

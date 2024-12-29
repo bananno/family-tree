@@ -1,6 +1,7 @@
+import mongoose from 'mongoose';
+
 const tool = filename => require('../tools/' + filename);
 
-const mongoose = require('mongoose');
 const resources = require('./resources');
 const modelTools = require('./tools/modelTools');
 

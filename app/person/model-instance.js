@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
-const getRelativesList = require('./getPersonRelativesList');
-const tools = require('../tools/modelTools');
+import mongoose from 'mongoose';
+
+import getRelativesList from './getPersonRelativesList.js';
+import tools from '../tools/modelTools.js';
 
 const methods = {};
-module.exports = methods;
 
 methods.getRelativesList = getRelativesList;
 methods.getTagTitles = tools.getTagTitles;
@@ -436,3 +436,5 @@ async function _detachRelative(person, relationship, relative) {
 methods.updateSelf = function(updatedObj) {
   return mongoose.model('Person').updateOne({_id: this._id}, updatedObj);
 };
+
+export default methods;
