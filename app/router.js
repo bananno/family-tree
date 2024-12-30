@@ -3,8 +3,9 @@ import express from 'express';
 import * as routerTools from './tools/routerTools.js';
 import {
   uploadFileMiddleware,
-  uploadFileRoute,
-} from './file/uploadFile.route.js';
+  createUploadedFileRoute,
+  listUploadedFilesRoute,
+} from './file/uploadedFileRoutes.js';
 
 import apiCreateRoutes from './api/index.js';
 import checklistCreateRoutes from './checklist/index.js';
@@ -30,10 +31,11 @@ router.use((req, res, next) => {
   res.renderOriginal = res.render;
 
   res.render = (view, options) => {
-    if (view === 'layout') { // phase out
+    if (view === 'layout') {
+      // phase out
       return res.renderOriginal(view, options);
     }
-    return res.renderOriginal('layout', {view, ...options});
+    return res.renderOriginal('layout', { view, ...options });
   };
 
   req.getFormDataDate = () => routerTools.getFormDataDate(req);
@@ -46,7 +48,7 @@ router.use((req, res, next) => {
 // HOME
 
 router.get('/', (req, res) => {
-  res.render('index', {title: null});
+  res.render('index', { title: null });
 });
 
 // RESOURCES
@@ -57,7 +59,8 @@ citationCreateRoutes(router);
 eventCreateRoutes(router);
 exportCreateRoutes(router);
 
-router.post('/file/upload', uploadFileMiddleware, uploadFileRoute);
+router.get('/files', listUploadedFilesRoute);
+router.post('/files', uploadFileMiddleware, createUploadedFileRoute);
 
 highlightCreateRoutes(router);
 imageCreateRoutes(router);
