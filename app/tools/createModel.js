@@ -6,8 +6,6 @@ export default function createModel(resource) {
   const modelName = resource.modelName;
 
   const rawFieldList = resource.modelSchema;
-  const instanceMethods = resource.instanceMethods;
-  const staticMethods = resource.staticMethods;
 
   // For schema validation
   const propFieldsUsed = [];
@@ -188,30 +186,9 @@ export default function createModel(resource) {
 
   checkForUnusedKeys(modelName, rawFieldList, propFieldsUsed);
 
-  const exportFieldNames = fields
-    .filter(field => field.includeInExport)
-    .map(field => field.name);
-
-  const constants = {
-    modelName,
-    fields,
-    exportFieldNames,
-  };
-
   const mongooseSchema = new mongoose.Schema(modelSchema);
 
-  for (let methodName in instanceMethods) {
-    mongooseSchema.methods[methodName] = instanceMethods[methodName];
-  }
-
-  for (let methodName in staticMethods) {
-    mongooseSchema.statics[methodName] = staticMethods[methodName];
-  }
-
-  mongooseSchema.methods.constants = () => constants;
-  mongooseSchema.statics.constants = () => constants;
-
-  mongoose.model(modelName, mongooseSchema);
+  return { constants: { fields }, schema: mongooseSchema };
 }
 
 function capitalize(str) {

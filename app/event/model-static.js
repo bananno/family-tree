@@ -8,7 +8,7 @@ methods.sortByDate = tools.sorting.sortByDate;
 
 methods.getAllSharedData = async () => {
   const Event = mongoose.model('Event');
-  const {exportFieldNames} = Event.constants();
+  const exportFieldNames = ['_id', 'title', 'date', 'location', 'people', 'notes'];
   const rawList = await Event.find({}).populate('people').populate('tags');
 
   const eventList = rawList.map(event => {

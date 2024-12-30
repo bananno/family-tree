@@ -11,7 +11,17 @@ methods.getAllSharedData = async () => {
     .populate('people')
     .populate('tags');
 
-  const {exportFieldNames} = Notation.constants();
+  const exportFieldNames = [
+    '_id',
+    'title',
+    'source',
+    'date',
+    'location',
+    'people',
+    'stories',
+    'text',
+    'tags',
+  ];
 
   return notations.map(notation => {
     // Remove non-shared people from the notation.

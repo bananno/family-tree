@@ -6,7 +6,7 @@ import modelSchema from './model-schema.js';
 import instanceMethods from './model-instance.js';
 import staticMethods from './model-static.js';
 
-createModel({
+const { constants, schema } = createModel({
   name: 'location',
   modelName: 'Location',
   modelSchema,
@@ -14,6 +14,17 @@ createModel({
   staticMethods,
 });
 
-const Location = mongoose.model('Location');
+for (let methodName in instanceMethods) {
+  schema.methods[methodName] = instanceMethods[methodName];
+}
+
+for (let methodName in staticMethods) {
+  schema.statics[methodName] = staticMethods[methodName];
+}
+
+schema.methods.constants = () => constants;
+schema.statics.constants = () => constants;
+
+const Location = mongoose.model('Location', schema);
 
 export default Location;

@@ -9,7 +9,7 @@ methods.getTagValue = tools.getTagValue;
 methods.hasTag = tools.hasTag;
 
 methods.toSharedObject = function() {
-  const {exportFieldNames} = this.constants();
+  const exportFieldNames = ['_id', 'url', 'tags'];
   return tools.reduceToExportData(this, exportFieldNames);
 }
 
