@@ -1,6 +1,8 @@
 .DS_Store
-node_modules/
+.env
 to-do.txt
-database-backup/
-shared/
+
 client/
+database-backup/
+node_modules/
+shared/

@@ -1,5 +1,6 @@
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import ejs from 'ejs';
 import express from 'express';
 import createError from 'http-errors';
@@ -11,6 +12,8 @@ import { fileURLToPath } from 'url';
 import './app/models.js';
 
 import router from './app/router.js';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
