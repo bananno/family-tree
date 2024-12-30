@@ -19,7 +19,7 @@ export default function Layout() {
         <LayoutNavItem path="/checklists" text="Checklists" />
         <LayoutNavItem path="/tags" text="Tags" />
         <LayoutNavItem path="/utilities" text="Utilities" />
-        <LayoutNavItem path="/images" text="Images" />
+        <LayoutNavItem path="/files" text="Files" />
         <LayoutNavItem path="/404" text="404" />
       </ul>
       <Outlet />

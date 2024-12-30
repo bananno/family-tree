@@ -11,6 +11,7 @@ import PageNotFound from './PageNotFound';
 import ChecklistIndexPage from './checklist/ChecklistIndexPage';
 import ChecklistPersonVitalsPage from './checklist/ChecklistPersonVitalsPage';
 import EventsPage from './EventsPage';
+import FilesPage from './file/FilesPage';
 import NotationIndexPage from './notation/NotationIndexPage';
 import NotationProfilePage from './notation/NotationProfilePage';
 import PersonIndexPage from './person/PersonIndexPage';
@@ -23,9 +24,8 @@ import StoryProfilePage from './story/StoryProfilePage';
 import TagIndexPage from './tag/TagIndexPage';
 import TagProfilePage from './tag/TagProfilePage';
 import UtilitiesPage from './UtilitiesPage';
-import ImagesPage from './image/ImagesPage';
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
@@ -57,6 +57,8 @@ function App() {
             <>
               <Route path="events" element={<EventsPage />} />
 
+              <Route path="files" element={<FilesPage />} />
+
               <Route path="notations" element={<NotationIndexPage />} />
               <Route
                 path="notation/:notationId"
@@ -75,7 +77,6 @@ function App() {
 
               <Route path="map" element={<ToDoPage title="map" />} />
               <Route path="utilities" element={<UtilitiesPage />} />
-              <Route path="images" element={<ImagesPage />} />
             </>
           )}
           <Route path="*" element={<PageNotFound />} />
@@ -84,5 +85,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;
