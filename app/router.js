@@ -1,11 +1,10 @@
 import express from 'express';
 
 import * as routerTools from './tools/routerTools.js';
-import resources from './resources.js';
 import {
-  uploadImageMiddleware,
-  uploadImageRoute,
-} from './image/uploadImage.route.js';
+  uploadFileMiddleware,
+  uploadFileRoute,
+} from './file/uploadFile.route.js';
 
 import apiCreateRoutes from './api/index.js';
 import checklistCreateRoutes from './checklist/index.js';
@@ -24,6 +23,8 @@ import storyCreateRoutes from './story/index.js';
 import tagCreateRoutes from './tag/index.js';
 
 const router = express.Router();
+
+export default router;
 
 router.use((req, res, next) => {
   res.renderOriginal = res.render;
@@ -48,11 +49,16 @@ router.get('/', (req, res) => {
   res.render('index', {title: null});
 });
 
+// RESOURCES
+
 apiCreateRoutes(router);
 checklistCreateRoutes(router);
 citationCreateRoutes(router);
 eventCreateRoutes(router);
 exportCreateRoutes(router);
+
+router.post('/file/upload', uploadFileMiddleware, uploadFileRoute);
+
 highlightCreateRoutes(router);
 imageCreateRoutes(router);
 placeCreateRoutes(router);
@@ -63,9 +69,3 @@ personCreateRoutes(router);
 sourceCreateRoutes(router);
 storyCreateRoutes(router);
 tagCreateRoutes(router);
-
-// MISC
-
-router.post('/image/upload', uploadImageMiddleware, uploadImageRoute);
-
-export default router;

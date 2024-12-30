@@ -4,9 +4,9 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
-export const uploadImageMiddleware = upload.single('image');
+export const uploadFileMiddleware = upload.single('file');
 
-export async function uploadImageRoute(req, res) {
+export async function uploadFileRoute(req, res) {
   console.log('---> Uploaded. FILE:')
   console.log(req.file)
   res.send('SUCCESS');
