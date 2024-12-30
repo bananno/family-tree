@@ -211,9 +211,7 @@ export default function createModel(resource) {
   mongooseSchema.methods.constants = () => constants;
   mongooseSchema.statics.constants = () => constants;
 
-  resource.Model = mongoose.model(modelName, mongooseSchema);
-
-  return resource.Model;
+  mongoose.model(modelName, mongooseSchema);
 }
 
 function capitalize(str) {

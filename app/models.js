@@ -3,6 +3,7 @@ import './event/Event.model.js';
 import './file/UploadedFile.model.js';
 import './highlight/Highlight.model.js';
 import './image/Image.model.js';
+import './location/Location.model.js';
 import './notation/Notation.model.js';
 import './person/Person.model.js';
 import './source/Source.model.js';

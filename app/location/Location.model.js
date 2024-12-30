@@ -7,13 +7,13 @@ import instanceMethods from './model-instance.js';
 import staticMethods from './model-static.js';
 
 createModel({
-  name: 'notation',
-  modelName: 'Notation',
+  name: 'location',
+  modelName: 'Location',
   modelSchema,
   instanceMethods,
   staticMethods,
 });
 
-const Notation = mongoose.model('Notation');
+const Location = mongoose.model('Location');
 
-export default Notation;
+export default Location;

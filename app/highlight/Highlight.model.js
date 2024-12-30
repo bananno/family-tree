@@ -1,11 +1,18 @@
 import mongoose from 'mongoose';
 
-import resources from '../resources.js';
 import createModel from '../tools/createModel.js';
 
-const resource = resources.find(resource => resource.name === 'highlight');
+import modelSchema from './model-schema.js';
+import instanceMethods from './model-instance.js';
+import staticMethods from './model-static.js';
 
-createModel(resource);
+createModel({
+  name: 'highlight',
+  modelName: 'Highlight',
+  modelSchema,
+  instanceMethods,
+  staticMethods,
+});
 
 const Highlight = mongoose.model('Highlight');
 

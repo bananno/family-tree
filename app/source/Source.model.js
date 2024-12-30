@@ -1,11 +1,20 @@
 import mongoose from 'mongoose';
 
-import resources from '../resources.js';
 import createModel from '../tools/createModel.js';
 
-const resource = resources.find(resource => resource.name === 'source');
+import modelSchema from './model-schema.js';
+import instanceMethods from './model-instance.js';
+import staticMethods from './model-static.js';
 
-createModel(resource);
+createModel({
+  name: 'source',
+  hasRoutes: true,
+  hasModel: true,
+  modelName: 'Source',
+  modelSchema,
+  instanceMethods,
+  staticMethods,
+});
 
 const Source = mongoose.model('Source');
 

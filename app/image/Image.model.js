@@ -1,11 +1,18 @@
 import mongoose from 'mongoose';
 
-import resources from '../resources.js';
 import createModel from '../tools/createModel.js';
 
-const resource = resources.find(resource => resource.name === 'image');
+import modelSchema from './model-schema.js';
+import instanceMethods from './model-instance.js';
+import staticMethods from './model-static.js';
 
-createModel(resource);
+createModel({
+  name: 'image',
+  modelName: 'Image',
+  modelSchema,
+  instanceMethods,
+  staticMethods,
+});
 
 const Image = mongoose.model('Image');
 
