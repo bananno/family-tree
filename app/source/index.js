@@ -1,25 +1,21 @@
-import {
-  Highlight,
-  Notation,
-  Source,
-  createController,
-} from '../import.js';
-import createModel from '../tools/createModel.js';
-import resources from '../resources.js';
+import mongoose from 'mongoose';
+
+import { createController } from '../import.js';
 
 import { mainSourceTypes } from './constants.js';
 import sourceForm from './forms.js';
 import sourceProfile from './show.js';
 import sourceTools from './tools.js';
 
+const Highlight = mongoose.model('Highlight');
+const Notation = mongoose.model('Notation');
+const Source = mongoose.model('Source');
+
 export default function createRoutes(router) {
   router.param('id', sourceTools.convertParamSourceId1);
   router.param('sourceId', sourceTools.convertParamSourceId2);
 
   router.use(sourceTools.createRenderSource);
-
-  const resource = resources.find(resource => resource.name === 'source');
-  const Source = createModel(resource);
 
   createController({
     Model: Source,

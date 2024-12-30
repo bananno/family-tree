@@ -1,14 +1,13 @@
-import { Event, createController } from '../import.js';
-import createModel from '../tools/createModel.js';
-import resources from '../resources.js';
+import mongoose from 'mongoose';
+
+import { createController } from '../import.js';
 
 import * as eventTools from './tools.js';
 
+const Event = mongoose.model('Event');
+
 export default function createRoutes(router) {
   router.use(createRenderEvent);
-
-  const resource = resources.find(resource => resource.name === 'event');
-  const Event = createModel(resource);
 
   createController({
     Model: Event,

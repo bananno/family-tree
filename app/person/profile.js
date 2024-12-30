@@ -1,17 +1,16 @@
-import {
-  Citation,
-  Notation,
-  getEditTableRows,
-  sorting,
-} from '../import.js';
+import mongoose from 'mongoose';
 
-import Person from './Person.model.js';
+import { getEditTableRows, sorting } from '../import.js';
 
 import checklistRoute from './profile.checklist.js';
 import childrenRoute from './profile.children.js';
 import descendantsRoute from './profile.descendants.js';
 import sourcesRoute from './profile.sources.js';
 import timelineRoute from './profile.timeline.js';
+
+const Citation = mongoose.model('Citation');
+const Notation = mongoose.model('Notation');
+const Person = mongoose.model('Person');
 
 export default {
   show: personSummary,

@@ -2,9 +2,7 @@ import mongoose from 'mongoose';
 
 import tools from './modelTools.js';
 
-export default createModel;
-
-function createModel(resource) {
+export default function createModel(resource) {
   const modelName = resource.modelName;
 
   const rawFieldList = resource.modelSchema;

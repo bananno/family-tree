@@ -1,0 +1,9 @@
+import './citation/Citation.model.js';
+import './event/Event.model.js';
+import './highlight/Highlight.model.js';
+import './image/Image.model.js';
+import './notation/Notation.model.js';
+import './person/Person.model.js';
+import './source/Source.model.js';
+import './story/Story.model.js';
+import './tag/Tag.model.js';

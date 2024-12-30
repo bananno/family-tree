@@ -1,21 +1,16 @@
-import {
-  Notation,
-  Story,
-  createController,
-  getEditTableRows,
-} from '../import.js';
-import createModel from '../tools/createModel.js';
-import resources from '../resources.js';
+import mongoose from 'mongoose';
+
+import { createController, getEditTableRows } from '../import.js';
 
 import { mainStoryTypes } from './constants.js';
 import storyChecklist from './checklist.js';
 import * as storyTools from './tools.js';
 
+const Notation = mongoose.model('Notation');
+const Story = mongoose.model('Story');
+
 export default function createRoutes(router) {
   router.use(storyTools.createRenderStory);
-
-  const resource = resources.find(resource => resource.name === 'story');
-  const Story = createModel(resource);
 
   createController({
     Model: Story,

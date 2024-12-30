@@ -1,16 +1,15 @@
-import { Tag, createController, getEditTableRows } from '../import.js';
-import createModel from '../tools/createModel.js';
-import resources from '../resources.js';
+import mongoose from 'mongoose';
+
+import { createController, getEditTableRows } from '../import.js';
 
 import { indexFormats, modelsThatHaveTags } from './constants.js';
 import tagTools from './tools.js';
 
+const Tag = mongoose.model('Tag');
+
 export default function createRoutes(router) {
   router.use(tagTools.createRenderTag);
   router.param('id', tagTools.convertParamTagId);
-
-  const resource = resources.find(resource => resource.name === 'tag');
-  const Tag = createModel(resource);
 
   createController({
     Model: Tag,

@@ -8,6 +8,8 @@ import logger from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import './app/models.js';
+
 import router from './app/router.js';
 
 const __filename = fileURLToPath(import.meta.url);

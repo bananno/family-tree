@@ -1,11 +1,10 @@
+import mongoose from 'mongoose';
+
 import { createController, getEditTableRows } from '../import.js';
-import createModel from '../tools/createModel.js';
-import resources from '../resources.js';
+
+const Image = mongoose.model('Image');
 
 export default function createRoutes(router) {
-  const resource = resources.find(resource => resource.name === 'image');
-  const Image = createModel(resource);
-
   createController({
     Model: Image,
     modelName: 'image',

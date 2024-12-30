@@ -1,5 +1,4 @@
-import resources from './resources.js';
-import modelTools from './tools/modelTools.js';
+import mongoose from 'mongoose';
 
 import createController from './tools/createController.js';
 import dateStructure from './tools/dateStructure.js';
@@ -19,30 +18,18 @@ export {
   sorting,
 };
 
-const importables = {
-  models: [],
-  modelRef: {},
-  ...modelTools,
-};
+export const getDateSortStr = sorting.getDateSortStr;
+export const padZero = sorting.padZero;
+export const sortBy = sorting.sortBy;
+export const sortByDate = sorting.sortByDate;
+export const sortByTitle = sorting.sortByTitle;
 
-resources
-  .filter(resource => resource.hasModel)
-  .forEach(({ Model, modelName }) => {
-    importables[modelName] = Model;
-    importables.models.push(Model);
-    importables.modelRef[modelName] = Model;
-  });
-
-export const Citation = importables.Citation;
-export const Event = importables.Event;
-export const Highlight = importables.Highlight;
-export const Image = importables.Image;
-export const Notation = importables.Notation;
-export const Person = importables.Person;
-export const Source = importables.Source;
-export const Story = importables.Story;
-export const Tag = importables.Tag;
-
-export const models = importables.models;
-export const modelRef = importables.modelRef;
-export const sortBy = importables.sortBy;
+export const Citation = mongoose.model('Citation');
+export const Event = mongoose.model('Event');
+export const Highlight = mongoose.model('Highlight');
+export const Image = mongoose.model('Image');
+export const Notation = mongoose.model('Notation');
+export const Person = mongoose.model('Person');
+export const Source = mongoose.model('Source');
+export const Story = mongoose.model('Story');
+export const Tag = mongoose.model('Tag');

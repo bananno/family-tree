@@ -1,22 +1,17 @@
-import {
-  Citation,
-  Notation,
-  Person,
-  createController,
-  getEditTableRows,
-} from '../import.js';
-import createModel from '../tools/createModel.js';
-import resources from '../resources.js';
+import mongoose from 'mongoose';
+
+import { createController, getEditTableRows } from '../import.js';
 
 import * as notationTools from './tools.js';
+
+const Citation = mongoose.model('Citation');
+const Notation = mongoose.model('Notation');
+const Person = mongoose.model('Person');
 
 export default function createRoutes(router) {
   router.param('id', notationTools.convertParamNotationId);
 
   router.use(notationTools.createRenderNotation);
-
-  const resource = resources.find(resource => resource.name === 'notation');
-  const Notation = createModel(resource);
 
   createController({
     Model: Notation,
