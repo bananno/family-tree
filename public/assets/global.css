@@ -11,7 +11,7 @@ html {
 
 body {
   background-color: #F5F5F5;
-  background-image: url('images/leaves.png');
+  background-image: url('/assets/images/leaves.png');
   background-repeat: no-repeat;
   background-position: top right;
   background-position-y: 50px;
