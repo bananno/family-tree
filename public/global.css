@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+html {
+  background-color: black;
+}
+
+body {
+  background-color: #F5F5F5;
+  background-image: url('images/leaves.png');
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-position-y: 50px;
+}
+
+body a {
+  color: #72bbd6;
+}

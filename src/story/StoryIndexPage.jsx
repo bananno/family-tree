@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 
 import {useStaticDb} from '../SETTINGS';
+import BulletList from '../shared/BulletList';
 import Filter from '../Filter';
 import StoryList from './StoryList';
 import useStoryList from '../hooks/useStoryList';
@@ -11,7 +12,7 @@ const mainStoryTypes = [
   'newspaper', 'website', 'place', 'topic',
 ];
 
-function StoryIndexPage() {
+export default function StoryIndexPage() {
   const {storyType} = useParams();
   const {stories, isLoading} = useStoryList({storyType});
   const [filterWords, setFilterWords] = useState([]);
@@ -21,10 +22,10 @@ function StoryIndexPage() {
     : stories;
 
   return (
-    <div>
-      <h1>stories</h1>
+    <>
+      <h1>Stories</h1>
       {isLoading && <p>loading...</p>}
-      <ul>
+      <BulletList>
         <li><Link to="/stories">all</Link></li>
         {mainStoryTypes.map(storyType => (
           <li key={storyType}>
@@ -34,11 +35,9 @@ function StoryIndexPage() {
         {!useStaticDb && <li>
           <Link to="/stories-non-entry-sources">stories with non-entry sources</Link>
         </li>}
-      </ul>
+      </BulletList>
       <Filter onChange={setFilterWords}/>
       <StoryList stories={filteredStories}/>
-    </div>
+    </>
   );
 }
-
-export default StoryIndexPage;

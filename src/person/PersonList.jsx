@@ -1,5 +1,7 @@
 import React from 'react';
 
+import BulletList from '../shared/BulletList';
+
 import PersonLink from './PersonLink';
 import globalClasses from '../Global.module.scss';
 
@@ -22,7 +24,7 @@ function PersonList({people=[], showTagValues, getNote, columns}) {
     );
   }
   return (
-    <ul>
+    <BulletList>
       {people.map(person => (
         <li key={person.id}>
           <PersonLink person={person}/>
@@ -30,7 +32,7 @@ function PersonList({people=[], showTagValues, getNote, columns}) {
           {getNote && ` ${getNote(person)}`}
         </li>
       ))}
-    </ul>
+    </BulletList>
   );
 }
 

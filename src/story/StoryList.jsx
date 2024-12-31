@@ -1,17 +1,17 @@
 import React from 'react';
 
+import BulletList from '../shared/BulletList';
+
 import StoryLink from './StoryLink';
 
-function StoryList({stories}) {
+export default function StoryList({stories}) {
   return (
-    <ul>
+    <BulletList>
       {stories.map(story => (
         <li key={story.id}>
           <StoryLink story={story}/>
         </li>
       ))}
-    </ul>
+    </BulletList>
   );
 }
-
-export default StoryList;
