@@ -38,7 +38,7 @@ export default async function getPerson(req, res) {
     treeParents: ancestorTree.treeParents,
   };
 
-  res.send({ person: data });
+  res.json({ person: data });
 }
 
 ////////////////////
