@@ -9,9 +9,7 @@ export default function Layout() {
   return (
     <div className={layoutClasses.Layout}>
       <header className={layoutClasses.LayoutHeader}>
-        <h1>
-          Family Tree {ENVIRONMENT === 'DEVELOPMENT' && '(development)'}
-        </h1>
+        <h1>Family Tree {ENVIRONMENT === 'DEVELOPMENT' && '(development)'}</h1>
         <LayoutNavigation />
       </header>
       <main className={layoutClasses.LayoutContent1}>
@@ -52,7 +50,7 @@ function LayoutNavigation() {
   );
 }
 
-const LayoutNavItem = ({ path, text, isPublic }) => {
+function LayoutNavItem({ path, text, isPublic }) {
   if (!isPublic && useStaticDb) {
     return null;
   }
@@ -61,4 +59,4 @@ const LayoutNavItem = ({ path, text, isPublic }) => {
       <Link to={path}>{text}</Link>
     </li>
   );
-};
+}

@@ -4,9 +4,9 @@ import { useParams } from 'react-router-dom';
 import { useStaticDb } from '../SETTINGS';
 import CitationList from '../CitationList';
 import LinkList from '../LinkList';
-import PersonList from './PersonList';
-import PersonTree from './PersonTree';
-import TagList from '../tag/TagList';
+import PersonList from 'person/PersonList';
+import PersonTree from 'person/PersonTree';
+import TagList from 'tag/TagList';
 import usePersonProfile from '../hooks/usePersonProfile';
 
 export default function PersonProfilePage() {

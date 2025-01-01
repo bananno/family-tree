@@ -1,9 +1,8 @@
 import React from 'react';
 
-import BulletList from '../shared/BulletList';
-
-import PersonLink from './PersonLink';
-import globalClasses from '../Global.module.scss';
+import PersonLink from 'person/PersonLink';
+import BulletList from 'shared/BulletList';
+import globalClasses from 'shared/global.module.scss';
 
 export default function PersonList({
   people = [],

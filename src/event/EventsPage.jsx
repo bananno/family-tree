@@ -1,7 +1,7 @@
 import React from 'react';
 
-import useEventList from './hooks/useEventList';
-import BulletList from './shared/BulletList';
+import useEventList from 'event/useEventList';
+import BulletList from 'shared/BulletList';
 
 export default function EventsPage() {
   const { events } = useEventList();

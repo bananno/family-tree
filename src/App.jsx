@@ -8,21 +8,21 @@ import HomePage from './HomePage';
 import ToDoPage from './ToDoPage';
 import PageNotFound from './PageNotFound';
 
-import ChecklistIndexPage from './checklist/ChecklistIndexPage';
-import ChecklistPersonVitalsPage from './checklist/ChecklistPersonVitalsPage';
-import EventsPage from './EventsPage';
-import FilesPage from './file/FilesPage';
-import NotationIndexPage from './notation/NotationIndexPage';
-import NotationProfilePage from './notation/NotationProfilePage';
-import PersonIndexPage from './person/PersonIndexPage';
-import PersonProfilePage from './person/PersonProfilePage';
-import SourceIndexPage from './source/SourceIndexPage';
-import SourceProfilePage from './source/SourceProfilePage';
-import StoryIndexPage from './story/StoryIndexPage';
-import StoryNonEntrySourcesPage from './story/StoryNonEntrySourcesPage';
-import StoryProfilePage from './story/StoryProfilePage';
-import TagIndexPage from './tag/TagIndexPage';
-import TagProfilePage from './tag/TagProfilePage';
+import ChecklistIndexPage from 'checklist/ChecklistIndexPage';
+import ChecklistPersonVitalsPage from 'checklist/ChecklistPersonVitalsPage';
+import EventsPage from 'event/EventsPage';
+import FilesPage from 'file/FilesPage';
+import NotationIndexPage from 'notation/NotationIndexPage';
+import NotationProfilePage from 'notation/NotationProfilePage';
+import PersonIndexPage from 'person/PersonIndexPage';
+import PersonProfilePage from 'person/PersonProfilePage';
+import SourceIndexPage from 'source/SourceIndexPage';
+import SourceProfilePage from 'source/SourceProfilePage';
+import StoryIndexPage from 'story/StoryIndexPage';
+import StoryNonEntrySourcesPage from 'story/StoryNonEntrySourcesPage';
+import StoryProfilePage from 'story/StoryProfilePage';
+import TagIndexPage from 'tag/TagIndexPage';
+import TagProfilePage from 'tag/TagProfilePage';
 import UtilitiesPage from './UtilitiesPage';
 
 export default function App() {

@@ -1,15 +1,15 @@
 import React from 'react';
 
-import Checkmark from '../components/Checkmark';
-import PersonLink from '../person/PersonLink';
 import useChecklistData from '../hooks/useChecklistData';
-import globalClasses from '../Global.module.scss';
+import PersonLink from 'person/PersonLink';
+import Checkmark from 'shared/Checkmark';
+import globalClasses from 'shared/global.module.scss';
 
-const ChecklistPersonVitalsPage = () => {
-  const {data, isLoading} = useChecklistData('vitals');
+export default function ChecklistPersonVitalsPage() {
+  const { data, isLoading } = useChecklistData('vitals');
   if (isLoading) {
-    return <h1>loading...</h1>
-  };
+    return <h1>loading...</h1>;
+  }
   return (
     <div>
       <h1>Checklist: Person Vitals</h1>
@@ -38,27 +38,29 @@ const ChecklistPersonVitalsPage = () => {
           {data.people.map(person => (
             <tr key={person.id}>
               <td>
-                <PersonLink person={person}/>
+                <PersonLink person={person} />
               </td>
               <td>
-                <Checkmark value={person.birthComplete}/>
+                <Checkmark value={person.birthComplete} />
               </td>
               <td>
-                {person.living ? '--' : <Checkmark value={person.deathComplete}/>}
+                {person.living ? (
+                  '--'
+                ) : (
+                  <Checkmark value={person.deathComplete} />
+                )}
+              </td>
+              <td>{person.connectionTitle}</td>
+              <td>{person.degree}</td>
+              <td>
+                {person.shareLevel == 1 ? (
+                  'restricted'
+                ) : (
+                  <Checkmark value={person.shareLevel == 2} />
+                )}
               </td>
               <td>
-                {person.connectionTitle}
-              </td>
-              <td>
-                {person.degree}
-              </td>
-              <td>
-                {person.shareLevel == 1
-                  ? 'restricted'
-                  : <Checkmark value={person.shareLevel == 2}/>}
-              </td>
-              <td>
-                <TableCellChildren person={person}/>
+                <TableCellChildren person={person} />
               </td>
             </tr>
           ))}
@@ -66,16 +68,16 @@ const ChecklistPersonVitalsPage = () => {
       </table>
     </div>
   );
-};
+}
 
-const TableCellChildren = ({person}) => {
+////////////////////
+
+function TableCellChildren({ person }) {
   if (person.showChildrenDone) {
-    return <Checkmark value={true}/>;
+    return <Checkmark value={true} />;
   }
   if (person.showChildrenNotDone) {
-    return <Checkmark value={false}/>;
+    return <Checkmark value={false} />;
   }
   return person.childrenNote;
-};
-
-export default ChecklistPersonVitalsPage;
+}

@@ -2,15 +2,15 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useStaticDb } from '../SETTINGS';
-import BulletList from '../shared/BulletList';
-import Checkmark from '../components/Checkmark';
+import BulletList from 'shared/BulletList';
+import Checkmark from 'shared/Checkmark';
 import FormatContent from '../FormatContent';
 import FormatDate from '../FormatDate';
 import FormatLocation from '../FormatLocation';
 import LinkList from '../LinkList';
-import PersonList from '../person/PersonList';
-import SourceList from '../source/SourceList';
-import TagList from '../tag/TagList';
+import PersonList from 'person/PersonList';
+import SourceList from 'source/SourceList';
+import TagList from 'tag/TagList';
 import useStoryProfile from '../hooks/useStoryProfile';
 
 export default function StoryProfilePage() {

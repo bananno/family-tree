@@ -1,17 +1,17 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
-function useEventList() {
+export default function useEventList() {
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
     fetch('http://localhost:9000/api/event-index')
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setResponse(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('ERROR', err.message);
       })
       .finally(() => {
@@ -19,7 +19,5 @@ function useEventList() {
       });
   }, []);
 
-  return {events: response, isLoading};
+  return { events: response, isLoading };
 }
-
-export default useEventList;
