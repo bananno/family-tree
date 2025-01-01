@@ -15,6 +15,7 @@ import FilesPage from 'file/FilesPage';
 import NotationIndexPage from 'notation/NotationIndexPage';
 import NotationProfilePage from 'notation/NotationProfilePage';
 import PersonIndexPage from 'person/PersonIndexPage';
+import PersonLayout from 'person/PersonLayout';
 import PersonProfilePage from 'person/PersonProfilePage';
 import SourceIndexPage from 'source/SourceIndexPage';
 import SourceProfilePage from 'source/SourceProfilePage';
@@ -32,8 +33,10 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
 
-          <Route path="people" element={<PersonIndexPage />} />
-          <Route path="person/:personId" element={<PersonProfilePage />} />
+          <Route path="/people" element={<PersonIndexPage />} />
+          <Route path="/person/:id" element={<PersonLayout />} >
+            <Route index element={<PersonProfilePage />} />
+          </Route>
 
           <Route path="stories" element={<StoryIndexPage />} />
           <Route path="stories/:storyType" element={<StoryIndexPage />} />
