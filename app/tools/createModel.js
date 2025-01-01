@@ -186,7 +186,7 @@ export default function createModel(resource) {
 
   checkForUnusedKeys(modelName, rawFieldList, propFieldsUsed);
 
-  const mongooseSchema = new mongoose.Schema(modelSchema);
+  const mongooseSchema = new mongoose.Schema(modelSchema, { timestamps: true });
 
   return { constants: { fields }, schema: mongooseSchema };
 }

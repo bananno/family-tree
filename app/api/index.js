@@ -1,5 +1,4 @@
 import {
-  Citation,
   Event,
   Notation,
   Person,
@@ -13,7 +12,6 @@ export default function createRoutes(router) {
   router.get('/api/notation-index', notationIndex);
   router.get('/api/notation-profile/:id', notationProfile);
   router.get('/api/person-index', personIndex);
-  router.get('/api/person-profile/:id', personProfile);
   router.get('/api/source-index', sourceIndex);
   router.get('/api/source-index/:sourceType', sourceIndex);
   router.get('/api/source-profile/:id', sourceProfile);
@@ -70,37 +68,6 @@ async function personIndex(req, res) {
     id: person._id,
     name: person.name,
   }));
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.send({data});
-}
-
-async function personProfile(req, res) {
-  const personId = req.params.id;
-  const person = await Person.findById(personId)
-    .populate('parents').populate('spouses')
-    .populate('children').populate('tags');
-  await person.populateSiblings({sortByBirthDate: true});
-
-  await person.populateCitations({populateSources: true});
-  await Citation.populateStories(person.citations);
-  Citation.sortByItem(person.citations);
-
-  const ancestorTree = await Person.getAncestorTree(person);
-
-  const data = {
-    id: person._id,
-    children: mapPeopleToNameAndId(person.children),
-    citations: mapCitationsIncludeSource(person.citations),
-    links: mapLinks(person.links),
-    name: person.name,
-    parents: mapPeopleToNameAndId(person.parents),
-    siblings: mapPeopleToNameAndId(person.siblings),
-    spouses: mapPeopleToNameAndId(person.spouses),
-    shareLevel: person.shareLevel,
-    tags: person.convertTags({asList: true}),
-    treeParents: ancestorTree.treeParents,
-  };
-
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.send({data});
 }
@@ -267,18 +234,6 @@ function mapCitationsIncludePerson(citations) {
     person: {
       id: citation.person._id,
       name: citation.person.name,
-    },
-  }));
-}
-
-function mapCitationsIncludeSource(citations) {
-  return citations.map(citation => ({
-    id: citation._id,
-    information: citation.information,
-    ...splitCitationItem(citation),
-    source: {
-      id: citation.source._id,
-      fullTitle: citation.source.fullTitle,
     },
   }));
 }
