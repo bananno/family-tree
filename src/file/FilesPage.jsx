@@ -19,8 +19,8 @@ export default function FilesPage() {
               src={file.url}
               style={{
                 border: '1px solid gray',
-                'min-height': '100px',
-                'max-height': '200px',
+                minHeight: '100px',
+                maxHeight: '200px',
               }}
             />
           </li>

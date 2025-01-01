@@ -1,46 +1,56 @@
-import React, {useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
+import BulletList from '../shared/BulletList';
 import Filter from '../Filter';
 import SourceLink from './SourceLink';
 import useSourceList from '../hooks/useSourceList';
 
 const mainSourceTypes = [
-  'document', 'index', 'cemetery', 'newspaper',
-  'photo', 'website', 'book', 'other'
+  'document',
+  'index',
+  'cemetery',
+  'newspaper',
+  'photo',
+  'website',
+  'book',
+  'other',
 ];
 
-function SourceIndexPage() {
-  const {sourceType} = useParams();
-  const {sources, isLoading} = useSourceList({sourceType});
+export default function SourceIndexPage() {
+  const { sourceType } = useParams();
+  const { sources, isLoading } = useSourceList({ sourceType });
   const [filterWords, setFilterWords] = useState([]);
 
-  const filteredSources = filterWords.length > 0
-    ? sources.filter((source, i) => !filterWords.some(word => !word.test(source.fullTitle)))
-    : sources;
+  const filteredSources =
+    filterWords.length > 0
+      ? sources.filter(
+          (source, i) => !filterWords.some(word => !word.test(source.fullTitle))
+        )
+      : sources;
 
   return (
-    <div>
-      <h2>sources</h2>
-      <ul>
-        <li><Link to="/sources">all</Link></li>
+    <>
+      <h1>Sources</h1>
+      <BulletList>
+        <li>
+          <Link to="/sources">all</Link>
+        </li>
         {mainSourceTypes.map(sourceType => (
           <li key={sourceType}>
             <Link to={`/sources/${sourceType}`}>{sourceType}</Link>
           </li>
         ))}
-      </ul>
+      </BulletList>
       {isLoading && <p>loading...</p>}
-      <Filter onChange={setFilterWords}/>
-      <ul>
+      <Filter onChange={setFilterWords} />
+      <BulletList>
         {filteredSources.map(source => (
           <li key={source.id}>
-            <SourceLink source={source}/>
+            <SourceLink source={source} />
           </li>
         ))}
-      </ul>
-    </div>
+      </BulletList>
+    </>
   );
 }
-
-export default SourceIndexPage;

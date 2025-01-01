@@ -1,22 +1,19 @@
 import React from 'react';
 
 import useEventList from './hooks/useEventList';
+import BulletList from './shared/BulletList';
 
-function EventsPage() {
-  const {events} = useEventList();
+export default function EventsPage() {
+  const { events } = useEventList();
 
   return (
-    <div>
-      <h2>events</h2>
-      <ul>
+    <>
+      <h1>Events</h1>
+      <BulletList>
         {events.map(event => (
-          <li key={event.id}>
-            {event.title}
-          </li>
+          <li key={event.id}>{event.title}</li>
         ))}
-      </ul>
-    </div>
+      </BulletList>
+    </>
   );
 }
-
-export default EventsPage;

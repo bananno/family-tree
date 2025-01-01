@@ -1,17 +1,16 @@
 import React from 'react';
 
+import BulletList from '../shared/BulletList';
 import SourceLink from './SourceLink';
 
-function SourceList({sources, useFullTitle}) {
+export default function SourceList({ sources, useFullTitle }) {
   return (
-    <ul>
+    <BulletList>
       {sources.map(source => (
         <li key={source.id}>
-          <SourceLink source={source} useFullTitle={useFullTitle}/>
+          <SourceLink source={source} useFullTitle={useFullTitle} />
         </li>
       ))}
-    </ul>
+    </BulletList>
   );
 }
-
-export default SourceList;

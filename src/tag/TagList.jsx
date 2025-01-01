@@ -1,40 +1,44 @@
 import React from 'react';
 
+import BulletList from '../shared/BulletList';
+
 import TagLink from './TagLink';
 
-function TagList({tags=[], showDefinitions, showValues=true}) {
+export default function TagList({
+  tags = [],
+  showDefinitions,
+  showValues = true,
+}) {
   if (showValues) {
     // String(value) because otherwise booleans don't display
     return (
-      <ul>
+      <BulletList>
         {tags.map(tag => (
           <li key={tag.id}>
-            <TagLink tag={tag}/>: {String(tag.value)}
+            <TagLink tag={tag} />: {String(tag.value)}
           </li>
         ))}
-      </ul>
+      </BulletList>
     );
   }
   if (showDefinitions) {
     return (
-      <ul>
+      <BulletList>
         {tags.map(tag => (
           <li key={tag.id}>
-            <TagLink tag={tag}/> - {tag.definition}
+            <TagLink tag={tag} /> - {tag.definition}
           </li>
         ))}
-      </ul>
+      </BulletList>
     );
   }
   return (
-    <ul>
+    <BulletList>
       {tags.map(tag => (
         <li key={tag.id}>
-          <TagLink tag={tag}/>
+          <TagLink tag={tag} />
         </li>
       ))}
-    </ul>
+    </BulletList>
   );
 }
-
-export default TagList;

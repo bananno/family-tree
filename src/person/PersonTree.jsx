@@ -3,15 +3,17 @@ import React from 'react';
 import PersonLink from './PersonLink';
 import classes from './PersonTree.module.scss';
 
-const PersonTree = ({person}) => {
+export default function PersonTree({ person }) {
   return (
     <div className={classes.PersonTreeFrame}>
-      <PersonTreeBranch person={person}/>
+      <PersonTreeBranch person={person} />
     </div>
   );
-};
+}
 
-const PersonTreeBranch = ({person, safety = 0}) => {
+////////////////////
+
+function PersonTreeBranch({ person, safety = 0 }) {
   if (safety > 30) {
     return 'safety';
   }
@@ -23,26 +25,32 @@ const PersonTreeBranch = ({person, safety = 0}) => {
       <tbody>
         <tr>
           <td valign="bottom">
-            <PersonTreeBranch person={person.treeParents?.[0]} safety={safety + 1}/>
+            <PersonTreeBranch
+              person={person.treeParents?.[0]}
+              safety={safety + 1}
+            />
           </td>
           <td valign="bottom">
-            <PersonTreeBranch person={person.treeParents?.[1]} safety={safety + 1}/>
+            <PersonTreeBranch
+              person={person.treeParents?.[1]}
+              safety={safety + 1}
+            />
           </td>
         </tr>
         <tr>
-          <td colSpan="2"><PersonTreeCell person={person}/></td>
+          <td colSpan="2">
+            <PersonTreeCell person={person} />
+          </td>
         </tr>
-        </tbody>
+      </tbody>
     </table>
   );
-};
+}
 
-const PersonTreeCell = ({person}) => {
+function PersonTreeCell({ person }) {
   return (
     <div className={classes.PersonTreeCell}>
-      {person ? <PersonLink person={person}/> : '(empty)'}
+      {person ? <PersonLink person={person} /> : '(empty)'}
     </div>
   );
-};
-
-export default PersonTree;
+}

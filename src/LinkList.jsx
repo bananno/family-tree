@@ -1,15 +1,17 @@
 import React from 'react';
 
-function LinkList({links}) {
+import BulletList from './shared/BulletList';
+
+export default function LinkList({ links }) {
   return (
-    <ul>
+    <BulletList>
       {links.map(link => (
         <li key={link.url}>
-          <a href={link.url} target="_blank">{link.text}</a>
+          <a href={link.url} target="_blank">
+            {link.text}
+          </a>
         </li>
       ))}
-    </ul>
+    </BulletList>
   );
 }
-
-export default LinkList;

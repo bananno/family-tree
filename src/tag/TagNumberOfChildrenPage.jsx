@@ -3,7 +3,7 @@ import React from 'react';
 import PersonList from '../person/PersonList';
 import TagDetails from '../tag/TagDetails';
 
-const TagNumberOfChildrenPage = ({tag}) => {
+export default function TagNumberOfChildrenPage({ tag }) {
   const personLists = {
     done0: [],
     doneAll: [],
@@ -36,13 +36,19 @@ const TagNumberOfChildrenPage = ({tag}) => {
 
   return (
     <>
-      <TagDetails tag={tag} specialView={true}/>
-      <hr/>
+      <TagDetails tag={tag} specialView={true} />
+      <hr />
       <h1>people with tag</h1>
 
-      <h2>manually specified (number is known, but not all children are in database)</h2>
-      <p>showing the number of children in database / the number that is manually specified</p>
-      <PersonList people={personLists.specified} getNote={getSpecifiedNote}/>
+      <h2>
+        manually specified (number is known, but not all children are in
+        database)
+      </h2>
+      <p>
+        showing the number of children in database / the number that is manually
+        specified
+      </p>
+      <PersonList people={personLists.specified} getNote={getSpecifiedNote} />
 
       <h2>done (all children in database)</h2>
       <p>showing number of children in the database for each person</p>
@@ -53,7 +59,7 @@ const TagNumberOfChildrenPage = ({tag}) => {
       />
 
       <h2>done (does not have, or never had, any children)</h2>
-      <PersonList people={personLists.done0} columns={2}/>
+      <PersonList people={personLists.done0} columns={2} />
 
       <h2>too distant (no need to complete these)</h2>
       <p>showing number of children in the database for each person</p>
@@ -71,8 +77,11 @@ const TagNumberOfChildrenPage = ({tag}) => {
         columns={2}
       />
 
-      <hr/>
-      <h2>no value specified (to-do: specify either the number or "unknown", "done", or "too distant")</h2>
+      <hr />
+      <h2>
+        no value specified (to-do: specify either the number or "unknown",
+        "done", or "too distant")
+      </h2>
       <p>showing number of children in the database for each person</p>
       <PersonList
         people={tag.missingItems?.people}
@@ -81,6 +90,4 @@ const TagNumberOfChildrenPage = ({tag}) => {
       />
     </>
   );
-};
-
-export default TagNumberOfChildrenPage;
+}

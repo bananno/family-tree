@@ -1,11 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-function TagLink({tag}) {
+export default function TagLink({ tag }) {
   const tagProfileUrl = `/tag/${tag.id}`;
-  return (
-    <Link to={tagProfileUrl}>{tag.title}</Link>
-  );
+  return <Link to={tagProfileUrl}>{tag.title}</Link>;
 }
-
-export default TagLink;
