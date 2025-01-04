@@ -36,6 +36,12 @@ export default function App() {
           <Route path="/people" element={<PersonIndexPage />} />
           <Route path="/person/:id" element={<PersonLayout />} >
             <Route index element={<PersonProfilePage />} />
+
+            {!useStaticDb && (
+              <Route path="/person/:id/checklist" element={<PersonProfilePage />} />
+            )}
+
+            <Route path="*" element={<PersonProfilePage />} />
           </Route>
 
           <Route path="stories" element={<StoryIndexPage />} />

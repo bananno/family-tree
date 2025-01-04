@@ -15,8 +15,14 @@ body {
   background-repeat: no-repeat;
   background-position: top right;
   background-position-y: 50px;
+  color: #343a40;
 }
 
 body a {
   color: #72bbd6;
+  transition: color 0.3s;
+}
+
+body a:hover {
+  color: #3a9fbf;
 }
