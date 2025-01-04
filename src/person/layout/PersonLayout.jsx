@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { PersonProvider, usePersonContext } from 'person/PersonContext';
+import PersonProfileIcon from 'person/components/PersonProfileIcon';
 
 import { useStaticDb } from '../../SETTINGS';
 
@@ -50,11 +51,7 @@ function PersonOutlet() {
     <div className={classes.PersonLayout}>
       <aside className={classes.sidebar}>
         <div className={classes.header}>
-          <img
-            src={person.profileImage}
-            alt="Logo"
-            className={classes.logo}
-          />
+          <PersonProfileIcon person={person} large square />
           <h1 className={classes.title}>{person.name}</h1>
         </div>
         <nav className={classes.navigation}>

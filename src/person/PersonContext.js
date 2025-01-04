@@ -97,6 +97,8 @@ function getStaticResponse(personId) {
     links: person.links,
     citations: sortBy(citations, 'sortKey'), // lodash does not sort in place
     treeParents: getTreeParents(person),
+    profileImage: person.profileImage,
+    gender: [null, 'female', 'male', 'unknown'][person.gender],
   };
 
   function findPerson(personId) {

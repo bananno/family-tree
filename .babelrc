@@ -5,6 +5,7 @@
       "module-resolver",
       {
         "alias": {
+          "assets": "./src/assets",
           "db": "./db",
           "checklist": "./src/checklist",
           "event": "./src/event",
