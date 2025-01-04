@@ -1,14 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import BulletList from '../shared/BulletList';
-import NotationList from '../notation/NotationList';
-import PersonList from '../person/PersonList';
-import SourceList from '../source/SourceList';
-import StoryList from '../story/StoryList';
-import TagList from '../tag/TagList';
-import TagDetails from '../tag/TagDetails';
-import TagNumberOfChildrenPage from '../tag/TagNumberOfChildrenPage';
+import BulletList from 'shared/BulletList';
+import NotationList from 'notation/NotationList';
+import PersonList from 'person/components/PersonList';
+import SourceList from 'source/SourceList';
+import StoryList from 'story/StoryList';
+import TagList from 'tag/TagList';
+import TagDetails from 'tag/TagDetails';
+import TagNumberOfChildrenPage from 'tag/TagNumberOfChildrenPage';
 import useTagProfile from '../hooks/useTagProfile';
 
 export default function TagProfilePage() {

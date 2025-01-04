@@ -2,15 +2,15 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useStaticDb } from '../SETTINGS';
-import BulletList from '../shared/BulletList';
+import BulletList from 'shared/BulletList';
 import CitationList from '../CitationList';
 import FormatContent from '../FormatContent';
 import FormatDate from '../FormatDate';
 import FormatLocation from '../FormatLocation';
 import LinkList from '../LinkList';
-import PersonList from '../person/PersonList';
-import StoryLink from '../story/StoryLink';
-import TagList from '../tag/TagList';
+import PersonList from 'person/components/PersonList';
+import StoryLink from 'story/StoryLink';
+import TagList from 'tag/TagList';
 import useSourceProfile from '../hooks/useSourceProfile';
 
 export default function SourceProfilePage() {

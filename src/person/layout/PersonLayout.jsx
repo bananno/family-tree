@@ -3,7 +3,7 @@ import { Link, Outlet } from 'react-router-dom';
 
 import { PersonProvider, usePersonContext } from 'person/PersonContext';
 
-import { useStaticDb } from '../SETTINGS';
+import { useStaticDb } from '../../SETTINGS';
 
 import classes from './PersonLayout.module.scss';
 

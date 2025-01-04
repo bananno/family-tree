@@ -1,7 +1,7 @@
 import React from 'react';
 
-import PersonList from '../person/PersonList';
-import TagDetails from '../tag/TagDetails';
+import PersonList from 'person/components/PersonList';
+import TagDetails from 'tag/TagDetails';
 
 export default function TagNumberOfChildrenPage({ tag }) {
   const personLists = {

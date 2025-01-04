@@ -1,7 +1,7 @@
 import { pick } from 'lodash';
 import { useState, useEffect } from 'react';
 
-import { useStaticDb } from '../SETTINGS';
+import { useStaticDb } from '../../SETTINGS';
 import staticPeople from 'db/people.json';
 
 export default function usePersonList() {

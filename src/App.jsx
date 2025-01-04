@@ -14,9 +14,9 @@ import EventsPage from 'event/EventsPage';
 import FilesPage from 'file/FilesPage';
 import NotationIndexPage from 'notation/NotationIndexPage';
 import NotationProfilePage from 'notation/NotationProfilePage';
-import PersonIndexPage from 'person/PersonIndexPage';
-import PersonLayout from 'person/PersonLayout';
-import PersonProfilePage from 'person/PersonProfilePage';
+import PersonLayout from 'person/layout/PersonLayout';
+import PersonIndexPage from 'person/pages/PersonIndexPage';
+import PersonSummaryPage from 'person/pages/PersonSummaryPage';
 import SourceIndexPage from 'source/SourceIndexPage';
 import SourceProfilePage from 'source/SourceProfilePage';
 import StoryIndexPage from 'story/StoryIndexPage';
@@ -35,13 +35,13 @@ export default function App() {
 
           <Route path="/people" element={<PersonIndexPage />} />
           <Route path="/person/:id" element={<PersonLayout />} >
-            <Route index element={<PersonProfilePage />} />
+            <Route index element={<PersonSummaryPage />} />
 
             {!useStaticDb && (
-              <Route path="/person/:id/checklist" element={<PersonProfilePage />} />
+              <Route path="/person/:id/checklist" element={<PersonSummaryPage />} />
             )}
 
-            <Route path="*" element={<PersonProfilePage />} />
+            <Route path="*" element={<PersonSummaryPage />} />
           </Route>
 
           <Route path="stories" element={<StoryIndexPage />} />

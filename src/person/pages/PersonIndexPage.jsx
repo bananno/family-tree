@@ -1,7 +1,7 @@
 import React from 'react';
 
-import PersonList from 'person/PersonList';
-import usePersonList from 'person/usePersonList';
+import PersonList from 'person/components/PersonList';
+import usePersonList from 'person/hooks/usePersonList';
 
 export default function PeoplePage() {
   const { people, isLoading } = usePersonList();
