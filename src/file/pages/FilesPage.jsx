@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import UploadFileForm from './components/UploadFileForm';
+import UploadFileForm from 'file/components/UploadFileForm';
 
 const API_URL = 'http://localhost:9000';
 

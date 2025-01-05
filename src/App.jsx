@@ -1,22 +1,22 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import ChecklistIndexPage from 'checklist/ChecklistIndexPage';
-import ChecklistPersonVitalsPage from 'checklist/ChecklistPersonVitalsPage';
-import EventsPage from 'event/EventsPage';
-import FilesPage from 'file/FilesPage';
+import ChecklistIndexPage from 'checklist/pages/ChecklistIndexPage';
+import ChecklistPersonVitalsPage from 'checklist/pages/ChecklistPersonVitalsPage';
+import EventsPage from 'event/pages/EventsPage';
+import FilesPage from 'file/pages/FilesPage';
 import NotationIndexPage from 'notation/pages/NotationIndexPage';
 import NotationProfilePage from 'notation/pages/NotationProfilePage';
 import PersonLayout from 'person/layout/PersonLayout';
 import PersonIndexPage from 'person/pages/PersonIndexPage';
 import PersonSummaryPage from 'person/pages/PersonSummaryPage';
-import SourceIndexPage from 'source/SourceIndexPage';
-import SourceProfilePage from 'source/SourceProfilePage';
-import StoryIndexPage from 'story/StoryIndexPage';
-import StoryNonEntrySourcesPage from 'story/StoryNonEntrySourcesPage';
-import StoryProfilePage from 'story/StoryProfilePage';
-import TagIndexPage from 'tag/TagIndexPage';
-import TagProfilePage from 'tag/TagProfilePage';
+import SourceIndexPage from 'source/pages/SourceIndexPage';
+import SourceProfilePage from 'source/pages/SourceProfilePage';
+import StoryIndexPage from 'story/pages/StoryIndexPage';
+import StoryNonEntrySourcesPage from 'story/pages/StoryNonEntrySourcesPage';
+import StoryProfilePage from 'story/pages/StoryProfilePage';
+import TagIndexPage from 'tag/pages/TagIndexPage';
+import TagProfilePage from 'tag/pages/TagProfilePage';
 
 import HomePage from './HomePage';
 import Layout from './Layout';

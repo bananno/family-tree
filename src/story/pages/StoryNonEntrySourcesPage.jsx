@@ -1,9 +1,8 @@
 import React from 'react';
 
-import SourceList from 'source/SourceList';
-import StoryLink from 'story/StoryLink';
-
-import useStoryList from '../hooks/useStoryList';
+import SourceList from 'source/components/SourceList';
+import StoryLink from 'story/components/StoryLink';
+import useStoryList from 'story/hooks/useStoryList';
 
 export default function StoryNonEntrySourcesPage() {
   const { stories, isLoading } = useStoryList({ storyType: 'nonEntrySources' });

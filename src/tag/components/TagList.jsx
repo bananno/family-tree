@@ -1,8 +1,7 @@
 import React from 'react';
 
-import BulletList from '../shared/BulletList';
-
-import TagLink from './TagLink';
+import BulletList from 'shared/BulletList';
+import TagLink from 'tag/components/TagLink';
 
 export default function TagList({
   tags = [],

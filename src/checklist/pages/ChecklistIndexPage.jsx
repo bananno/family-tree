@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import BulletList from '../shared/BulletList';
+import BulletList from 'shared/BulletList';
 
 export default function ChecklistIndexPage() {
   return (

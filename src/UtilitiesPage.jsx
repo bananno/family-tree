@@ -4,7 +4,7 @@ export default function UtilitiesPage() {
   const [isExporting, setIsExporting] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const onExportFullDatabase = () => {
+  function onExportFullDatabase() {
     setIsError(false);
     setIsExporting(true);
 
@@ -16,9 +16,9 @@ export default function UtilitiesPage() {
       .finally(() => {
         setIsExporting(false);
       });
-  };
+  }
 
-  const onExportPublishedDatabase = () => {
+  function onExportPublishedDatabase() {
     setIsError(false);
     setIsExporting(true);
 
@@ -30,7 +30,7 @@ export default function UtilitiesPage() {
       .finally(() => {
         setIsExporting(false);
       });
-  };
+  }
 
   return (
     <>

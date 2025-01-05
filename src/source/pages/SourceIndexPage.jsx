@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import BulletList from 'shared/BulletList';
-import SourceLink from 'source/SourceLink';
-
-import Filter from '../Filter';
-import useSourceList from '../hooks/useSourceList';
+import Filter from 'shared/Filter';
+import SourceLink from 'source/components/SourceLink';
+import useSourceList from 'source/hooks/useSourceList';
 
 const mainSourceTypes = [
   'document',

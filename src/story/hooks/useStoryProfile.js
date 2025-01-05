@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import staticDb from 'staticDb';
 
-import { useStaticDb } from '../SETTINGS';
+import { useStaticDb } from '../../SETTINGS';
 
 export default function useStoryProfile({ storyId }) {
   const [response, setResponse] = useState({});

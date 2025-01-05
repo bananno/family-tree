@@ -1,18 +1,18 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import CitationList from 'citation/components/CitationList';
 import PersonList from 'person/components/PersonList';
 import BulletList from 'shared/BulletList';
-import StoryLink from 'story/StoryLink';
-import TagList from 'tag/TagList';
+import FormatContent from 'shared/FormatContent';
+import FormatDate from 'shared/FormatDate';
+import FormatLocation from 'shared/FormatLocation';
+import LinkList from 'shared/LinkList';
+import useSourceProfile from 'source/hooks/useSourceProfile';
+import StoryLink from 'story/components/StoryLink';
+import TagList from 'tag/components/TagList';
 
-import CitationList from '../CitationList';
-import FormatContent from '../FormatContent';
-import FormatDate from '../FormatDate';
-import FormatLocation from '../FormatLocation';
-import useSourceProfile from '../hooks/useSourceProfile';
-import LinkList from '../LinkList';
-import { useStaticDb } from '../SETTINGS';
+import { useStaticDb } from '../../SETTINGS';
 
 export default function SourceProfilePage() {
   const { sourceId } = useParams();

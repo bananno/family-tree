@@ -1,7 +1,7 @@
 import React from 'react';
 
 import BulletList from 'shared/BulletList';
-import StoryLink from 'story/StoryLink';
+import StoryLink from 'story/components/StoryLink';
 
 export default function StoryList({ stories }) {
   return (

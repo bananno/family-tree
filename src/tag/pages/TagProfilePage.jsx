@@ -4,13 +4,12 @@ import { useParams } from 'react-router-dom';
 import NotationList from 'notation/components/NotationList';
 import PersonList from 'person/components/PersonList';
 import BulletList from 'shared/BulletList';
-import SourceList from 'source/SourceList';
-import StoryList from 'story/StoryList';
-import TagDetails from 'tag/TagDetails';
-import TagList from 'tag/TagList';
-import TagNumberOfChildrenPage from 'tag/TagNumberOfChildrenPage';
-
-import useTagProfile from '../hooks/useTagProfile';
+import SourceList from 'source/components/SourceList';
+import StoryList from 'story/components/StoryList';
+import TagDetails from 'tag/components/TagDetails';
+import TagList from 'tag/components/TagList';
+import useTagProfile from 'tag/hooks/useTagProfile';
+import TagNumberOfChildrenPage from 'tag/pages/TagNumberOfChildrenPage';
 
 export default function TagProfilePage() {
   const { tagId } = useParams();

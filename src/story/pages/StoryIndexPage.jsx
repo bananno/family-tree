@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import BulletList from 'shared/BulletList';
+import Filter from 'shared/Filter';
+import StoryList from 'story/components/StoryList';
+import useStoryList from 'story/hooks/useStoryList';
 
-import Filter from '../Filter';
-import useStoryList from '../hooks/useStoryList';
-import { useStaticDb } from '../SETTINGS';
-
-import StoryList from './StoryList';
+import { useStaticDb } from '../../SETTINGS';
 
 const mainStoryTypes = [
   'book',

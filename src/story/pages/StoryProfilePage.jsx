@@ -4,15 +4,15 @@ import { useParams } from 'react-router-dom';
 import PersonList from 'person/components/PersonList';
 import BulletList from 'shared/BulletList';
 import Checkmark from 'shared/Checkmark';
-import SourceList from 'source/SourceList';
-import TagList from 'tag/TagList';
+import FormatContent from 'shared/FormatContent';
+import FormatDate from 'shared/FormatDate';
+import FormatLocation from 'shared/FormatLocation';
+import LinkList from 'shared/LinkList';
+import SourceList from 'source/components/SourceList';
+import useStoryProfile from 'story/hooks/useStoryProfile';
+import TagList from 'tag/components/TagList';
 
-import FormatContent from '../FormatContent';
-import FormatDate from '../FormatDate';
-import FormatLocation from '../FormatLocation';
-import useStoryProfile from '../hooks/useStoryProfile';
-import LinkList from '../LinkList';
-import { useStaticDb } from '../SETTINGS';
+import { useStaticDb } from '../../SETTINGS';
 
 export default function StoryProfilePage() {
   const { storyId } = useParams();

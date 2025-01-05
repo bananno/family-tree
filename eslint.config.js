@@ -49,7 +49,7 @@ export default [
       ],
       'react/prop-types': 'off',
       'custom-rules/match-exported-name': 'warn',
-      // 'func-style': ['error', 'declaration', { allowArrowFunctions: false }],
+      'func-style': ['error', 'declaration', { allowArrowFunctions: false }],
     },
     settings: {
       react: {

@@ -8,6 +8,7 @@
           "assets": "./src/assets",
           "db": "./db",
           "checklist": "./src/checklist",
+          "citation": "./src/citation",
           "event": "./src/event",
           "file": "./src/file",
           "notation": "./src/notation",

@@ -1,7 +1,8 @@
 import React from 'react';
 
-import CheckFalseImg from './check-false.png';
-import CheckTrueImg from './check-true.png';
+import CheckFalseImg from 'assets/check-false.png';
+import CheckTrueImg from 'assets/check-true.png';
+
 import classes from './Checkmark.module.scss';
 
 export default function Checkmark({ value }) {

@@ -1,10 +1,9 @@
 import React from 'react';
 
+import useChecklistData from 'checklist/hooks/useChecklistData';
 import PersonLink from 'person/components/PersonLink';
 import Checkmark from 'shared/Checkmark';
 import globalClasses from 'shared/global.module.scss';
-
-import useChecklistData from '../hooks/useChecklistData';
 
 export default function ChecklistPersonVitalsPage() {
   const { data, isLoading } = useChecklistData('vitals');

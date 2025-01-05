@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import BulletList from 'shared/BulletList';
+import Filter from 'shared/Filter';
 import globalClasses from 'shared/global.module.scss';
-import TagLink from 'tag/TagLink';
-import TagList from 'tag/TagList';
-
-import Filter from '../Filter';
-import useTagList from '../hooks/useTagList';
+import TagLink from 'tag/components/TagLink';
+import TagList from 'tag/components/TagList';
+import useTagList from 'tag/hooks/useTagList';
 
 import classes from './TagIndexPage.module.scss';
 
@@ -50,7 +49,7 @@ export default function TagIndexPage() {
 
 ////////////////////
 
-const TagPageContent = ({ tags, showTagsBy }) => {
+function TagPageContent({ tags, showTagsBy }) {
   if (showTagsBy === 'categories') {
     return <TagIndexPageCategories tags={tags} />;
   }
@@ -58,9 +57,9 @@ const TagPageContent = ({ tags, showTagsBy }) => {
     return <TagIndexPageGrid tags={tags} />;
   }
   return <TagIndexPageDefinitions tags={tags} />;
-};
+}
 
-const TagIndexPageCategories = ({ tags }) => {
+function TagIndexPageCategories({ tags }) {
   const categoryMap = {};
   const none = [];
   tags.forEach(tag => {
@@ -88,9 +87,9 @@ const TagIndexPageCategories = ({ tags }) => {
       <TagIndexPageSection title="none" tags={none} />
     </>
   );
-};
+}
 
-const TagIndexPageDefinitions = ({ tags }) => {
+function TagIndexPageDefinitions({ tags }) {
   const defined = tags.filter(tag => tag.definition);
   const notDefined = tags.filter(tag => !tag.definition);
   return (
@@ -100,18 +99,18 @@ const TagIndexPageDefinitions = ({ tags }) => {
       <TagIndexPageSection title="defined" tags={defined} />
     </>
   );
-};
+}
 
-const TagIndexPageSection = ({ title, tags }) => {
+function TagIndexPageSection({ title, tags }) {
   return (
     <>
       <h2>{title}</h2>
       <TagList tags={tags} showValues={false} showDefinitions={true} />
     </>
   );
-};
+}
 
-const TagIndexPageGrid = ({ tags }) => {
+function TagIndexPageGrid({ tags }) {
   return (
     <table className={[globalClasses.Table, classes.TagIndexGrid].join(' ')}>
       <thead>
@@ -138,4 +137,4 @@ const TagIndexPageGrid = ({ tags }) => {
       </tbody>
     </table>
   );
-};
+}

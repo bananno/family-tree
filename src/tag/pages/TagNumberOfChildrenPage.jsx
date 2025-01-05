@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PersonList from 'person/components/PersonList';
-import TagDetails from 'tag/TagDetails';
+import TagDetails from 'tag/components/TagDetails';
 
 export default function TagNumberOfChildrenPage({ tag }) {
   const personLists = {
@@ -31,8 +31,9 @@ export default function TagNumberOfChildrenPage({ tag }) {
     personLists[section].push(person);
   });
 
-  const getSpecifiedNote = person =>
-    `${person.numberOfChildrenInDatabase} / ${person.tagValue}`;
+  function getSpecifiedNote(person) {
+    return `${person.numberOfChildrenInDatabase} / ${person.tagValue}`;
+  }
 
   return (
     <>

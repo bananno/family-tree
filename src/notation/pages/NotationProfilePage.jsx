@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 
 import useNotationProfile from 'notation/hooks/useNotationProfile';
 import PersonList from 'person/components/PersonList';
-import StoryList from 'story/StoryList';
-import TagList from 'tag/TagList';
+import StoryList from 'story/components/StoryList';
+import TagList from 'tag/components/TagList';
 
 export default function NotationProfilePage() {
   const { notationId } = useParams();
