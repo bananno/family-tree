@@ -1,17 +1,18 @@
 import express from 'express';
 
 import * as routerTools from './tools/routerTools.js';
-import {
-  uploadFileMiddleware,
-  createUploadedFileRoute,
-  listUploadedFilesRoute,
-} from './file/uploadedFileRoutes.js';
 
 import apiCreateRoutes from './api/index.js';
 import checklistCreateRoutes from './checklist/index.js';
 import citationCreateRoutes from './citation/index.js';
 import eventCreateRoutes from './event/index.js';
-import exportCreateRoutes from './export/index.js';
+import exportFullDataRoute from './export/exportFullData.route.js';
+import exportPublishedDataRoute from './export/exportPublishedData.route.js';
+import {
+  uploadFileMiddleware,
+  createUploadedFileRoute,
+  listUploadedFilesRoute,
+} from './file/uploadedFileRoutes.js';
 import * as featuredQuoteRoutes from './misc/featuredQuoteRoutes.js';
 import highlightCreateRoutes from './highlight/index.js';
 import imageCreateRoutes from './image/index.js';
@@ -59,7 +60,9 @@ apiCreateRoutes(router);
 checklistCreateRoutes(router);
 citationCreateRoutes(router);
 eventCreateRoutes(router);
-exportCreateRoutes(router);
+
+router.get('/export/full', exportFullDataRoute);
+router.get('/export/publish', exportPublishedDataRoute);
 
 router.get('/featured-quotes', featuredQuoteRoutes.listFeaturedQuotesRoute);
 router.get('/featured-quotes-text', featuredQuoteRoutes.listFeaturedQuotesTextRoute);
