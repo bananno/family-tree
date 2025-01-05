@@ -1,145 +1,177 @@
 import _ from 'lodash';
-import mongoose from 'mongoose';
+
+import Event from '../event/Event.model.js';
+import Source from '../source/Source.model.js';
 
 import Person from './Person.model.js';
 
-// COPIED From the old version. TODO: refactor
-export default async function getPersonTimelineRoute(req, res) {
-  const Event = mongoose.model('Event');
-  const Source = mongoose.model('Source');
+const populatePeople = {
+  path: 'people',
+  select: 'name gender profileImage',
+};
 
+const populateStory = {
+  path: 'story',
+  select: 'title type',
+};
+
+export default async function getPersonTimelineRoute(req, res) {
   const person = await Person.findById(req.params.id);
 
   if (!person) {
     return res.status(404).send();
   }
 
-  const allEvents = await Event.find({}).populate('people');
+  const {
+    events: personalEvents,
+    birthYear,
+    deathYear,
+  } = await getPersonalEvents(person);
 
-  Event.sortByDate(allEvents);
+  const moreItems = await Promise.all([
+    getParentEvents(person, deathYear),
+    getSpouseEvents(person),
+    getChildEvents(person, deathYear),
+    getHistoricalEvents(birthYear, deathYear),
+    getSourceEvents(person),
+  ]);
 
-  const events = filterEvents(allEvents, person);
+  const timelineItems = [personalEvents, ...moreItems].flat();
 
-  const sources = await Source.find({ people: person })
-    .populate('people')
-    .populate('story')
-    .populate('images');
-
-  const sourceEvents = sources.map(convertSourceToEvent);
-
-  const timelineItems = [...events, ...sourceEvents];
-
-  Event.sortByDate(timelineItems);
+  const sortedItems = _.sortBy(timelineItems, [
+    'date.year',
+    'date.month',
+    'date.day',
+  ]);
 
   res.json({
-    data: timelineItems.map(item => {
-      return {
-        ..._.pick(item, ['id', 'timelineType', 'title']),
-        // people: item.people.map(person => person.toListApi()),
-      };
-    }),
+    data: sortedItems,
   });
 }
 
 ////////////////////
 
-function convertSourceToEvent(source) {
-  const event = {
-    id: source.id,
-    model: 'Source',
-    title: source.story.title + ' - ' + source.title,
-    date: { ...source.date },
-    location: { ...source.location },
-    people: [...source.people],
-    source: source,
+// Death events only if during the person's lifetime (or shortly after their death).
+async function getParentEvents(person, deathYear) {
+  const eventFilter = {
+    people: { $in: person.parents },
+    title: 'death',
   };
 
-  if (source.story.type == 'newspaper') {
-    event.timelineType = source.story.type;
-  } else if (
-    source.story.type == 'document' &&
-    source.story.title.match('Census')
-  ) {
-    event.timelineType = 'census';
-  } else {
-    event.timelineType = 'source';
+  if (deathYear) {
+    eventFilter['date.year'] = { $lte: deathYear };
   }
 
-  return event;
+  const events = await Event.find(eventFilter).populate(populatePeople);
+
+  return mapEventsToTimelineItems(events, 'parent');
 }
 
-function filterEvents(events, person) {
-  const children = person.children;
-  const spouses = person.spouses;
-  let birthYear, deathYear;
+// All events that are attached to the person directly.
+// Also find their birth and death years for filtering other types of events.
+async function getPersonalEvents(person) {
+  const events = await Event.find({
+    people: person,
+  }).populate(populatePeople);
 
-  events = events.map(thisEvent => {
-    thisEvent.id = String(thisEvent._id);
-    thisEvent.timelineType = null;
+  const birthYear = events.find(event =>
+    ['birth', 'birth and death'].includes(event.title)
+  )?.date?.year;
 
-    // Historical events that have no people in the list are global events.
-    // Always include them if they are during the person's life.
-    if (thisEvent.hasTag('historical') && thisEvent.people.length == 0) {
-      if (
-        !birthYear ||
-        !thisEvent.date ||
-        thisEvent.date.year < birthYear ||
-        (deathYear && thisEvent.date.year > deathYear)
-      ) {
-        return null;
-      }
+  const deathYear = events.find(event =>
+    ['death', 'birth and death'].includes(event.title)
+  )?.date?.year;
 
-      thisEvent.timelineType = 'historical';
-      return thisEvent;
-    }
+  return {
+    events: mapEventsToTimelineItems(events, 'personal'),
+    birthYear,
+    deathYear,
+  };
+}
 
-    for (let i = 0; i < thisEvent.people.length; i++) {
-      if (Person.isSame(thisEvent.people[i], person)) {
-        thisEvent.timelineType = 'personal';
-        if (
-          thisEvent.title == 'birth' ||
-          thisEvent.title == 'birth and death'
-        ) {
-          birthYear = thisEvent.date ? thisEvent.date.year : null;
-        }
-        if (
-          thisEvent.title == 'death' ||
-          thisEvent.title == 'birth and death'
-        ) {
-          deathYear = thisEvent.date ? thisEvent.date.year : null;
-        }
-        return thisEvent;
-      }
-    }
+// All child birth events.
+// Death events only if during the person's lifetime (or shortly after their death).
+async function getChildEvents(person, deathYear) {
+  const birthEventFilter = {
+    title: { $in: ['birth', 'birth and death'] },
+  };
 
-    for (let i = 0; i < thisEvent.people.length; i++) {
-      for (let j = 0; j < spouses.length; j++) {
-        if (Person.isSame(thisEvent.people[i], spouses[j])) {
-          thisEvent.timelineType = 'spouse';
-          return thisEvent;
-        }
-      }
-    }
+  const deathEventFilter = {
+    title: 'death',
+  };
 
-    if (birthYear && thisEvent.date && thisEvent.date.year < birthYear) {
-      return thisEvent;
-    }
+  if (deathYear) {
+    deathEventFilter['date.year'] = { $lte: deathYear };
+  }
 
-    if (deathYear && thisEvent.date && thisEvent.date.year > deathYear) {
-      return thisEvent;
-    }
+  const events = await Event.find({
+    people: { $in: person.children },
+    $or: [birthEventFilter, deathEventFilter],
+  }).populate(populatePeople);
 
-    for (let i = 0; i < thisEvent.people.length; i++) {
-      for (let j = 0; j < children.length; j++) {
-        if (Person.isSame(thisEvent.people[i], children[j])) {
-          thisEvent.timelineType = 'child';
-          return thisEvent;
-        }
-      }
-    }
+  return mapEventsToTimelineItems(events, 'child');
+}
 
-    return thisEvent;
+// Spouse birth and death events. No year filtering.
+async function getSpouseEvents(person) {
+  const events = await Event.find({
+    people: { $in: person.spouses },
+    title: { $in: ['birth', 'death'] },
+  }).populate(populatePeople);
+
+  return mapEventsToTimelineItems(events, 'spouse');
+}
+
+// All generic historical events (i.e., not attached to any people)
+// during the person's lifetime.
+async function getHistoricalEvents(birthYear, deathYear) {
+  if (!birthYear || !deathYear) {
+    return [];
+  }
+
+  const events = await Event.find({
+    people: { $size: 0 },
+    date: {
+      $gte: { year: birthYear },
+      $lte: { year: deathYear },
+    },
+    historical: true,
+  }).populate(populatePeople);
+
+  return mapEventsToTimelineItems(events, 'historical');
+}
+
+async function getSourceEvents(person) {
+  const sources = await Source.find({ people: person })
+    .populate(populateStory)
+    .populate(populatePeople);
+
+  return sources.map(source => {
+    return {
+      ..._.pick(source, ['id', 'title', 'date', 'location']),
+      model: 'source',
+      title: `${source.story.title} - ${source.title}`,
+      timelineType: storyToTimelineType(source.story),
+      people: source.people.map(person => person.toListApi()),
+    };
   });
+}
 
-  return events.filter(event => event && event.timelineType);
+function mapEventsToTimelineItems(events, timelineType) {
+  return events.map(event => ({
+    ..._.pick(event, ['id', 'title', 'date', 'location']),
+    model: 'event',
+    timelineType: event.historical ? 'historical' : timelineType,
+    people: event.people.map(person => person.toListApi()),
+  }));
+}
+
+function storyToTimelineType(story) {
+  if (story.type == 'newspaper') {
+    return story.type;
+  }
+  if (story.type == 'document' && story.title.match('Census')) {
+    return 'census';
+  }
+  return 'source';
 }

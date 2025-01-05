@@ -4,15 +4,11 @@ import { expectResStatus, res } from './testTools.js';
 import getPersonTimelineRoute from '../app/person/getPersonTimeline.route';
 
 import Event from '../app/event/Event.model';
-import Person from '../app/person/Person.model';
+import Person, { PERSON_GENDER } from '../app/person/Person.model';
 import Source from '../app/source/Source.model';
 import Story from '../app/story/Story.model';
 
 const personId = '5bce02694df8a32e9026e654';
-
-const personBirth = '5bce02696554df8a32e9026e';
-const parentBirth = '5bce02694df8a32e9026e655';
-const parentOtherEvent = '5bce02694df8a32e9026e656';
 
 const req = {
   params: {
@@ -20,7 +16,6 @@ const req = {
   },
 };
 
-const events = {};
 let expectedResponse;
 
 beforeAll(async () => {
@@ -50,6 +45,8 @@ beforeAll(async () => {
     parents: [parentId],
     spouses: [spouseId],
     children: [childId1, childId2, childId3],
+    profileImage: 'profile.jpg',
+    gender: PERSON_GENDER.MALE,
   });
 
   const promises = [mainPerson.save()];
@@ -76,7 +73,7 @@ beforeAll(async () => {
   const mainPersonMiscEvent = addEvent({
     title: 'random thing in 1915',
     people: [personId],
-    date: { year: 1920, month: 7, day: 10 },
+    date: { year: 1915, month: 7, day: 10 },
   });
   const mainPersonDeath = addEvent({
     title: 'death',
@@ -84,13 +81,13 @@ beforeAll(async () => {
     date: { year: 1999 },
   });
 
-  // Parent's events should not be included (for now).
+  // Parent's death should be included if during the person's life.
   addEvent({
     title: 'birth',
     people: [parentId],
     date: { year: 1870, month: 1, day: 2 },
   });
-  addEvent({
+  const parentDeath = addEvent({
     title: 'death',
     people: [parentId],
     date: { year: 1950, month: 7, day: 10 },
@@ -107,12 +104,11 @@ beforeAll(async () => {
     people: [spouseId],
     date: { year: 1934 },
   });
-  // TODO: exclude this event
-  // addEvent({
-  //   title: 'exclude me 1905',
-  //   people: [spouseId],
-  //   date: { year: 1905 },
-  // });
+  addEvent({
+    title: 'exclude me 1905',
+    people: [spouseId],
+    date: { year: 1905 },
+  });
 
   // Child's birth should be included.
   const childBirth1 = addEvent({
@@ -143,6 +139,28 @@ beforeAll(async () => {
     title: 'death',
     people: [childId2],
     date: { year: 2001 },
+  });
+
+  // Include historical events which are attached to the person.
+  // Include generic historical events during the person's life.
+  // Do not include historical events that are attached to another person.
+  const historicalEvent1 = addEvent({
+    title: 'generic historical event in 1980',
+    people: [],
+    date: { year: 1980 },
+    historical: true,
+  });
+  addEvent({
+    title: "someone else's historical event in 1981",
+    people: [childId2],
+    date: { year: 1981 },
+    historical: true,
+  });
+  const historicalEvent3 = addEvent({
+    title: 'relevant historical event in 1982',
+    people: [personId],
+    date: { year: 1982 },
+    historical: true,
   });
 
   // Create stories: one of each "timelineType".
@@ -193,7 +211,19 @@ beforeAll(async () => {
   const timelineItems = [
     // Personal events, spouse birth.
     { title: 'birth', id: spouseBirth.id, timelineType: 'spouse' },
-    { title: 'birth', id: mainPersonBirth.id, timelineType: 'personal' },
+    {
+      title: 'birth',
+      id: mainPersonBirth.id,
+      timelineType: 'personal',
+      people: [
+        expect.objectContaining({
+          id: personId,
+          name: 'The Person',
+          gender: 'male',
+          profileImage: 'profile.jpg',
+        }),
+      ],
+    },
     {
       title: 'random thing in 1915',
       id: mainPersonMiscEvent.id,
@@ -228,12 +258,45 @@ beforeAll(async () => {
       title: 'birth and death',
       id: childBirthAndDeath3.id,
       timelineType: 'child',
+      date: { year: 1932 },
     },
-    { title: 'death', id: spouseDeath.id, timelineType: 'spouse' },
-    { title: 'death', id: mainPersonDeath.id, timelineType: 'personal' },
+    {
+      title: 'death',
+      id: spouseDeath.id,
+      timelineType: 'spouse',
+      date: { year: 1934 },
+    },
+    {
+      title: 'death',
+      id: parentDeath.id,
+      timelineType: 'parent',
+      date: { year: 1950 },
+    },
+    // Historical events.
+    {
+      title: 'generic historical event in 1980',
+      id: historicalEvent1.id,
+      timelineType: 'historical',
+    },
+    {
+      title: 'relevant historical event in 1982',
+      id: historicalEvent3.id,
+      timelineType: 'historical',
+    },
+    {
+      title: 'death',
+      id: mainPersonDeath.id,
+      timelineType: 'personal',
+      date: { year: 1999 },
+    },
   ];
 
-  expectedResponse = timelineItems.map(data => expect.objectContaining(data));
+  expectedResponse = timelineItems.map(item => {
+    if (item.date) {
+      item.date = expect.objectContaining(item.date);
+    }
+    return expect.objectContaining(item);
+  });
 });
 
 async function callRoute() {

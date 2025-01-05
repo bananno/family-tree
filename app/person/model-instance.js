@@ -443,7 +443,7 @@ methods.genderText = function () {
 
 methods.toListApi = function() {
   return {
-    id: this._id,
+    id: this.id,
     name: this.name,
     gender: this.genderText(),
     profileImage: this.profileImage,

@@ -32,4 +32,8 @@ export default [
     isList: true,
     includeInExport: false,
   },
+  {
+    name: 'historical',
+    dataType: Boolean,
+  },
 ];
