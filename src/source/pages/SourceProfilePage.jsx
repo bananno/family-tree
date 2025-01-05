@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import CitationList from 'citation/components/CitationList';
 import PersonList from 'person/components/PersonList';
 import BulletList from 'shared/BulletList';
+import DevOnly from 'shared/DevOnly';
 import FormatContent from 'shared/FormatContent';
 import FormatDate from 'shared/FormatDate';
 import FormatLocation from 'shared/FormatLocation';
@@ -11,8 +12,6 @@ import LinkList from 'shared/LinkList';
 import useSourceProfile from 'source/hooks/useSourceProfile';
 import StoryLink from 'story/components/StoryLink';
 import TagList from 'tag/components/TagList';
-
-import { useStaticDb } from '../../SETTINGS';
 
 export default function SourceProfilePage() {
   const { sourceId } = useParams();
@@ -39,12 +38,10 @@ export default function SourceProfilePage() {
       <p>
         <FormatLocation location={source.location} />
       </p>
-      {!useStaticDb && (
-        <>
-          <h2>tags</h2>
-          <TagList tags={source.tags} />
-        </>
-      )}
+      <DevOnly>
+        <h2>tags</h2>
+        <TagList tags={source.tags} />
+      </DevOnly>
       <h2>people</h2>
       <PersonList people={source.people} />
       <h2>links</h2>

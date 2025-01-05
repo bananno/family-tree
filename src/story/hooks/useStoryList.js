@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 
+import useEnvironment from 'shared/useEnvironment';
 import staticDb from 'staticDb';
 
-import { useStaticDb } from '../../SETTINGS';
-
 export default function useStoryList({ storyType }) {
+  const { isProduction } = useEnvironment();
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -16,7 +16,7 @@ export default function useStoryList({ storyType }) {
         : 'http://localhost:9000/api/story-index';
 
   useEffect(() => {
-    if (useStaticDb) {
+    if (isProduction) {
       setResponse(getStaticResponse(storyType));
       setIsLoading(false);
       return;

@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import BulletList from 'shared/BulletList';
+import DevOnly from 'shared/DevOnly';
 import Filter from 'shared/Filter';
 import StoryList from 'story/components/StoryList';
 import useStoryList from 'story/hooks/useStoryList';
-
-import { useStaticDb } from '../../SETTINGS';
 
 const mainStoryTypes = [
   'book',
@@ -44,13 +43,13 @@ export default function StoryIndexPage() {
             <Link to={`/stories/${storyType}`}>{storyType}</Link>
           </li>
         ))}
-        {!useStaticDb && (
+        <DevOnly>
           <li>
             <Link to="/stories-non-entry-sources">
               stories with non-entry sources
             </Link>
           </li>
-        )}
+        </DevOnly>
       </BulletList>
       <Filter onChange={setFilterWords} />
       <StoryList stories={filteredStories} />

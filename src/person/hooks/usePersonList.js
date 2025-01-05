@@ -2,15 +2,15 @@ import { pick } from 'lodash';
 import { useState, useEffect } from 'react';
 
 import staticPeople from 'db/people.json';
-
-import { useStaticDb } from '../../SETTINGS';
+import useEnvironment from 'shared/useEnvironment';
 
 export default function usePersonList() {
+  const { isProduction } = useEnvironment();
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (useStaticDb) {
+    if (isProduction) {
       setResponse(getStaticResponse());
       setIsLoading(false);
       return;
@@ -27,7 +27,7 @@ export default function usePersonList() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [isProduction]);
 
   return { people: response, isLoading };
 }

@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import PersonList from 'person/components/PersonList';
 import BulletList from 'shared/BulletList';
 import Checkmark from 'shared/Checkmark';
+import DevOnly from 'shared/DevOnly';
 import FormatContent from 'shared/FormatContent';
 import FormatDate from 'shared/FormatDate';
 import FormatLocation from 'shared/FormatLocation';
@@ -11,8 +12,6 @@ import LinkList from 'shared/LinkList';
 import SourceList from 'source/components/SourceList';
 import useStoryProfile from 'story/hooks/useStoryProfile';
 import TagList from 'tag/components/TagList';
-
-import { useStaticDb } from '../../SETTINGS';
 
 export default function StoryProfilePage() {
   const { storyId } = useParams();
@@ -29,14 +28,12 @@ export default function StoryProfilePage() {
       <hr />
       <h2>type</h2>
       <p>{story.type}</p>
-      {!useStaticDb && (
-        <>
-          <h2>sharing</h2>
-          <Checkmark value={story.sharing} />
-          <h2>tags</h2>
-          <TagList tags={story.tags} />
-        </>
-      )}
+      <DevOnly>
+        <h2>sharing</h2>
+        <Checkmark value={story.sharing} />
+        <h2>tags</h2>
+        <TagList tags={story.tags} />
+      </DevOnly>
       <h2>date</h2>
       <p>
         <FormatDate date={story.date} />

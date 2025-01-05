@@ -5,8 +5,7 @@ import PersonProfileIcon from 'person/components/PersonProfileIcon';
 import { PersonProvider, usePersonContext } from 'person/PersonContext';
 import DevOnly from 'shared/DevOnly';
 import ExternalLink from 'shared/ExternalLink';
-
-import { useStaticDb } from '../../SETTINGS';
+import useEnvironment from 'shared/useEnvironment';
 
 import classes from './PersonLayout.module.scss';
 
@@ -20,7 +19,7 @@ export default function PersonLayout() {
 
 ////////////////////
 
-const personViews = [
+const allPersonViews = [
   { path: '', title: 'summary', shared: true },
   { path: 'edit', title: 'edit' },
   { path: 'checklist', title: 'checklist' },
@@ -34,7 +33,7 @@ const personViews = [
   { path: 'descendants', title: 'descendants' },
   { path: 'mentions', title: 'mentions' },
   { path: 'children', title: 'children' },
-].filter(view => view.shared || !useStaticDb);
+];
 
 function PersonOutlet() {
   const { person, loading, notFound } = usePersonContext();
@@ -58,7 +57,12 @@ function PersonOutlet() {
 }
 
 function PersonNavigation({ person }) {
+  const { isProduction } = useEnvironment();
   const basePath = `/person/${person.id}`;
+
+  const personViews = isProduction
+    ? allPersonViews.filter(view => view.shared)
+    : allPersonViews;
 
   return (
     <nav className={classes.navigation}>

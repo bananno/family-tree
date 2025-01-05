@@ -1,16 +1,16 @@
 import { sortBy } from 'lodash';
 import { useState, useEffect } from 'react';
 
+import useEnvironment from 'shared/useEnvironment';
 import staticDb from 'staticDb';
 
-import { useStaticDb } from '../../SETTINGS';
-
 export default function useSourceProfile({ sourceId }) {
+  const { isProduction } = useEnvironment();
   const [response, setResponse] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (useStaticDb) {
+    if (isProduction) {
       setResponse(getStaticResponse(sourceId));
       setIsLoading(false);
       return;
@@ -27,7 +27,7 @@ export default function useSourceProfile({ sourceId }) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [sourceId]);
+  }, [sourceId, isProduction]);
 
   return { source: response, isLoading };
 }

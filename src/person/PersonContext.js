@@ -2,15 +2,15 @@ import { sortBy } from 'lodash';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import useEnvironment from 'shared/useEnvironment';
 import staticDb from 'staticDb';
-
-import { useStaticDb } from '../SETTINGS';
 
 const API_URL = 'http://localhost:9000';
 
 export const PersonContext = createContext();
 
 export function PersonProvider({ children }) {
+  const { isProduction } = useEnvironment();
   const { id: personId } = useParams();
   const [response, setResponse] = useState({});
   const [loading, setLoading] = useState(true);
@@ -50,12 +50,12 @@ export function PersonProvider({ children }) {
     setLoading(true);
     setNotFound(false);
 
-    if (useStaticDb) {
+    if (isProduction) {
       getStaticPerson();
     } else {
       fetchPerson();
     }
-  }, [personId]);
+  }, [personId, isProduction]);
 
   const value = {
     loading,

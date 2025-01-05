@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import useEnvironment from 'shared/useEnvironment';
 import staticDb from 'staticDb';
-
-import { useStaticDb } from '../../SETTINGS';
 
 const API_URL = 'http://localhost:9000';
 
 // Get the list of featured quotes - text.
 // Get a single quote to be featured. Refresh anytime the page location changes.
 export function useFeaturedQuoteText() {
+  const { isProduction } = useEnvironment();
   const [quotes, setQuotes] = useState([]);
   const [quote, setQuote] = useState('');
   const location = useLocation();
 
   // Fetch the list of all quotes (text only) just once.
   useEffect(() => {
-    if (useStaticDb) {
+    if (isProduction) {
       setQuotes(staticDb.featuredQuotes);
       return;
     }

@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 
+import useEnvironment from 'shared/useEnvironment';
 import staticDb from 'staticDb';
 
-import { useStaticDb } from '../../SETTINGS';
-
 export default function useStoryProfile({ storyId }) {
+  const { isProduction } = useEnvironment();
   const [response, setResponse] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (useStaticDb) {
+    if (isProduction) {
       setResponse(getStaticResponse(storyId));
       setIsLoading(false);
       return;

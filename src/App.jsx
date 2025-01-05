@@ -11,6 +11,7 @@ import NotationProfilePage from 'notation/pages/NotationProfilePage';
 import PersonLayout from 'person/layout/PersonLayout';
 import PersonIndexPage from 'person/pages/PersonIndexPage';
 import PersonSummaryPage from 'person/pages/PersonSummaryPage';
+import { EnvironmentProvider, useEnvironment } from 'shared/EnvironmentContext';
 import SourceIndexPage from 'source/pages/SourceIndexPage';
 import SourceProfilePage from 'source/pages/SourceProfilePage';
 import StoryIndexPage from 'story/pages/StoryIndexPage';
@@ -22,11 +23,22 @@ import TagProfilePage from 'tag/pages/TagProfilePage';
 import HomePage from './HomePage';
 import Layout from './Layout';
 import PageNotFound from './PageNotFound';
-import { useStaticDb } from './SETTINGS';
 import ToDoPage from './ToDoPage';
 import UtilitiesPage from './UtilitiesPage';
 
 export default function App() {
+  return (
+    <GlobalProviders>
+      <AppRoutes />
+    </GlobalProviders>
+  );
+}
+
+////////////////////
+
+function AppRoutes() {
+  const { isDevelopment } = useEnvironment();
+
   return (
     <BrowserRouter>
       <Routes>
@@ -37,7 +49,7 @@ export default function App() {
           <Route path="/person/:id" element={<PersonLayout />}>
             <Route index element={<PersonSummaryPage />} />
 
-            {!useStaticDb && (
+            {isDevelopment && (
               <Route
                 path="/person/:id/checklist"
                 element={<PersonSummaryPage />}
@@ -49,7 +61,7 @@ export default function App() {
 
           <Route path="stories" element={<StoryIndexPage />} />
           <Route path="stories/:storyType" element={<StoryIndexPage />} />
-          {!useStaticDb && (
+          {isDevelopment && (
             <Route
               path="stories-non-entry-sources"
               element={<StoryNonEntrySourcesPage />}
@@ -57,15 +69,15 @@ export default function App() {
           )}
           <Route path="story/:storyId" element={<StoryProfilePage />} />
 
-          {!useStaticDb && (
+          {isDevelopment && (
             <Route path="sources" element={<SourceIndexPage />} />
           )}
-          {!useStaticDb && (
+          {isDevelopment && (
             <Route path="sources/:sourceType" element={<SourceIndexPage />} />
           )}
           <Route path="source/:sourceId" element={<SourceProfilePage />} />
 
-          {!useStaticDb && (
+          {isDevelopment && (
             <>
               <Route path="events" element={<EventsPage />} />
 
@@ -98,4 +110,8 @@ export default function App() {
       </Routes>
     </BrowserRouter>
   );
+}
+
+function GlobalProviders({ children }) {
+  return <EnvironmentProvider>{children}</EnvironmentProvider>;
 }

@@ -27,9 +27,7 @@ export function EnvironmentProvider({ children }) {
     }
   }, [isLocal]);
 
-  // Aliases for development/production mode.
   const isProduction = environment === ENV.PROD;
-  const useStaticDb = isProduction;
   const isDevelopment = !isProduction;
 
   function toggleEnvironment() {
@@ -43,7 +41,6 @@ export function EnvironmentProvider({ children }) {
     environment,
     isDevelopment,
     isProduction,
-    useStaticDb,
     toggleEnvironment,
   };
 

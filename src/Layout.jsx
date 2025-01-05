@@ -2,15 +2,17 @@ import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
 import { useFeaturedQuoteText } from 'misc/featured-quote/useFeaturedQuoteText';
+import Button from 'shared/form/Button';
+import useEnvironment from 'shared/useEnvironment';
 
 import layoutClasses from './Layout.module.scss';
-import { useStaticDb } from './SETTINGS';
 
 export default function Layout() {
   return (
     <div className={layoutClasses.Layout}>
       <header className={layoutClasses.LayoutHeader}>
-        <h1>Family Tree {ENVIRONMENT === 'DEVELOPMENT' && '(development)'}</h1>
+        <h1>Family Tree</h1>
+        <EnvironmentButton />
         <LayoutNavigation />
       </header>
       <main className={layoutClasses.LayoutContent1}>
@@ -27,9 +29,18 @@ export default function Layout() {
 
 ////////////////////
 
+function EnvironmentButton() {
+  const { isLocal, environment, toggleEnvironment } = useEnvironment();
+  return isLocal ? (
+    <Button text={environment} onClick={toggleEnvironment} />
+  ) : null;
+}
+
 function FeaturedQuote() {
   const { quote } = useFeaturedQuoteText();
-  return useStaticDb ? (
+  const { isProduction } = useEnvironment();
+
+  return isProduction ? (
     <p>{quote}</p>
   ) : (
     <Link to="/featured-quotes">{quote}</Link>
@@ -58,12 +69,13 @@ function LayoutNavigation() {
 }
 
 function LayoutNavItem({ path, text, isPublic }) {
-  if (!isPublic && useStaticDb) {
-    return null;
-  }
+  const { isDevelopment } = useEnvironment();
   return (
-    <li>
-      <Link to={path}>{text}</Link>
-    </li>
+    (isPublic || isDevelopment) && (
+      <li>
+        {' '}
+        <Link to={path}>{text}</Link>{' '}
+      </li>
+    )
   );
 }

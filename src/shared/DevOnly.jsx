@@ -1,5 +1,6 @@
-import { useStaticDb } from '../SETTINGS';
+import useEnvironment from 'shared/useEnvironment';
 
 export default function DevOnly({ children, unless = false }) {
-  return useStaticDb || unless ? null : children;
+  const { isDevelopment } = useEnvironment();
+  return isDevelopment || unless ? children : null;
 }

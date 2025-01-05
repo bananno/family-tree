@@ -8,6 +8,12 @@ export default function TagList({
   showDefinitions,
   showValues = true,
 }) {
+  // In production, tags are an object instead of an array.
+  // There is a small window when switching from production to development
+  // where the tags are still an object, but the TagList is expecting an array.
+  if (!Array.isArray(tags)) {
+    return null;
+  }
   if (showValues) {
     // String(value) because otherwise booleans don't display
     return (
