@@ -4,11 +4,11 @@ import mongoose from 'mongoose';
 const FeaturedQuote = mongoose.model('FeaturedQuote');
 
 export async function createFeaturedQuoteRoute(req, res) {
-  res.json({});
-}
-
-export async function deleteFeaturedQuoteRoute(req, res) {
-  res.json({});
+  await FeaturedQuote.create({
+    text: req.body.text,
+    enabled: true,
+  });
+  res.send();
 }
 
 export async function listFeaturedQuotesRoute(req, res) {
@@ -28,5 +28,12 @@ export async function listFeaturedQuotesTextRoute(req, res) {
 }
 
 export async function updateFeaturedQuoteRoute(req, res) {
-  res.json({});
+  const quote = await FeaturedQuote.findById(req.params.id);
+  if (!quote) {
+    return res.status(404).send();
+  }
+  quote.text = req.body.text;
+  quote.enabled = req.body.enabled;
+  await quote.save();
+  res.send();
 }

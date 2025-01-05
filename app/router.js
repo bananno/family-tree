@@ -65,7 +65,6 @@ router.get('/featured-quotes', featuredQuoteRoutes.listFeaturedQuotesRoute);
 router.get('/featured-quotes-text', featuredQuoteRoutes.listFeaturedQuotesTextRoute);
 router.post('/featured-quotes', featuredQuoteRoutes.createFeaturedQuoteRoute);
 router.put('/featured-quotes/:id', featuredQuoteRoutes.updateFeaturedQuoteRoute);
-router.delete('/featured-quotes/:id', featuredQuoteRoutes.deleteFeaturedQuoteRoute);
 
 router.get('/files', listUploadedFilesRoute);
 router.post('/files', uploadFileMiddleware, createUploadedFileRoute);
