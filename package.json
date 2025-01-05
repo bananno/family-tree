@@ -6,8 +6,7 @@
     "build": "webpack .",
     "lint": "./lint.sh",
     "publish": "./publish.sh",
-    "dev": "webpack-dev-server --env ENVIRONMENT=DEVELOPMENT --config webpack.config.js",
-    "prod": "webpack-dev-server --env ENVIRONMENT=PRODUCTION --config webpack.config.js"
+    "start": "webpack-dev-server"
   },
   "author": "Anna Bidstrup",
   "dependencies": {

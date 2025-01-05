@@ -1,12 +1,11 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import webpack from 'webpack';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default options => ({
+export default {
   entry: './index.jsx',
   mode: 'development',
   output: {
@@ -16,7 +15,7 @@ export default options => ({
   },
   target: 'web',
   devServer: {
-    port: options.ENVIRONMENT === 'PRODUCTION' ? '1901' : '1899',
+    port: '1899',
     static: {
       directory: path.join(__dirname, 'public'),
     },
@@ -60,8 +59,5 @@ export default options => ({
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html'),
     }),
-    new webpack.DefinePlugin({
-      ENVIRONMENT: JSON.stringify(options.ENVIRONMENT || 'PRODUCTION'),
-    }),
   ],
-});
+};
