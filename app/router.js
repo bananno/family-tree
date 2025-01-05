@@ -22,6 +22,7 @@ import miscCreateRoutes from './misc/index.js';
 import notationCreateRoutes from './notation/index.js';
 import personCreateRoutes from './person/index.js';
 import getPersonRoute from './person/getPerson.route.js';
+import getPersonTimelineRoute from './person/getPersonTimeline.route.js';
 import sourceCreateRoutes from './source/index.js';
 import storyCreateRoutes from './story/index.js';
 import tagCreateRoutes from './tag/index.js';
@@ -81,6 +82,7 @@ notationCreateRoutes(router);
 
 personCreateRoutes(router);
 router.get('/people/:id', getPersonRoute);
+router.get('/people/:id/timeline', getPersonTimelineRoute);
 
 sourceCreateRoutes(router);
 storyCreateRoutes(router);
