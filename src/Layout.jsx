@@ -1,6 +1,8 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
+import useFeaturedQuote from 'notation/hooks/useFeaturedQuote';
+
 import { useStaticDb } from './SETTINGS';
 
 import layoutClasses from './Layout.module.scss';
@@ -18,16 +20,18 @@ export default function Layout() {
         </div>
       </main>
       <footer className={layoutClasses.LayoutFooter}>
-        <p>
-          "The past is what you remember, imagine you remember, convince
-          yourself you remember, or pretend you remember." Harold Pinter
-        </p>
+        <FeaturedQuote />
       </footer>
     </div>
   );
 }
 
 ////////////////////
+
+function FeaturedQuote() {
+  const { quote } = useFeaturedQuote();
+  return <p>{quote}</p>;
+}
 
 function LayoutNavigation() {
   return (
