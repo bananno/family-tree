@@ -6,6 +6,7 @@ import modalClasses from './Modal.module.scss';
 
 export default function Modal({
   title,
+  open,
   confirmEnabled = true,
   triggerEnabled = true,
   onConfirm,
@@ -15,16 +16,19 @@ export default function Modal({
   triggerButtonLabel = 'Open modal',
   children,
 }) {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [managedOpen, setManagedOpen] = useState(false);
+
+  const openStateManagedExternally = open !== undefined;
+  const isModalOpen = openStateManagedExternally ? open : managedOpen;
 
   async function handleConfirm(event) {
     event?.preventDefault();
     await onConfirm();
-    setModalOpen(false);
+    setManagedOpen(false);
   }
 
   function handleCancel() {
-    setModalOpen(false);
+    setManagedOpen(false);
     onCancel?.();
   }
 
@@ -39,12 +43,14 @@ export default function Modal({
 
   return (
     <>
-      <Button
-        onClick={() => setModalOpen(true)}
-        disabled={!triggerEnabled}
-        text={triggerButtonLabel}
-      />
-      {modalOpen && (
+      {!openStateManagedExternally && (
+        <Button
+          onClick={() => setManagedOpen(true)}
+          disabled={!triggerEnabled}
+          text={triggerButtonLabel}
+        />
+      )}
+      {isModalOpen && (
         <div className={modalClasses.Modal} onClick={onClickBackdrop}>
           <div className={modalClasses.modalContent}>
             <h2>{title}</h2>
