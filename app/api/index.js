@@ -64,11 +64,7 @@ async function notationProfile(req, res) {
 
 async function personIndex(req, res) {
   const people = await Person.find();
-  const data = people.map(person => ({
-    id: person._id,
-    name: person.name,
-  }));
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const data = people.map(person => person.toListApi());
   res.send({data});
 }
 

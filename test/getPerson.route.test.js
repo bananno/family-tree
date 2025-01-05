@@ -2,7 +2,7 @@ import './testDb.js';
 import { expectResStatus, res } from './testTools.js';
 
 import getPersonRoute from '../app/person/getPerson.route';
-import Person from '../app/person/Person.model';
+import Person, { PERSON_GENDER } from '../app/person/Person.model';
 
 const personId = '5bce02694df8a32e9026e654';
 
@@ -13,7 +13,11 @@ const req = {
 };
 
 beforeAll(async () => {
-  await Person.create({ _id: personId, name: 'The Person' });
+  await Person.create({
+    _id: personId,
+    name: 'The Person',
+    gender: PERSON_GENDER.FEMALE,
+  });
 });
 
 const expectedResponse = {
@@ -29,6 +33,8 @@ const expectedResponse = {
     shareLevel: 0,
     tags: [],
     treeParents: [],
+    profileImage: null,
+    gender: 'female',
   },
 };
 

@@ -50,7 +50,8 @@ export default async function getAllSharedData() {
 
     return {
       ...person,
-      ...pick(rawPerson, ['name', 'customId', 'profileImage', 'gender']),
+      ...pick(rawPerson, ['name', 'customId', 'profileImage']),
+      gender: rawPerson.genderText(),
       private: false,
       tags: getSharedTagObj(rawPerson),
       links: rawPerson.links.map(link => {

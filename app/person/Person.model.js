@@ -6,6 +6,12 @@ import modelSchema from './model-schema.js';
 import instanceMethods from './model-instance.js';
 import staticMethods from './model-static.js';
 
+export const PERSON_GENDER = {
+  FEMALE: 1,
+  MALE: 2,
+  UNKNOWN: 3,
+};
+
 const { constants, schema } = createModel({
   name: 'person',
   modelName: 'Person',

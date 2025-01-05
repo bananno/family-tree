@@ -60,20 +60,19 @@ methods.getAncestorTree = async rootPerson => {
 
     // The nextPerson param is a person object, but it lacks the
     // populated parents. Find the person in the list to get the parents.
-    const treeParents = findInList(allPeople, nextPerson)
-      .parents
-      .map(parent => populate(parent, safety + 1));
+    const treeParents = findInList(allPeople, nextPerson).parents.map(parent =>
+      populate(parent, safety + 1)
+    );
 
     if (treeParents.length === 1) {
       treeParents.push(null);
     }
 
     return {
-      id: nextPerson._id,
-      name: nextPerson.name,
+      ...nextPerson.toListApi(),
       treeParents,
     };
-  };
+  }
 };
 
 // Given an item, get the list of people that are available to be attached

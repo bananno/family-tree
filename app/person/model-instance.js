@@ -437,4 +437,17 @@ methods.updateSelf = function(updatedObj) {
   return mongoose.model('Person').updateOne({_id: this._id}, updatedObj);
 };
 
+methods.genderText = function () {
+  return [null, 'female', 'male', 'unknown'][this.gender];
+};
+
+methods.toListApi = function() {
+  return {
+    id: this._id,
+    name: this.name,
+    gender: this.genderText(),
+    profileImage: this.profileImage,
+  };
+};
+
 export default methods;

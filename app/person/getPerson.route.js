@@ -26,16 +26,18 @@ export default async function getPerson(req, res) {
 
   const data = {
     id: person.id,
-    children: mapPeopleToNameAndId(person.children),
+    children: person.children.map(person => person.toListApi()),
     citations: mapCitationsIncludeSource(person.citations),
     links: mapLinks(person.links),
     name: person.name,
-    parents: mapPeopleToNameAndId(person.parents),
-    siblings: mapPeopleToNameAndId(person.siblings),
-    spouses: mapPeopleToNameAndId(person.spouses),
+    parents: person.parents.map(person => person.toListApi()),
+    siblings: person.siblings.map(person => person.toListApi()),
+    spouses: person.spouses.map(person => person.toListApi()),
     shareLevel: person.shareLevel,
     tags: person.convertTags({ asList: true }),
     treeParents: ancestorTree.treeParents,
+    profileImage: person.profileImage,
+    gender: person.genderText(),
   };
 
   res.json({ person: data });
@@ -68,8 +70,13 @@ function mapLinks(links) {
   });
 }
 
-function mapPeopleToNameAndId(people) {
-  return people.map(person => ({ id: person._id, name: person.name }));
+function mapPeopleMinimumForList(people) {
+  return people.map(person => ({
+    id: person._id,
+    name: person.name,
+    gender: person.genderText(),
+    profileImage: person.profileImage,
+  }));
 }
 
 function splitCitationItem(citation) {
