@@ -1,11 +1,12 @@
 import React from 'react';
 
-import PersonLink from './PersonLink';
+import PersonLink from 'person/components/PersonLink';
+
 import classes from './PersonTree.module.scss';
 
 export default function PersonTree({ person }) {
   return (
-    <div className={classes.PersonTreeFrame}>
+    <div className={classes.PersonTree}>
       <PersonTreeBranch person={person} />
     </div>
   );

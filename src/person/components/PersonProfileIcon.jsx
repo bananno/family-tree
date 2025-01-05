@@ -6,6 +6,7 @@ export default function PersonProfileIcon({
   person,
   large = false,
   square = false,
+  style = {},
 }) {
   const classNames = [classes.PersonProfileIcon];
 
@@ -17,14 +18,14 @@ export default function PersonProfileIcon({
     classNames.push(classes.square);
   }
 
-  if (person.gender === 'male' || person.gender === 'female') {
+  if (person?.gender === 'male' || person?.gender === 'female') {
     classNames.push(classes[`${person.gender}Placeholder`]);
   } else {
     classNames.push(classes.genericPlaceholder);
   }
 
   if (!person?.profileImage) {
-    return <div className={classNames.join(' ')} />;
+    return <div className={classNames.join(' ')} style={style} />;
   }
 
   return (
@@ -32,6 +33,7 @@ export default function PersonProfileIcon({
       src={person.profileImage}
       alt={person.name}
       className={classNames.join(' ')}
+      style={style}
     />
   );
 }

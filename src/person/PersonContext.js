@@ -44,6 +44,8 @@ export function PersonProvider({ children }) {
   }
 
   useEffect(() => {
+    // Set to an empty response to avoid an awkward mix of old and loading data.
+    setResponse({});
     setLoading(true);
     setNotFound(false);
 
@@ -97,8 +99,6 @@ function getStaticResponse(personId) {
     links: person.links,
     citations: sortBy(citations, 'sortKey'), // lodash does not sort in place
     treeParents: getTreeParents(person),
-    profileImage: person.profileImage,
-    gender: [null, 'female', 'male', 'unknown'][person.gender],
   };
 
   function findPerson(personId) {

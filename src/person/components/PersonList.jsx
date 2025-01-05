@@ -1,7 +1,6 @@
 import React from 'react';
 
 import PersonLink from 'person/components/PersonLink';
-import BulletList from 'shared/BulletList';
 
 import globalClasses from 'shared/global.module.scss';
 
@@ -29,14 +28,14 @@ export default function PersonList({
     );
   }
   return (
-    <BulletList>
+    <>
       {people.map(person => (
-        <li key={person.id}>
+        <div key={person.id} style={{ margin: '10px 0' }}>
           <PersonLink person={person} />
           {showTagValues && ` - ${person.tagValue}`}
           {getNote && ` ${getNote(person)}`}
-        </li>
+        </div>
       ))}
-    </BulletList>
+    </>
   );
 }

@@ -43,4 +43,7 @@
 .content {
   flex: 1;
   padding: 20px;
+
+  // prevent the PersonTree from overflowing the content area
+  max-width: 100%;
 }

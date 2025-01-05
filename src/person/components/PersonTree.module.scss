@@ -1,7 +1,10 @@
-.PersonTreeFrame {
+.PersonTree {
   display: inline-block;
   padding: 10px;
   border: 2px solid gray;
+  max-width: 100%;
+  overflow: scroll;
+  padding-bottom: 20px;
 
   .PersonTreeCell {
     border: 1px solid gray;

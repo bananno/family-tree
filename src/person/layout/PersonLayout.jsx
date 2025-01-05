@@ -3,6 +3,8 @@ import { Link, Outlet } from 'react-router-dom';
 
 import { PersonProvider, usePersonContext } from 'person/PersonContext';
 import PersonProfileIcon from 'person/components/PersonProfileIcon';
+import DevOnly from 'shared/DevOnly';
+import ExternalLink from 'shared/ExternalLink';
 
 import { useStaticDb } from '../../SETTINGS';
 
@@ -37,36 +39,52 @@ const personViews = [
 function PersonOutlet() {
   const { person, loading, notFound } = usePersonContext();
 
-  if (notFound) {
-    return <h1>Person Not Found</h1>;
-  }
-
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
-
-  const basePath = `/person/${person.id}`;
-
   return (
     <div className={classes.PersonLayout}>
       <aside className={classes.sidebar}>
         <div className={classes.header}>
           <PersonProfileIcon person={person} large square />
-          <h1 className={classes.title}>{person.name}</h1>
+          <h1 className={classes.title}>
+            {notFound && 'Person Not Found'}
+            {loading && 'Loading...'}
+            {person?.name}
+          </h1>
         </div>
-        <nav className={classes.navigation}>
-          <ul>
-            {personViews.map(view => (
-              <li key={view.path}>
-                <Link to={`${basePath}/${view.path}`}>{view.title}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {person && <PersonNavigation person={person} />}
       </aside>
-      <main className={classes.content}>
-        <Outlet />
-      </main>
+      <main className={classes.content}>{person && <Outlet />}</main>
     </div>
+  );
+}
+
+function PersonNavigation({ person }) {
+  const basePath = `/person/${person.id}`;
+
+  return (
+    <nav className={classes.navigation}>
+      <ul>
+        {personViews.map(view => (
+          <li key={view.path}>
+            <Link to={`${basePath}/${view.path}`}>{view.title}</Link>
+          </li>
+        ))}
+        <DevOnly>
+          <li>
+            <ExternalLink
+              to={`https://tree.annabidstrup.com/person/${person.id}`}
+            >
+              new site
+            </ExternalLink>
+          </li>
+          <li>
+            <ExternalLink
+              to={`https://ancestry.annacpeterson.com/person/${person.id}`}
+            >
+              old site
+            </ExternalLink>
+          </li>
+        </DevOnly>
+      </ul>
+    </nav>
   );
 }
