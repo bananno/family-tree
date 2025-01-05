@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { useStaticDb } from '../../SETTINGS';
 import staticDb from 'staticDb';
+
+import { useStaticDb } from '../../SETTINGS';
 
 const API_URL = 'http://localhost:9000';
 

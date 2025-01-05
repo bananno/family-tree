@@ -1,7 +1,8 @@
 import {useState, useEffect} from 'react';
 
+import staticDb from 'staticDb';
+
 import {useStaticDb} from '../SETTINGS';
-import staticDb from '../database/staticDb';
 
 function useStoryList({storyType}) {
   const [response, setResponse] = useState([]);

@@ -1,8 +1,9 @@
 import { pick } from 'lodash';
 import { useState, useEffect } from 'react';
 
-import { useStaticDb } from '../../SETTINGS';
 import staticPeople from 'db/people.json';
+
+import { useStaticDb } from '../../SETTINGS';
 
 export default function usePersonList() {
   const [response, setResponse] = useState([]);

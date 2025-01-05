@@ -1,8 +1,9 @@
 import {sortBy} from 'lodash';
 import {useState, useEffect} from 'react';
 
+import staticDb from 'staticDb';
+
 import {useStaticDb} from '../SETTINGS';
-import staticDb from '../database/staticDb';
 
 function useSourceProfile({sourceId}) {
   const [response, setResponse] = useState({});

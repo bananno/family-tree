@@ -1,7 +1,8 @@
 import {useState, useEffect} from 'react';
 
-import {useStaticDb} from '../SETTINGS';
-import staticDb from '../database/staticDb';
+import staticDb from 'staticDb';
+
+import { useStaticDb } from '../SETTINGS';
 
 function useStoryProfile({storyId}) {
   const [response, setResponse] = useState({});

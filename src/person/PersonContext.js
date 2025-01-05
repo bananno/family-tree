@@ -2,8 +2,9 @@ import { sortBy } from 'lodash';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import staticDb from 'staticDb';
+
 import { useStaticDb } from '../SETTINGS';
-import staticDb from '../database/staticDb';
 
 const API_URL = 'http://localhost:9000';
 
