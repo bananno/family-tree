@@ -15,7 +15,7 @@ export default function useFeaturedQuote() {
   useEffect(() => {
     if (useStaticDb) {
       const notations = staticDb.notations.filter(
-        notation => notation.tags['featured quote']
+        notation => notation.tags['featured quote'],
       );
       setQuotes(notations.map(notation => notation.text));
       return;

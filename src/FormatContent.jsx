@@ -2,7 +2,7 @@ import React from 'react';
 
 import classes from './FormatContent.module.scss';
 
-function FormatContent({content}) {
+export default function FormatContent({ content }) {
   const contentComponents = [];
 
   // TO DO: add more edge cases and formatting options here
@@ -15,36 +15,36 @@ function FormatContent({content}) {
         tableLines.push(content[i + 1]);
         i += 1;
       }
-      contentComponents.push(<FormatContentTable key={i} tableLines={tableLines}/>);
+      contentComponents.push(
+        <FormatContentTable key={i} tableLines={tableLines} />,
+      );
     } else {
       contentComponents.push(<p key={i}>{nextLine}</p>);
     }
   }
 
-  return (
-    <div className={classes.FormatContent}>
-      {contentComponents}
-    </div>
-  );
+  return <div className={classes.FormatContent}>{contentComponents}</div>;
 }
 
-function FormatContentTable({tableLines}) {
+////////////////////
+
+function FormatContentTable({ tableLines }) {
   return (
     <table>
       <tbody>
         {tableLines.map((contentRow, i) => (
-          <FormatContentTableRow key={i} contentRow={contentRow}/>
+          <FormatContentTableRow key={i} contentRow={contentRow} />
         ))}
       </tbody>
     </table>
   );
 }
 
-function FormatContentTableRow({contentRow}) {
+function FormatContentTableRow({ contentRow }) {
   let remainingRow = contentRow;
   let key = 0;
   const tableCellComponents = [];
-  
+
   while (remainingRow.length) {
     let isHeader = false;
     remainingRow = remainingRow.slice(1);
@@ -75,12 +75,9 @@ function FormatContentTableRow({contentRow}) {
     key += 1;
   }
 
-  return (<tr>{tableCellComponents}</tr>);
+  return <tr>{tableCellComponents}</tr>;
 }
 
 function lineIsPartOfTable(str) {
   return str !== null && str.length > 0 && str.slice(0, 1) == '\|';
 }
-
-export default FormatContent;
-

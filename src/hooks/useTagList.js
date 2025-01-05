@@ -1,6 +1,6 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
-function useTagList({displayType} = {}) {
+export default function useTagList({ displayType } = {}) {
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -11,11 +11,11 @@ function useTagList({displayType} = {}) {
   useEffect(() => {
     setIsLoading(true);
     fetch(requestUrl)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setResponse(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('ERROR', err.message);
       })
       .finally(() => {
@@ -23,7 +23,5 @@ function useTagList({displayType} = {}) {
       });
   }, [displayType]);
 
-  return {tags: response, isLoading};
+  return { tags: response, isLoading };
 }
-
-export default useTagList;

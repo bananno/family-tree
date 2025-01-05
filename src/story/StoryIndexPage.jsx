@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { useStaticDb } from '../SETTINGS';
-import BulletList from '../shared/BulletList';
+import BulletList from 'shared/BulletList';
+
 import Filter from '../Filter';
-import StoryList from './StoryList';
 import useStoryList from '../hooks/useStoryList';
+import { useStaticDb } from '../SETTINGS';
+
+import StoryList from './StoryList';
 
 const mainStoryTypes = [
   'book',
@@ -26,7 +28,7 @@ export default function StoryIndexPage() {
   const filteredStories =
     filterWords.length > 0
       ? stories.filter(
-          story => !filterWords.some(word => !word.test(story.title))
+          story => !filterWords.some(word => !word.test(story.title)),
         )
       : stories;
 

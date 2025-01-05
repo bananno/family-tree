@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import BulletList from 'shared/BulletList';
-import Filter from '../Filter';
 import globalClasses from 'shared/global.module.scss';
 import TagLink from 'tag/TagLink';
 import TagList from 'tag/TagList';
+
+import Filter from '../Filter';
 import useTagList from '../hooks/useTagList';
 
 import classes from './TagIndexPage.module.scss';
@@ -20,8 +21,8 @@ export default function TagIndexPage() {
       ? tags.filter(
           tag =>
             !filterWords.some(
-              word => !word.test(tag.title + (tag.definition || ''))
-            )
+              word => !word.test(tag.title + (tag.definition || '')),
+            ),
         )
       : tags;
 

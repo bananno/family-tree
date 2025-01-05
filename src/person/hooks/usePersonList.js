@@ -36,6 +36,6 @@ export default function usePersonList() {
 
 function getStaticResponse() {
   return staticPeople.map(person =>
-    pick(person, ['id', 'name', 'profileImage', 'gender'])
+    pick(person, ['id', 'name', 'profileImage', 'gender']),
   );
 }

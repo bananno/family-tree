@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
-import { PersonProvider, usePersonContext } from 'person/PersonContext';
 import PersonProfileIcon from 'person/components/PersonProfileIcon';
+import { PersonProvider, usePersonContext } from 'person/PersonContext';
 import DevOnly from 'shared/DevOnly';
 import ExternalLink from 'shared/ExternalLink';
 

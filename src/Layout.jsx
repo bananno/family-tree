@@ -3,9 +3,8 @@ import { Outlet, Link } from 'react-router-dom';
 
 import useFeaturedQuote from 'notation/hooks/useFeaturedQuote';
 
-import { useStaticDb } from './SETTINGS';
-
 import layoutClasses from './Layout.module.scss';
+import { useStaticDb } from './SETTINGS';
 
 export default function Layout() {
   return (

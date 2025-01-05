@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-function Filter({onChange}) {
+export default function Filter({ onChange }) {
   const [value, setValue] = useState('');
 
   function handleFilterChange(event) {
@@ -9,15 +9,12 @@ function Filter({onChange}) {
         .trim()
         .split(' ')
         .filter(Boolean)
-        .map(word => RegExp(word, 'i'))
+        .map(word => RegExp(word, 'i')),
     );
     setValue(event.target.value);
   }
 
   return (
-    <input value={value} placeholder="filter" onChange={handleFilterChange}/>
+    <input value={value} placeholder="filter" onChange={handleFilterChange} />
   );
 }
-
-export default Filter;
-

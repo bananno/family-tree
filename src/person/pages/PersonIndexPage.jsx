@@ -3,7 +3,7 @@ import React from 'react';
 import PersonList from 'person/components/PersonList';
 import usePersonList from 'person/hooks/usePersonList';
 
-export default function PeoplePage() {
+export default function PersonIndexPage() {
   const { people, isLoading } = usePersonList();
 
   return (

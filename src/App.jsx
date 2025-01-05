@@ -1,13 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { useStaticDb } from './SETTINGS';
-
-import Layout from './Layout';
-import HomePage from './HomePage';
-import ToDoPage from './ToDoPage';
-import PageNotFound from './PageNotFound';
-
 import ChecklistIndexPage from 'checklist/ChecklistIndexPage';
 import ChecklistPersonVitalsPage from 'checklist/ChecklistPersonVitalsPage';
 import EventsPage from 'event/EventsPage';
@@ -24,6 +17,12 @@ import StoryNonEntrySourcesPage from 'story/StoryNonEntrySourcesPage';
 import StoryProfilePage from 'story/StoryProfilePage';
 import TagIndexPage from 'tag/TagIndexPage';
 import TagProfilePage from 'tag/TagProfilePage';
+
+import HomePage from './HomePage';
+import Layout from './Layout';
+import PageNotFound from './PageNotFound';
+import { useStaticDb } from './SETTINGS';
+import ToDoPage from './ToDoPage';
 import UtilitiesPage from './UtilitiesPage';
 
 export default function App() {
@@ -34,11 +33,14 @@ export default function App() {
           <Route index element={<HomePage />} />
 
           <Route path="/people" element={<PersonIndexPage />} />
-          <Route path="/person/:id" element={<PersonLayout />} >
+          <Route path="/person/:id" element={<PersonLayout />}>
             <Route index element={<PersonSummaryPage />} />
 
             {!useStaticDb && (
-              <Route path="/person/:id/checklist" element={<PersonSummaryPage />} />
+              <Route
+                path="/person/:id/checklist"
+                element={<PersonSummaryPage />}
+              />
             )}
 
             <Route path="*" element={<PersonSummaryPage />} />

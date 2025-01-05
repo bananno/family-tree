@@ -1,11 +1,15 @@
 import React from 'react';
 
 import PersonLink from 'person/components/PersonLink';
-import SourceLink from './source/SourceLink';
+import SourceLink from 'source/SourceLink';
 
 import classes from './CitationList.module.scss';
 
-function CitationList({citations, showPerson = true, showSource = true}) {
+export default function CitationList({
+  citations,
+  showPerson = true,
+  showSource = true,
+}) {
   let previousPersonId, previousItem1, previousItem2, previousInfo;
   return (
     <table className={classes.CitationList}>
@@ -19,7 +23,10 @@ function CitationList({citations, showPerson = true, showSource = true}) {
       </thead>
       <tbody>
         {citations.map((citation, i) => {
-          let startPersonSection, startItem1Section, startItem2Section, displayInformationText;
+          let startPersonSection,
+            startItem1Section,
+            startItem2Section,
+            displayInformationText;
 
           const personClasses = [classes.borderLeft];
           const itemClasses1 = [];
@@ -70,9 +77,13 @@ function CitationList({citations, showPerson = true, showSource = true}) {
 
           return (
             <tr key={citation.id}>
-              {showPerson && <td className={personClasses.join(' ')}>
-                {startPersonSection && <PersonLink person={citation.person}/>}
-              </td>}
+              {showPerson && (
+                <td className={personClasses.join(' ')}>
+                  {startPersonSection && (
+                    <PersonLink person={citation.person} />
+                  )}
+                </td>
+              )}
               <td className={itemClasses1.join(' ')}>
                 {startItem1Section && citation.itemPart1}
               </td>
@@ -82,9 +93,11 @@ function CitationList({citations, showPerson = true, showSource = true}) {
               <td className={informationClasses.join(' ')}>
                 {displayInformationText && citation.information}
               </td>
-              {showSource && <td className={sourceClasses.join(' ')}>
-                <SourceLink source={citation.source}/>
-              </td>}
+              {showSource && (
+                <td className={sourceClasses.join(' ')}>
+                  <SourceLink source={citation.source} />
+                </td>
+              )}
             </tr>
           );
         })}
@@ -92,5 +105,3 @@ function CitationList({citations, showPerson = true, showSource = true}) {
     </table>
   );
 }
-
-export default CitationList;

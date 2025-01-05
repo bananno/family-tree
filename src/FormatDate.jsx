@@ -1,12 +1,23 @@
 import React from 'react';
 
 const MONTH_NAME = [
-  null, 'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  null,
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 // TO DO: finish making this
-function FormatDate({date}) {
+function FormatDate({ date }) {
   if (!date) {
     return null;
   }
@@ -21,4 +32,3 @@ function FormatDate({date}) {
 }
 
 export default FormatDate;
-

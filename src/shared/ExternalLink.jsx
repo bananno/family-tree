@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function DevOnly({ to, children }) {
+export default function ExternalLink({ to, children }) {
   return (
     <Link to={to} target="_blank">
       {children}{' '}

@@ -6,9 +6,10 @@ import PersonList from 'person/components/PersonList';
 import BulletList from 'shared/BulletList';
 import SourceList from 'source/SourceList';
 import StoryList from 'story/StoryList';
-import TagList from 'tag/TagList';
 import TagDetails from 'tag/TagDetails';
+import TagList from 'tag/TagList';
 import TagNumberOfChildrenPage from 'tag/TagNumberOfChildrenPage';
+
 import useTagProfile from '../hooks/useTagProfile';
 
 export default function TagProfilePage() {

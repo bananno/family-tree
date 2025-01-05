@@ -1,10 +1,10 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 import staticDb from 'staticDb';
 
 import { useStaticDb } from '../SETTINGS';
 
-function useStoryProfile({storyId}) {
+export default function useStoryProfile({ storyId }) {
   const [response, setResponse] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -16,11 +16,11 @@ function useStoryProfile({storyId}) {
     }
     setIsLoading(true);
     fetch(`http://localhost:9000/api/story-profile/${storyId}`)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setResponse(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('ERROR', err.message);
       })
       .finally(() => {
@@ -28,8 +28,10 @@ function useStoryProfile({storyId}) {
       });
   }, [storyId]);
 
-  return {story: response, isLoading};
+  return { story: response, isLoading };
 }
+
+////////////////////
 
 function getStaticResponse(storyId) {
   const story = staticDb.stories.find(story => story.id === storyId);
@@ -37,12 +39,12 @@ function getStaticResponse(storyId) {
     ...story,
     people: story.personIds.map(findPerson),
     entries: staticDb.sources.filter(source => source.storyId === storyId),
-    nonEntrySources: staticDb.sources.filter(source => source.storyIds.includes(storyId)),
+    nonEntrySources: staticDb.sources.filter(source =>
+      source.storyIds.includes(storyId),
+    ),
   };
 }
 
 function findPerson(personId) {
   return staticDb.people.find(person => person.id === personId);
 }
-
-export default useStoryProfile;

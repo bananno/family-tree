@@ -1,8 +1,7 @@
 import React from 'react';
 
-import BulletList from '../shared/BulletList';
-
-import TagList from '../tag/TagList';
+import BulletList from 'shared/BulletList';
+import TagList from 'tag/TagList';
 
 export default function TagDetails({ tag, specialView }) {
   return (

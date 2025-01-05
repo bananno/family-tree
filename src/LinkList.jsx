@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BulletList from './shared/BulletList';
+import BulletList from 'shared/BulletList';
 
 export default function LinkList({ links }) {
   return (

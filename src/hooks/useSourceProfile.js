@@ -1,11 +1,11 @@
-import {sortBy} from 'lodash';
-import {useState, useEffect} from 'react';
+import { sortBy } from 'lodash';
+import { useState, useEffect } from 'react';
 
 import staticDb from 'staticDb';
 
-import {useStaticDb} from '../SETTINGS';
+import { useStaticDb } from '../SETTINGS';
 
-function useSourceProfile({sourceId}) {
+export default function useSourceProfile({ sourceId }) {
   const [response, setResponse] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -17,11 +17,11 @@ function useSourceProfile({sourceId}) {
     }
     setIsLoading(true);
     fetch(`http://localhost:9000/api/source-profile/${sourceId}`)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setResponse(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('ERROR', err.message);
       })
       .finally(() => {
@@ -29,8 +29,10 @@ function useSourceProfile({sourceId}) {
       });
   }, [sourceId]);
 
-  return {source: response, isLoading};
+  return { source: response, isLoading };
 }
+
+////////////////////
 
 function getStaticResponse(sourceId) {
   const source = staticDb.sources.find(story => story.id === sourceId);
@@ -68,5 +70,3 @@ function sortCitationsByPerson(citations, personIds) {
 function pad3(num) {
   return String(num).padStart(3, '0');
 }
-
-export default useSourceProfile;

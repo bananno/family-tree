@@ -1,7 +1,6 @@
 import React from 'react';
 
 import PersonLink from 'person/components/PersonLink';
-
 import globalClasses from 'shared/global.module.scss';
 
 export default function PersonList({

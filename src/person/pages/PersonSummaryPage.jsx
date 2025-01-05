@@ -1,12 +1,13 @@
 import React from 'react';
 
-import CitationList from '../../CitationList';
-import LinkList from '../../LinkList';
-import { usePersonContext } from 'person/PersonContext';
 import PersonList from 'person/components/PersonList';
 import PersonTree from 'person/components/PersonTree';
+import { usePersonContext } from 'person/PersonContext';
 import DevOnly from 'shared/DevOnly';
 import TagList from 'tag/TagList';
+
+import CitationList from '../../CitationList';
+import LinkList from '../../LinkList';
 
 export default function PersonSummaryPage() {
   const { person } = usePersonContext();

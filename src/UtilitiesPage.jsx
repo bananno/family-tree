@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-function UtilitiesPage() {
+export default function UtilitiesPage() {
   const [isExporting, setIsExporting] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -9,7 +9,7 @@ function UtilitiesPage() {
     setIsExporting(true);
 
     fetch('http://localhost:9000/api/export/full')
-      .catch((err) => {
+      .catch(err => {
         console.log('ERROR', err.message);
         setIsError(true);
       })
@@ -23,7 +23,7 @@ function UtilitiesPage() {
     setIsExporting(true);
 
     fetch('http://localhost:9000/api/export/publish')
-      .catch((err) => {
+      .catch(err => {
         console.log('ERROR', err.message);
         setIsError(true);
       })
@@ -33,13 +33,15 @@ function UtilitiesPage() {
   };
 
   return (
-    <div>
-      <h2>utilities</h2>
+    <>
+      <h1>Utilities</h1>
       <p>{isExporting ? 'exporting...' : 'done'}</p>
-      <button onClick={onExportPublishedDatabase} disabled={isExporting}>export published database</button>
-      <button onClick={onExportFullDatabase} disabled={isExporting}>export full database backup</button>
-    </div>
+      <button onClick={onExportPublishedDatabase} disabled={isExporting}>
+        export published database
+      </button>
+      <button onClick={onExportFullDatabase} disabled={isExporting}>
+        export full database backup
+      </button>
+    </>
   );
 }
-
-export default UtilitiesPage;

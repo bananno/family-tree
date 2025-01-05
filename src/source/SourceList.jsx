@@ -1,6 +1,7 @@
 import React from 'react';
 
-import BulletList from '../shared/BulletList';
+import BulletList from 'shared/BulletList';
+
 import SourceLink from './SourceLink';
 
 export default function SourceList({ sources, useFullTitle }) {

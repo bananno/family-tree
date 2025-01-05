@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default options => ({
-  entry: './index.js',
+  entry: './index.jsx',
   mode: 'development',
   output: {
     path: path.resolve(__dirname, './dist'),

@@ -1,18 +1,19 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 import staticDb from 'staticDb';
 
-import {useStaticDb} from '../SETTINGS';
+import { useStaticDb } from '../SETTINGS';
 
-function useStoryList({storyType}) {
+export default function useStoryList({ storyType }) {
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const requestUrl = storyType === 'nonEntrySources'
-    ? 'http://localhost:9000/api/story-non-entry-source'
-    : storyType
-    ? `http://localhost:9000/api/story-index/${storyType}`
-    : 'http://localhost:9000/api/story-index';
+  const requestUrl =
+    storyType === 'nonEntrySources'
+      ? 'http://localhost:9000/api/story-non-entry-source'
+      : storyType
+        ? `http://localhost:9000/api/story-index/${storyType}`
+        : 'http://localhost:9000/api/story-index';
 
   useEffect(() => {
     if (useStaticDb) {
@@ -22,11 +23,11 @@ function useStoryList({storyType}) {
     }
     setIsLoading(true);
     fetch(requestUrl)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setResponse(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('ERROR', err.message);
       })
       .finally(() => {
@@ -34,8 +35,10 @@ function useStoryList({storyType}) {
       });
   }, [storyType]);
 
-  return {stories: response, isLoading};
+  return { stories: response, isLoading };
 }
+
+////////////////////
 
 function getStaticResponse(storyType) {
   if (storyType) {
@@ -43,5 +46,3 @@ function getStaticResponse(storyType) {
   }
   return staticDb.stories;
 }
-
-export default useStoryList;

@@ -1,6 +1,6 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
-function useSourceList({sourceType}) {
+export default function useSourceList({ sourceType }) {
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -11,11 +11,11 @@ function useSourceList({sourceType}) {
   useEffect(() => {
     setIsLoading(true);
     fetch(requestUrl)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setResponse(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('ERROR', err.message);
       })
       .finally(() => {
@@ -23,7 +23,5 @@ function useSourceList({sourceType}) {
       });
   }, [sourceType]);
 
-  return {sources: response, isLoading};
+  return { sources: response, isLoading };
 }
-
-export default useSourceList;

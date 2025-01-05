@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import BulletList from '../shared/BulletList';
+import BulletList from 'shared/BulletList';
+import SourceLink from 'source/SourceLink';
+
 import Filter from '../Filter';
-import SourceLink from './SourceLink';
 import useSourceList from '../hooks/useSourceList';
 
 const mainSourceTypes = [
@@ -25,7 +26,8 @@ export default function SourceIndexPage() {
   const filteredSources =
     filterWords.length > 0
       ? sources.filter(
-          (source, i) => !filterWords.some(word => !word.test(source.fullTitle))
+          (source, i) =>
+            !filterWords.some(word => !word.test(source.fullTitle)),
         )
       : sources;
 

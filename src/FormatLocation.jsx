@@ -3,7 +3,7 @@ import React from 'react';
 // TO DO: finish making this
 
 // "location" is a global variable
-function FormatLocation({location: loc}) {
+function FormatLocation({ location: loc }) {
   if (!loc) {
     return null;
   }
@@ -15,4 +15,3 @@ function FormatLocation({location: loc}) {
 }
 
 export default FormatLocation;
-
