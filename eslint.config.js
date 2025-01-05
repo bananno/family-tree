@@ -1,5 +1,5 @@
-import importPlugin from 'eslint-plugin-import';
-import pluginReact from 'eslint-plugin-react';
+import eslintPluginImport from 'eslint-plugin-import';
+import eslintPluginReact from 'eslint-plugin-react';
 import globals from 'globals';
 import path from 'path';
 
@@ -11,11 +11,12 @@ const customRules = {
 
 export default [
   {
+    files: ['src/**/*.{js,jsx}'],
     languageOptions: { globals: globals.browser },
-    ...pluginReact.configs.flat.recommended,
+    ...eslintPluginReact.configs.flat.recommended,
     plugins: {
       'custom-rules': customRules,
-      import: importPlugin,
+      import: eslintPluginImport,
     },
     rules: {
       'import/order': [
@@ -48,6 +49,7 @@ export default [
       ],
       'react/prop-types': 'off',
       'custom-rules/match-exported-name': 'warn',
+      // 'func-style': ['error', 'declaration', { allowArrowFunctions: false }],
     },
     settings: {
       react: {
@@ -76,7 +78,7 @@ function customMatchExportedNameRule() {
     create(context) {
       const filename = path.basename(
         context.getFilename(),
-        path.extname(context.getFilename())
+        path.extname(context.getFilename()),
       );
 
       return {

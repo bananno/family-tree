@@ -1,8 +1,12 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
-const webpack = require('webpack');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import path from 'path';
+import webpack from 'webpack';
+import { fileURLToPath } from 'url';
 
-module.exports = options => ({
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default options => ({
   entry: './index.js',
   mode: 'development',
   output: {
@@ -30,6 +34,9 @@ module.exports = options => ({
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: 'babel-loader',
+        resolve: {
+          fullySpecified: false,
+        },
       },
       {
         test: /\.scss$/,
