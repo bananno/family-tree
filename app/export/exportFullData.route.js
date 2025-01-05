@@ -7,6 +7,7 @@ export default async function exportFullDataRoute(req, res) {
   await Promise.all([
     saveFullDataFile(data, 'citations'),
     saveFullDataFile(data, 'events'),
+    saveFullDataFile(data, 'featuredQuotes'),
     saveFullDataFile(data, 'highlights'),
     saveFullDataFile(data, 'images'),
     saveFullDataFile(data, 'notations'),
@@ -26,6 +27,7 @@ async function getFullData() {
 
   const Citation = mongoose.model('Citation');
   const Event = mongoose.model('Event');
+  const FeaturedQuote = mongoose.model('FeaturedQuote');
   const Highlight = mongoose.model('Highlight');
   const Image = mongoose.model('Image');
   const Notation = mongoose.model('Notation');
@@ -36,6 +38,7 @@ async function getFullData() {
 
   data.citations = await Citation.find({});
   data.events = await Event.find({});
+  data.featuredQuotes = await FeaturedQuote.find({});
   data.highlights = await Highlight.find({});
   data.images = await Image.find({});
   data.notations = await Notation.find({});

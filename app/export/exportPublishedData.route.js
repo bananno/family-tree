@@ -9,13 +9,14 @@ export default async function exportPublishedDataRoute(req, res) {
   }
 
   await Promise.all([
-    savePublishedDataFile('people', data.people),
-    savePublishedDataFile('stories', data.stories),
-    savePublishedDataFile('sources', data.sources),
-    savePublishedDataFile('events', data.events),
     savePublishedDataFile('citations', data.citations),
-    savePublishedDataFile('notations', data.notations),
     savePublishedDataFile('countries', data.countryList),
+    savePublishedDataFile('events', data.events),
+    savePublishedDataFile('featuredQuotes', data.featuredQuotes),
+    savePublishedDataFile('notations', data.notations),
+    savePublishedDataFile('people', data.people),
+    savePublishedDataFile('sources', data.sources),
+    savePublishedDataFile('stories', data.stories),
   ]);
 
   res.send();
@@ -26,6 +27,7 @@ async function getSharedData() {
 
   const Citation = mongoose.model('Citation');
   const Event = mongoose.model('Event');
+  const FeaturedQuote = mongoose.model('FeaturedQuote');
   const Image = mongoose.model('Image');
   const Notation = mongoose.model('Notation');
   const Person = mongoose.model('Person');
@@ -38,6 +40,7 @@ async function getSharedData() {
 
   data.citations = await Citation.getAllSharedData();
   data.events = await Event.getAllSharedData();
+  data.featuredQuotes = await FeaturedQuote.getAllSharedData();
   data.notations = await Notation.getAllSharedData();
   data.people = await Person.getAllSharedData();
   data.stories = await Story.getAllSharedData(imageMap);
