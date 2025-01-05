@@ -1,7 +1,7 @@
 import React from 'react';
 
-import NotationList from './NotationList';
-import useNotationList from '../hooks/useNotationList';
+import NotationList from 'notation/components/NotationList';
+import useNotationList from 'notation/hooks/useNotationList';
 
 function NotationsPage() {
   const {notations} = useNotationList();

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import BulletList from 'shared/BulletList';
-import NotationList from 'notation/NotationList';
+import NotationList from 'notation/components/NotationList';
 import PersonList from 'person/components/PersonList';
+import BulletList from 'shared/BulletList';
 import SourceList from 'source/SourceList';
 import StoryList from 'story/StoryList';
 import TagList from 'tag/TagList';

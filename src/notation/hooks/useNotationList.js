@@ -1,17 +1,17 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
-function useNotationList() {
+export default function useNotationList() {
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
     fetch('http://localhost:9000/api/notation-index')
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setResponse(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('ERROR', err.message);
       })
       .finally(() => {
@@ -19,7 +19,5 @@ function useNotationList() {
       });
   }, []);
 
-  return {notations: response, isLoading};
+  return { notations: response, isLoading };
 }
-
-export default useNotationList;

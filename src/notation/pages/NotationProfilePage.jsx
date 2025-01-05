@@ -1,10 +1,10 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 
+import useNotationProfile from 'notation/hooks/useNotationProfile';
 import PersonList from 'person/components/PersonList';
-import StoryList from '../story/StoryList';
-import TagList from '../tag/TagList';
-import useNotationProfile from '../hooks/useNotationProfile';
+import StoryList from 'story/StoryList';
+import TagList from 'tag/TagList';
 
 function NotationProfilePage() {
   const {notationId} = useParams();

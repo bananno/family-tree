@@ -1,8 +1,7 @@
 import React from 'react';
 
-import BulletList from '../shared/BulletList';
-
-import NotationLink from './NotationLink';
+import NotationLink from 'notation/components/NotationLink';
+import BulletList from 'shared/BulletList';
 
 export default function NotationList({notations}) {
   return (
