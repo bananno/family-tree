@@ -1,5 +1,6 @@
 import './citation/Citation.model.js';
 import './event/Event.model.js';
+import './misc/FeaturedQuote.model.js';
 import './file/UploadedFile.model.js';
 import './highlight/Highlight.model.js';
 import './image/Image.model.js';

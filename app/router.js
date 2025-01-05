@@ -12,6 +12,7 @@ import checklistCreateRoutes from './checklist/index.js';
 import citationCreateRoutes from './citation/index.js';
 import eventCreateRoutes from './event/index.js';
 import exportCreateRoutes from './export/index.js';
+import * as featuredQuoteRoutes from './misc/featuredQuoteRoutes.js';
 import highlightCreateRoutes from './highlight/index.js';
 import imageCreateRoutes from './image/index.js';
 import placeCreateRoutes from './place/index.js';
@@ -59,6 +60,12 @@ checklistCreateRoutes(router);
 citationCreateRoutes(router);
 eventCreateRoutes(router);
 exportCreateRoutes(router);
+
+router.get('/featured-quotes', featuredQuoteRoutes.listFeaturedQuotesRoute);
+router.get('/featured-quotes-text', featuredQuoteRoutes.listFeaturedQuotesTextRoute);
+router.post('/featured-quotes', featuredQuoteRoutes.createFeaturedQuoteRoute);
+router.put('/featured-quotes/:id', featuredQuoteRoutes.updateFeaturedQuoteRoute);
+router.delete('/featured-quotes/:id', featuredQuoteRoutes.deleteFeaturedQuoteRoute);
 
 router.get('/files', listUploadedFilesRoute);
 router.post('/files', uploadFileMiddleware, createUploadedFileRoute);
