@@ -11,6 +11,7 @@
           "citation": "./src/citation",
           "event": "./src/event",
           "file": "./src/file",
+          "misc": "./src/misc",
           "notation": "./src/notation",
           "person": "./src/person",
           "shared": "./src/shared",

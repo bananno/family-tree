@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
-import useFeaturedQuote from 'notation/hooks/useFeaturedQuote';
+import { useFeaturedQuoteText } from 'misc/featured-quote/useFeaturedQuoteText';
 
 import layoutClasses from './Layout.module.scss';
 import { useStaticDb } from './SETTINGS';
@@ -28,8 +28,12 @@ export default function Layout() {
 ////////////////////
 
 function FeaturedQuote() {
-  const { quote } = useFeaturedQuote();
-  return <p>{quote}</p>;
+  const { quote } = useFeaturedQuoteText();
+  return useStaticDb ? (
+    <p>{quote}</p>
+  ) : (
+    <Link to="/featured-quotes">{quote}</Link>
+  );
 }
 
 function LayoutNavigation() {

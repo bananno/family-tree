@@ -5,6 +5,7 @@ import ChecklistIndexPage from 'checklist/pages/ChecklistIndexPage';
 import ChecklistPersonVitalsPage from 'checklist/pages/ChecklistPersonVitalsPage';
 import EventsPage from 'event/pages/EventsPage';
 import FilesPage from 'file/pages/FilesPage';
+import FeaturedQuotesPage from 'misc/featured-quote/FeaturedQuotesPage';
 import NotationIndexPage from 'notation/pages/NotationIndexPage';
 import NotationProfilePage from 'notation/pages/NotationProfilePage';
 import PersonLayout from 'person/layout/PersonLayout';
@@ -69,6 +70,8 @@ export default function App() {
               <Route path="events" element={<EventsPage />} />
 
               <Route path="files" element={<FilesPage />} />
+
+              <Route path="featured-quotes" element={<FeaturedQuotesPage />} />
 
               <Route path="notations" element={<NotationIndexPage />} />
               <Route

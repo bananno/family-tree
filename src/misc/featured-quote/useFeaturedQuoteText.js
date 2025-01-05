@@ -7,11 +7,14 @@ import { useStaticDb } from '../../SETTINGS';
 
 const API_URL = 'http://localhost:9000';
 
-export default function useFeaturedQuote() {
+// Get the list of featured quotes - text.
+// Get a single quote to be featured. Refresh anytime the page location changes.
+export function useFeaturedQuoteText() {
   const [quotes, setQuotes] = useState([]);
-  const [chosenQuote, setChosenQuote] = useState('');
+  const [quote, setQuote] = useState('');
   const location = useLocation();
 
+  // Fetch the list of all quotes (text only) just once.
   useEffect(() => {
     if (useStaticDb) {
       const notations = staticDb.notations.filter(
@@ -20,24 +23,23 @@ export default function useFeaturedQuote() {
       setQuotes(notations.map(notation => notation.text));
       return;
     }
-    fetch(`${API_URL}/featured-quotes`)
+    fetch(`${API_URL}/featured-quotes-text`)
       .then(res => res.json())
       .then(res => {
-        setQuotes(res);
+        setQuotes(res.data);
       })
       .catch(err => {
         console.log('ERROR', err.message);
       });
   }, []);
 
+  // Pick a random quote from the list of quotes anytime the page location changes.
   useEffect(() => {
     if (quotes.length) {
       const randomIndex = Math.floor(Math.random() * quotes.length);
-      setChosenQuote(quotes[randomIndex]);
+      setQuote(quotes[randomIndex]);
     }
   }, [quotes, location.pathname]);
 
-  return {
-    quote: chosenQuote,
-  };
+  return { quote };
 }

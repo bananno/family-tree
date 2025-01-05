@@ -48,11 +48,15 @@
 
 .LayoutFooter {
   background-color: black;
-  color: gray;
   text-align: center;
   padding: 10px;
   position: relative;
   bottom: 0;
   width: 100%;
   font-style: italic;
+
+  a {
+    color: gray;
+    text-decoration: none;
+  }
 }
