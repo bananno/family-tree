@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+import Button from 'shared/form/Button';
+
+const API_URL = 'http://localhost:9000';
+
 export default function UtilitiesPage() {
   const [isExporting, setIsExporting] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -8,7 +12,7 @@ export default function UtilitiesPage() {
     setIsError(false);
     setIsExporting(true);
 
-    fetch('http://localhost:9000/api/export/full')
+    fetch(`${API_URL}/export/full`)
       .catch(err => {
         console.log('ERROR', err.message);
         setIsError(true);
@@ -22,7 +26,7 @@ export default function UtilitiesPage() {
     setIsError(false);
     setIsExporting(true);
 
-    fetch('http://localhost:9000/api/export/publish')
+    fetch(`${API_URL}/export/publish`)
       .catch(err => {
         console.log('ERROR', err.message);
         setIsError(true);
@@ -36,12 +40,16 @@ export default function UtilitiesPage() {
     <>
       <h1>Utilities</h1>
       <p>{isExporting ? 'exporting...' : 'done'}</p>
-      <button onClick={onExportPublishedDatabase} disabled={isExporting}>
-        export published database
-      </button>
-      <button onClick={onExportFullDatabase} disabled={isExporting}>
-        export full database backup
-      </button>
+      <Button
+        onClick={onExportPublishedDatabase}
+        disabled={isExporting}
+        text="export published database"
+      />
+      <Button
+        onClick={onExportFullDatabase}
+        disabled={isExporting}
+        text="export full database backup"
+      />
     </>
   );
 }

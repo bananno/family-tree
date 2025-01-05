@@ -17,10 +17,7 @@ export function useFeaturedQuoteText() {
   // Fetch the list of all quotes (text only) just once.
   useEffect(() => {
     if (useStaticDb) {
-      const notations = staticDb.notations.filter(
-        notation => notation.tags['featured quote'],
-      );
-      setQuotes(notations.map(notation => notation.text));
+      setQuotes(staticDb.featuredQuotes);
       return;
     }
     fetch(`${API_URL}/featured-quotes-text`)
