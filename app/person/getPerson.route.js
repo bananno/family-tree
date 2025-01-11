@@ -16,6 +16,8 @@ export default async function getPerson(req, res) {
     return res.status(404).send();
   }
 
+  await person.populateBirthAndDeath();
+
   await person.populateSiblings({ sortByBirthDate: true });
 
   await person.populateCitations({ populateSources: true });
@@ -38,6 +40,8 @@ export default async function getPerson(req, res) {
     treeParents: ancestorTree.treeParents,
     profileImage: person.profileImage,
     gender: person.genderText(),
+    birth: person.birth,
+    death: person.death,
   };
 
   res.json({ person: data });
