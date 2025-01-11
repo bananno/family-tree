@@ -40,16 +40,24 @@ const allPersonViews = [
 function PersonOutlet() {
   const { person, loading, notFound } = usePersonContext();
 
+  const birthYear = person?.birth?.date?.year;
+  const deathYear = person?.death?.date?.year;
+
   return (
     <div className={classes.PersonLayout}>
       <aside className={classes.sidebar}>
         <div className={classes.header}>
           <PersonProfileIcon person={person} large square />
-          <h1 className={classes.title}>
+          <h1>
             {notFound && 'Person Not Found'}
             {loading && 'Loading...'}
             {person?.name}
           </h1>
+          {(birthYear || deathYear) && (
+            <h2>
+              {birthYear || '?'}–{deathYear}
+            </h2>
+          )}
         </div>
         {person && <PersonNavigation person={person} />}
       </aside>

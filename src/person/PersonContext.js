@@ -75,6 +75,7 @@ export function usePersonContext() {
 
 ////////////////////
 
+// TODO: birth and death
 function getStaticResponse(personId) {
   const person = findPerson(personId);
 
