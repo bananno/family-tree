@@ -1,28 +1,31 @@
 .CitationList {
+  $border-color: #ccc;
+
   border-collapse: collapse;
+  font-size: 0.8em;
 
   td,
   th {
-    padding: 5px 10px;
+    padding: 3px 5px;
   }
 
   th {
-    border: 1px solid gray;
+    border: 1px solid $border-color;
   }
 
   .borderLeft {
-    border-left: 1px solid gray;
+    border-left: 1px solid $border-color;
   }
 
   .borderRight {
-    border-right: 1px solid gray;
+    border-right: 1px solid $border-color;
   }
 
   .borderBottom {
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid $border-color;
   }
 
   .borderTop {
-    border-top: 1px solid gray;
+    border-top: 1px solid $border-color;
   }
 }

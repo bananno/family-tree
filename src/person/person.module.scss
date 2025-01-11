@@ -1,3 +1,15 @@
+.PersonLink {
+  &.alreadySelected {
+    display: inline-block;
+    color: gray;
+    font-weight: bold;
+  }
+
+  &.small {
+    font-size: 0.8em;
+  }
+}
+
 .PersonListItem {
   .dates {
     display: inline-block;

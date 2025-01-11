@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import PersonProfileIcon from 'person/components/PersonProfileIcon';
 import { PersonProvider, usePersonContext } from 'person/PersonContext';
@@ -27,7 +27,6 @@ const allPersonViews = [
   { path: 'citations', title: 'citations', sharedUnlessLimited: true },
   { path: 'edit', title: 'edit' },
   { path: 'checklist', title: 'checklist' },
-  { path: 'timeline', title: 'timeline' },
   { path: 'sources', title: 'sources' },
   { path: 'notations', title: 'notations' },
   { path: 'nationality', title: 'nationality' },
@@ -52,12 +51,12 @@ function PersonOutlet() {
           <PersonProfileIcon person={person} large square />
           <h1>
             {notFound && 'Person Not Found'}
-            {loading && 'Loading...'}
+            {loading && <>&nbsp;</>}
             {person?.name}
           </h1>
           {(birthYear || deathYear) && (
             <h2>
-              {birthYear || '?'}–{deathYear}
+              {birthYear || '?'} - {deathYear}
             </h2>
           )}
         </div>
@@ -69,6 +68,7 @@ function PersonOutlet() {
 }
 
 function PersonNavigation({ person }) {
+  const { pathname } = useLocation();
   const basePath = `/person/${person.id}`;
 
   const [productionPersonViews, developmentPersonViews] = _.partition(
@@ -86,14 +86,18 @@ function PersonNavigation({ person }) {
       <ul>
         {productionPersonViews.map(view => (
           <li key={view.path}>
-            <Link to={`${basePath}/${view.path}`}>{view.title}</Link>
+            <LinkOrText to={`${basePath}/${view.path}`} pathname={pathname}>
+              {view.title}
+            </LinkOrText>
           </li>
         ))}
         <DevOnly>
           <hr />
           {developmentPersonViews.map(view => (
             <li key={view.path}>
-              <Link to={`${basePath}/${view.path}`}>{view.title}</Link>
+              <LinkOrText to={`${basePath}/${view.path}`} pathname={pathname}>
+                {view.title}
+              </LinkOrText>
             </li>
           ))}
           <li>
@@ -119,4 +123,14 @@ function PersonNavigation({ person }) {
       </ul>
     </nav>
   );
+}
+
+////////////////////
+
+function LinkOrText({ pathname, to, children }) {
+  // Ignore trailing slashes when comparing paths.
+  if (pathname.replace(/\/$/, '') === to.replace(/\/$/, '')) {
+    return <>{children}</>;
+  }
+  return <Link to={to}>{children}</Link>;
 }

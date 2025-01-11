@@ -4,19 +4,29 @@ import PersonLink from 'person/components/PersonLink';
 import classes from 'person/person.module.scss';
 import globalClasses from 'shared/global.module.scss';
 
+// showCurrent = the id of the person that is currently in context; used
+// for showing the person in their own sibling list.
 export default function PersonList({
   people = [],
   showTagValues,
   showDates,
+  showCurrent,
   getNote,
   columns,
+  small,
 }) {
+  // Props that are only relevant to PersonLink component
+  const personLinkProps = { small };
+
   // TO DO: dynamic columns
   if (columns === 2) {
     const halfway = Math.ceil(people.length / 2);
     const people1 = people.slice(0, halfway);
     const people2 = people.slice(halfway);
-    const props = { showTagValues, getNote };
+
+    // Props to pass to the nested PersonList components
+    const props = { showTagValues, getNote, ...personLinkProps };
+
     return (
       <>
         <div className={globalClasses.column}>
@@ -28,6 +38,7 @@ export default function PersonList({
       </>
     );
   }
+
   return (
     <>
       {people.map(person => (
@@ -36,7 +47,11 @@ export default function PersonList({
           key={person.id}
           style={{ margin: '10px 0' }}
         >
-          <PersonLink person={person} showDates={showDates} />
+          <PersonLink
+            person={person}
+            alreadySelected={person.id === showCurrent}
+            {...personLinkProps}
+          />
           {showTagValues && ` - ${person.tagValue}`}
           {getNote && ` ${getNote(person)}`}
           {showDates && (person.birthYear || person.deathYear) && (
