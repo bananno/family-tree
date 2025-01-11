@@ -5,6 +5,7 @@ import classes from './PersonProfileIcon.module.scss';
 export default function PersonProfileIcon({
   person,
   large = false,
+  medium = false,
   square = false,
   style = {},
 }) {
@@ -12,6 +13,10 @@ export default function PersonProfileIcon({
 
   if (large) {
     classNames.push(classes.large);
+  }
+
+  if (medium) {
+    classNames.push(classes.medium);
   }
 
   if (square) {

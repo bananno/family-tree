@@ -49,7 +49,7 @@ function TimelineItem({ item }) {
       </div>
       <div className={classes.rightColumn}>
         <h3 className={classes.title}>{getTitle(item)}</h3>
-        <PersonList people={item.people} showCurrent={person.id} small />
+        <PersonList people={item.people} showCurrent={person.id} smallText />
       </div>
     </div>
   );

@@ -13,10 +13,11 @@ export default function PersonList({
   showCurrent,
   getNote,
   columns,
-  small,
+  smallText,
+  mediumIcon,
 }) {
   // Props that are only relevant to PersonLink component
-  const personLinkProps = { small };
+  const personLinkProps = { smallText, mediumIcon };
 
   // TO DO: dynamic columns
   if (columns === 2) {

@@ -9,26 +9,35 @@ import classes from 'person/person.module.scss';
 export default function PersonLink({
   person,
   alreadySelected,
-  small,
+  smallText,
+  mediumIcon,
 }) {
   const classNames = [classes.PersonLink];
 
-  if (small) {
-    classNames.push(classes.small);
+  const profileIconProps = {
+    person,
+    medium: mediumIcon,
+    style: { marginRight: '5px' },
+  };
+
+  if (smallText) {
+    classNames.push(classes.smallText);
   }
 
   if (alreadySelected) {
     return (
       <div className={[...classNames, classes.alreadySelected].join(' ')}>
-        <PersonProfileIcon person={person} style={{ marginRight: '5px' }} />
+        <PersonProfileIcon {...profileIconProps} />
         {person.name}
       </div>
     );
   }
+
   const personProfileUrl = `/person/${person.id}`;
+
   return (
     <Link to={personProfileUrl} className={classNames.join(' ')}>
-      <PersonProfileIcon person={person} style={{ marginRight: '5px' }} />
+      <PersonProfileIcon {...profileIconProps} />
       {person.name}
     </Link>
   );

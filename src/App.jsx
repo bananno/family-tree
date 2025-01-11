@@ -13,6 +13,7 @@ import PersonCitationsPage from 'person/pages/PersonCitationsPage';
 import PersonIndexPage from 'person/pages/PersonIndexPage';
 import PersonLinksPage from 'person/pages/PersonLinksPage';
 import PersonSummaryPage from 'person/pages/PersonSummaryPage';
+import PersonTechnicalPage from 'person/pages/PersonTechnicalPage';
 import PersonTimelinePage from 'person/pages/PersonTimelinePage';
 import PersonToDoPage from 'person/pages/PersonToDoPage';
 import { EnvironmentProvider, useEnvironment } from 'shared/EnvironmentContext';
@@ -64,8 +65,8 @@ function AppRoutes() {
             <Route path="/person/:id/links" element={<PersonLinksPage />} />
             {isDevelopment && (
               <Route
-                path="/person/:id/checklist"
-                element={<PersonSummaryPage />}
+                path="/person/:id/technical"
+                element={<PersonTechnicalPage />}
               />
             )}
             <Route path="*" element={<PersonToDoPage />} />
