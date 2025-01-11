@@ -8,7 +8,9 @@ import FilesPage from 'file/pages/FilesPage';
 import FeaturedQuotesPage from 'misc/featured-quote/FeaturedQuotesPage';
 import NotationIndexPage from 'notation/pages/NotationIndexPage';
 import NotationProfilePage from 'notation/pages/NotationProfilePage';
+// Person
 import PersonLayout from 'person/layout/PersonLayout';
+import PersonChecklistPage from 'person/pages/PersonChecklistPage';
 import PersonCitationsPage from 'person/pages/PersonCitationsPage';
 import PersonIndexPage from 'person/pages/PersonIndexPage';
 import PersonLinksPage from 'person/pages/PersonLinksPage';
@@ -16,6 +18,7 @@ import PersonSummaryPage from 'person/pages/PersonSummaryPage';
 import PersonTechnicalPage from 'person/pages/PersonTechnicalPage';
 import PersonTimelinePage from 'person/pages/PersonTimelinePage';
 import PersonToDoPage from 'person/pages/PersonToDoPage';
+//
 import { EnvironmentProvider, useEnvironment } from 'shared/EnvironmentContext';
 import SourceIndexPage from 'source/pages/SourceIndexPage';
 import SourceProfilePage from 'source/pages/SourceProfilePage';
@@ -64,10 +67,16 @@ function AppRoutes() {
             />
             <Route path="/person/:id/links" element={<PersonLinksPage />} />
             {isDevelopment && (
+              <>
+              <Route
+                path="/person/:id/checklist"
+                element={<PersonChecklistPage />}
+              />
               <Route
                 path="/person/:id/technical"
                 element={<PersonTechnicalPage />}
               />
+              </>
             )}
             <Route path="*" element={<PersonToDoPage />} />
           </Route>
