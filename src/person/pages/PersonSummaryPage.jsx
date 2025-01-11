@@ -28,10 +28,6 @@ export default function PersonSummaryPage() {
       <h3>children</h3>
       <PersonList people={person.children} showDates />
       <hr />
-      <DevOnly unless={!person.private}>
-        <h3>links</h3>
-        <LinkList links={person.links} />
-      </DevOnly>
       <h3>tree</h3>
       <PersonTree person={person} />
     </>

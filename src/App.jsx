@@ -11,6 +11,7 @@ import NotationProfilePage from 'notation/pages/NotationProfilePage';
 import PersonLayout from 'person/layout/PersonLayout';
 import PersonCitationsPage from 'person/pages/PersonCitationsPage';
 import PersonIndexPage from 'person/pages/PersonIndexPage';
+import PersonLinksPage from 'person/pages/PersonLinksPage';
 import PersonSummaryPage from 'person/pages/PersonSummaryPage';
 import PersonTimelinePage from 'person/pages/PersonTimelinePage';
 import PersonToDoPage from 'person/pages/PersonToDoPage';
@@ -60,6 +61,7 @@ function AppRoutes() {
               path="/person/:id/citations"
               element={<PersonCitationsPage />}
             />
+            <Route path="/person/:id/links" element={<PersonLinksPage />} />
             {isDevelopment && (
               <Route
                 path="/person/:id/checklist"

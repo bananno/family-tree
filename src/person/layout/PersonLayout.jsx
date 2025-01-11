@@ -18,10 +18,12 @@ export default function PersonLayout() {
 
 ////////////////////
 
+// "sharedUnlessLimited" views are public for fully-shared people,
+// but private for limited people.
 const allPersonViews = [
   { path: '', title: 'summary', shared: true },
   { path: 'timeline', title: 'timeline', shared: true },
-  // The citations view is public for fully-shared people, but private for limited people.
+  { path: 'links', title: 'links', sharedUnlessLimited: true },
   { path: 'citations', title: 'citations', sharedUnlessLimited: true },
   { path: 'edit', title: 'edit' },
   { path: 'checklist', title: 'checklist' },
