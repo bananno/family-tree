@@ -25,6 +25,7 @@ import notationCreateRoutes from './notation/index.js';
 import personCreateRoutes from './person/index.js';
 import getPersonRoute from './person/getPerson.route.js';
 import getPersonChecklistRoute from './person/getPersonChecklist.route.js';
+import getPersonPhotosRoute from './person/getPersonPhotos.route.js';
 import getPersonTimelineRoute from './person/getPersonTimeline.route.js';
 
 import sourceCreateRoutes from './source/index.js';
@@ -87,6 +88,7 @@ notationCreateRoutes(router);
 personCreateRoutes(router);
 router.get('/people/:id', getPersonRoute);
 router.get('/people/:id/checklist', getPersonChecklistRoute);
+router.get('/people/:id/photos', getPersonPhotosRoute);
 router.get('/people/:id/timeline', getPersonTimelineRoute);
 
 sourceCreateRoutes(router);
