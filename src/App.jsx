@@ -9,8 +9,11 @@ import FeaturedQuotesPage from 'misc/featured-quote/FeaturedQuotesPage';
 import NotationIndexPage from 'notation/pages/NotationIndexPage';
 import NotationProfilePage from 'notation/pages/NotationProfilePage';
 import PersonLayout from 'person/layout/PersonLayout';
+import PersonCitationsPage from 'person/pages/PersonCitationsPage';
 import PersonIndexPage from 'person/pages/PersonIndexPage';
 import PersonSummaryPage from 'person/pages/PersonSummaryPage';
+import PersonTimelinePage from 'person/pages/PersonTimelinePage';
+import PersonToDoPage from 'person/pages/PersonToDoPage';
 import { EnvironmentProvider, useEnvironment } from 'shared/EnvironmentContext';
 import SourceIndexPage from 'source/pages/SourceIndexPage';
 import SourceProfilePage from 'source/pages/SourceProfilePage';
@@ -45,18 +48,25 @@ function AppRoutes() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
 
+          {/* PERSON */}
           <Route path="/people" element={<PersonIndexPage />} />
           <Route path="/person/:id" element={<PersonLayout />}>
             <Route index element={<PersonSummaryPage />} />
-
+            <Route
+              path="/person/:id/timeline"
+              element={<PersonTimelinePage />}
+            />
+            <Route
+              path="/person/:id/citations"
+              element={<PersonCitationsPage />}
+            />
             {isDevelopment && (
               <Route
                 path="/person/:id/checklist"
                 element={<PersonSummaryPage />}
               />
             )}
-
-            <Route path="*" element={<PersonSummaryPage />} />
+            <Route path="*" element={<PersonToDoPage />} />
           </Route>
 
           <Route path="stories" element={<StoryIndexPage />} />

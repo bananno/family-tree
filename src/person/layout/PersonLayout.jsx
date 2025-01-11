@@ -5,7 +5,6 @@ import PersonProfileIcon from 'person/components/PersonProfileIcon';
 import { PersonProvider, usePersonContext } from 'person/PersonContext';
 import DevOnly from 'shared/DevOnly';
 import ExternalLink from 'shared/ExternalLink';
-import useEnvironment from 'shared/useEnvironment';
 
 import classes from './PersonLayout.module.scss';
 
@@ -21,6 +20,9 @@ export default function PersonLayout() {
 
 const allPersonViews = [
   { path: '', title: 'summary', shared: true },
+  { path: 'timeline', title: 'timeline', shared: true },
+  // The citations view is public for fully-shared people, but private for limited people.
+  { path: 'citations', title: 'citations', sharedUnlessLimited: true },
   { path: 'edit', title: 'edit' },
   { path: 'checklist', title: 'checklist' },
   { path: 'timeline', title: 'timeline' },
@@ -57,22 +59,33 @@ function PersonOutlet() {
 }
 
 function PersonNavigation({ person }) {
-  const { isProduction } = useEnvironment();
   const basePath = `/person/${person.id}`;
 
-  const personViews = isProduction
-    ? allPersonViews.filter(view => view.shared)
-    : allPersonViews;
+  const [productionPersonViews, developmentPersonViews] = _.partition(
+    allPersonViews,
+    view => {
+      if (view.sharedUnlessLimited) {
+        return !person.private;
+      }
+      return view.shared;
+    },
+  );
 
   return (
     <nav className={classes.navigation}>
       <ul>
-        {personViews.map(view => (
+        {productionPersonViews.map(view => (
           <li key={view.path}>
             <Link to={`${basePath}/${view.path}`}>{view.title}</Link>
           </li>
         ))}
         <DevOnly>
+          <hr />
+          {developmentPersonViews.map(view => (
+            <li key={view.path}>
+              <Link to={`${basePath}/${view.path}`}>{view.title}</Link>
+            </li>
+          ))}
           <li>
             <ExternalLink
               to={`https://tree.annabidstrup.com/person/${person.id}`}
@@ -86,6 +99,11 @@ function PersonNavigation({ person }) {
             >
               old site
             </ExternalLink>
+          </li>
+          <li>
+            <Link to={`http://localhost:9000/person/${person.id}`}>
+              ejs app
+            </Link>
           </li>
         </DevOnly>
       </ul>

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import CitationList from 'citation/components/CitationList';
 import PersonList from 'person/components/PersonList';
 import PersonTree from 'person/components/PersonTree';
 import { usePersonContext } from 'person/PersonContext';
@@ -35,10 +34,6 @@ export default function PersonSummaryPage() {
       </DevOnly>
       <h3>tree</h3>
       <PersonTree person={person} />
-      <DevOnly unless={!person.private}>
-        <h3>citations</h3>
-        <CitationList citations={person.citations} showPerson={false} />
-      </DevOnly>
     </>
   );
 }
