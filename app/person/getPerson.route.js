@@ -28,7 +28,10 @@ export default async function getPerson(req, res) {
 
   const ancestorTree = await Person.getAncestorTree(person);
 
+  // Redundant to fetch the person's birth/death but then they can be cleanly
+  // included in the sibling list.
   await populateBirthAndDeathYears([
+    person,
     ...person.parents,
     ...person.siblings,
     ...person.spouses,
@@ -36,13 +39,22 @@ export default async function getPerson(req, res) {
   ]);
 
   const data = {
-    id: person.id,
+    ..._.pick(person, [
+      'id',
+      'name',
+      'profileImage',
+      'birth',
+      'death',
+      'shareLevel',
+      'living',
+      'createdAt',
+      'updatedAt',
+    ]),
     citations: mapCitationsIncludeSource(person.citations),
     links: mapLinks(person.links),
-    name: person.name,
     parents: person.parents.map(person => person.toListApi()),
     siblings: _.sortBy(
-      person.siblings.map(person => person.toListApi()),
+      [...person.siblings, person].map(person => person.toListApi()),
       'birthYear'
     ),
     spouses: person.spouses.map(person => person.toListApi()),
@@ -50,13 +62,9 @@ export default async function getPerson(req, res) {
       person.children.map(person => person.toListApi()),
       'birthYear'
     ),
-    shareLevel: person.shareLevel,
     tags: person.convertTags({ asList: true }),
     treeParents: ancestorTree.treeParents,
-    profileImage: person.profileImage,
     gender: person.genderText(),
-    birth: person.birth,
-    death: person.death,
   };
 
   res.json({ person: data });
