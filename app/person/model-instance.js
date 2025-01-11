@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import mongoose from 'mongoose';
 
 import getRelativesList from './getPersonRelativesList.js';
@@ -441,12 +442,11 @@ methods.genderText = function () {
   return [null, 'female', 'male', 'unknown'][this.gender];
 };
 
-methods.toListApi = function() {
+methods.toListApi = function () {
+  // Note that birthYear and deathYear are only populated sometimes.
   return {
-    id: this.id,
-    name: this.name,
+    ..._.pick(this, ['id', 'name', 'profileImage', 'birthYear', 'deathYear']),
     gender: this.genderText(),
-    profileImage: this.profileImage,
   };
 };
 

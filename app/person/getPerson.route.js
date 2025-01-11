@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import mongoose from 'mongoose';
 
 const Citation = mongoose.model('Citation');
+const Event = mongoose.model('Event');
 const Person = mongoose.model('Person');
 
 export default async function getPerson(req, res) {
@@ -26,15 +28,28 @@ export default async function getPerson(req, res) {
 
   const ancestorTree = await Person.getAncestorTree(person);
 
+  await populateBirthAndDeathYears([
+    ...person.parents,
+    ...person.siblings,
+    ...person.spouses,
+    ...person.children,
+  ]);
+
   const data = {
     id: person.id,
-    children: person.children.map(person => person.toListApi()),
     citations: mapCitationsIncludeSource(person.citations),
     links: mapLinks(person.links),
     name: person.name,
     parents: person.parents.map(person => person.toListApi()),
-    siblings: person.siblings.map(person => person.toListApi()),
+    siblings: _.sortBy(
+      person.siblings.map(person => person.toListApi()),
+      'birthYear'
+    ),
     spouses: person.spouses.map(person => person.toListApi()),
+    children: _.sortBy(
+      person.children.map(person => person.toListApi()),
+      'birthYear'
+    ),
     shareLevel: person.shareLevel,
     tags: person.convertTags({ asList: true }),
     treeParents: ancestorTree.treeParents,
@@ -74,13 +89,31 @@ function mapLinks(links) {
   });
 }
 
-function mapPeopleMinimumForList(people) {
-  return people.map(person => ({
-    id: person._id,
-    name: person.name,
-    gender: person.genderText(),
-    profileImage: person.profileImage,
-  }));
+async function populateBirthAndDeathYears(people) {
+  const events = await Event.find({
+    people: { $in: people },
+    title: { $in: ['birth', 'death', 'birth and death'] },
+  }).select('title people date.year');
+
+  events.forEach(event => {
+    event.people = event.people.map(person => String(person));
+  });
+
+  const birthEvents = events.filter(event =>
+    ['birth', 'birth and death'].includes(event.title)
+  );
+  const deathEvents = events.filter(event =>
+    ['death', 'birth and death'].includes(event.title)
+  );
+
+  people.forEach(person => {
+    person.birthYear = birthEvents.find(event =>
+      event.people.includes(person.id)
+    )?.date.year;
+    person.deathYear = deathEvents.find(event =>
+      event.people.includes(person.id)
+    )?.date.year;
+  });
 }
 
 function splitCitationItem(citation) {
