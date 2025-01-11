@@ -1,11 +1,13 @@
 import React from 'react';
 
 import PersonLink from 'person/components/PersonLink';
+import classes from 'person/person.module.scss';
 import globalClasses from 'shared/global.module.scss';
 
 export default function PersonList({
   people = [],
   showTagValues,
+  showDates,
   getNote,
   columns,
 }) {
@@ -29,10 +31,19 @@ export default function PersonList({
   return (
     <>
       {people.map(person => (
-        <div key={person.id} style={{ margin: '10px 0' }}>
-          <PersonLink person={person} />
+        <div
+          className={classes.PersonListItem}
+          key={person.id}
+          style={{ margin: '10px 0' }}
+        >
+          <PersonLink person={person} showDates={showDates} />
           {showTagValues && ` - ${person.tagValue}`}
           {getNote && ` ${getNote(person)}`}
+          {showDates && (person.birthYear || person.deathYear) && (
+            <span className={classes.dates}>
+              {person.birthYear || '?'}-{person.deathYear || '?'}
+            </span>
+          )}
         </div>
       ))}
     </>

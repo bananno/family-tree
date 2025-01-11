@@ -20,13 +20,13 @@ export default function PersonSummaryPage() {
       </DevOnly>
       <hr />
       <h3>parents</h3>
-      <PersonList people={person.parents} />
+      <PersonList people={person.parents} showDates />
       <h3>siblings</h3>
-      <PersonList people={person.siblings} />
+      <PersonList people={person.siblings} showDates />
       <h3>spouses</h3>
-      <PersonList people={person.spouses} />
+      <PersonList people={person.spouses} showDates />
       <h3>children</h3>
-      <PersonList people={person.children} />
+      <PersonList people={person.children} showDates />
       <hr />
       <DevOnly unless={!person.private}>
         <h3>links</h3>
