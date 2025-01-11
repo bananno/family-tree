@@ -14,6 +14,7 @@ import PersonChecklistPage from 'person/pages/PersonChecklistPage';
 import PersonCitationsPage from 'person/pages/PersonCitationsPage';
 import PersonIndexPage from 'person/pages/PersonIndexPage';
 import PersonLinksPage from 'person/pages/PersonLinksPage';
+import PersonPhotosPage from 'person/pages/PersonPhotosPage';
 import PersonSummaryPage from 'person/pages/PersonSummaryPage';
 import PersonTechnicalPage from 'person/pages/PersonTechnicalPage';
 import PersonTimelinePage from 'person/pages/PersonTimelinePage';
@@ -66,6 +67,7 @@ function AppRoutes() {
               element={<PersonCitationsPage />}
             />
             <Route path="/person/:id/links" element={<PersonLinksPage />} />
+            <Route path="/person/:id/photos" element={<PersonPhotosPage />} />
             {isDevelopment && (
               <>
               <Route

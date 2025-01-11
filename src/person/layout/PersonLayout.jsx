@@ -22,6 +22,7 @@ export default function PersonLayout() {
 // but private for limited people.
 const allPersonViews = [
   { path: '', title: 'summary', shared: true },
+  { path: 'photos', title: 'photos', shared: true },
   { path: 'timeline', title: 'timeline', shared: true },
   { path: 'links', title: 'links', sharedUnlessLimited: true },
   { path: 'citations', title: 'citations', sharedUnlessLimited: true },
