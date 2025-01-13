@@ -144,7 +144,8 @@ async function getHistoricalEvents(birthYear, deathYear) {
 async function getSourceEvents(person) {
   const sources = await Source.find({ people: person })
     .populate(populateStory)
-    .populate(populatePeople);
+    .populate(populatePeople)
+    .populate('images');
 
   return sources.map(source => {
     return {
@@ -153,6 +154,7 @@ async function getSourceEvents(person) {
       title: `${source.story.title} - ${source.title}`,
       timelineType: storyToTimelineType(source.story),
       people: source.people.map(person => person.toListApi()),
+      imageUrl: source.images[0]?.url,
     };
   });
 }
