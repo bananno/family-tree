@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import PersonList from 'person/components/PersonList';
 import { usePersonContext } from 'person/PersonContext';
@@ -47,9 +48,16 @@ function TimelineItem({ item }) {
         <h3 className={classes.title}>{item.date?.year}</h3>
         <span className={classes.date}>{getDisplayMonthDay(item)}</span>
       </div>
-      <div className={classes.rightColumn}>
+      <div className={classes.mainColumn}>
         <h3 className={classes.title}>{getTitle(item)}</h3>
         <PersonList people={item.people} showCurrent={person.id} smallText />
+      </div>
+      <div className={classes.rightColumn}>
+        {item.imageUrl && (
+          <Link to={item.imageUrl} target="_blank">
+            <img src={item.imageUrl} />
+          </Link>
+        )}
       </div>
     </div>
   );

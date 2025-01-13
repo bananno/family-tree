@@ -26,12 +26,20 @@
     }
   }
 
-  .rightColumn {
-    flex: 3;
+  .mainColumn {
+    flex: 4;
     padding: 10px;
 
     .title {
       font-size: 1em;
+    }
+  }
+
+  .rightColumn {
+    flex: 1;
+
+    img {
+      width: 100%;
     }
   }
 
