@@ -16,8 +16,6 @@ export default function createRoutes(router) {
     modelNamePlural: 'people',
     router,
     routes: {
-      index: peopleIndex,
-      create: createPerson,
       show: personProfileRoutes.show,
       edit: personProfileRoutes.edit,
       delete: null,
@@ -34,22 +32,6 @@ export default function createRoutes(router) {
 }
 
 ////////////////////
-
-async function peopleIndex(req, res) {
-  const people = await Person.find({});
-  res.render('person/index', {title: 'All People', people});
-}
-
-async function createPerson(req, res) {
-  const newPerson = Person.getFormDataNew(req);
-
-  if (!newPerson) {
-    return res.send('error');
-  }
-
-  const person = await Person.create(newPerson);
-  res.redirect(`/person/${person.customId}/edit`);
-}
 
 async function createPersonEvent(req, res) {
   const newEvent = Event.getFormDataNew(req);

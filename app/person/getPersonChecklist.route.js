@@ -55,7 +55,7 @@ function createLinkChecklist(person) {
     { title: 'Ancestry' },
     { title: 'FamilySearch' },
     { title: 'FindAGrave', strikeLiving: true },
-    { title: 'Lundberg', strikeLiving: true },
+    { title: 'Lundberg', strike: true },
     { title: 'WikiTree' },
   ];
   links.forEach(link => {

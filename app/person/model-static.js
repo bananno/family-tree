@@ -10,26 +10,6 @@ methods.findInList = findInList;
 methods.isSame = isSame;
 methods.getAllSharedData = getAllSharedData;
 
-methods.getFormDataNew = req => {
-  const personName = req.body.name.trim();
-
-  if (!personName) {
-    return false;
-  }
-
-  const newPerson = {
-    name: personName,
-    gender: req.body.gender,
-  };
-
-  newPerson.customId = personName
-    .toLowerCase()
-    .replace(/\[|\]|\(|\)|\.|\//g, '')
-    .replace(/ /g, '-');
-
-  return newPerson;
-};
-
 function populateAncestors(rootPerson, people, options = {}, safety = 0) {
   if (safety > 30) {
     return rootPerson;
