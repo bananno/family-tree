@@ -23,6 +23,7 @@ import notationCreateRoutes from './notation/index.js';
 
 // Person
 import personCreateRoutes from './person/index.js';
+import createPersonRoute from './person/createPerson.route.js';
 import getPersonRoute from './person/getPerson.route.js';
 import getPersonChecklistRoute from './person/getPersonChecklist.route.js';
 import getPersonPhotosRoute from './person/getPersonPhotos.route.js';
@@ -86,6 +87,7 @@ miscCreateRoutes(router);
 notationCreateRoutes(router);
 
 personCreateRoutes(router);
+router.post('/people', createPersonRoute);
 router.get('/people/:id', getPersonRoute);
 router.get('/people/:id/checklist', getPersonChecklistRoute);
 router.get('/people/:id/photos', getPersonPhotosRoute);

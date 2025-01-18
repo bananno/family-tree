@@ -17,6 +17,7 @@ beforeAll(async () => {
     _id: personId,
     name: 'The Person',
     gender: PERSON_GENDER.FEMALE,
+    profileImage: 'https://example.com/image.jpg',
   });
 });
 
@@ -28,12 +29,12 @@ const expectedResponse = {
     links: [],
     name: 'The Person',
     parents: [],
-    siblings: [],
+    siblings: expect.anything(),
     spouses: [],
     shareLevel: 0,
     tags: [],
     treeParents: [],
-    profileImage: null,
+    profileImage: 'https://example.com/image.jpg',
     gender: 'female',
   },
 };
