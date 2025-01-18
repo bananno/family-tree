@@ -44,7 +44,7 @@ function PersonOutlet() {
   const { person, loading, notFound } = usePersonContext();
 
   const birthYear = person?.birth?.date?.year;
-  const deathYear = person?.death?.date?.year;
+  const deathYear = person?.death?.date?.year || (person?.living && 'living');
 
   return (
     <div className={classes.PersonLayout}>

@@ -57,7 +57,8 @@ export default function PersonList({
           {getNote && ` ${getNote(person)}`}
           {showDates && (person.birthYear || person.deathYear) && (
             <span className={classes.dates}>
-              {person.birthYear || '?'}-{person.deathYear || '?'}
+              {person.birthYear || '?'}-
+              {person.deathYear || (person.living ? 'living' : '?')}
             </span>
           )}
         </div>

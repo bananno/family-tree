@@ -22,7 +22,7 @@ export default function Input({
     <input
       value={value}
       onChange={e => onChange(e.target.value)}
-      type={type || 'text'}
+      type={'text'}
       placeholder={placeholder}
       className={formClasses.Input}
     />

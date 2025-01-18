@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import staticPeople from 'db/people.json';
 import useEnvironment from 'shared/useEnvironment';
 
-export default function usePersonList() {
+export default function usePersonList({ filterWords }) {
   const { isProduction } = useEnvironment();
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +29,16 @@ export default function usePersonList() {
       });
   }, [isProduction]);
 
-  return { people: response, isLoading };
+  const allPeople = response || [];
+
+  const filteredPeople =
+    filterWords.length > 0
+      ? allPeople.filter(person =>
+          filterWords.every(word => word.test(person.name)),
+        )
+      : allPeople;
+
+  return { people: filteredPeople, isLoading };
 }
 
 ////////////////////

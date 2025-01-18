@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 
+import Input from 'shared/form/Input';
+
 export default function Filter({ onChange }) {
   const [value, setValue] = useState('');
 
-  function handleFilterChange(event) {
+  function handleFilterChange(newValue) {
     onChange(
-      event.target.value
+      newValue
         .trim()
         .split(' ')
         .filter(Boolean)
         .map(word => RegExp(word, 'i')),
     );
-    setValue(event.target.value);
+    setValue(newValue);
   }
 
   return (
-    <input value={value} placeholder="filter" onChange={handleFilterChange} />
+    <Input value={value} placeholder="filter" onChange={handleFilterChange} />
   );
 }
