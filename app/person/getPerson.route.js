@@ -18,8 +18,6 @@ export default async function getPerson(req, res) {
     return res.status(404).send();
   }
 
-  await person.populateBirthAndDeath();
-
   await person.populateSiblings({ sortByBirthDate: true });
 
   await person.populateCitations({ populateSources: true });
@@ -28,8 +26,9 @@ export default async function getPerson(req, res) {
 
   const ancestorTree = await Person.getAncestorTree(person);
 
-  // Redundant to fetch the person's birth/death but then they can be cleanly
+  // Redundant to fetch the person's birth/death twice but then they can be cleanly
   // included in the sibling list.
+  await populateBirthAndDeathEvents(person);
   await populateBirthAndDeathYears([
     person,
     ...person.parents,
@@ -43,13 +42,13 @@ export default async function getPerson(req, res) {
       'id',
       'name',
       'profileImage',
-      'birth',
-      'death',
       'shareLevel',
       'living',
       'createdAt',
       'updatedAt',
     ]),
+    birth: mapBirthAndDeathEvent(person.birth),
+    death: mapBirthAndDeathEvent(person.death),
     citations: mapCitationsIncludeSource(person.citations),
     links: mapLinks(person.links),
     parents: person.parents.map(person => person.toListApi()),
@@ -97,6 +96,20 @@ function mapLinks(links) {
   });
 }
 
+async function populateBirthAndDeathEvents(person) {
+  const Event = mongoose.model('Event');
+
+  person.birth = await Event.findOne({
+    people: person,
+    title: { $in: ['birth', 'birth and death'] },
+  }).populate('people');
+
+  person.death = await Event.findOne({
+    people: person,
+    title: { $in: ['death', 'birth and death'] },
+  }).populate('people');
+}
+
 async function populateBirthAndDeathYears(people) {
   const events = await Event.find({
     people: { $in: people },
@@ -127,4 +140,14 @@ async function populateBirthAndDeathYears(people) {
 function splitCitationItem(citation) {
   const arr = citation.item.split(' - ');
   return { itemPart1: arr.shift(), itemPart2: arr.join(' ') };
+}
+
+function mapBirthAndDeathEvent(event) {
+  if (!event) {
+    return null;
+  }
+  return {
+    ..._.pick(event, ['title', 'date', 'location', 'notes']),
+    people: event.people.map(person => person.toListApi()),
+  };
 }

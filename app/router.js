@@ -29,8 +29,14 @@ import getPersonChecklistRoute from './person/getPersonChecklist.route.js';
 import getPersonPhotosRoute from './person/getPersonPhotos.route.js';
 import getPersonTimelineRoute from './person/getPersonTimeline.route.js';
 
+// Source
 import sourceCreateRoutes from './source/index.js';
+
+// Story
 import storyCreateRoutes from './story/index.js';
+import getStoryRoute from './story/getStory.route.js';
+
+// Tag
 import tagCreateRoutes from './tag/index.js';
 
 const router = express.Router();
@@ -72,9 +78,15 @@ router.get('/export/full', exportFullDataRoute);
 router.get('/export/publish', exportPublishedDataRoute);
 
 router.get('/featured-quotes', featuredQuoteRoutes.listFeaturedQuotesRoute);
-router.get('/featured-quotes-text', featuredQuoteRoutes.listFeaturedQuotesTextRoute);
+router.get(
+  '/featured-quotes-text',
+  featuredQuoteRoutes.listFeaturedQuotesTextRoute
+);
 router.post('/featured-quotes', featuredQuoteRoutes.createFeaturedQuoteRoute);
-router.put('/featured-quotes/:id', featuredQuoteRoutes.updateFeaturedQuoteRoute);
+router.put(
+  '/featured-quotes/:id',
+  featuredQuoteRoutes.updateFeaturedQuoteRoute
+);
 
 router.get('/files', listUploadedFilesRoute);
 router.post('/files', uploadFileMiddleware, createUploadedFileRoute);
@@ -94,5 +106,8 @@ router.get('/people/:id/photos', getPersonPhotosRoute);
 router.get('/people/:id/timeline', getPersonTimelineRoute);
 
 sourceCreateRoutes(router);
+
 storyCreateRoutes(router);
+router.get('/api/stories/:id', getStoryRoute);
+
 tagCreateRoutes(router);

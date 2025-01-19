@@ -18,7 +18,6 @@ export default function createRoutes(router) {
   router.get('/api/story-index', storyIndex);
   router.get('/api/story-index/:storyType', storyIndex);
   router.get('/api/story-non-entry-source', storyWithNonEntrySource);
-  router.get('/api/story-profile/:id', storyProfile);
   router.get('/api/tag-index', tagIndex);
   router.get('/api/tag-profile/:id', tagProfile);
 }
@@ -142,41 +141,7 @@ async function storyWithNonEntrySource(req, res) {
   res.send({data});
 }
 
-async function storyProfile(req, res) {
-  const story = await Story
-    .findById(req.params.id)
-    .populate('people')
-    .populate('tags');
 
-  await story.populateEntries();
-  await story.populateNonEntrySources();
-  story.nonEntrySources.forEach(source => source.populateFullTitle());
-
-  const data = {
-    id: story._id,
-    content: story.content?.split('\n') || [],
-    date: story.date,
-    links: mapLinks(story.links),
-    location: story.location,
-    notes: splitNotes(story.notes),
-    people: mapPeopleToNameAndId(story.people),
-    sharing: story.sharing,
-    tags: story.convertTags({asList: true}),
-    title: story.title,
-    type: story.type,
-    entries: story.entries.map(source => ({
-      id: source.id,
-      title: source.title,
-    })),
-    nonEntrySources: story.nonEntrySources.map(source => ({
-      id: source.id,
-      fullTitle: source.fullTitle,
-    })),
-  };
-
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.send({data});
-}
 
 async function tagIndex(req, res) {
   const tags = await Tag.find({});

@@ -44,6 +44,6 @@ export async function createUploadedFileRoute(req, res) {
 }
 
 export async function listUploadedFilesRoute(req, res) {
-  const uploadedFiles = await UploadedFile.find();
+  const uploadedFiles = await UploadedFile.find().sort({ createdAt: -1 });
   res.json(uploadedFiles.map(file => file.toApi()));
 }

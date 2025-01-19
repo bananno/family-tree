@@ -65,7 +65,7 @@ methods.toSharedObject = function({imageMap}) {
   };
 }
 
-// Must populate story first
+// Must populate story first. TODO: use a getter or virtual for this
 methods.populateFullTitle = function() {
   this.fullTitle = this.fullTitle || mongoose.model('Source').getFullTitle(this);
   return this.fullTitle;
