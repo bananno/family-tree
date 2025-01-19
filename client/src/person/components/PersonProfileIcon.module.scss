@@ -1,0 +1,42 @@
+.PersonProfileIcon {
+  display: inline-block;
+  background-size: 100%;
+  vertical-align: middle;
+
+  // Standard size: most lists
+  height: 30px;
+  width: 30px;
+  border: 1px solid gray;
+
+  // Person profile main icon
+  &.large {
+    height: 150px;
+    width: 150px;
+    border-width: 2px;
+  }
+
+  // Person profile immediate family lists
+  &.medium {
+    height: 50px;
+    width: 50px;
+    border-width: 2px;
+  }
+
+  border-radius: 50%;
+  &.square {
+    border-radius: 0;
+    border-radius: 5%;
+  }
+
+  &.femalePlaceholder {
+    background-image: url('../../assets/profile-female.png');
+  }
+
+  &.malePlaceholder {
+    background-image: url('../../assets/profile-male.png');
+  }
+
+  &.genericPlaceholder {
+    background-image: url('../../assets/profile-generic.png');
+  }
+}

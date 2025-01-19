@@ -1,0 +1,14 @@
+.Table {
+  border-collapse: collapse;
+
+  td,
+  th {
+    border: 1px solid gray;
+    padding: 5px 10px;
+  }
+}
+
+.column {
+  display: inline-block;
+  vertical-align: text-top;
+}
