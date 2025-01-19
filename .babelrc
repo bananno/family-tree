@@ -1,3 +1,26 @@
 {
-  "presets": ["@babel/preset-env"]
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "assets": "./client/src/assets",
+          "db": "./client/db",
+          "checklist": "./client/src/checklist",
+          "citation": "./client/src/citation",
+          "event": "./client/src/event",
+          "file": "./client/src/file",
+          "misc": "./client/src/misc",
+          "notation": "./client/src/notation",
+          "person": "./client/src/person",
+          "shared": "./client/src/shared",
+          "source": "./client/src/source",
+          "staticDb": "./client/src/database/staticDb",
+          "story": "./client/src/story",
+          "tag": "./client/src/tag"
+        }
+      }
+    ]
+  ]
 }

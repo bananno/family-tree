@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default {
-  entry: './index.jsx',
+  entry: './client/index.jsx',
   mode: 'development',
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -17,7 +17,7 @@ export default {
   devServer: {
     port: '1899',
     static: {
-      directory: path.join(__dirname, 'public'),
+      directory: path.join(__dirname, 'client/public'),
     },
     open: true,
     hot: true,
@@ -57,7 +57,7 @@ export default {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'public', 'index.html'),
+      template: path.join(__dirname, 'client/public', 'index.html'),
     }),
   ],
 };

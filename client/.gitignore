@@ -1,6 +1,0 @@
-.DS_Store
-.env
-
-db/
-dist/
-node_modules/
