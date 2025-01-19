@@ -1,25 +1,67 @@
-# Lundberg Ancestry
+# Family Tree
 
-Genealogy research is one of my favorite hobbies. There are many existing websites and services for research and organization. I built this tool to consolidate all of my research according to my own preferences.
+![leaves](client/public/assets/images/leaves.png)
 
-For privacy reasons, the full database is not available online. I use this tool for organizing, then a separate website for sharing parts of the data: [github.com/bananno/acpancestry](https://github.com/bananno/acpancestry), online at [https://ancestry.annacpeterson.com/](https://ancestry.annacpeterson.com/).
+Genealogy research has been one of my favorite hobbies since I started exploring family history in 2013.
+There are already many websites and services for research and organization, but I built this tool to
+consolidate all of my research according to my own preferences.
 
-## Run locally
+I've been using this version on and off since 2018. It includes a local version for data management and
+a deployable static site for sharing.
 
-Setup & install:
+## mac setup
+
+Setup & install
+
 ```
-git clone git@github.com:bananno/ancestry9.git
-cd ancestry9
+git clone git@github.com:bananno/family-tree.git
+cd family-tree
 npm install
 ```
 
-Start database & server in two separate windows:
-```
+Install MongoDB
+(from [mongodb.com](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/))
+
+```sh
+brew tap mongodb/brew
+brew install mongodb-community@8.0
+
+# option 1 - start background service
+brew services start mongodb/brew/mongodb-community
+
+# option 2 - start the database manually in its own tab
 mongod
-npm start
 ```
 
-Open browser:
+Start server and client in their own tabs
+
 ```
-http://localhost:9000/
+npm start
+npm run client
+```
+
+Server (and old UI) running at http://localhost:9000/
+
+Client is running at http://localhost:1899/
+
+## .env
+
+```sh
+AWS_REGION=us-east-1
+
+# for uploading images
+IMAGE_UPLOAD_S3_BUCKET=<bucket>
+IMAGE_HOSTING_PATH=<path>
+
+# for deploying client
+DEPLOYMENT_S3_BUCKET_NAME=<bucket>
+DEPLOYMENT_CLOUDFRONT_DISTRIBUTION_ID=<id>
+```
+
+## other scripts
+
+```
+npm test
+npm run lint
+npm run publish
 ```
