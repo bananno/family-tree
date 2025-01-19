@@ -27,17 +27,7 @@ const allPersonViews = [
   { path: 'links', title: 'links', sharedUnlessLimited: true },
   { path: 'citations', title: 'citations', sharedUnlessLimited: true },
   { path: 'technical', title: 'technical' },
-  { path: 'edit', title: 'edit' },
   { path: 'checklist', title: 'checklist' },
-  { path: 'sources', title: 'sources' },
-  { path: 'notations', title: 'notations' },
-  { path: 'nationality', title: 'nationality' },
-  { path: 'relatives', title: 'relatives' },
-  { path: 'connection', title: 'connection' },
-  { path: 'wikitree', title: 'wikitree' },
-  { path: 'descendants', title: 'descendants' },
-  { path: 'mentions', title: 'mentions' },
-  { path: 'children', title: 'children' },
 ];
 
 function PersonOutlet() {

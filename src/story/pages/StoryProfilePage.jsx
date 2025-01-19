@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import PersonList from 'person/components/PersonList';
 import BulletList from 'shared/BulletList';
@@ -9,8 +9,10 @@ import FormatContent from 'shared/FormatContent';
 import FormatDate from 'shared/FormatDate';
 import FormatLocation from 'shared/FormatLocation';
 import LinkList from 'shared/LinkList';
+import SourceLink from 'source/components/SourceLink';
 import SourceList from 'source/components/SourceList';
 import useStoryProfile from 'story/hooks/useStoryProfile';
+import classes from 'story/story.module.scss';
 import TagList from 'tag/components/TagList';
 
 export default function StoryProfilePage() {
@@ -25,6 +27,7 @@ export default function StoryProfilePage() {
     <div>
       <h2>STORY:</h2>
       <h2>{story.title}</h2>
+      <Link to={`http://localhost:9000/story/${storyId}`}>old site</Link>
       <hr />
       <h2>type</h2>
       <p>{story.type}</p>
@@ -45,10 +48,10 @@ export default function StoryProfilePage() {
       <h2>people</h2>
       <PersonList people={story.people} />
       <h2>links</h2>
-      <LinkList links={story.links} />
+      <LinkList links={story.links || []} />
       <h2>notes</h2>
       <BulletList>
-        {story.notes.map((note, i) => (
+        {story.notes?.map((note, i) => (
           <li key={i}>{note}</li>
         ))}
       </BulletList>
@@ -57,7 +60,66 @@ export default function StoryProfilePage() {
       <h2>sources (belong to another story, but is related to this story)</h2>
       <SourceList sources={story.nonEntrySources} />
       <h2>entries (belong to this story)</h2>
-      <SourceList sources={story.entries} useFullTitle={false} />
+      {story.type === 'newspaper' ? (
+        <NewspaperEntryList sources={story.entries} />
+      ) : (
+        <SourceList sources={story.entries} useFullTitle={false} />
+      )}
     </div>
   );
+}
+
+////////////////////
+
+function NewspaperEntryList({ sources }) {
+  return (
+    <div className={classes.NewspaperEntryList}>
+      {sources?.map(source => (
+        <div className={classes.entry} key={source.id}>
+          <div className={classes.leftColumn}>
+            {formatNewspaperDate(source.date)}
+          </div>
+          <div className={classes.mainColumn}>
+            <SourceLink source={source} useFullTitle={false} />
+            {source.summary && <p>{source.summary}</p>}
+          </div>
+          <div className={classes.rightColumn}>
+            {source.imageUrl && (
+              <Link to={source.imageUrl} target="_blank">
+                <img
+                  src={source.imageUrl}
+                  style={{ maxHeight: '100px', maxWidth: '100px' }}
+                />
+              </Link>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function formatNewspaperDate(date) {
+  if (date?.display) {
+    return <i>date.display</i>;
+  }
+
+  const { year, month, day } = date || {};
+
+  if (year && month && day) {
+    return new Date(year, month - 1, day).toLocaleDateString('en-UK', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  }
+
+  if (year && month) {
+    return new Date(year, month - 1, day).toLocaleDateString('en-UK', {
+      year: 'numeric',
+      month: 'short',
+    });
+  }
+
+  return year || '';
 }

@@ -49,7 +49,9 @@ function TimelineItem({ item }) {
         <span className={classes.date}>{getDisplayMonthDay(item)}</span>
       </div>
       <div className={classes.mainColumn}>
-        <h3 className={classes.title}>{getTitle(item)}</h3>
+        <h3 className={classes.title}>
+          <Link to={`/${item.model}/${item.id}`}>{getTitle(item)}</Link>
+        </h3>
         <PersonList people={item.people} showCurrent={person.id} smallText />
       </div>
       <div className={classes.rightColumn}>

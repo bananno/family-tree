@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import CitationList from 'citation/components/CitationList';
 import PersonList from 'person/components/PersonList';
@@ -27,6 +27,7 @@ export default function SourceProfilePage() {
         {source.story.type}: <StoryLink story={source.story} />
       </h2>
       <h2>{source.title}</h2>
+      <Link to={`http://localhost:9000/source/${sourceId}`}>old site</Link>
       <hr />
       <h2>sharing</h2>
       <p>{String(source.sharing)}</p>

@@ -9,8 +9,6 @@ import Checkmark from 'shared/Checkmark';
 export default function PersonChecklistPage() {
   const { sections, otherIncompleteSources } = usePersonChecklist();
 
-  console.log('sections', sections);
-
   return (
     <>
       <h2>Checklist</h2>

@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import useEnvironment from 'shared/useEnvironment';
 import staticDb from 'staticDb';
 
+const API_URL = 'http://localhost:9000';
+
 export default function useStoryProfile({ storyId }) {
   const { isProduction } = useEnvironment();
   const [response, setResponse] = useState({});
@@ -15,7 +17,7 @@ export default function useStoryProfile({ storyId }) {
       return;
     }
     setIsLoading(true);
-    fetch(`http://localhost:9000/api/story-profile/${storyId}`)
+    fetch(`${API_URL}/api/stories/${storyId}`)
       .then(res => res.json())
       .then(res => {
         setResponse(res.data);
