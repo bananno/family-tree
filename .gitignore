@@ -2,7 +2,6 @@
 .env
 to-do.txt
 
-client/
 database-backup/
 node_modules/
 shared/
