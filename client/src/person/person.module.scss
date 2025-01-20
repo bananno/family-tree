@@ -19,3 +19,17 @@
     font-size: 0.8em;
   }
 }
+
+.PersonCheckmarkItem {
+  margin: 8px 0 8px 15px;
+
+  img {
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

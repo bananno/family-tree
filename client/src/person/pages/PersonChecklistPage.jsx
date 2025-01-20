@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import usePersonChecklist from 'person/hooks/usePersonChecklist';
+import classes from 'person/person.module.scss';
 import { usePersonContext } from 'person/PersonContext';
 import Checkmark from 'shared/Checkmark';
 
@@ -16,16 +17,15 @@ export default function PersonChecklistPage() {
         <React.Fragment key={section.title}>
           <h3>{section.title}</h3>
           {section.items.map(item => (
-            <CheckmarkItem key={item.title} item={item} />
+            <ItemInSectionList key={item.title} item={item} />
           ))}
         </React.Fragment>
       ))}
       <h3>Incomplete Sources</h3>
       {otherIncompleteSources.map(item => (
-        <div key={item.id}>
-          <Checkmark value={false} />
+        <PersonCheckmarkItem key={item.id} value={false}>
           <Link to={`/source/${item.id}`}>{item.title}</Link> - {item.missing}
-        </div>
+        </PersonCheckmarkItem>
       ))}
     </>
   );
@@ -33,17 +33,25 @@ export default function PersonChecklistPage() {
 
 ////////////////////
 
-function CheckmarkItem({ item }) {
+function ItemInSectionList({ item }) {
   const { person } = usePersonContext();
 
   const strike =
     !item.complete && (item.strike || (item.strikeLiving && person.living));
 
   return (
-    <div>
-      <Checkmark value={item.complete || strike} />
+    <PersonCheckmarkItem value={item.complete || strike}>
       {strike ? <s>{item.title}</s> : item.title}{' '}
       {item.note && <i>({item.note})</i>}
+    </PersonCheckmarkItem>
+  );
+}
+
+function PersonCheckmarkItem({ value, children }) {
+  return (
+    <div className={classes.PersonCheckmarkItem}>
+      <Checkmark value={value} />
+      <span>{children}</span>
     </div>
   );
 }

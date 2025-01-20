@@ -1,5 +1,6 @@
 <%
   const rootPath = '/person/' + paramPersonId;
+  const newRootPath = 'http://localhost:1899/person/' + person.id;
   const profileImage = person.profileImage || '/images/generic-profile-picture.png';
 %>
 
@@ -22,11 +23,11 @@
     <ul class="person-navigation">
       <li><a href="<%= rootPath %>">summary</a></li>
       <li><a href="<%= rootPath %>/edit">edit person</a></li>
-      <li><a href="<%= rootPath %>/checklist">checklist</a></li>
+      <li><a href="<%= newRootPath %>/checklist">checklist</a></li>
       <li><a href="<%= rootPath %>/timeline">timeline</a></li>
       <li><a href="<%= rootPath %>/sources">sources</a></li>
       <li><a href="<%= rootPath %>/notations">notations</a></li>
-      <li><a href="http://localhost:1899/person/<%= person.id %>">new site</a></li>
+      <li><a href="<%= newRootPath %>">new site</a></li>
       <li id="navigation-show-more" class="clickable-link">more...</li>
     </ul>
     <ul class="person-navigation show-more">

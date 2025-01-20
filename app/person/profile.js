@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 import { getEditTableRows, sorting } from '../import.js';
 
-import checklistRoute from './profile.checklist.js';
 import childrenRoute from './profile.children.js';
 import descendantsRoute from './profile.descendants.js';
 import sourcesRoute from './profile.sources.js';
@@ -16,7 +15,6 @@ export default {
   show: personSummary,
   edit: personEdit,
   other: {
-    checklist: checklistRoute,
     children: childrenRoute,
     connection: personConnection,
     descendants: descendantsRoute,
