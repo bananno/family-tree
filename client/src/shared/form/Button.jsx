@@ -7,6 +7,7 @@ export default function Button({
   onClick,
   text,
   children,
+  style = {},
 }) {
   function handleClick(e) {
     if (onClick) {
@@ -18,7 +19,12 @@ export default function Button({
   }
 
   return (
-    <button className={formClasses.Button} onClick={handleClick} disabled={disabled}>
+    <button
+      className={formClasses.Button}
+      onClick={handleClick}
+      disabled={disabled}
+      style={style}
+    >
       {text}
       {children}
     </button>

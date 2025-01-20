@@ -7,6 +7,7 @@ export default function Input({
   onChange,
   textarea = false,
   placeholder,
+  style = {},
 }) {
   if (textarea) {
     return (
@@ -15,6 +16,7 @@ export default function Input({
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
         className={formClasses.Input}
+        style={style}
       />
     );
   }
@@ -22,9 +24,10 @@ export default function Input({
     <input
       value={value}
       onChange={e => onChange(e.target.value)}
-      type={'text'}
+      type="text"
       placeholder={placeholder}
       className={formClasses.Input}
+      style={style}
     />
   );
 }
