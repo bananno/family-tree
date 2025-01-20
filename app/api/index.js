@@ -100,7 +100,7 @@ async function sourceProfile(req, res) {
     links: mapLinks(source.links),
     location: source.location,
     notes: splitNotes(source.notes),
-    people: mapPeopleToNameAndId(source.people),
+    people: source.people.map(person => person.toListApi()),
     sharing: source.sharing,
     tags: source.convertTags({asList: true}),
     title: source.title,

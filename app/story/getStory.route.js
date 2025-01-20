@@ -11,7 +11,7 @@ export default async function getStoryRoute(req, res) {
 
   const entries = await Source.find({ story })
     .populate(['images', 'people'])
-    .sort({ 'date.year': 1, 'date.month': 1, 'date.day': 1 });
+    .sort({ 'date.year': 1, 'date.month': 1, 'date.day': 1, title: 1 });
 
   const nonEntrySources = await Source.find({ stories: story }).populate(
     'story'

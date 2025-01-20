@@ -12,6 +12,7 @@ import LinkList from 'shared/LinkList';
 import SourceLink from 'source/components/SourceLink';
 import SourceList from 'source/components/SourceList';
 import useStoryProfile from 'story/hooks/useStoryProfile';
+import NewEntrySourceModal from 'source/components/NewEntrySourceModal';
 import classes from 'story/story.module.scss';
 import TagList from 'tag/components/TagList';
 
@@ -60,8 +61,13 @@ export default function StoryProfilePage() {
       <h2>sources (belong to another story, but is related to this story)</h2>
       <SourceList sources={story.nonEntrySources} />
       <h2>entries (belong to this story)</h2>
+      <DevOnly>
+        <NewEntrySourceModal story={story} />
+      </DevOnly>
       {story.type === 'newspaper' ? (
         <NewspaperEntryList sources={story.entries} />
+      ) : story.type === 'cemetery' ? (
+        <CemeteryEntryList sources={story.entries} />
       ) : (
         <SourceList sources={story.entries} useFullTitle={false} />
       )}
@@ -70,6 +76,21 @@ export default function StoryProfilePage() {
 }
 
 ////////////////////
+
+function CemeteryEntryList({ sources }) {
+  return (
+    <div className={classes.CemeteryEntryList}>
+      {sources?.map(source => (
+        <div className={classes.entry} key={source.id}>
+          <SourceLink source={source} useFullTitle={false}>
+            {source.imageUrl && <img src={source.imageUrl} />}
+            {source.title}
+          </SourceLink>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function NewspaperEntryList({ sources }) {
   return (
@@ -86,10 +107,7 @@ function NewspaperEntryList({ sources }) {
           <div className={classes.rightColumn}>
             {source.imageUrl && (
               <Link to={source.imageUrl} target="_blank">
-                <img
-                  src={source.imageUrl}
-                  style={{ maxHeight: '100px', maxWidth: '100px' }}
-                />
+                <img src={source.imageUrl} />
               </Link>
             )}
           </div>

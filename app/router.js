@@ -31,6 +31,7 @@ import getPersonTimelineRoute from './person/getPersonTimeline.route.js';
 
 // Source
 import sourceCreateRoutes from './source/index.js';
+import createSourceRoute from './source/createSource.route.js';
 
 // Story
 import storyCreateRoutes from './story/index.js';
@@ -106,6 +107,7 @@ router.get('/people/:id/photos', getPersonPhotosRoute);
 router.get('/people/:id/timeline', getPersonTimelineRoute);
 
 sourceCreateRoutes(router);
+router.post('/sources', createSourceRoute);
 
 storyCreateRoutes(router);
 router.get('/api/stories/:id', getStoryRoute);
