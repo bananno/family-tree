@@ -11,6 +11,7 @@ export default function PersonSummaryPage() {
 
   return (
     <>
+      {person.profileSummary && <p>{person.profileSummary}</p>}
       <BirthAndDeath title="birth" event={person.birth} person={person} />
       <BirthAndDeath title="death" event={person.death} person={person} />
       <PersonImmediateFamily />

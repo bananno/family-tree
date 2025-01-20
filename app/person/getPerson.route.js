@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 
 const Citation = mongoose.model('Citation');
 const Event = mongoose.model('Event');
+const Notation = mongoose.model('Notation');
 const Person = mongoose.model('Person');
 
 export default async function getPerson(req, res) {
@@ -37,6 +38,11 @@ export default async function getPerson(req, res) {
     ...person.children,
   ]);
 
+  const profileSummaryNotations = await Notation.find({
+    people: person,
+    title: 'profile summary',
+  });
+
   const data = {
     ..._.pick(person, [
       'id',
@@ -54,16 +60,19 @@ export default async function getPerson(req, res) {
     parents: person.parents.map(person => person.toListApi()),
     siblings: _.sortBy(
       [...person.siblings, person].map(person => person.toListApi()),
-      'birthYear'
+      'birthYear',
     ),
     spouses: person.spouses.map(person => person.toListApi()),
     children: _.sortBy(
       person.children.map(person => person.toListApi()),
-      'birthYear'
+      'birthYear',
     ),
     tags: person.convertTags({ asList: true }),
     treeParents: ancestorTree.treeParents,
     gender: person.genderText(),
+    profileSummary: profileSummaryNotations
+      .map(notation => notation.text)
+      .join(' '),
   };
 
   res.json({ person: data });
@@ -121,18 +130,18 @@ async function populateBirthAndDeathYears(people) {
   });
 
   const birthEvents = events.filter(event =>
-    ['birth', 'birth and death'].includes(event.title)
+    ['birth', 'birth and death'].includes(event.title),
   );
   const deathEvents = events.filter(event =>
-    ['death', 'birth and death'].includes(event.title)
+    ['death', 'birth and death'].includes(event.title),
   );
 
   people.forEach(person => {
     person.birthYear = birthEvents.find(event =>
-      event.people.includes(person.id)
+      event.people.includes(person.id),
     )?.date.year;
     person.deathYear = deathEvents.find(event =>
-      event.people.includes(person.id)
+      event.people.includes(person.id),
     )?.date.year;
   });
 }
