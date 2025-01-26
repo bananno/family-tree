@@ -1,12 +1,11 @@
 import _ from 'lodash';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
+import { uploadFileToS3 } from '../tools/s3.js';
+
 dotenv.config();
 
-const AWS_REGION = process.env.AWS_REGION;
-const IMAGE_UPLOAD_S3_BUCKET = process.env.IMAGE_UPLOAD_S3_BUCKET;
 const PUBLIC_IMAGE_URL = process.env.IMAGE_HOSTING_PATH;
 
 const schema = new mongoose.Schema(
@@ -28,6 +27,30 @@ const schema = new mongoose.Schema(
   { timestamps: true },
 );
 
+schema.statics.newFromFile = (file, options = {}) => {
+  const uploadedFile = new UploadedFile({
+    fileType: 'image',
+    mimeType: file.mimetype,
+    size: file.size,
+  });
+
+  if (options.generateKey) {
+    // Note that the key won't actually match the final id because the id may change on save.
+    const extension = file.originalname.split('.').pop();
+    uploadedFile.key = `${uploadedFile.id}.${extension}`;
+  } else if (options.key) {
+    uploadedFile.key = options.key;
+  } else {
+    uploadedFile.key = file.originalname;
+  }
+
+  if (options.directory) {
+    uploadedFile.key = [options.directory, uploadedFile.key].join('/');
+  }
+
+  return uploadedFile;
+};
+
 schema.methods.toApi = function () {
   return {
     id: this.id,
@@ -43,16 +66,11 @@ schema.methods.url = function () {
 // Before calling: create and save the UploadedFile with a key, fileType, and mimeType.
 // Then call executeUpload with the original uploaded file as an argument.
 schema.methods.executeUpload = async function (file) {
-  const s3 = new S3Client({ region: AWS_REGION });
-
-  const command = new PutObjectCommand({
-    Bucket: IMAGE_UPLOAD_S3_BUCKET,
+  const s3Response = await uploadFileToS3({
     Key: this.key,
     Body: file.buffer,
     ContentType: this.mimeType,
   });
-
-  const s3Response = await s3.send(command);
 
   this.eTag = s3Response.ETag;
 

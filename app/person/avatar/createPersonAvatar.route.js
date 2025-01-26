@@ -13,14 +13,10 @@ export default async function createPersonAvatarRoute(req, res) {
 
   const file = req.file;
 
-  const uploadedFile = new UploadedFile({
-    fileType: 'image',
-    mimeType: file.mimetype,
-    size: file.size,
+  const uploadedFile = UploadedFile.newFromFile(file, {
+    generateKey: true,
+    directory: 'avatar',
   });
-
-  const extension = file.originalname.split('.').pop();
-  uploadedFile.key = `avatar/${uploadedFile.id}.${extension}`;
 
   await uploadedFile.save();
   await uploadedFile.executeUpload(file);

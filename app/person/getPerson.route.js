@@ -5,6 +5,8 @@ const Citation = mongoose.model('Citation');
 const Event = mongoose.model('Event');
 const Notation = mongoose.model('Notation');
 const Person = mongoose.model('Person');
+const PersonAvatar = mongoose.model('PersonAvatar');
+const UploadedFile = mongoose.model('UploadedFile');
 
 export default async function getPerson(req, res) {
   const personId = req.params.id;
