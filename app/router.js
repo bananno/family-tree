@@ -30,6 +30,9 @@ import getPersonPhotosRoute from './person/getPersonPhotos.route.js';
 import getPersonTimelineRoute from './person/getPersonTimeline.route.js';
 import updatePersonLinksRoute from './person/updatePersonLinks.route.js';
 
+// Person - Avatar
+import getPersonAvatarsRoute from './person/avatar/getPersonAvatars.route.js';
+
 // Source
 import sourceCreateRoutes from './source/index.js';
 import createSourceRoute from './source/createSource.route.js';
@@ -107,6 +110,7 @@ router.get('/people/:id/checklist', getPersonChecklistRoute);
 router.get('/people/:id/photos', getPersonPhotosRoute);
 router.get('/people/:id/timeline', getPersonTimelineRoute);
 router.post('/people/:id/links', updatePersonLinksRoute);
+router.get('/people/:id/avatars', getPersonAvatarsRoute);
 
 sourceCreateRoutes(router);
 router.post('/sources', createSourceRoute);

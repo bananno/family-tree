@@ -7,6 +7,7 @@ import './image/Image.model.js';
 import './location/Location.model.js';
 import './notation/Notation.model.js';
 import './person/Person.model.js';
+import './person/avatar/PersonAvatar.model.js';
 import './source/Source.model.js';
 import './story/Story.model.js';
 import './tag/Tag.model.js';
