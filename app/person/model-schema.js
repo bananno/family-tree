@@ -60,6 +60,7 @@ export default [
     name: 'links',
     dataType: 'link',
     isList: true,
+    isEditable: () => false,
   },
   {
     name: 'tags',

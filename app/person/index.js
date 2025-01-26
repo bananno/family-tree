@@ -25,7 +25,6 @@ export default function createRoutes(router) {
 
   router.post('/person/:id/add/events', createPersonEvent);
   router.post('/person/:id/add/notations', createPersonNotation);
-  router.post('/person/:id/add/namedLink', addNamedLink);
 
   router.get('/person/:id/descendants/generation/:generation',
     personProfileRoutes.other.descendants);
@@ -59,15 +58,4 @@ async function createPersonNotation(req, res) {
   await Notation.create(newNotation);
 
   res.redirect('/person/' + req.paramPersonId + '/notations');
-}
-
-async function addNamedLink(req, res) {
-  const url = req.body.url;
-  if (!url) {
-    return res.send('missing link text');
-  }
-  const newLink = url + ' ' + req.body.title;
-  const links = [...req.person.links, newLink];
-  await Person.updateOne({_id: req.person._id}, {links});
-  res.redirect('/person/' + req.paramPersonId + '/edit');
 }
