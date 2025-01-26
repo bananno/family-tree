@@ -11,7 +11,7 @@ const customRules = {
 
 export default [
   {
-    files: ['src/**/*.{js,jsx}'],
+    files: ['client/src/**/*.{js,jsx}'],
     languageOptions: { globals: globals.browser },
     ...eslintPluginReact.configs.flat.recommended,
     plugins: {

@@ -70,14 +70,14 @@ function AppRoutes() {
             <Route path="/person/:id/photos" element={<PersonPhotosPage />} />
             {isDevelopment && (
               <>
-              <Route
-                path="/person/:id/checklist"
-                element={<PersonChecklistPage />}
-              />
-              <Route
-                path="/person/:id/technical"
-                element={<PersonTechnicalPage />}
-              />
+                <Route
+                  path="/person/:id/checklist"
+                  element={<PersonChecklistPage />}
+                />
+                <Route
+                  path="/person/:id/technical"
+                  element={<PersonTechnicalPage />}
+                />
               </>
             )}
             <Route path="*" element={<PersonToDoPage />} />

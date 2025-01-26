@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
 import { usePersonContext } from 'person/PersonContext';
+import api from 'shared/api';
 import DevOnly from 'shared/DevOnly';
-import LinkList, { FormattedLink } from 'shared/LinkList';
+import Divider from 'shared/Divider';
 import Button from 'shared/form/Button';
 import Input from 'shared/form/Input';
-import Divider from 'shared/Divider';
-import Spacer from 'shared/Spacer';
+import LinkList, { FormattedLink } from 'shared/LinkList';
 import Modal from 'shared/Modal';
-import api from 'shared/api';
+import Spacer from 'shared/Spacer';
 
 // DONE:
 // Show list of links

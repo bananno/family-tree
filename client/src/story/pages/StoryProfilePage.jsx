@@ -9,10 +9,10 @@ import FormatContent from 'shared/FormatContent';
 import FormatDate from 'shared/FormatDate';
 import FormatLocation from 'shared/FormatLocation';
 import LinkList from 'shared/LinkList';
+import NewEntrySourceModal from 'source/components/NewEntrySourceModal';
 import SourceLink from 'source/components/SourceLink';
 import SourceList from 'source/components/SourceList';
 import useStoryProfile from 'story/hooks/useStoryProfile';
-import NewEntrySourceModal from 'source/components/NewEntrySourceModal';
 import classes from 'story/story.module.scss';
 import TagList from 'tag/components/TagList';
 
