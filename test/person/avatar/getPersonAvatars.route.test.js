@@ -8,8 +8,6 @@ import PersonAvatar from '../../../app/person/avatar/PersonAvatar.model.js';
 import UploadedFile from '../../../app/file/UploadedFile.model.js';
 
 const personId = '5bce02694df8a32e9026e654';
-const fileId1 = 'a32e995bce0264df8026e654';
-const fileId2 = 'f8a35b9026e65e0269c2e4d4';
 
 const req = {
   params: {
@@ -26,27 +24,26 @@ beforeAll(async () => {
   });
 
   const uploadedFile1 = new UploadedFile({
-    _id: fileId1,
     key: 'file1.jpg',
     fileType: 'image',
   });
 
   const uploadedFile2 = new UploadedFile({
-    _id: fileId2,
     key: 'file2.jpg',
     fileType: 'image',
   });
 
   const avatar1 = new PersonAvatar({
     person: personId,
-    file: fileId1,
-    selected: true,
+    file: uploadedFile1._id,
   });
 
   const avatar2 = new PersonAvatar({
     person: personId,
-    file: fileId2,
+    file: uploadedFile2._id,
   });
+
+  mainPerson.avatar = avatar1._id;
 
   await Promise.all([
     mainPerson.save(),
@@ -55,7 +52,7 @@ beforeAll(async () => {
     avatar1.save(),
   ]);
 
-  // It's newer, so let it save after the others.
+  // It's newer, so let it save after the others to ensure consistent sorting.
   await avatar2.save();
 
   expectedResponse = [

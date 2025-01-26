@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 export default [
   {
     name: 'name',
@@ -57,14 +59,19 @@ export default [
     onDelete: (person, relativeId) => person.detachChild(relativeId),
   },
   {
-    name: 'links',
-    dataType: 'link',
-    isList: true,
-    isEditable: () => false,
-  },
-  {
     name: 'tags',
     dataType: 'tag',
     isList: true,
+  },
+  {
+    // TODO: gradually move things here, and then into a regular model schema.
+    name: 'additionalSchema',
+    value: {
+      avatar: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PersonAvatar',
+      },
+      links: [String],
+    },
   },
 ];

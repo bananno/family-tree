@@ -13,17 +13,14 @@ const schema = new mongoose.Schema(
       ref: 'UploadedFile',
       required: true,
     },
-    selected: {
-      type: Boolean,
-      default: false,
-    },
   },
   { timestamps: true },
 );
 
-schema.methods.toApi = function () {
+schema.methods.toApi = function (selectedId) {
   return {
-    ..._.pick(this, ['id', 'selected', 'createdAt', 'updatedAt']),
+    ..._.pick(this, ['id', 'createdAt', 'updatedAt']),
+    selected: this.id === selectedId,
     filename: this.file?.key,
     url: this.file?.url(),
   };

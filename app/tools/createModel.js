@@ -19,7 +19,14 @@ export default function createModel(resource) {
   // Default values will be filled in, etc.
   const fields = [];
 
+  let additionalSchema = {};
+
   rawFieldList.forEach(fieldData => {
+    if (fieldData.name === 'additionalSchema') {
+      additionalSchema = fieldData.value;
+      return;
+    }
+
     const keysDone = [];
     propFieldsUsed.push(keysDone);
 
@@ -186,7 +193,12 @@ export default function createModel(resource) {
 
   checkForUnusedKeys(modelName, rawFieldList, propFieldsUsed);
 
-  const mongooseSchema = new mongoose.Schema(modelSchema, { timestamps: true });
+  // TODO: Gradually move things into the additionalSchema which is not
+  // handled by createModel.
+  const mongooseSchema = new mongoose.Schema(
+    { ...modelSchema, ...additionalSchema },
+    { timestamps: true },
+  );
 
   return { constants: { fields }, schema: mongooseSchema };
 }
@@ -197,6 +209,10 @@ function capitalize(str) {
 
 function checkForUnusedKeys(modelName, rawFieldList, propFieldsUsed) {
   rawFieldList.forEach((prop, i) => {
+    if (prop.name === 'additionalSchema') {
+      return;
+    }
+
     const propKeys = Object.keys(prop).sort();
     const keysUsed = propFieldsUsed[i].sort();
     if (propKeys.join(',') != keysUsed.join(',')) {
