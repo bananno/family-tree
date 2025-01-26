@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { usePersonContext } from 'person/PersonContext';
 import api from 'shared/api';
@@ -12,13 +12,13 @@ import Spacer from 'shared/Spacer';
 
 // DONE:
 // Show list of links
+// Ability to add a new link
+// Ability to edit the value of a link
+// Refetch links after a change
 
 // TODO:
-// Ability to edit the value of a link
 // Ability to reorder links
 // Ability to delete links, with popup confirmation
-// Ability to add a new link
-// Refetch links after a change (separate endpoint?)
 // Populate the text value for a new link, based on the url
 //    (example: if url matches FamilySearch.org, use "FamilySearch")
 // Make it easy to add links that are known to be missing
@@ -51,7 +51,7 @@ export default function PersonLinksPage() {
         </>
       )}
       <DevOnly>
-        <NewLinkModal />
+        <NewOrEditLinkModal />
       </DevOnly>
     </>
   );
@@ -107,10 +107,10 @@ function EditLinksSection({ links, onDone }) {
         Done
       </Button>
       {editingIndex !== null && (
-        <EditLinkValueModal
+        <NewOrEditLinkModal
           editingIndex={editingIndex}
           link={links[editingIndex]}
-          onCancel={() => setEditingIndex(null)}
+          closeModal={() => setEditingIndex(null)}
         />
       )}
       {deletingIndex !== null && (
@@ -124,24 +124,24 @@ function EditLinksSection({ links, onDone }) {
   );
 }
 
-function NewLinkModal() {
-  return <NewOrEditLinkModal title="New Link" />;
-}
+// The "new link" version uses the modal's built-in trigger button to open the modal.
+// The "edit link" version is opened by a button in the list of links.
+function NewOrEditLinkModal({ link, editingIndex, closeModal }) {
+  const addingNew = !link;
 
-function EditLinkValueModal({ editingIndex, link, onCancel }) {
-  return (
-    <NewOrEditLinkModal title="Edit Link" link={link} onCancel={onCancel} />
-  );
-}
-
-function NewOrEditLinkModal({ title, onCancel }) {
-  const { personId } = usePersonContext();
+  const { personId, refetch: refetchPerson } = usePersonContext();
   const [url, setUrl] = useState('');
   const [text, setText] = useState('');
 
+  useEffect(() => {
+    setUrl(link?.url || '');
+    setText(link?.text || '');
+  }, [link]);
+
   async function handleConfirm() {
     const requestBody = {
-      action: 'add',
+      action: addingNew ? 'add' : 'edit',
+      index: editingIndex,
       url: url.trim(),
       text: text.trim(),
     };
@@ -151,27 +151,31 @@ function NewOrEditLinkModal({ title, onCancel }) {
       body: JSON.stringify(requestBody),
     });
 
-    clearForm();
+    clearFormAndCloseModal();
+    refetchPerson();
   }
 
-  function onCancel() {
-    clearForm();
-  }
-
-  function clearForm() {
+  function clearFormAndCloseModal() {
     setUrl('');
     setText('');
+    closeModal?.();
   }
 
   const isValid = url.trim() !== '';
 
+  // When adding a new link, the modal is opened by the built-in modal trigger button.
+  // When editing a link, the modal is opened by a button in the list of links, outside
+  // of this component, so open is always true.
+  const modalIsOpen = addingNew ? undefined : true;
+
   return (
     <Modal
-      title={title}
+      title={addingNew ? 'Add Link' : 'Edit Link'}
       onConfirm={handleConfirm}
       confirmEnabled={isValid}
-      onCancel={onCancel}
-      triggerButtonLabel="Add Link"
+      onCancel={clearFormAndCloseModal}
+      triggerButtonLabel={addingNew ? 'Add Link' : undefined}
+      open={modalIsOpen}
     >
       <Input
         value={url}

@@ -10,12 +10,12 @@ export default async function updatePersonLinksRoute(req, res) {
   const action = req.body.action;
   const index = req.body.index;
 
-  if (!['add', 'update', 'delete', 'reorder'].includes(action)) {
+  if (!['add', 'edit', 'delete', 'reorder'].includes(action)) {
     return res.status(400).send('Invalid action');
   }
 
   let newLinkValue;
-  if (['add', 'update'].includes(action)) {
+  if (['add', 'edit'].includes(action)) {
     const url = req.body.url.trim();
     const text = req.body.text.trim();
     if (!url) {
@@ -38,7 +38,7 @@ export default async function updatePersonLinksRoute(req, res) {
       ...person.links.slice(0, index),
       ...person.links.slice(index + 1),
     ];
-  } else if (action === 'update') {
+  } else if (action === 'edit') {
     person.links[index] = newLinkValue;
   } else if (action === 'reorder') {
     const tempLink = person.links[index];

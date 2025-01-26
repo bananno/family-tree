@@ -62,6 +62,7 @@ export function PersonProvider({ children }) {
     notFound,
     person: response.person,
     personId,
+    refetch: isProduction ? undefined : fetchPerson,
   };
 
   return (

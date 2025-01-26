@@ -94,10 +94,10 @@ describe('updatePersonLinksRoute', () => {
     });
   });
 
-  describe('when action is "update"', () => {
+  describe('when action is "edit"', () => {
     beforeEach(async () => {
       req.body = {
-        action: 'update',
+        action: 'edit',
         index: 1,
         url: 'https://www.familysearch.org/789/updated',
         text: 'FamilySearchUpdated',
@@ -149,7 +149,7 @@ describe('updatePersonLinksRoute', () => {
     describe('when the index is 0', () => {
       beforeEach(async () => {
         req.body = {
-          action: 'update',
+          action: 'edit',
           index: 0,
           url: 'https://www.ancestry.com/456/updated',
           text: 'AncestryUpdated',
