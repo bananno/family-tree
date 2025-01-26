@@ -14,18 +14,22 @@ const schema = new mongoose.Schema(
     // fileType = "image" or... other? support PDFs eventually
     fileType: {
       type: String,
-      required: true
+      required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 schema.methods.toApi = function () {
   return {
     id: this.id,
     filename: this.key,
-    url: `${process.env.IMAGE_HOSTING_PATH}/${this.key}`,
+    url: this.url(),
   };
+};
+
+schema.methods.url = function () {
+  return `${process.env.IMAGE_HOSTING_PATH}/${this.key}`;
 };
 
 const UploadedFile = mongoose.model('UploadedFile', schema);

@@ -2,8 +2,11 @@ import React from 'react';
 
 import classes from './PersonProfileIcon.module.scss';
 
+// Pass either a person (to use their default profile image) or a
+// src (to use a custom image)
 export default function PersonProfileIcon({
   person,
+  src,
   large = false,
   medium = false,
   square = false,
@@ -29,14 +32,16 @@ export default function PersonProfileIcon({
     classNames.push(classes.genericPlaceholder);
   }
 
-  if (!person?.profileImage) {
+  const imageUrl = src || person?.profileImage;
+
+  if (!imageUrl) {
     return <div className={classNames.join(' ')} style={style} />;
   }
 
   return (
     <img
-      src={person.profileImage}
-      alt={person.name}
+      src={imageUrl}
+      alt={person?.name}
       className={classNames.join(' ')}
       style={style}
     />

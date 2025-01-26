@@ -12,7 +12,7 @@ export default async function getPersonAvatarsRoute(req, res) {
 
   const avatars = await PersonAvatar.find({ person: person.id }).sort({
     createdAt: -1,
-  });
+  }).populate('file');
 
   res.json({
     data: avatars.map(avatar => avatar.toApi()),

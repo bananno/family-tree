@@ -22,7 +22,11 @@ const schema = new mongoose.Schema(
 );
 
 schema.methods.toApi = function () {
-  return _.pick(this, ['id', 'selected', 'createdAt', 'updatedAt']);
+  return {
+    ..._.pick(this, ['id', 'selected', 'createdAt', 'updatedAt']),
+    filename: this.file?.key,
+    url: this.file?.url(),
+  };
 };
 
 const PersonAvatar = mongoose.model('PersonAvatar', schema);

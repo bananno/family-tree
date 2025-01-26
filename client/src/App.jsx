@@ -10,6 +10,7 @@ import NotationIndexPage from 'notation/pages/NotationIndexPage';
 import NotationProfilePage from 'notation/pages/NotationProfilePage';
 // Person
 import PersonLayout from 'person/layout/PersonLayout';
+import PersonAvatarPage from 'person/pages/PersonAvatarPage';
 import PersonChecklistPage from 'person/pages/PersonChecklistPage';
 import PersonCitationsPage from 'person/pages/PersonCitationsPage';
 import PersonIndexPage from 'person/pages/PersonIndexPage';
@@ -70,6 +71,10 @@ function AppRoutes() {
             <Route path="/person/:id/photos" element={<PersonPhotosPage />} />
             {isDevelopment && (
               <>
+                <Route
+                  path="/person/:id/avatar"
+                  element={<PersonAvatarPage />}
+                />
                 <Route
                   path="/person/:id/checklist"
                   element={<PersonChecklistPage />}

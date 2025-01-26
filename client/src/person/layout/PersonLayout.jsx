@@ -5,6 +5,7 @@ import PersonProfileIcon from 'person/components/PersonProfileIcon';
 import { PersonProvider, usePersonContext } from 'person/PersonContext';
 import DevOnly from 'shared/DevOnly';
 import ExternalLink from 'shared/ExternalLink';
+import useEnvironment from 'shared/useEnvironment';
 
 import classes from './PersonLayout.module.scss';
 
@@ -40,7 +41,7 @@ function PersonOutlet() {
     <div className={classes.PersonLayout}>
       <aside className={classes.sidebar}>
         <div className={classes.header}>
-          <PersonProfileIcon person={person} large square />
+          <PersonAvatar person={person} />
           <h1>
             {notFound && 'Person Not Found'}
             {loading && <>&nbsp;</>}
@@ -117,12 +118,25 @@ function PersonNavigation({ person }) {
   );
 }
 
-////////////////////
-
 function LinkOrText({ pathname, to, children }) {
   // Ignore trailing slashes when comparing paths.
   if (pathname.replace(/\/$/, '') === to.replace(/\/$/, '')) {
     return <>{children}</>;
   }
   return <Link to={to}>{children}</Link>;
+}
+
+function PersonAvatar() {
+  const { person, personId } = usePersonContext();
+  const { isDevelopment } = useEnvironment();
+
+  if (isDevelopment) {
+    return (
+      <Link to={`/person/${personId}/avatar`}>
+        <PersonProfileIcon person={person} large square />
+      </Link>
+    );
+  }
+
+  return <PersonProfileIcon person={person} large square />;
 }
