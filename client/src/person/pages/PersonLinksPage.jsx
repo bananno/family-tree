@@ -10,20 +10,6 @@ import LinkList, { FormattedLink } from 'shared/LinkList';
 import Modal from 'shared/Modal';
 import Spacer from 'shared/Spacer';
 
-// DONE:
-// Show list of links
-// Ability to add a new link
-// Ability to edit the value of a link
-// Refetch links after a change
-// Ability to reorder links
-// Ability to delete links, with popup confirmation
-// Populate the text value for a new link, based on the url
-//    (example: if url matches FamilySearch.org, use "FamilySearch")
-
-// TODO:
-// Make it easy to add links that are known to be missing
-//    (example: if there's no FamilySearch link yet, provide a quick way to add one)
-
 export default function PersonLinksPage() {
   const { person } = usePersonContext();
   const [editing, setEditing] = useState(false);
@@ -52,6 +38,7 @@ export default function PersonLinksPage() {
       )}
       <DevOnly>
         <NewOrEditLinkModal />
+        <MissingItemsSection />
       </DevOnly>
     </>
   );
@@ -238,6 +225,76 @@ function DeleteLinkModal({ deleteIndex, link, closeModal }) {
     >
       {link.url} {link.url !== link.text && link.text}
     </Modal>
+  );
+}
+
+function MissingItemsSection() {
+  const { person } = usePersonContext();
+
+  const missingAncestry = !person.links.some(link => link.url.match());
+  const missingFamilySearch = !person.links.some(link =>
+    link.url.match(/familysearch.org/i),
+  );
+  const missingFindAGrave = !person.links.some(link =>
+    link.url.match(/findagrave.com/i),
+  );
+  const missingWikiTree = !person.links.some(link =>
+    link.url.match(/wikitree.com/i),
+  );
+
+  if (
+    !missingAncestry &&
+    !missingFamilySearch &&
+    !missingFindAGrave &&
+    !missingWikiTree
+  ) {
+    return null;
+  }
+
+  return (
+    <>
+      <Spacer />
+      <h2>missing items</h2>
+      {missingAncestry && <MissingItemForm text="Ancestry" />}
+      {missingFamilySearch && <MissingItemForm text="FamilySearch" />}
+      {missingFindAGrave && <MissingItemForm text="FindAGrave" />}
+      {missingWikiTree && <MissingItemForm text="WikiTree" />}
+    </>
+  );
+}
+
+function MissingItemForm({ text }) {
+  const { personId, refetch: refetchPerson } = usePersonContext();
+
+  const [url, setUrl] = useState('');
+
+  async function handleConfirm(e) {
+    e.preventDefault();
+
+    const requestBody = {
+      action: 'add',
+      url: url.trim(),
+      text,
+    };
+
+    await api(`people/${personId}/links`, {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+    });
+
+    refetchPerson();
+  }
+
+  const isValid = url.trim() !== '';
+
+  return (
+    <form
+      style={{ display: 'block', margin: '10px 0' }}
+      onSubmit={handleConfirm}
+    >
+      <Input value={url} onChange={setUrl} placeholder={text} />
+      <Button disabled={!isValid}>Add</Button>
+    </form>
   );
 }
 
