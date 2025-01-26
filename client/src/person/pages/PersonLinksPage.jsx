@@ -15,10 +15,10 @@ import Spacer from 'shared/Spacer';
 // Ability to add a new link
 // Ability to edit the value of a link
 // Refetch links after a change
-
-// TODO:
 // Ability to reorder links
 // Ability to delete links, with popup confirmation
+
+// TODO:
 // Populate the text value for a new link, based on the url
 //    (example: if url matches FamilySearch.org, use "FamilySearch")
 // Make it easy to add links that are known to be missing
@@ -62,6 +62,21 @@ export default function PersonLinksPage() {
 function EditLinksSection({ links, onDone }) {
   const [editingIndex, setEditingIndex] = useState(null);
   const [deletingIndex, setDeletingIndex] = useState(null);
+  const { personId, refetch: refetchPerson } = usePersonContext();
+
+  async function reorderLink(reorderIndex) {
+    const requestBody = {
+      action: 'reorder',
+      index: reorderIndex,
+    };
+
+    await api(`people/${personId}/links`, {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+    });
+
+    refetchPerson();
+  }
 
   return (
     <>
@@ -84,6 +99,7 @@ function EditLinksSection({ links, onDone }) {
                   marginLeft: '5px',
                   visibility: index === 0 ? 'hidden' : 'visible',
                 }}
+                onClick={() => reorderLink(index)}
               >
                 &#9650;
               </Button>
@@ -117,15 +133,13 @@ function EditLinksSection({ links, onDone }) {
         <DeleteLinkModal
           deleteIndex={deletingIndex}
           link={links[deletingIndex]}
-          onCancel={() => setDeletingIndex(null)}
+          closeModal={() => setDeletingIndex(null)}
         />
       )}
     </>
   );
 }
 
-// The "new link" version uses the modal's built-in trigger button to open the modal.
-// The "edit link" version is opened by a button in the list of links.
 function NewOrEditLinkModal({ link, editingIndex, closeModal }) {
   const addingNew = !link;
 
@@ -135,7 +149,7 @@ function NewOrEditLinkModal({ link, editingIndex, closeModal }) {
 
   useEffect(() => {
     setUrl(link?.url || '');
-    setText(link?.text || '');
+    setText((link && link.text !== link.url && link.text) || '');
   }, [link]);
 
   async function handleConfirm() {
@@ -190,9 +204,22 @@ function NewOrEditLinkModal({ link, editingIndex, closeModal }) {
   );
 }
 
-function DeleteLinkModal({ deleteIndex, link, onCancel }) {
+function DeleteLinkModal({ deleteIndex, link, closeModal }) {
+  const { personId, refetch: refetchPerson } = usePersonContext();
+
   async function handleConfirm() {
-    onCancel();
+    const requestBody = {
+      action: 'delete',
+      index: deleteIndex,
+    };
+
+    await api(`people/${personId}/links`, {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+    });
+
+    closeModal();
+    refetchPerson();
   }
 
   return (
@@ -200,9 +227,9 @@ function DeleteLinkModal({ deleteIndex, link, onCancel }) {
       title="Delete link?"
       open
       onConfirm={handleConfirm}
-      onCancel={onCancel}
+      onCancel={closeModal}
     >
-      {link.url} {link.text}
+      {link.url} {link.url !== link.text && link.text}
     </Modal>
   );
 }

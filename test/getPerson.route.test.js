@@ -18,6 +18,10 @@ beforeAll(async () => {
     name: 'The Person',
     gender: PERSON_GENDER.FEMALE,
     profileImage: 'https://example.com/image.jpg',
+    links: [
+      'https://ancestry.com/123 Ancestry',
+      'https://random.com',
+    ],
   });
 });
 
@@ -26,7 +30,10 @@ const expectedResponse = {
     id: personId,
     children: [],
     citations: [],
-    links: [],
+    links: [
+      { url: 'https://ancestry.com/123', text: 'Ancestry' },
+      { url: 'https://random.com', text: 'https://random.com' },
+    ],
     name: 'The Person',
     parents: [],
     siblings: expect.anything(),
@@ -36,6 +43,12 @@ const expectedResponse = {
     treeParents: [],
     profileImage: 'https://example.com/image.jpg',
     gender: 'female',
+    birth: null,
+    death: null,
+    createdAt: expect.any(Date),
+    updatedAt: expect.any(Date),
+    living: false,
+    profileSummary: '',
   },
 };
 

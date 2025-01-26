@@ -245,6 +245,53 @@ describe('updatePersonLinksRoute', () => {
     });
   });
 
+  describe('when action is "reorder"', () => {
+    beforeEach(async () => {
+      req.body = {
+        action: 'reorder',
+        index: 1,
+      };
+    });
+
+    describe('when the index is more than 0', () => {
+      beforeEach(async () => {
+        req.body.index = 2;
+        await callRoute();
+      });
+
+      it('reorders the links', async () => {
+        const person = await Person.findById(personId);
+        expect(person.links).toEqual([
+          'https://www.ancestry.com/456 Ancestry',
+          'https://www.example.com/123 Example',
+          'https://www.familysearch.org/789 FamilySearch',
+        ]);
+      });
+    });
+
+    describe('when the index is 0', () => {
+      beforeEach(async () => {
+        req.body.index = 0;
+        await callRoute();
+      });
+
+      it('returns a 400 status', () => {
+        expect(res.status).toHaveBeenCalledWith(400);
+      });
+    });
+
+    describe('when the index is invalid', () => {
+      beforeEach(async () => {
+        req.body.index = 33;
+        await callRoute();
+      });
+
+      it('returns a 400 status', () => {
+        expect(res.status).toHaveBeenCalledWith(400);
+      });
+    });
+  });
+
   describe('when the action is invalid', () => {
     beforeEach(async () => {
       req.body.action = 'other';

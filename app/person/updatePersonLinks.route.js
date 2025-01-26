@@ -28,7 +28,7 @@ export default async function updatePersonLinksRoute(req, res) {
     if (person.links[index] === undefined) {
       return res.status(400).send('Valid index is required');
     }
-    if (action === 'reorder' && person.links[index - 1]) {
+    if (action === 'reorder' && person.links[index - 1] === undefined) {
       return res.status(400).send('Valid index is required');
     }
   }
