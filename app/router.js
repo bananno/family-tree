@@ -31,6 +31,7 @@ import getPersonTimelineRoute from './person/getPersonTimeline.route.js';
 import updatePersonLinksRoute from './person/updatePersonLinks.route.js';
 
 // Person - Avatar
+import createPersonAvatarRoute from './person/avatar/createPersonAvatar.route.js';
 import getPersonAvatarsRoute from './person/avatar/getPersonAvatars.route.js';
 
 // Source
@@ -85,12 +86,12 @@ router.get('/export/publish', exportPublishedDataRoute);
 router.get('/featured-quotes', featuredQuoteRoutes.listFeaturedQuotesRoute);
 router.get(
   '/featured-quotes-text',
-  featuredQuoteRoutes.listFeaturedQuotesTextRoute
+  featuredQuoteRoutes.listFeaturedQuotesTextRoute,
 );
 router.post('/featured-quotes', featuredQuoteRoutes.createFeaturedQuoteRoute);
 router.put(
   '/featured-quotes/:id',
-  featuredQuoteRoutes.updateFeaturedQuoteRoute
+  featuredQuoteRoutes.updateFeaturedQuoteRoute,
 );
 
 router.get('/files', listUploadedFilesRoute);
@@ -110,6 +111,11 @@ router.get('/people/:id/checklist', getPersonChecklistRoute);
 router.get('/people/:id/photos', getPersonPhotosRoute);
 router.get('/people/:id/timeline', getPersonTimelineRoute);
 router.post('/people/:id/links', updatePersonLinksRoute);
+router.post(
+  '/people/:id/avatars',
+  uploadFileMiddleware,
+  createPersonAvatarRoute,
+);
 router.get('/people/:id/avatars', getPersonAvatarsRoute);
 
 sourceCreateRoutes(router);
