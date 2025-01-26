@@ -28,6 +28,7 @@ import getPersonRoute from './person/getPerson.route.js';
 import getPersonChecklistRoute from './person/getPersonChecklist.route.js';
 import getPersonPhotosRoute from './person/getPersonPhotos.route.js';
 import getPersonTimelineRoute from './person/getPersonTimeline.route.js';
+import updatePersonLinksRoute from './person/updatePersonLinks.route.js';
 
 // Source
 import sourceCreateRoutes from './source/index.js';
@@ -105,6 +106,7 @@ router.get('/people/:id', getPersonRoute);
 router.get('/people/:id/checklist', getPersonChecklistRoute);
 router.get('/people/:id/photos', getPersonPhotosRoute);
 router.get('/people/:id/timeline', getPersonTimelineRoute);
+router.post('/people/:id/links', updatePersonLinksRoute);
 
 sourceCreateRoutes(router);
 router.post('/sources', createSourceRoute);

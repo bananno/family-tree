@@ -101,7 +101,9 @@ function mapCitationsIncludeSource(citations) {
 function mapLinks(links) {
   return links.map(link => {
     const arr = link.split(' ');
-    return { url: arr.shift(), text: arr.join(' ') };
+    const url = arr.shift();
+    const text = arr.join(' ') || url;
+    return { url, text };
   });
 }
 

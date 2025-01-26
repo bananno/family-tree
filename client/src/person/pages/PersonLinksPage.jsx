@@ -8,6 +8,7 @@ import Input from 'shared/form/Input';
 import Divider from 'shared/Divider';
 import Spacer from 'shared/Spacer';
 import Modal from 'shared/Modal';
+import api from 'shared/api';
 
 // DONE:
 // Show list of links
@@ -17,6 +18,7 @@ import Modal from 'shared/Modal';
 // Ability to reorder links
 // Ability to delete links, with popup confirmation
 // Ability to add a new link
+// Refetch links after a change (separate endpoint?)
 // Populate the text value for a new link, based on the url
 //    (example: if url matches FamilySearch.org, use "FamilySearch")
 // Make it easy to add links that are known to be missing
@@ -122,11 +124,37 @@ function EditLinksSection({ links, onDone }) {
   );
 }
 
-function NewLinkModal({}) {
+function NewLinkModal() {
+  return <NewOrEditLinkModal title="New Link" />;
+}
+
+function EditLinkValueModal({ editingIndex, link, onCancel }) {
+  return (
+    <NewOrEditLinkModal title="Edit Link" link={link} onCancel={onCancel} />
+  );
+}
+
+function NewOrEditLinkModal({ title, onCancel }) {
+  const { personId } = usePersonContext();
   const [url, setUrl] = useState('');
   const [text, setText] = useState('');
 
   async function handleConfirm() {
+    const requestBody = {
+      action: 'add',
+      url: url.trim(),
+      text: text.trim(),
+    };
+
+    await api(`people/${personId}/links`, {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+    });
+
+    clearForm();
+  }
+
+  function onCancel() {
     clearForm();
   }
 
@@ -135,12 +163,15 @@ function NewLinkModal({}) {
     setText('');
   }
 
+  const isValid = url.trim() !== '';
+
   return (
     <Modal
-      title="New Link"
-      triggerButtonLabel="Add Link"
+      title={title}
       onConfirm={handleConfirm}
-      onCancel={clearForm}
+      confirmEnabled={isValid}
+      onCancel={onCancel}
+      triggerButtonLabel="Add Link"
     >
       <Input
         value={url}
@@ -151,16 +182,6 @@ function NewLinkModal({}) {
       />
       <br />
       <Input value={text} onChange={setText} placeholder="display text" />
-    </Modal>
-  );
-}
-
-function EditLinkValueModal({ editingIndex, link, onCancel }) {
-  return (
-    <Modal title="Edit Link" open onCancel={onCancel}>
-      <Input value={link.url} textarea style={{ height: '80px' }} />
-      <br />
-      <Input value={link.text} />
     </Modal>
   );
 }
