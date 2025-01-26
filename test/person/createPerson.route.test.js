@@ -1,8 +1,8 @@
-import './testDb.js';
-import { res } from './testTools.js';
+import '../testDb.js';
+import { res } from '../testTools.js';
 
-import createPersonRoute from '../app/person/createPerson.route';
-import Person, { PERSON_GENDER } from '../app/person/Person.model';
+import createPersonRoute from '../../app/person/createPerson.route.js';
+import Person, { PERSON_GENDER } from '../../app/person/Person.model.js';
 
 const req = {
   body: {

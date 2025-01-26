@@ -1,8 +1,8 @@
-import './testDb.js';
-import { expectResStatus, res } from './testTools.js';
+import '../testDb.js';
+import { expectResStatus, res } from '../testTools.js';
 
-import getPersonRoute from '../app/person/getPerson.route';
-import Person, { PERSON_GENDER } from '../app/person/Person.model';
+import getPersonRoute from '../../app/person/getPerson.route.js';
+import Person, { PERSON_GENDER } from '../../app/person/Person.model.js';
 
 const personId = '5bce02694df8a32e9026e654';
 

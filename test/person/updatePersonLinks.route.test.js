@@ -1,8 +1,8 @@
-import './testDb.js';
-import { res } from './testTools.js';
+import '../testDb.js';
+import { res } from '../testTools.js';
 
-import updatePersonLinksRoute from '../app/person/updatePersonLinks.route';
-import Person from '../app/person/Person.model';
+import updatePersonLinksRoute from '../../app/person/updatePersonLinks.route.js';
+import Person from '../../app/person/Person.model.js';
 
 const personId = '5bce02694df8a32e9026e654';
 

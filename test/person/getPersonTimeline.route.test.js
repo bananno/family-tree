@@ -1,12 +1,12 @@
-import './testDb.js';
-import { expectResStatus, res } from './testTools.js';
+import '../testDb.js';
+import { expectResStatus, res } from '../testTools.js';
 
-import getPersonTimelineRoute from '../app/person/getPersonTimeline.route';
+import getPersonTimelineRoute from '../../app/person/getPersonTimeline.route.js';
 
-import Event from '../app/event/Event.model';
-import Person, { PERSON_GENDER } from '../app/person/Person.model';
-import Source from '../app/source/Source.model';
-import Story from '../app/story/Story.model';
+import Event from '../../app/event/Event.model.js';
+import Person, { PERSON_GENDER } from '../../app/person/Person.model.js';
+import Source from '../../app/source/Source.model.js';
+import Story from '../../app/story/Story.model.js';
 
 const personId = '5bce02694df8a32e9026e654';
 
