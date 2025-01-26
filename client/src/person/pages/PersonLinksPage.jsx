@@ -17,10 +17,10 @@ import Spacer from 'shared/Spacer';
 // Refetch links after a change
 // Ability to reorder links
 // Ability to delete links, with popup confirmation
-
-// TODO:
 // Populate the text value for a new link, based on the url
 //    (example: if url matches FamilySearch.org, use "FamilySearch")
+
+// TODO:
 // Make it easy to add links that are known to be missing
 //    (example: if there's no FamilySearch link yet, provide a quick way to add one)
 
@@ -152,6 +152,13 @@ function NewOrEditLinkModal({ link, editingIndex, closeModal }) {
     setText((link && link.text !== link.url && link.text) || '');
   }, [link]);
 
+  function handleUrlChange(newUrl) {
+    setUrl(newUrl);
+    if (addingNew && text.trim() === '') {
+      setText(getLinkTextFromUrl(newUrl));
+    }
+  }
+
   async function handleConfirm() {
     const requestBody = {
       action: addingNew ? 'add' : 'edit',
@@ -193,7 +200,7 @@ function NewOrEditLinkModal({ link, editingIndex, closeModal }) {
     >
       <Input
         value={url}
-        onChange={setUrl}
+        onChange={handleUrlChange}
         textarea
         style={{ height: '80px' }}
         placeholder="URL"
@@ -232,4 +239,26 @@ function DeleteLinkModal({ deleteIndex, link, closeModal }) {
       {link.url} {link.url !== link.text && link.text}
     </Modal>
   );
+}
+
+function getLinkTextFromUrl(url) {
+  if (url.match(/ancestry.com/i)) {
+    return 'Ancestry';
+  }
+  if (url.match(/familysearch.org/i)) {
+    return 'FamilySearch';
+  }
+  if (url.match(/facebook.com/i)) {
+    return 'Facebook profile';
+  }
+  if (url.match(/findagrave.com/i)) {
+    return 'FindAGrave';
+  }
+  if (url.match(/newspapers.com/i)) {
+    return 'Newspapers.com';
+  }
+  if (url.match(/wikitree.com/i)) {
+    return 'WikiTree';
+  }
+  return '';
 }
