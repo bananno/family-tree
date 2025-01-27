@@ -22,8 +22,12 @@ schema.methods.toApi = function (selectedId) {
     ..._.pick(this, ['id', 'createdAt', 'updatedAt']),
     selected: this.id === selectedId,
     filename: this.file?.key,
-    url: this.file?.url(),
+    url: this.url(),
   };
+};
+
+schema.methods.url = function () {
+  return this.file?.url();
 };
 
 const PersonAvatar = mongoose.model('PersonAvatar', schema);

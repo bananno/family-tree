@@ -25,6 +25,20 @@ for (let methodName in staticMethods) {
 schema.methods.constants = () => constants;
 schema.statics.constants = () => constants;
 
+schema.query.populatePeople = function () {
+  return this.populate({
+    path: 'people',
+    populate: {
+      path: 'avatar',
+      select: 'file',
+      populate: {
+        path: 'file',
+        select: 'key',
+      },
+    },
+  });
+};
+
 const Event = mongoose.model('Event', schema);
 
 export default Event;

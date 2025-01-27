@@ -5,17 +5,22 @@ const Citation = mongoose.model('Citation');
 const Event = mongoose.model('Event');
 const Notation = mongoose.model('Notation');
 const Person = mongoose.model('Person');
-const PersonAvatar = mongoose.model('PersonAvatar');
-const UploadedFile = mongoose.model('UploadedFile');
+
+const populateAvatarUrl = {
+  path: 'avatar',
+  select: 'file',
+  populate: { path: 'file', select: 'key' },
+};
 
 export default async function getPerson(req, res) {
   const personId = req.params.id;
 
   const person = await findPersonByValidId(personId)
-    .populate('parents')
-    .populate('spouses')
-    .populate('children')
-    .populate('tags');
+    .populate({ path: 'parents', populate: populateAvatarUrl })
+    .populate({ path: 'spouses', populate: populateAvatarUrl })
+    .populate({ path: 'children', populate: populateAvatarUrl })
+    .populateAvatar()
+    .populate({ path: 'tags', select: 'title' });
 
   if (!person) {
     return res.status(404).send();
@@ -49,12 +54,12 @@ export default async function getPerson(req, res) {
     ..._.pick(person, [
       'id',
       'name',
-      'profileImage',
       'shareLevel',
       'living',
       'createdAt',
       'updatedAt',
     ]),
+    profileImage: person.avatarUrl() || person.profileImage,
     birth: mapBirthAndDeathEvent(person.birth),
     death: mapBirthAndDeathEvent(person.death),
     citations: mapCitationsIncludeSource(person.citations),
@@ -115,19 +120,21 @@ async function populateBirthAndDeathEvents(person) {
   person.birth = await Event.findOne({
     people: person,
     title: { $in: ['birth', 'birth and death'] },
-  }).populate('people');
+  }).populatePeople();
 
   person.death = await Event.findOne({
     people: person,
     title: { $in: ['death', 'birth and death'] },
-  }).populate('people');
+  }).populatePeople();
 }
 
 async function populateBirthAndDeathYears(people) {
   const events = await Event.find({
     people: { $in: people },
     title: { $in: ['birth', 'death', 'birth and death'] },
-  }).select('title people date.year');
+  })
+    .populatePeople()
+    .select('title people date.year');
 
   events.forEach(event => {
     event.people = event.people.map(person => String(person));

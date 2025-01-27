@@ -62,9 +62,11 @@ async function notationProfile(req, res) {
 }
 
 async function personIndex(req, res) {
-  const people = await Person.find();
+  const people = await Person.find()
+    .populateAvatar()
+    .select('name gender avatar profileImage');
   const data = people.map(person => person.toListApi());
-  res.send({data});
+  res.send({ data });
 }
 
 async function sourceIndex(req, res) {

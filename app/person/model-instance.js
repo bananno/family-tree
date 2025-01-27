@@ -445,8 +445,9 @@ methods.genderText = function () {
 methods.toListApi = function () {
   // Note that birthYear and deathYear are only populated sometimes.
   return {
-    ..._.pick(this, ['id', 'name', 'profileImage', 'birthYear', 'deathYear', 'living']),
+    ..._.pick(this, ['id', 'name', 'birthYear', 'deathYear', 'living']),
     gender: this.genderText(),
+    profileImage: this.avatarUrl(),
   };
 };
 

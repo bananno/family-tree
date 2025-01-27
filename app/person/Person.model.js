@@ -28,6 +28,21 @@ for (let methodName in staticMethods) {
   schema.statics[methodName] = staticMethods[methodName];
 }
 
+schema.query.populateAvatar = function () {
+  return this.populate({
+    path: 'avatar',
+    select: 'file',
+    populate: {
+      path: 'file',
+      select: 'key',
+    },
+  });
+};
+
+schema.methods.avatarUrl = function () {
+  return this.avatar?.url?.() || this.profileImage;
+};
+
 schema.methods.constants = () => constants;
 schema.statics.constants = () => constants;
 

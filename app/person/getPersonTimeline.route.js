@@ -7,7 +7,15 @@ import Person from './Person.model.js';
 
 const populatePeople = {
   path: 'people',
-  select: 'name gender profileImage',
+  populate: {
+    path: 'avatar',
+    select: 'file',
+    populate: {
+      path: 'file',
+      select: 'key',
+    },
+  },
+  select: 'name gender avatar profileImage',
 };
 
 const populateStory = {
