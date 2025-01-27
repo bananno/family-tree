@@ -2,7 +2,7 @@ import _ from 'lodash';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-import { uploadFileToS3 } from '../tools/s3.js';
+import { deleteFileFromS3, uploadFileToS3 } from '../tools/s3.js';
 
 dotenv.config();
 
@@ -75,6 +75,10 @@ schema.methods.executeUpload = async function (file) {
   this.eTag = s3Response.ETag;
 
   await this.save();
+};
+
+schema.methods.deleteRemote = async function () {
+  await deleteFileFromS3({ Key: this.key });
 };
 
 const UploadedFile = mongoose.model('UploadedFile', schema);

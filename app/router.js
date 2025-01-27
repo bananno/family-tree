@@ -32,6 +32,7 @@ import updatePersonLinksRoute from './person/updatePersonLinks.route.js';
 
 // Person - Avatar
 import createPersonAvatarRoute from './person/avatar/createPersonAvatar.route.js';
+import deletePersonAvatarRoute from './person/avatar/deletePersonAvatar.route.js';
 import getPersonAvatarsRoute from './person/avatar/getPersonAvatars.route.js';
 
 // Source
@@ -116,6 +117,7 @@ router.post(
   uploadFileMiddleware,
   createPersonAvatarRoute,
 );
+router.delete('/people/:id/avatars/:avatarId', deletePersonAvatarRoute);
 router.get('/people/:id/avatars', getPersonAvatarsRoute);
 
 sourceCreateRoutes(router);
