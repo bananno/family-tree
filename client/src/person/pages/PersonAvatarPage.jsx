@@ -12,6 +12,11 @@ export default function PersonAvatarPage() {
   const { avatars, refetch } = usePersonAvatars();
   const [deletingAvatar, setDeletingAvatar] = useState(null);
 
+  const avatarsSorted = [
+    ...avatars.filter(avatar => avatar.selected),
+    ...avatars.filter(avatar => !avatar.selected),
+  ];
+
   return (
     <>
       <h2>Avatar</h2>
@@ -20,7 +25,7 @@ export default function PersonAvatarPage() {
       <p>Must be square. Reduce to 300x300 px.</p>
       <UploadAvatarForm refetch={refetch} />
       <Spacer />
-      {avatars.map((avatar, i) => (
+      {avatarsSorted.map((avatar, i) => (
         <div
           key={avatar.id}
           style={{
@@ -39,10 +44,15 @@ export default function PersonAvatarPage() {
           <div style={{ flex: 1 }}>
             {avatar.selected ? (
               <>
-                Selected
+                <b>selected</b>
                 <br />
               </>
             ) : null}
+            <SelectOrDeselectAvatarButton
+              avatar={avatar}
+              refetchAvatars={refetch}
+            />
+            <br />
             <Button onClick={() => setDeletingAvatar(avatar)}>Delete</Button>
           </div>
         </div>
@@ -103,5 +113,25 @@ function DeleteAvatarModal({ avatar, closeModal, refetchAvatars }) {
       onConfirm={handleConfirm}
       onCancel={closeModal}
     />
+  );
+}
+
+function SelectOrDeselectAvatarButton({ avatar, refetchAvatars }) {
+  const { personId, refetch: refetchPerson } = usePersonContext();
+
+  async function handleClick() {
+    await api(`people/${personId}/avatars`, {
+      method: 'PATCH',
+      body: JSON.stringify({ avatarId: avatar.selected ? null : avatar.id }),
+    });
+
+    refetchPerson();
+    refetchAvatars();
+  }
+
+  return (
+    <Button onClick={handleClick}>
+      {avatar.selected ? 'Deselect' : 'Select'}
+    </Button>
   );
 }

@@ -34,6 +34,7 @@ import updatePersonLinksRoute from './person/updatePersonLinks.route.js';
 import createPersonAvatarRoute from './person/avatar/createPersonAvatar.route.js';
 import deletePersonAvatarRoute from './person/avatar/deletePersonAvatar.route.js';
 import getPersonAvatarsRoute from './person/avatar/getPersonAvatars.route.js';
+import updatePersonAvatarRoute from './person/avatar/updatePersonAvatar.route.js';
 
 // Source
 import sourceCreateRoutes from './source/index.js';
@@ -112,6 +113,7 @@ router.get('/people/:id/checklist', getPersonChecklistRoute);
 router.get('/people/:id/photos', getPersonPhotosRoute);
 router.get('/people/:id/timeline', getPersonTimelineRoute);
 router.post('/people/:id/links', updatePersonLinksRoute);
+
 router.post(
   '/people/:id/avatars',
   uploadFileMiddleware,
@@ -119,6 +121,7 @@ router.post(
 );
 router.delete('/people/:id/avatars/:avatarId', deletePersonAvatarRoute);
 router.get('/people/:id/avatars', getPersonAvatarsRoute);
+router.patch('/people/:id/avatars', updatePersonAvatarRoute);
 
 sourceCreateRoutes(router);
 router.post('/sources', createSourceRoute);
