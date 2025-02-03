@@ -36,6 +36,7 @@ schema.query.populatePeople = function () {
         select: 'key',
       },
     },
+    select: 'name avatar',
   });
 };
 

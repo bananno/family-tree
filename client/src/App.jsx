@@ -109,6 +109,7 @@ function AppRoutes() {
           {isDevelopment && (
             <>
               <Route path="events" element={<EventsPage />} />
+              <Route path="events/:category" element={<EventsPage />} />
 
               <Route path="files" element={<FilesPage />} />
 

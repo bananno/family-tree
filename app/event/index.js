@@ -69,7 +69,7 @@ async function deleteEvent(req, res) {
   if (!event) {
     return res.send('event not found');
   }
-  await event.remove();
+  await Event.deleteOne({ _id: req.params.id });
   res.redirect('/events');
 }
 

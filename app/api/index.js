@@ -8,7 +8,6 @@ import {
 } from '../import.js';
 
 export default function createRoutes(router) {
-  router.get('/api/event-index', eventIndex);
   router.get('/api/notation-index', notationIndex);
   router.get('/api/notation-profile/:id', notationProfile);
   router.get('/api/person-index', personIndex);
@@ -20,16 +19,6 @@ export default function createRoutes(router) {
   router.get('/api/story-non-entry-source', storyWithNonEntrySource);
   router.get('/api/tag-index', tagIndex);
   router.get('/api/tag-profile/:id', tagProfile);
-}
-
-async function eventIndex(req, res) {
-  const events = await Event.find();
-  const data = events.map(event => ({
-    id: event._id,
-    title: event.title,
-  }));
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.send({data});
 }
 
 async function notationIndex(req, res) {
