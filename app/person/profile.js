@@ -32,9 +32,18 @@ export default {
 ////////////////////
 
 async function personSummary(req, res) {
+  const populateAvatar = {
+    path: 'avatar',
+    select: 'file',
+    populate: { path: 'file', select: 'key' },
+  };
+
   const person = await Person.findById(req.personId)
-    .populate('parents').populate('spouses')
-    .populate('children').populate('tags');
+    .populate({ path: 'parents', populate: populateAvatar })
+    .populate({ path: 'spouses', populate: populateAvatar })
+    .populate({ path: 'children', populate: populateAvatar })
+    .populate('tags')
+    .populateAvatar();
 
   req.person = person;
 

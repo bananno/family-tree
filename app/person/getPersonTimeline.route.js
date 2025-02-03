@@ -15,7 +15,7 @@ const populatePeople = {
       select: 'key',
     },
   },
-  select: 'name gender avatar profileImage',
+  select: 'name gender avatar',
 };
 
 const populateStory = {

@@ -129,7 +129,7 @@ methods.populateSiblings = async function({sortByBirthDate} = {}) {
       }
 
       done[childId] = true;
-      const sibling = await Person.findById(childId);
+      const sibling = await Person.findById(childId).populateAvatar();
       this.siblings.push(sibling);
     }
   }

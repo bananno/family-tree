@@ -8,7 +8,7 @@
   %>
   <% if (locals.format === 'photo') { %>
     <%
-      const profileImage = person.profileImage || '/images/generic-profile-picture.png';
+      const profileImage = person.avatarUrl() || '/images/generic-profile-picture.png';
     %>
     <div class="person-link-with-photo">
       <a href="/person/<%= personId %>"

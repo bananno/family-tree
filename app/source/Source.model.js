@@ -24,6 +24,20 @@ for (let methodName in staticMethods) {
   schema.statics[methodName] = staticMethods[methodName];
 }
 
+schema.query.populatePeople = function () {
+  return this.populate({
+    path: 'people',
+    populate: {
+      path: 'avatar',
+      select: 'file',
+      populate: {
+        path: 'file',
+        select: 'key',
+      },
+    },
+  });
+};
+
 schema.methods.constants = () => constants;
 schema.statics.constants = () => constants;
 

@@ -26,21 +26,22 @@ export default async function getPerson(req, res) {
     return res.status(404).send();
   }
 
-  await person.populateSiblings({ sortByBirthDate: true });
+  // The person is included in their own siblings list.
+  const siblings = await Person.find({
+    parents: { $in: person.parents },
+  }).populateAvatar();
 
   await person.populateCitations({ populateSources: true });
   await Citation.populateStories(person.citations);
   Citation.sortByItem(person.citations);
 
-  const ancestorTree = await Person.getAncestorTree(person);
+  const ancestorTree = await buildTree(person);
 
-  // Redundant to fetch the person's birth/death twice but then they can be cleanly
-  // included in the sibling list.
   await populateBirthAndDeathEvents(person);
   await populateBirthAndDeathYears([
     person,
+    ...siblings,
     ...person.parents,
-    ...person.siblings,
     ...person.spouses,
     ...person.children,
   ]);
@@ -66,7 +67,7 @@ export default async function getPerson(req, res) {
     links: mapLinks(person.links),
     parents: person.parents.map(person => person.toListApi()),
     siblings: _.sortBy(
-      [...person.siblings, person].map(person => person.toListApi()),
+      siblings.map(person => person.toListApi()),
       'birthYear',
     ),
     spouses: person.spouses.map(person => person.toListApi()),
@@ -132,12 +133,10 @@ async function populateBirthAndDeathYears(people) {
   const events = await Event.find({
     people: { $in: people },
     title: { $in: ['birth', 'death', 'birth and death'] },
-  })
-    .populatePeople()
-    .select('title people date.year');
+  }).select('title people date.year');
 
   events.forEach(event => {
-    event.people = event.people.map(person => String(person));
+    event.people = event.people.map(person => String(person._id));
   });
 
   const birthEvents = events.filter(event =>
@@ -170,4 +169,40 @@ function mapBirthAndDeathEvent(event) {
     ..._.pick(event, ['title', 'date', 'location', 'notes']),
     people: event.people.map(person => person.toListApi()),
   };
+}
+
+async function buildTree(rootPerson) {
+  const allPeople = await Person.find({
+    children: { $not: { $size: 0 } },
+  })
+    .populateAvatar()
+    .select('id name parents avatar gender');
+
+  const map = {};
+
+  allPeople.forEach(person => {
+    map[person.id] = person;
+  });
+
+  return expandBranch(rootPerson, 0);
+
+  function expandBranch(nextPerson, safety) {
+    if (safety > 30) {
+      return;
+    }
+
+    const treeParents = nextPerson.parents.map(parent => {
+      const foundParent = map[String(parent._id)];
+      return expandBranch(foundParent, safety + 1);
+    });
+
+    if (treeParents.length === 1) {
+      treeParents.push(null);
+    }
+
+    return {
+      ...nextPerson.toListApi(),
+      treeParents,
+    };
+  }
 }

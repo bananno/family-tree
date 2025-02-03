@@ -1,7 +1,7 @@
 <%
   const rootPath = '/person/' + paramPersonId;
   const newRootPath = 'http://localhost:1899/person/' + person.id;
-  const profileImage = person.profileImage || '/images/generic-profile-picture.png';
+  const profileImage = person.avatarUrl() || '/images/generic-profile-picture.png';
 %>
 
 <style>

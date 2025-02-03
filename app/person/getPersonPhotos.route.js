@@ -11,17 +11,21 @@ export default async function getPersonPhotos(req, res) {
   const sources = await Source.find({
     story: photoStory,
     people: personId,
-  }).populate('images title date location people content');
+  })
+    .populate('images title date location content')
+    .populatePeople();
 
   // A source may have multiple photos; a photo could appear in more than one source.
-  const photos = sources.map(source =>
-    source.images.map(image => ({
-      id: `${source.id}-${image.id}`,
-      url: image.url,
-      people: source.people.map(person => person.toListApi()),
-      ..._.pick(source, ['title', 'date', 'location', 'content']),
-    }))
-  ).flat();
+  const photos = sources
+    .map(source =>
+      source.images.map(image => ({
+        id: `${source.id}-${image.id}`,
+        url: image.url,
+        people: source.people.map(person => person.toListApi()),
+        ..._.pick(source, ['title', 'date', 'location', 'content']),
+      })),
+    )
+    .flat();
 
   res.json({ photos });
 }

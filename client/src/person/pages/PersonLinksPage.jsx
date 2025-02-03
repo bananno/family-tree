@@ -231,7 +231,9 @@ function DeleteLinkModal({ deleteIndex, link, closeModal }) {
 function MissingItemsSection() {
   const { person } = usePersonContext();
 
-  const missingAncestry = !person.links.some(link => link.url.match());
+  const missingAncestry = !person.links.some(link =>
+    link.url.match(/ancestry.com/i),
+  );
   const missingFamilySearch = !person.links.some(link =>
     link.url.match(/familysearch.org/i),
   );

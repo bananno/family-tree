@@ -53,7 +53,7 @@ async function notationProfile(req, res) {
 async function personIndex(req, res) {
   const people = await Person.find()
     .populateAvatar()
-    .select('name gender avatar profileImage');
+    .select('name gender avatar');
   const data = people.map(person => person.toListApi());
   res.send({ data });
 }
@@ -77,9 +77,9 @@ async function sourceIndex(req, res) {
 
 async function sourceProfile(req, res) {
   const source = await Source.findById(req.params.id)
-    .populate('people')
     .populate('story')
-    .populate('tags');
+    .populate('tags')
+    .populatePeople();
 
   await source.populateAndSortCitations();
 
