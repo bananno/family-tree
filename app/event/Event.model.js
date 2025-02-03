@@ -40,6 +40,14 @@ schema.query.populatePeople = function () {
   });
 };
 
+schema.methods.getMappedTags = function () {
+  return this.tags.map((tag, i) => ({
+    id: tag.id,
+    title: tag.title,
+    value: this.tagValues[i],
+  }));
+};
+
 const Event = mongoose.model('Event', schema);
 
 export default Event;

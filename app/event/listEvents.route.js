@@ -75,15 +75,21 @@ export default async function listEventsRoute(req, res) {
 
   const events = await Event.find(filter)
     .populatePeople()
+    .populate('tags')
     .sort({ 'date.year': 1, 'date.month': 1, 'date.day': 1 })
-    .select('title date people');
+    .select('title date location people notes tags tagValues');
 
   res.send({
     events: events.map(event => ({
-      ..._.pick(event, ['id', 'title', 'date']),
+      ..._.pick(event, ['id', 'title', 'location', 'notes']),
+      date: {
+        year: event.date.year || 0,
+        month: event.date.month || 0,
+        day: event.date.day || 0,
+        display: event.date.display,
+      },
       people: event.people.map(person => person.toListApi()),
+      tags: event.getMappedTags(),
     })),
   });
 }
-
-////////////////////

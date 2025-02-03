@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import api from 'shared/api';
 
-export default function useEvents({ category }) {
+export default function useEvents({ category, filterWords }) {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,5 +29,25 @@ export default function useEvents({ category }) {
     fetchEvents();
   }, [category]);
 
-  return { events, loading };
+  const filteredEvents =
+    filterWords.length === 0
+      ? events
+      : events.filter(event => eventMatchesFilter(event, filterWords));
+
+  return { events: filteredEvents, loading };
+}
+
+function eventMatchesFilter(event, filterWords) {
+  const eventContent = [
+    event.title,
+    event.location.country,
+    event.location.region1,
+    event.location.region2,
+    event.location.city,
+    ...event.people.map(person => person.name),
+    ...event.tags.map(tag => tag.title),
+    ...event.tags.map(tag => tag.value),
+  ].join(' ');
+
+  return filterWords.every(regExp => regExp.test(eventContent));
 }
