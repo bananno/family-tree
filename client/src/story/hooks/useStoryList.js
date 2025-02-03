@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 
+import { useFilter } from 'shared/FilterContext';
 import useEnvironment from 'shared/useEnvironment';
 import staticDb from 'staticDb';
 
-export default function useStoryList({ storyType }) {
+export default function useStoryList({ storyType, filterId }) {
   const { isProduction } = useEnvironment();
-  const [response, setResponse] = useState([]);
+  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { getFilteredList } = useFilter();
 
   const requestUrl =
     storyType === 'nonEntrySources'
@@ -17,7 +19,7 @@ export default function useStoryList({ storyType }) {
 
   useEffect(() => {
     if (isProduction) {
-      setResponse(getStaticResponse(storyType));
+      setItems(getStaticResponse(storyType));
       setIsLoading(false);
       return;
     }
@@ -25,7 +27,7 @@ export default function useStoryList({ storyType }) {
     fetch(requestUrl)
       .then(res => res.json())
       .then(res => {
-        setResponse(res.data);
+        setItems(res.data);
       })
       .catch(err => {
         console.log('ERROR', err.message);
@@ -35,7 +37,9 @@ export default function useStoryList({ storyType }) {
       });
   }, [storyType]);
 
-  return { stories: response, isLoading };
+  const filteredItems = getFilteredList(filterId, items, item => item.title);
+
+  return { stories: filteredItems, isLoading };
 }
 
 ////////////////////

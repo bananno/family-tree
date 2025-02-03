@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import BulletList from 'shared/BulletList';
@@ -10,25 +10,16 @@ import useTagList from 'tag/hooks/useTagList';
 
 import classes from './TagIndexPage.module.scss';
 
+const filterId = 'FILTER_TAG_INDEX_PAGE';
+
 export default function TagIndexPage() {
   const { showTagsBy } = useParams();
-  const { tags } = useTagList();
-  const [filterWords, setFilterWords] = useState([]);
-
-  const filteredTags =
-    filterWords.length > 0
-      ? tags.filter(
-          tag =>
-            !filterWords.some(
-              word => !word.test(tag.title + (tag.definition || '')),
-            ),
-        )
-      : tags;
+  const { tags } = useTagList({ filterId });
 
   return (
     <>
       <h1>tags</h1>
-      <Filter onChange={setFilterWords} />
+      <Filter filterId={filterId} />
       <h2>total: {tags.length} tags</h2>
       <h2>show tags by:</h2>
       <BulletList>
@@ -42,7 +33,7 @@ export default function TagIndexPage() {
           <Link to="/tags/grid">grid</Link>
         </li>
       </BulletList>
-      <TagPageContent tags={filteredTags} showTagsBy={showTagsBy} />
+      <TagPageContent tags={tags} showTagsBy={showTagsBy} />
     </>
   );
 }

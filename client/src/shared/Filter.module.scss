@@ -1,0 +1,21 @@
+.Filter {
+  position: relative;
+  display: inline-block;
+
+  button {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #999;
+    padding: 2px 5px;
+  }
+
+  button:hover {
+    color: #333;
+  }
+}

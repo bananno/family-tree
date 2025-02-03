@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import NewPersonModal from 'person/components/NewPersonModal';
 import PersonList from 'person/components/PersonList';
@@ -6,9 +6,10 @@ import usePersonList from 'person/hooks/usePersonList';
 import DevOnly from 'shared/DevOnly';
 import Filter from 'shared/Filter';
 
+const filterId = 'FILTER_PEOPLE_PAGE_TABLE';
+
 export default function PersonIndexPage() {
-  const [filterWords, setFilterWords] = useState([]);
-  const { people, isLoading } = usePersonList({ filterWords });
+  const { people, isLoading } = usePersonList({ filterId });
 
   return (
     <>
@@ -17,7 +18,7 @@ export default function PersonIndexPage() {
         <NewPersonModal />
         <br />
       </DevOnly>
-      <Filter onChange={setFilterWords} />
+      <Filter filterId={filterId} />
       {isLoading && <p>loading...</p>}
       <PersonList people={people} />
     </>

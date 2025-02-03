@@ -8,12 +8,15 @@ export function FilterProvider({ children }) {
   function setFilterContent(filterId, content) {
     setFilters(prev => ({
       ...prev,
-      [filterId]: contentToRegExpWords(content),
+      [filterId]: {
+        content,
+        words: contentToRegExpWords(content),
+      },
     }));
   }
 
   function getFilteredList(filterId, list, getFilterableString) {
-    const filterWords = filters[filterId] || [];
+    const filterWords = filters[filterId]?.words || [];
 
     if (filterWords.length === 0) {
       return list;
@@ -29,6 +32,7 @@ export function FilterProvider({ children }) {
   const value = {
     setFilterContent,
     getFilteredList,
+    filters,
   };
 
   return (

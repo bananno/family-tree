@@ -1,34 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useFilter } from 'shared/FilterContext';
 import Input from 'shared/form/Input';
 
-export default function Filter({ filterId, onChange }) {
-  if (onChange || !filterId) {
-    console.warn('Deprecated usage of Filter component');
-  }
+import classes from './Filter.module.scss';
 
-  const [value, setValue] = useState('');
-  const { setFilterContent } = useFilter();
+export default function Filter({ filterId }) {
+  const { filters, setFilterContent } = useFilter();
 
-  function handleFilterChange(newValue) {
-    // onChange = the old version, phase out in favor of setFilterContent
-    onChange?.(
-      newValue
-        .trim()
-        .split(' ')
-        .filter(Boolean)
-        .map(word => RegExp(word, 'i')),
-    );
-
-    setValue(newValue);
-
-    if (filterId) {
-      setFilterContent(filterId, newValue);
-    }
-  }
+  const value = filters[filterId]?.content || '';
 
   return (
-    <Input value={value} placeholder="filter" onChange={handleFilterChange} />
+    <div className={classes.Filter}>
+      <Input
+        value={value}
+        placeholder="filter"
+        onChange={value => setFilterContent(filterId, value)}
+      />
+      {value && (
+        <button onClick={() => setFilterContent(filterId, '')}>&#10006;</button>
+      )}
+    </div>
   );
 }

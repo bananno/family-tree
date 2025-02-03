@@ -2,12 +2,14 @@ import { pick } from 'lodash';
 import { useState, useEffect } from 'react';
 
 import staticPeople from 'db/people.json';
+import { useFilter } from 'shared/FilterContext';
 import useEnvironment from 'shared/useEnvironment';
 
-export default function usePersonList({ filterWords }) {
+export default function usePersonList({ filterId }) {
   const { isProduction } = useEnvironment();
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { getFilteredList } = useFilter();
 
   useEffect(() => {
     if (isProduction) {
@@ -31,12 +33,11 @@ export default function usePersonList({ filterWords }) {
 
   const allPeople = response || [];
 
-  const filteredPeople =
-    filterWords.length > 0
-      ? allPeople.filter(person =>
-          filterWords.every(word => word.test(person.name)),
-        )
-      : allPeople;
+  const filteredPeople = getFilteredList(
+    filterId,
+    allPeople,
+    person => person.name,
+  );
 
   return { people: filteredPeople, isLoading };
 }

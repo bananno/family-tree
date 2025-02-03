@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import BulletList from 'shared/BulletList';
@@ -17,18 +17,11 @@ const mainSourceTypes = [
   'other',
 ];
 
+const filterId = 'FILTER_SOURCE_INDEX_PAGE';
+
 export default function SourceIndexPage() {
   const { sourceType } = useParams();
-  const { sources, isLoading } = useSourceList({ sourceType });
-  const [filterWords, setFilterWords] = useState([]);
-
-  const filteredSources =
-    filterWords.length > 0
-      ? sources.filter(
-          (source, i) =>
-            !filterWords.some(word => !word.test(source.fullTitle)),
-        )
-      : sources;
+  const { sources, isLoading } = useSourceList({ sourceType, filterId });
 
   return (
     <>
@@ -44,9 +37,9 @@ export default function SourceIndexPage() {
         ))}
       </BulletList>
       {isLoading && <p>loading...</p>}
-      <Filter onChange={setFilterWords} />
+      <Filter filterId={filterId} />
       <BulletList>
-        {filteredSources.map(source => (
+        {sources.map(source => (
           <li key={source.id}>
             <SourceLink source={source} />
           </li>

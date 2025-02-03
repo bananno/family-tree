@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 
-export default function useSourceList({ sourceType }) {
-  const [response, setResponse] = useState([]);
+import { useFilter } from 'shared/FilterContext';
+
+export default function useSourceList({ sourceType, filterId }) {
+  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { getFilteredList } = useFilter();
 
   const requestUrl = sourceType
     ? `http://localhost:9000/api/source-index/${sourceType}`
@@ -13,7 +16,7 @@ export default function useSourceList({ sourceType }) {
     fetch(requestUrl)
       .then(res => res.json())
       .then(res => {
-        setResponse(res.data);
+        setItems(res.data);
       })
       .catch(err => {
         console.log('ERROR', err.message);
@@ -23,5 +26,11 @@ export default function useSourceList({ sourceType }) {
       });
   }, [sourceType]);
 
-  return { sources: response, isLoading };
+  const filteredItems = getFilteredList(
+    filterId,
+    items,
+    item => item.fullTitle,
+  );
+
+  return { sources: filteredItems, isLoading };
 }

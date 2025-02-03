@@ -1,3 +1,4 @@
+// TODO: clean up the remaining occurences of API_URL
 const API_URL = 'http://localhost:9000';
 
 export default async function api(path, options = {}) {

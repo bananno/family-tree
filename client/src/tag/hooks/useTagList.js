@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 
-export default function useTagList({ displayType } = {}) {
-  const [response, setResponse] = useState([]);
+import { useFilter } from 'shared/FilterContext';
+
+export default function useTagList({ displayType, filterId } = {}) {
+  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { getFilteredList } = useFilter();
 
   const requestUrl = displayType
     ? `http://localhost:9000/api/tag-index/${displayType}`
@@ -13,7 +16,7 @@ export default function useTagList({ displayType } = {}) {
     fetch(requestUrl)
       .then(res => res.json())
       .then(res => {
-        setResponse(res.data);
+        setItems(res.data);
       })
       .catch(err => {
         console.log('ERROR', err.message);
@@ -23,5 +26,9 @@ export default function useTagList({ displayType } = {}) {
       });
   }, [displayType]);
 
-  return { tags: response, isLoading };
+  const filteredItems = getFilteredList(filterId, items, item =>
+    [item.title, item.definition || ''].join(' '),
+  );
+
+  return { tags: filteredItems, isLoading };
 }

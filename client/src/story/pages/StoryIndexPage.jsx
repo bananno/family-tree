@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import BulletList from 'shared/BulletList';
@@ -18,17 +18,11 @@ const mainStoryTypes = [
   'topic',
 ];
 
+const filterId = 'FILTER_STORY_INDEX_PAGE';
+
 export default function StoryIndexPage() {
   const { storyType } = useParams();
-  const { stories, isLoading } = useStoryList({ storyType });
-  const [filterWords, setFilterWords] = useState([]);
-
-  const filteredStories =
-    filterWords.length > 0
-      ? stories.filter(
-          story => !filterWords.some(word => !word.test(story.title)),
-        )
-      : stories;
+  const { stories, isLoading } = useStoryList({ storyType, filterId });
 
   return (
     <>
@@ -51,8 +45,8 @@ export default function StoryIndexPage() {
           </li>
         </DevOnly>
       </BulletList>
-      <Filter onChange={setFilterWords} />
-      <StoryList stories={filteredStories} />
+      <Filter filterId={filterId} />
+      <StoryList stories={stories} />
     </>
   );
 }
