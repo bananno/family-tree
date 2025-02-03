@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 
 import api from 'shared/api';
+import { useFilter } from 'shared/FilterContext';
 
-export default function useEvents({ category, filterWords }) {
+export default function useEvents({ category, filterId }) {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { getFilteredList } = useFilter();
 
   async function fetchEvents() {
     if (!category) {
@@ -29,16 +31,15 @@ export default function useEvents({ category, filterWords }) {
     fetchEvents();
   }, [category]);
 
-  const filteredEvents =
-    filterWords.length === 0
-      ? events
-      : events.filter(event => eventMatchesFilter(event, filterWords));
+  const filteredEvents = getFilteredList(filterId, events, eventToKeywords);
 
   return { events: filteredEvents, loading };
 }
 
-function eventMatchesFilter(event, filterWords) {
-  const eventContent = [
+////////////////////
+
+function eventToKeywords(event) {
+  return [
     event.title,
     event.location.country,
     event.location.region1,
@@ -48,6 +49,4 @@ function eventMatchesFilter(event, filterWords) {
     ...event.tags.map(tag => tag.title),
     ...event.tags.map(tag => tag.value),
   ].join(' ');
-
-  return filterWords.every(regExp => regExp.test(eventContent));
 }

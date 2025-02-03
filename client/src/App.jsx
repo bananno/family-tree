@@ -22,6 +22,7 @@ import PersonTimelinePage from 'person/pages/PersonTimelinePage';
 import PersonToDoPage from 'person/pages/PersonToDoPage';
 //
 import { EnvironmentProvider, useEnvironment } from 'shared/EnvironmentContext';
+import { FilterProvider } from 'shared/FilterContext';
 import SourceIndexPage from 'source/pages/SourceIndexPage';
 import SourceProfilePage from 'source/pages/SourceProfilePage';
 import StoryIndexPage from 'story/pages/StoryIndexPage';
@@ -143,5 +144,9 @@ function AppRoutes() {
 }
 
 function GlobalProviders({ children }) {
-  return <EnvironmentProvider>{children}</EnvironmentProvider>;
+  return (
+    <EnvironmentProvider>
+      <FilterProvider>{children}</FilterProvider>
+    </EnvironmentProvider>
+  );
 }
