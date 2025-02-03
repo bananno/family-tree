@@ -19,6 +19,9 @@
     <% navLinks.forEach(([path, text]) => { %>
       <a href="<%= rootPath + '/' + path %>" class="main-link"><%= text %></a>
     <% }); %>
+    <% if (subview !== 'edit') { %>
+      <a href="http://localhost:1899/tag/<%= tag.id %>" class="main-link">new version</a>
+    <% } %>
   </p>
 </div>
 

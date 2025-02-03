@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import PersonList from 'person/components/PersonList';
 import BulletList from 'shared/BulletList';
@@ -20,7 +21,11 @@ export default function EventsTable({ events }) {
       <tbody>
         {events.map(event => (
           <tr key={event.id}>
-            <td>{event.title || '(missing title)'}</td>
+            <td>
+              <Link to={`http://localhost:9000/event/${event.id}`}>
+                {event.title || '(missing title)'}
+              </Link>
+            </td>
             <td>
               <FormatDate date={event.date} />
             </td>
@@ -42,7 +47,7 @@ export default function EventsTable({ events }) {
                   <BulletList>
                     {event.tags.map(tag => (
                       <li key={tag.id}>
-                        {tag.title}
+                        <Link to={`/tag/${tag.id}`}>{tag.title}</Link>
                         {tag.value ? `: ${tag.value}` : ''}
                       </li>
                     ))}

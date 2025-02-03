@@ -5,6 +5,7 @@ import EventsTable from 'event/components/EventsTable';
 import useEvents from 'event/hooks/useEvents';
 import BulletList from 'shared/BulletList';
 import Filter from 'shared/Filter';
+import Spacer from 'shared/Spacer';
 
 const eventCategories = [
   { to: 'birth', title: 'birth' },
@@ -27,6 +28,8 @@ export default function EventsPage() {
   return (
     <>
       <h1>Events</h1>
+      <Link to="http://localhost:9000/events">old version</Link>
+      <Spacer />
       <BulletList>
         {eventCategories.map(({ to, title }) => (
           <li key={to}>
