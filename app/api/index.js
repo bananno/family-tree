@@ -1,5 +1,4 @@
 import {
-  Event,
   Notation,
   Person,
   Source,
@@ -17,7 +16,6 @@ export default function createRoutes(router) {
   router.get('/api/story-index', storyIndex);
   router.get('/api/story-index/:storyType', storyIndex);
   router.get('/api/story-non-entry-source', storyWithNonEntrySource);
-  router.get('/api/tag-index', tagIndex);
   router.get('/api/tag-profile/:id', tagProfile);
 }
 
@@ -128,26 +126,6 @@ async function storyWithNonEntrySource(req, res) {
       fullTitle: source.fullTitle,
     })),
   }));
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.send({data});
-}
-
-
-
-async function tagIndex(req, res) {
-  const tags = await Tag.find({});
-  Tag.sortByTitle(tags);
-  await Tag.populateUsageCount(tags);
-
-  const data = tags.map(tag => ({
-    id: tag._id,
-    category: tag.category,
-    definition: tag.definition,
-    restrictedToModels: tag.getRestrictedModelList(),
-    title: tag.title,
-    usageCount: tag.usageCount,
-  }));
-
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.send({data});
 }

@@ -1,7 +1,12 @@
-// TODO: clean up the remaining occurences of API_URL
+// TODO: clean up the remaining occurences of API_URL.
+// TODO: update everything to the catchPlease version, then remove catchPlease.
 const API_URL = 'http://localhost:9000';
 
 export default async function api(path, options = {}) {
+  if (!options.catchPlease) {
+    console.warn('Update api() usage with catchPlease');
+  }
+
   const headers = {
     'Content-Type': 'application/json',
     Accept: 'application/json',

@@ -7,7 +7,7 @@ import globalClasses from 'shared/global.module.scss';
 import NewTagModal from 'tag/components/NewTagModal';
 import TagLink from 'tag/components/TagLink';
 import TagList from 'tag/components/TagList';
-import useTagList from 'tag/hooks/useTagList';
+import useTags from 'tag/hooks/useTags';
 
 import classes from './TagIndexPage.module.scss';
 
@@ -15,7 +15,7 @@ const filterId = 'FILTER_TAG_INDEX_PAGE';
 
 export default function TagIndexPage() {
   const { showTagsBy } = useParams();
-  const { tags } = useTagList({ filterId });
+  const { tags } = useTags({ filterId });
 
   return (
     <>
