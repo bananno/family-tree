@@ -11,6 +11,7 @@ export default function Modal({
   triggerEnabled = true,
   onConfirm,
   onCancel,
+  onOpen,
   confirmButtonLabel = 'Confirm',
   cancelButtonLabel = 'Cancel',
   triggerButtonLabel = 'Open modal',
@@ -21,10 +22,35 @@ export default function Modal({
   const openStateManagedExternally = open !== undefined;
   const isModalOpen = openStateManagedExternally ? open : managedOpen;
 
-  async function handleConfirm(event) {
+  useEffect(() => {
+    if (isModalOpen) {
+      // If onOpen were attached to the button click itself, it would be
+      // called before the modal re-render, and the modal children wouldn't
+      // exist yet. Inside useEffect, it will be called after the modal re-renders,
+      // so the children will be available, e.g., for focusing an input.
+      onOpen?.();
+    }
+  }, [isModalOpen]);
+
+  async function handleFormSubmit(event) {
     event?.preventDefault();
-    await onConfirm();
-    setManagedOpen(false);
+
+    if (!confirmEnabled) {
+      return;
+    }
+
+    // Don't treat this as a form submission (close the modal) unless
+    // there is actually a confirm handler.
+    if (onConfirm) {
+      handleConfirm();
+    }
+  }
+
+  async function handleConfirm() {
+    const result = await onConfirm();
+    if (result !== false) {
+      setManagedOpen(false);
+    }
   }
 
   function handleCancel() {
@@ -54,7 +80,7 @@ export default function Modal({
         <div className={modalClasses.Modal} onClick={onClickBackdrop}>
           <div className={modalClasses.modalContent}>
             <h2>{title}</h2>
-            <form onSubmit={handleConfirm}>{children}</form>
+            <form onSubmit={handleFormSubmit}>{children}</form>
             <div className={modalClasses.modalActions}>
               {onConfirm && (
                 <Button

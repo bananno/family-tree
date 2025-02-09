@@ -50,6 +50,7 @@ import getStoryRoute from './story/getStory.route.js';
 
 // Tag
 import tagCreateRoutes from './tag/index.js';
+import createTagRoute from './tag/createTag.route.js';
 
 const router = express.Router();
 
@@ -136,3 +137,4 @@ storyCreateRoutes(router);
 router.get('/api/stories/:id', getStoryRoute);
 
 tagCreateRoutes(router);
+router.post('/tags', createTagRoute);

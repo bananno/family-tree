@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import BulletList from 'shared/BulletList';
 import Filter from 'shared/Filter';
 import globalClasses from 'shared/global.module.scss';
+import NewTagModal from 'tag/components/NewTagModal';
 import TagLink from 'tag/components/TagLink';
 import TagList from 'tag/components/TagList';
 import useTagList from 'tag/hooks/useTagList';
@@ -19,6 +20,8 @@ export default function TagIndexPage() {
   return (
     <>
       <h1>tags</h1>
+      <NewTagModal />
+      <br />
       <Filter filterId={filterId} />
       <h2>total: {tags.length} tags</h2>
       <h2>show tags by:</h2>
