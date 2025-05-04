@@ -130,13 +130,13 @@ methods.findByAnyId = async(personId) => {
   const Person = mongoose.model('Person');
 
   if (tools.isValidMongooseId(personId)) {
-    const person = await Person.findById(personId);
+    const person = await Person.findById(personId).populateAvatar();
     if (person) {
       return person;
     }
   }
 
-  const people = await Person.find({customId: personId});
+  const people = await Person.find({customId: personId}).populateAvatar();
 
   if (people.length === 0) {
     return null;

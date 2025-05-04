@@ -3,7 +3,6 @@ import {
   Person,
   Source,
   Story,
-  Tag,
 } from '../import.js';
 
 export default function createRoutes(router) {
@@ -16,7 +15,6 @@ export default function createRoutes(router) {
   router.get('/api/story-index', storyIndex);
   router.get('/api/story-index/:storyType', storyIndex);
   router.get('/api/story-non-entry-source', storyWithNonEntrySource);
-  router.get('/api/tag-profile/:id', tagProfile);
 }
 
 async function notationIndex(req, res) {
@@ -126,30 +124,6 @@ async function storyWithNonEntrySource(req, res) {
       fullTitle: source.fullTitle,
     })),
   }));
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.send({data});
-}
-
-async function tagProfile(req, res) {
-  const tag = await Tag.findById(req.params.id).populate('tags');
-  await tag.populateAllAttachedItems();
-
-  const data = {
-    id: tag._id,
-    attachedItems: tag.attachedItems,
-    category: tag.category,
-    definition: tag.definition?.split('\n') || [],
-    groupByValue: tag.hasTag('group by value'),
-    missingItems: tag.missingItems,
-    restrictedToModels: tag.getRestrictedModelList(),
-    showMissingItems: tag.hasTag('show missing items'),
-    tags: tag.convertTags({asList: true}),
-    title: tag.title,
-    valueOptions: tag.valueType === 2 ? tag.values.split('\n') : [],
-    valueType: tag.valueType,
-    valueTypeName: tag.getDropdownFieldValueName('valueType'),
-  };
-
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.send({data});
 }

@@ -4,16 +4,17 @@ import { useParams } from 'react-router-dom';
 import NotationList from 'notation/components/NotationList';
 import PersonList from 'person/components/PersonList';
 import BulletList from 'shared/BulletList';
+import Divider from 'shared/Divider';
 import SourceList from 'source/components/SourceList';
 import StoryList from 'story/components/StoryList';
 import TagDetails from 'tag/components/TagDetails';
 import TagList from 'tag/components/TagList';
-import useTagProfile from 'tag/hooks/useTagProfile';
+import useTag from 'tag/hooks/useTag';
 import TagNumberOfChildrenPage from 'tag/pages/TagNumberOfChildrenPage';
 
 export default function TagProfilePage() {
   const { tagId } = useParams();
-  const { tag } = useTagProfile({ tagId });
+  const { tag } = useTag({ tagId });
 
   // TO DO: handle this in the routes later
   if (tag.title === 'number of children') {
@@ -23,27 +24,27 @@ export default function TagProfilePage() {
   return (
     <>
       <TagDetails tag={tag} />
-      <hr />
+      <Divider />
       <h1>items with tag</h1>
       <EventsWithTag tag={tag} />
       <ImagesWithTag tag={tag} />
-      {tag.attachedItems?.notations?.length && (
+      {tag.attachedItems?.notation?.length > 0 && (
         <>
           <h2>notations</h2>
-          <NotationList notations={tag.attachedItems?.notations || []} />
+          <NotationList notations={tag.attachedItems.notation || []} />
         </>
       )}
       <PeopleWithTag tag={tag} />
-      {tag.attachedItems?.sources?.length && (
+      {tag.attachedItems?.source?.length > 0 && (
         <>
           <h2>sources</h2>
-          <SourceList sources={tag.attachedItems?.sources || []} />
+          <SourceList sources={tag.attachedItems.source || []} />
         </>
       )}
-      {tag.attachedItems?.stories?.length && (
+      {tag.attachedItems?.story?.length > 0 && (
         <>
           <h2>stories</h2>
-          <StoryList stories={tag.attachedItems?.stories || []} />
+          <StoryList stories={tag.attachedItems.story || []} />
         </>
       )}
       <TagsWithTag tag={tag} />
@@ -54,7 +55,7 @@ export default function TagProfilePage() {
 ////////////////////
 
 function EventsWithTag({ tag }) {
-  if (!tag.attachedItems?.events?.length) {
+  if (!tag.attachedItems?.event?.length) {
     return null;
   }
   // TO DO: EventList and EventLink
@@ -62,7 +63,7 @@ function EventsWithTag({ tag }) {
     <>
       <h2>events</h2>
       <BulletList>
-        {tag.attachedItems.events.map(event => (
+        {tag.attachedItems.event.map(event => (
           <li key={event.id}>{event.title}</li>
         ))}
       </BulletList>
@@ -71,7 +72,7 @@ function EventsWithTag({ tag }) {
 }
 
 function ImagesWithTag({ tag }) {
-  if (!tag.attachedItems?.images?.length) {
+  if (!tag.attachedItems?.image?.length) {
     return null;
   }
   // TO DO: ImageList of some sort?
@@ -79,7 +80,7 @@ function ImagesWithTag({ tag }) {
     <>
       <h2>images</h2>
       <BulletList>
-        {tag.attachedItems.images.map(image => (
+        {tag.attachedItems.image.map(image => (
           <li key={image.id}>{image.id}</li>
         ))}
       </BulletList>
@@ -89,7 +90,7 @@ function ImagesWithTag({ tag }) {
 
 // TO DO: clean this up. add grouping option to other models too
 function PeopleWithTag({ tag }) {
-  const peopleWithTag = tag.attachedItems?.people || [];
+  const peopleWithTag = tag.attachedItems?.person || [];
 
   if (tag.groupByValue) {
     let valueMap = {};
@@ -137,13 +138,13 @@ function PeopleWithTag({ tag }) {
 }
 
 function TagsWithTag({ tag }) {
-  if (!tag.attachedItems?.tags?.length) {
+  if (!tag.attachedItems?.tag?.length) {
     return null;
   }
   return (
     <>
       <h2>tags</h2>
-      <TagList tags={tag.attachedItems.tags} showValues={false} />
+      <TagList tags={tag.attachedItems.tag} showValues={false} />
     </>
   );
 }

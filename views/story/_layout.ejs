@@ -33,7 +33,9 @@
     <% navLinks.forEach(([path, text]) => { %>
       <a href="<%= rootPath + '/' + path %>" class="main-link"><%= text %></a>
     <% }); %>
-    <a href="http://localhost:1899/story/<%= story.id %>" class="main-link">new site</a>
+    <% if (subview !== 'edit') { %>
+      <a href="http://localhost:1899/story/<%= story.id %>" class="main-link">new site</a>
+    <% } %>
   </p>
 </div>
 

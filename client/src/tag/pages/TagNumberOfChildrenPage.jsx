@@ -12,7 +12,7 @@ export default function TagNumberOfChildrenPage({ tag }) {
     specified: [],
   };
 
-  tag.attachedItems?.people?.forEach(person => {
+  tag.attachedItems?.person?.forEach(person => {
     const section = (() => {
       if (person.tagValue === 'done') {
         if (person.numberOfChildrenInDatabase > 0) {

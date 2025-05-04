@@ -10,7 +10,7 @@ export default function useTags({ filterId } = {}) {
 
   async function fetchTags() {
     setLoading(true);
-    const { result } = await api('api/tags', { catchPlease: true });
+    const { result } = await api('tags', { catchPlease: true });
     setItems(result?.items || []);
     setLoading(false);
   }

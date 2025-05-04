@@ -24,6 +24,10 @@ for (let methodName in staticMethods) {
   schema.statics[methodName] = staticMethods[methodName];
 }
 
+schema.query.populateStoryTitle = function () {
+  return this.populate({ path: 'story', select: 'title' });
+};
+
 schema.query.populatePeople = function () {
   return this.populate({
     path: 'people',
