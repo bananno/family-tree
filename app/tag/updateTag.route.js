@@ -7,9 +7,33 @@ export default async function updateTagRoute(req, res) {
     return res.status(404).json({ error: 'Tag not found' });
   }
 
-  tag.title = req.body.title;
+  tag.title = req.body.title.trim();
 
-  await tag.save();
+  // Clean up irregular line breaks and leading/trailing spaces,
+  // but allow empty lines.
+  tag.definition = req.body.definition
+    .split('\n')
+    .map(s => s.trim())
+    .join('\n');
+
+  tag.category = req.body.category.trim();
+  tag.valueType = Number(req.body.valueType);
+
+  tag.values =
+    tag.valueType === 2
+      ? req.body.valueOptions
+          .map(s => s.trim())
+          .filter(Boolean)
+          .join('\n')
+      : null;
+
+  try {
+    await tag.save();
+  } catch (error) {
+    return res.status(400).json({
+      error: error.message,
+    });
+  }
 
   res.send();
 }

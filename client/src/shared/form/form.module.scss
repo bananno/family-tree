@@ -15,3 +15,18 @@ textarea.Input {
   width: 300px;
   padding: 5px;
 }
+
+.FormSection {
+  margin: 10px 0;
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+}
+
+.Select {
+  padding: 5px;
+  width: 300px;
+}

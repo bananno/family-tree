@@ -13,13 +13,12 @@ export default async function getTagRoute(req, res) {
   }
 
   const data = {
-    ..._.pick(tag, ['id', 'category', 'title', 'valueType']),
-    definition: tag.definition?.split('\n') || [],
+    ..._.pick(tag, ['id', 'definition', 'category', 'title', 'valueType']),
     groupByValue: tag.hasTag('group by value'),
     restrictedToModels: tag.getRestrictedModelList(),
     showMissingItems: tag.hasTag('show missing items'),
     tags: tag.convertTags({ asList: true }),
-    valueOptions: tag.valueType === 2 ? tag.values.split('\n') : [],
+    valueOptions: (tag.valueType === 2 && tag.values?.split('\n')) || [],
     valueTypeName: tag.getDropdownFieldValueName('valueType'),
   };
 
@@ -49,7 +48,7 @@ async function getAttachedItems(tag) {
     attachedItems[modelName] = items;
   });
 
-  console.log('attachedItems', attachedItems);
+  // console.log('attachedItems', attachedItems);
 
   return attachedItems;
 

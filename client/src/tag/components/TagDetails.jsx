@@ -6,6 +6,8 @@ import EditTagModal from 'tag/components/EditTagModal';
 import TagList from 'tag/components/TagList';
 
 export default function TagDetails({ tag, specialView, refetch }) {
+  const definitionParts = tag.definition?.split('\n') || [];
+
   return (
     <>
       <h1>
@@ -15,8 +17,8 @@ export default function TagDetails({ tag, specialView, refetch }) {
       <br />
       <EditTagModal tag={tag} refetch={refetch} />
       <h2 style={{ margin: '10px 0' }}>definition</h2>
-      {tag.definition?.length ? (
-        tag.definition.map((text, i) => <p key={i}>{text}</p>)
+      {definitionParts.length > 0 ? (
+        definitionParts.map((text, i) => <p key={i}>{text}</p>)
       ) : (
         <p>(none)</p>
       )}

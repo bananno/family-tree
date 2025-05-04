@@ -3,27 +3,41 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import api from 'shared/api';
+import FormSection from 'shared/form/FormSection';
 import Input from 'shared/form/Input';
+import Select from 'shared/form/Select';
 import Modal from 'shared/Modal';
 
 // TODO: add a tag context instead of passing refetch around
 export default function EditTagModal({ tag, refetch }) {
+  const defaultValues = {
+    ..._.pick(tag, ['id', 'definition', 'category', 'title', 'valueType']),
+    valueOptions: tag.valueOptions?.join('\n') || '',
+  };
+
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { isValid },
-  } = useForm({ mode: 'onChange', defaultValues: tag });
+  } = useForm({ mode: 'onChange', defaultValues });
 
   useEffect(() => {
-    reset(tag);
+    resetForm();
   }, [tag, reset]);
 
   const [responseError, setResponseError] = useState('');
 
+  const showValueOptions = [2, '2'].includes(watch('valueType'));
+
   async function onSubmit(data) {
     const requestBody = {
-      ..._.pick(data, ['title']),
+      ..._.pick(data, ['title', 'definition', 'category', 'valueType']),
+      valueOptions: data.valueOptions
+        .split('\n')
+        .map(s => s.trim())
+        .filter(Boolean),
     };
 
     const { result, error } = await api(`/tags/${tag.id}`, {
@@ -41,6 +55,10 @@ export default function EditTagModal({ tag, refetch }) {
     await refetch();
   }
 
+  function resetForm() {
+    reset(defaultValues);
+  }
+
   return (
     <Modal
       title="Edit tag"
@@ -48,8 +66,34 @@ export default function EditTagModal({ tag, refetch }) {
       handleSubmit={handleSubmit}
       onConfirm={onSubmit}
       confirmEnabled={isValid}
+      onCancel={resetForm}
     >
-      <Input name="title" register={register} rules={{ required: true }} />
+      <FormSection label="title">
+        <Input name="title" register={register} rules={{ required: true }} />
+      </FormSection>
+      <FormSection label="definition">
+        <Input name="definition" register={register} textarea />
+      </FormSection>
+      <FormSection label="category">
+        <Input name="category" register={register} />
+      </FormSection>
+      <FormSection label="valueType">
+        <Select name="valueType" register={register}>
+          <option value="0">tag value not applicable</option>
+          <option value="1">use text text input</option>
+          <option value="2">use list of preset values</option>
+        </Select>
+      </FormSection>
+      {showValueOptions && (
+        <FormSection label="value options">
+          <Input
+            name="valueOptions"
+            register={register}
+            rules={{ required: true }}
+            textarea
+          />
+        </FormSection>
+      )}
       <div style={{ color: 'red' }}>{responseError}</div>
     </Modal>
   );
