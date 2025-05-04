@@ -2,19 +2,19 @@ import fs from 'fs';
 import mongoose from 'mongoose';
 
 export default async function exportFullDataRoute(req, res) {
-  const data = await getFullData();
-
   await Promise.all([
-    saveFullDataFile(data, 'citations'),
-    saveFullDataFile(data, 'events'),
-    saveFullDataFile(data, 'featuredQuotes'),
-    saveFullDataFile(data, 'highlights'),
-    saveFullDataFile(data, 'images'),
-    saveFullDataFile(data, 'notations'),
-    saveFullDataFile(data, 'people'),
-    saveFullDataFile(data, 'sources'),
-    saveFullDataFile(data, 'stories'),
-    saveFullDataFile(data, 'tags'),
+    exportAllModelRecords('Citation', 'citations'),
+    exportAllModelRecords('Event', 'events'),
+    exportAllModelRecords('FeaturedQuote', 'featuredQuotes'),
+    exportAllModelRecords('Highlight', 'highlights'),
+    exportAllModelRecords('Image', 'images'),
+    exportAllModelRecords('Notation', 'notations'),
+    exportAllModelRecords('Person', 'people'),
+    exportAllModelRecords('PersonAvatar', 'personAvatars'),
+    exportAllModelRecords('Source', 'sources'),
+    exportAllModelRecords('Story', 'stories'),
+    exportAllModelRecords('Tag', 'tags'),
+    exportAllModelRecords('UploadedFile', 'uploadedFiles'),
   ]);
 
   res.send();
@@ -22,36 +22,12 @@ export default async function exportFullDataRoute(req, res) {
 
 ////////////////////
 
-async function getFullData() {
-  const data = {};
+async function exportAllModelRecords(modelName, itemName) {
+  const Model = mongoose.model(modelName);
 
-  const Citation = mongoose.model('Citation');
-  const Event = mongoose.model('Event');
-  const FeaturedQuote = mongoose.model('FeaturedQuote');
-  const Highlight = mongoose.model('Highlight');
-  const Image = mongoose.model('Image');
-  const Notation = mongoose.model('Notation');
-  const Person = mongoose.model('Person');
-  const Source = mongoose.model('Source');
-  const Story = mongoose.model('Story');
-  const Tag = mongoose.model('Tag');
+  // lean() returns plain javascript objects instead of Mongoose documents
+  const itemData = await Model.find().lean();
 
-  data.citations = await Citation.find({});
-  data.events = await Event.find({});
-  data.featuredQuotes = await FeaturedQuote.find({});
-  data.highlights = await Highlight.find({});
-  data.images = await Image.find({});
-  data.notations = await Notation.find({});
-  data.people = await Person.find({});
-  data.sources = await Source.find({});
-  data.stories = await Story.find({});
-  data.tags = await Tag.find({});
-
-  return data;
-}
-
-function saveFullDataFile(data, itemName) {
-  const itemData = data[itemName];
   const filename = `database-backup/database-${itemName}.json`;
   const content = stringifyData(itemData);
 
