@@ -9,6 +9,7 @@ export default function Modal({
   open,
   confirmEnabled = true,
   triggerEnabled = true,
+  handleSubmit,
   onConfirm,
   onCancel,
   onOpen,
@@ -35,19 +36,26 @@ export default function Modal({
   async function handleFormSubmit(event) {
     event?.preventDefault();
 
-    if (!confirmEnabled) {
+    if (!confirmEnabled || !onConfirm) {
       return;
     }
 
-    // Don't treat this as a form submission (close the modal) unless
-    // there is actually a confirm handler.
-    if (onConfirm) {
-      handleConfirm();
-    }
-  }
+    let result;
 
-  async function handleConfirm() {
-    const result = await onConfirm();
+    // When using react-hook-form, the handleSubmit function can be passed as a prop
+    // instead of wrapping the onConfirm in the parent component. This allows the modal
+    // to handle the wrapping in order to capture the response from onConfirm and decide
+    // whether to close after submission.
+    if (handleSubmit) {
+      await handleSubmit(async data => {
+        result = await onConfirm(data);
+      })();
+    } else {
+      result = await onConfirm();
+    }
+
+    // The onConfirm prop can return a boolean to indicate whether the modal should
+    // close. By default, close the modal after submission. Return false to keep it open.
     if (result !== false) {
       setManagedOpen(false);
     }
@@ -80,21 +88,24 @@ export default function Modal({
         <div className={modalClasses.Modal} onClick={onClickBackdrop}>
           <div className={modalClasses.modalContent}>
             <h2>{title}</h2>
-            <form onSubmit={handleFormSubmit}>{children}</form>
-            <div className={modalClasses.modalActions}>
-              {onConfirm && (
+            <form onSubmit={handleFormSubmit}>
+              {children}
+              <div className={modalClasses.modalActions}>
+                {onConfirm && (
+                  <Button
+                    onClick={handleFormSubmit}
+                    disabled={!confirmEnabled}
+                    text={confirmButtonLabel}
+                    type="submit"
+                  />
+                )}
                 <Button
-                  onClick={handleConfirm}
-                  disabled={!confirmEnabled}
-                  text={confirmButtonLabel}
+                  onClick={handleCancel}
+                  variant="cancel"
+                  text={cancelButtonLabel}
                 />
-              )}
-              <Button
-                onClick={handleCancel}
-                variant="cancel"
-                text={cancelButtonLabel}
-              />
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       )}

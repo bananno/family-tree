@@ -29,7 +29,7 @@ import StoryIndexPage from 'story/pages/StoryIndexPage';
 import StoryNonEntrySourcesPage from 'story/pages/StoryNonEntrySourcesPage';
 import StoryProfilePage from 'story/pages/StoryProfilePage';
 import TagIndexPage from 'tag/pages/TagIndexPage';
-import TagProfilePage from 'tag/pages/TagProfilePage';
+import TagPage from 'tag/pages/TagPage';
 
 import HomePage from './HomePage';
 import Layout from './Layout';
@@ -124,7 +124,7 @@ function AppRoutes() {
 
               <Route path="tags" element={<TagIndexPage />} />
               <Route path="tags/:showTagsBy" element={<TagIndexPage />} />
-              <Route path="tag/:tagId" element={<TagProfilePage />} />
+              <Route path="tag/:tagId" element={<TagPage />} />
 
               <Route path="checklists" element={<ChecklistIndexPage />} />
               <Route

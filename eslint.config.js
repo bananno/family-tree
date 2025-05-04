@@ -9,6 +9,14 @@ const customRules = {
   },
 };
 
+const EXTERNAL_DEPENDENCIES = [
+  'lodash',
+  'react',
+  'react-dom/client',
+  'react-hook-form',
+  'react-router-dom',
+];
+
 export default [
   {
     files: ['client/src/**/*.{js,jsx}'],
@@ -39,7 +47,7 @@ export default [
           */
           pathGroups: [
             {
-              pattern: '{lodash,react,react-dom/client,react-router-dom}',
+              pattern: `{${EXTERNAL_DEPENDENCIES.join(',')}}`,
               group: 'external',
               position: 'before',
             },

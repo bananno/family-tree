@@ -3,7 +3,7 @@ import React from 'react';
 import PersonList from 'person/components/PersonList';
 import TagDetails from 'tag/components/TagDetails';
 
-export default function TagNumberOfChildrenPage({ tag }) {
+export default function TagNumberOfChildrenPage({ tag, refetch }) {
   const personLists = {
     done0: [],
     doneAll: [],
@@ -37,7 +37,7 @@ export default function TagNumberOfChildrenPage({ tag }) {
 
   return (
     <>
-      <TagDetails tag={tag} specialView={true} />
+      <TagDetails tag={tag} specialView={true} refetch={refetch} />
       <hr />
       <h1>people with tag</h1>
 

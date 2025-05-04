@@ -12,18 +12,18 @@ import TagList from 'tag/components/TagList';
 import useTag from 'tag/hooks/useTag';
 import TagNumberOfChildrenPage from 'tag/pages/TagNumberOfChildrenPage';
 
-export default function TagProfilePage() {
+export default function TagPage() {
   const { tagId } = useParams();
-  const { tag } = useTag({ tagId });
+  const { tag, refetch } = useTag({ tagId });
 
   // TO DO: handle this in the routes later
   if (tag.title === 'number of children') {
-    return <TagNumberOfChildrenPage tag={tag} />;
+    return <TagNumberOfChildrenPage tag={tag} refetch={refetch} />;
   }
 
   return (
     <>
-      <TagDetails tag={tag} />
+      <TagDetails tag={tag} refetch={refetch} />
       <Divider />
       <h1>items with tag</h1>
       <EventsWithTag tag={tag} />

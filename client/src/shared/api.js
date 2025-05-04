@@ -25,11 +25,19 @@ export default async function api(path, options = {}) {
     return fetch(fullPath, fetchOptions);
   }
 
+  let response;
+
   try {
-    const response = await fetch(fullPath, fetchOptions);
+    response = await fetch(fullPath, fetchOptions);
+  } catch (error) {
+    return { error };
+  }
+
+  // Parse JSON is optional. If it fails, return the response as is.
+  try {
     const result = await response.json();
     return { result, error: result?.error };
   } catch (error) {
-    return { error };
+    return { result: response };
   }
 }

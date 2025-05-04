@@ -53,6 +53,7 @@ import tagCreateRoutes from './tag/index.js';
 import createTagRoute from './tag/createTag.route.js';
 import getTagRoute from './tag/getTag.route.js';
 import listTagsRoute from './tag/listTags.route.js';
+import updateTagRoute from './tag/updateTag.route.js';
 
 const router = express.Router();
 
@@ -142,3 +143,4 @@ tagCreateRoutes(router);
 router.get('/tags', listTagsRoute);
 router.get('/tags/:id', getTagRoute);
 router.post('/tags', createTagRoute);
+router.post('/tags/:id', updateTagRoute);
