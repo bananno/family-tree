@@ -17,7 +17,10 @@ export default function EditTagModal({ tag, refetch }) {
   const defaultValues = {
     ..._.pick(tag, ['id', 'definition', 'category', 'title', 'valueType']),
     valueOptions: tag.valueOptions?.join('\n') || '',
-    tags: tag.tags,
+    tags: tag.tags?.map(tagOpt => ({
+      value: tagOpt.id,
+      label: tagOpt.title,
+    })) || [],
   };
 
   const {
@@ -115,6 +118,7 @@ export default function EditTagModal({ tag, refetch }) {
               isMulti
               options={tagOptions}
               closeMenuOnSelect={false}
+              value={field.value}
               onChange={selected => field.onChange(selected)}
             />
           )}
