@@ -4,6 +4,8 @@ import MODELS_WITH_TAGS from './modelsWithTags.js';
 import Tag from './Tag.model.js';
 
 export default async function listTagsRoute(req, res) {
+  // TODO: move the "allowedForModel" filter from the frontend to here.
+
   const tags = await Tag.find()
     .sort('title')
     .collation({ locale: 'en', strength: 2 });

@@ -15,6 +15,7 @@ const EXTERNAL_DEPENDENCIES = [
   'react-dom/client',
   'react-hook-form',
   'react-router-dom',
+  'react-select',
 ];
 
 export default [

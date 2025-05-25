@@ -1,26 +1,32 @@
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import ReactSelect from 'react-select';
 
 import api from 'shared/api';
 import FormSection from 'shared/form/FormSection';
 import Input from 'shared/form/Input';
 import Select from 'shared/form/Select';
 import Modal from 'shared/Modal';
+import useTags from 'tag/hooks/useTags';
 
 // TODO: add a tag context instead of passing refetch around
 export default function EditTagModal({ tag, refetch }) {
+  const { tags } = useTags({ allowedForModel: 'tags' });
+
   const defaultValues = {
     ..._.pick(tag, ['id', 'definition', 'category', 'title', 'valueType']),
     valueOptions: tag.valueOptions?.join('\n') || '',
+    tags: tag.tags,
   };
 
   const {
-    register,
+    control,
+    formState: { isValid },
     handleSubmit,
+    register,
     reset,
     watch,
-    formState: { isValid },
   } = useForm({ mode: 'onChange', defaultValues });
 
   useEffect(() => {
@@ -31,6 +37,11 @@ export default function EditTagModal({ tag, refetch }) {
 
   const showValueOptions = [2, '2'].includes(watch('valueType'));
 
+  const tagOptions = tags.map(tagOpt => ({
+    value: tagOpt.id,
+    label: tagOpt.title,
+  }));
+
   async function onSubmit(data) {
     const requestBody = {
       ..._.pick(data, ['title', 'definition', 'category', 'valueType']),
@@ -38,6 +49,7 @@ export default function EditTagModal({ tag, refetch }) {
         .split('\n')
         .map(s => s.trim())
         .filter(Boolean),
+      tags: data.tags.map(tagOpt => tagOpt.value),
     };
 
     const { result, error } = await api(`/tags/${tag.id}`, {
@@ -77,7 +89,7 @@ export default function EditTagModal({ tag, refetch }) {
       <FormSection label="category">
         <Input name="category" register={register} />
       </FormSection>
-      <FormSection label="valueType">
+      <FormSection label="value type">
         <Select name="valueType" register={register}>
           <option value="0">tag value not applicable</option>
           <option value="1">use text text input</option>
@@ -94,6 +106,23 @@ export default function EditTagModal({ tag, refetch }) {
           />
         </FormSection>
       )}
+      <FormSection label="meta tags">
+        <Controller
+          name="tags"
+          control={control}
+          render={({ field }) => (
+            <ReactSelect
+              isMulti
+              options={tagOptions}
+              closeMenuOnSelect={false}
+              onChange={selected => field.onChange(selected)}
+            />
+          )}
+        />
+      </FormSection>
+      <FormSection label="restricted to models">
+        TODO
+      </FormSection>
       <div style={{ color: 'red' }}>{responseError}</div>
     </Modal>
   );
