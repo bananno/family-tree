@@ -30,7 +30,15 @@ export default async function updateTagRoute(req, res) {
 
     tag.tags = req.body.tags;
 
-    // TODO: edit restricted models
+    tag.restrictModels = req.body.restrictModels;
+
+    tag.allowEvent = req.body.restrictedToModels.includes('events');
+    tag.allowImage = req.body.restrictedToModels.includes('images');
+    tag.allowNotation = req.body.restrictedToModels.includes('notations');
+    tag.allowPerson = req.body.restrictedToModels.includes('people');
+    tag.allowSource = req.body.restrictedToModels.includes('sources');
+    tag.allowStory = req.body.restrictedToModels.includes('stories');
+    tag.allowTag = req.body.restrictedToModels.includes('tags');
 
     await tag.save();
 

@@ -10,6 +10,16 @@ import Select from 'shared/form/Select';
 import Modal from 'shared/Modal';
 import useTags from 'tag/hooks/useTags';
 
+const TAGABLE_MODEL_NAMES = [
+  'events',
+  'images',
+  'notations',
+  'people',
+  'sources',
+  'stories',
+  'tags',
+];
+
 // TODO: add a tag context instead of passing refetch around
 export default function EditTagModal({ tag, refetch }) {
   const { tags } = useTags({ allowedForModel: 'tags' });
@@ -17,10 +27,9 @@ export default function EditTagModal({ tag, refetch }) {
   const defaultValues = {
     ..._.pick(tag, ['id', 'definition', 'category', 'title', 'valueType']),
     valueOptions: tag.valueOptions?.join('\n') || '',
-    tags: tag.tags?.map(tagOpt => ({
-      value: tagOpt.id,
-      label: tagOpt.title,
-    })) || [],
+    tags: tag.tags?.map(metaTagToOption) || [],
+    restrictModels: tag.restrictedToModels?.length > 0,
+    restrictedToModels: tag.restrictedToModels?.map(tagableModelToOption) || [],
   };
 
   const {
@@ -39,20 +48,26 @@ export default function EditTagModal({ tag, refetch }) {
   const [responseError, setResponseError] = useState('');
 
   const showValueOptions = [2, '2'].includes(watch('valueType'));
+  const restrictModels = watch('restrictModels');
 
-  const tagOptions = tags.map(tagOpt => ({
-    value: tagOpt.id,
-    label: tagOpt.title,
-  }));
+  const tagOptions = tags.map(metaTagToOption);
+  const tagableModelOptions = TAGABLE_MODEL_NAMES.map(tagableModelToOption);
 
   async function onSubmit(data) {
     const requestBody = {
-      ..._.pick(data, ['title', 'definition', 'category', 'valueType']),
+      ..._.pick(data, [
+        'title',
+        'definition',
+        'category',
+        'valueType',
+        'restrictModels',
+      ]),
       valueOptions: data.valueOptions
         .split('\n')
         .map(s => s.trim())
         .filter(Boolean),
-      tags: data.tags.map(tagOpt => tagOpt.value),
+      tags: data.tags.map(({ value }) => value),
+      restrictedToModels: data.restrictedToModels.map(({ value }) => value),
     };
 
     const { result, error } = await api(`/tags/${tag.id}`, {
@@ -117,17 +132,51 @@ export default function EditTagModal({ tag, refetch }) {
             <ReactSelect
               isMulti
               options={tagOptions}
-              closeMenuOnSelect={false}
               value={field.value}
               onChange={selected => field.onChange(selected)}
+              closeMenuOnSelect
             />
           )}
         />
       </FormSection>
-      <FormSection label="restricted to models">
-        TODO
+      <FormSection>
+        <label>
+          <input type="checkbox" {...register('restrictModels')} /> restrict
+          models
+        </label>
+        {restrictModels && (
+          <Controller
+            name="restrictedToModels"
+            control={control}
+            render={({ field }) => (
+              <ReactSelect
+                isMulti
+                options={tagableModelOptions}
+                value={field.value}
+                onChange={selected => field.onChange(selected)}
+                closeMenuOnSelect
+              />
+            )}
+          />
+        )}
       </FormSection>
       <div style={{ color: 'red' }}>{responseError}</div>
     </Modal>
   );
+}
+
+////////////////////
+
+function tagableModelToOption(model) {
+  return {
+    value: model,
+    label: model,
+  };
+}
+
+function metaTagToOption(tag) {
+  return {
+    value: tag.id,
+    label: tag.title,
+  };
 }
