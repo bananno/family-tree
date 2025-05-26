@@ -12,18 +12,21 @@ export const EnvironmentContext = createContext();
 export function EnvironmentProvider({ children }) {
   const isLocal = window.location.hostname === 'localhost';
   const defaultEnvironment = isLocal ? ENV.DEV : ENV.PROD;
-  const [environment, setEnvironment] = useState(defaultEnvironment);
+
+  // Before the environment is determined, it is set to null.
+  const [environment, setEnvironment] = useState(null);
 
   // Set environment on first load.
   // Store the environment if it's not already stored.
   // Ensure that the stored environment is valid.
   useEffect(() => {
-    const environment = determineEnvironment();
-    setEnvironment(environment);
+    const determined = determineEnvironment();
+    setEnvironment(determined);
   }, [isLocal]);
 
+  // Both are false initially.
   const isProduction = environment === ENV.PROD;
-  const isDevelopment = !isProduction;
+  const isDevelopment = environment === ENV.DEV;
 
   function toggleEnvironment() {
     const newEnvironment = environment === ENV.DEV ? ENV.PROD : ENV.DEV;

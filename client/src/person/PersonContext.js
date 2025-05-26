@@ -2,35 +2,30 @@ import { sortBy } from 'lodash';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import api from 'shared/api';
 import useEnvironment from 'shared/useEnvironment';
 import staticDb from 'staticDb';
-
-const API_URL = 'http://localhost:9000';
 
 export const PersonContext = createContext();
 
 export function PersonProvider({ children }) {
-  const { isProduction } = useEnvironment();
+  const { isDevelopment, isProduction } = useEnvironment();
+
   const { id: personId } = useParams();
   const [response, setResponse] = useState({});
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
-  async function fetchPerson() {
-    try {
-      const res = await fetch(`${API_URL}/people/${personId}`);
-      if (res.ok) {
-        const json = await res.json();
-        setResponse(json);
-      } else {
-        setResponse({});
-        setNotFound(res.status === 404);
-      }
-    } catch (err) {
-      console.log('ERROR', err.message);
-    } finally {
-      setLoading(false);
-    }
+  async function fetchFullPerson() {
+    setLoading(true);
+
+    const { notFound, result } = await api(`people/${personId}`, {
+      catchPlease: true,
+    });
+
+    setNotFound(notFound || false);
+    setResponse(result || {});
+    setLoading(false);
   }
 
   function getStaticPerson() {
@@ -44,25 +39,26 @@ export function PersonProvider({ children }) {
     setLoading(false);
   }
 
+  const fetchPerson = isProduction
+    ? getStaticPerson
+    : isDevelopment
+      ? fetchFullPerson
+      : () => {};
+
   useEffect(() => {
     // Set to an empty response to avoid an awkward mix of old and loading data.
     setResponse({});
     setLoading(true);
     setNotFound(false);
-
-    if (isProduction) {
-      getStaticPerson();
-    } else {
-      fetchPerson();
-    }
-  }, [personId, isProduction]);
+    fetchPerson();
+  }, [personId, isDevelopment, isProduction]);
 
   const value = {
     loading,
     notFound,
     person: response.person,
     personId,
-    refetch: isProduction ? undefined : fetchPerson,
+    refetch: fetchPerson,
   };
 
   return (

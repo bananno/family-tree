@@ -2,6 +2,7 @@ import { pick } from 'lodash';
 import { useState, useEffect } from 'react';
 
 import staticPeople from 'db/people.json';
+import api from 'shared/api';
 import { useFilter } from 'shared/FilterContext';
 import useEnvironment from 'shared/useEnvironment';
 
@@ -12,24 +13,21 @@ export default function usePersonList({ filterId }) {
   const { getFilteredList } = useFilter();
 
   useEffect(() => {
+    fetchPeople();
+  }, [isProduction]);
+
+  async function fetchPeople() {
     if (isProduction) {
       setResponse(getStaticResponse());
       setIsLoading(false);
       return;
     }
+
     setIsLoading(true);
-    fetch('http://localhost:9000/api/person-index')
-      .then(res => res.json())
-      .then(res => {
-        setResponse(res.data);
-      })
-      .catch(err => {
-        console.log('ERROR', err.message);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [isProduction]);
+    const { result } = await api('api/person-index', { catchPlease: true });
+    setResponse(result.data || []);
+    setIsLoading(false);
+  }
 
   const allPeople = response || [];
 
