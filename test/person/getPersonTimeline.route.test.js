@@ -220,7 +220,7 @@ beforeAll(async () => {
           id: personId,
           name: 'The Person',
           gender: 'male',
-          profileImage: 'profile.jpg',
+          avatarUrl: 'profile.jpg',
         }),
       ],
     },

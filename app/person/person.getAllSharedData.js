@@ -4,7 +4,12 @@ import mongoose from 'mongoose';
 const pick = _.pick;
 
 export default async function getAllSharedData() {
-  const rawPeople = await mongoose.model('Person').find({}).populate('tags');
+  const rawPeople = await mongoose
+    .model('Person')
+    .find({})
+    .populate('tags')
+    .populateAvatar();
+
   const ancestors = {};
 
   const root = rawPeople.find(person => person.isRoot());
@@ -26,10 +31,11 @@ export default async function getAllSharedData() {
     }
 
     let person = {
-      id: String(rawPerson._id),
+      id: rawPerson.id,
       childIds: rawPerson.children,
       parentIds: rawPerson.parents,
       spouseIds: rawPerson.spouses,
+      avatarUrl: rawPerson.avatarUrl(),
     };
 
     if (ancestors[person.id]) {
@@ -50,7 +56,7 @@ export default async function getAllSharedData() {
 
     return {
       ...person,
-      ...pick(rawPerson, ['name', 'customId', 'profileImage']),
+      ...pick(rawPerson, ['name', 'customId']),
       gender: rawPerson.genderText(),
       private: false,
       tags: getSharedTagObj(rawPerson),

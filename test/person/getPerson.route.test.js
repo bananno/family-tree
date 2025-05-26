@@ -41,7 +41,7 @@ const expectedResponse = {
     shareLevel: 0,
     tags: [],
     treeParents: [],
-    profileImage: 'https://example.com/image.jpg',
+    avatarUrl: 'https://example.com/image.jpg',
     gender: 'female',
     birth: null,
     death: null,

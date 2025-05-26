@@ -60,7 +60,7 @@ export default async function getPerson(req, res) {
       'createdAt',
       'updatedAt',
     ]),
-    profileImage: person.avatarUrl() || person.profileImage,
+    avatarUrl: person.avatarUrl() || person.profileImage,
     birth: mapBirthAndDeathEvent(person.birth),
     death: mapBirthAndDeathEvent(person.death),
     citations: mapCitationsIncludeSource(person.citations),

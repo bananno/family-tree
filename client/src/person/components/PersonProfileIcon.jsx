@@ -32,7 +32,7 @@ export default function PersonProfileIcon({
     classNames.push(classes.genericPlaceholder);
   }
 
-  const imageUrl = src || person?.profileImage;
+  const imageUrl = src || person?.avatarUrl;
 
   if (!imageUrl) {
     return <div className={classNames.join(' ')} style={style} />;

@@ -40,7 +40,7 @@ schema.query.populateAvatar = function () {
 };
 
 schema.methods.avatarUrl = function () {
-  return this.avatar?.url?.();
+  return this.avatar?.url?.() || this.profileImage;
 };
 
 schema.methods.constants = () => constants;

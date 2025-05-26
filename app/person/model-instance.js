@@ -443,11 +443,11 @@ methods.genderText = function () {
 };
 
 methods.toListApi = function () {
-  // Note that birthYear and deathYear are only populated sometimes.
+  // Note that birthYear and deathYear are only populated sometimes (only needed sometimes).
   return {
     ..._.pick(this, ['id', 'name', 'birthYear', 'deathYear', 'living']),
     gender: this.genderText(),
-    profileImage: this.avatarUrl(),
+    avatarUrl: this.avatarUrl(),
   };
 };
 
