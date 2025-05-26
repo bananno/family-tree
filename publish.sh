@@ -3,9 +3,6 @@ export $(cat .env | xargs)
 echo "\n===== Build app ====="
 npm run build
 
-echo "\n===== Include assets ====="
-cp -r public/assets dist/
-
 echo "\n===== Upload to S3 ====="
 aws s3 sync dist/ s3://$DEPLOYMENT_S3_BUCKET_NAME --delete
 
