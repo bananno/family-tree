@@ -6,28 +6,33 @@ import api from 'shared/api';
 import { useFilter } from 'shared/FilterContext';
 import useEnvironment from 'shared/useEnvironment';
 
-export default function usePersonList({ filterId }) {
-  const { isProduction } = useEnvironment();
+export default function usePeople({ filterId }) {
+  const { isDevelopment, isProduction } = useEnvironment();
   const [response, setResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { getFilteredList } = useFilter();
 
-  useEffect(() => {
-    fetchPeople();
-  }, [isProduction]);
+  function getStaticPeople() {
+    setResponse(getStaticResponse());
+    setIsLoading(false);
+  }
 
-  async function fetchPeople() {
-    if (isProduction) {
-      setResponse(getStaticResponse());
-      setIsLoading(false);
-      return;
-    }
-
+  async function fetchFullPeople() {
     setIsLoading(true);
     const { result } = await api('api/person-index', { catchPlease: true });
     setResponse(result.data || []);
     setIsLoading(false);
   }
+
+  const fetchPeople = isProduction
+    ? getStaticPeople
+    : isDevelopment
+      ? fetchFullPeople
+      : () => {};
+
+  useEffect(() => {
+    fetchPeople();
+  }, [isDevelopment, isProduction]);
 
   const allPeople = response || [];
 

@@ -2,14 +2,14 @@ import React from 'react';
 
 import NewPersonModal from 'person/components/NewPersonModal';
 import PersonList from 'person/components/PersonList';
-import usePersonList from 'person/hooks/usePersonList';
+import usePeople from 'person/hooks/usePeople';
 import DevOnly from 'shared/DevOnly';
 import Filter from 'shared/Filter';
 
 const filterId = 'FILTER_PEOPLE_PAGE_TABLE';
 
 export default function PersonIndexPage() {
-  const { people, isLoading } = usePersonList({ filterId });
+  const { people, isLoading } = usePeople({ filterId });
 
   return (
     <>
