@@ -11,20 +11,15 @@ export const EnvironmentContext = createContext();
 
 export function EnvironmentProvider({ children }) {
   const isLocal = window.location.hostname === 'localhost';
-  const [environment, setEnvironment] = useState(null);
+  const defaultEnvironment = isLocal ? ENV.DEV : ENV.PROD;
+  const [environment, setEnvironment] = useState(defaultEnvironment);
 
   // Set environment on first load.
   // Store the environment if it's not already stored.
   // Ensure that the stored environment is valid.
   useEffect(() => {
-    const stored = localStorage.getItem('environment');
-    if ([ENV.DEV, ENV.PROD].includes(stored)) {
-      setEnvironment(stored);
-    } else {
-      const determined = isLocal ? ENV.DEV : ENV.PROD;
-      localStorage.setItem('environment', determined);
-      setEnvironment(determined);
-    }
+    const environment = determineEnvironment();
+    setEnvironment(environment);
   }, [isLocal]);
 
   const isProduction = environment === ENV.PROD;
@@ -32,7 +27,7 @@ export function EnvironmentProvider({ children }) {
 
   function toggleEnvironment() {
     const newEnvironment = environment === ENV.DEV ? ENV.PROD : ENV.DEV;
-    localStorage.setItem('environment', newEnvironment);
+    storeEnvironment(newEnvironment);
     setEnvironment(newEnvironment);
   }
 
@@ -53,4 +48,30 @@ export function EnvironmentProvider({ children }) {
 
 export function useEnvironment() {
   return useContext(EnvironmentContext);
+}
+
+////////////////////
+
+function determineEnvironment() {
+  const isLocal = window.location.hostname === 'localhost';
+
+  // In actual production, always return production environment.
+  if (!isLocal) {
+    return ENV.PROD;
+  }
+
+  // In local development, check for a stored environment setting.
+  const stored = localStorage.getItem('environment');
+  if (stored === ENV.DEV || stored === ENV.PROD) {
+    return stored;
+  }
+
+  // In local development, if no valid environment is stored,
+  // default to development environment and store it.
+  storeEnvironment(ENV.DEV);
+  return ENV.DEV;
+}
+
+function storeEnvironment(environment) {
+  localStorage.setItem('environment', environment);
 }

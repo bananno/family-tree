@@ -3,7 +3,7 @@
   "version": "10.0.0",
   "type": "module",
   "scripts": {
-    "build": "webpack .",
+    "build": "webpack ./client",
     "client": "webpack-dev-server",
     "lint": "./lint.sh",
     "publish": "./publish.sh",
