@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import tools from '../tools/modelTools.js';
-import { modelsThatHaveTags } from './constants.js';
+import TAGABLE_MODELS from './tagableModels.js';
 
 const methods = {};
 
@@ -79,10 +79,10 @@ export default methods;
 ////////////////////
 
 async function forEachModel(callback) {
-  for (let i in modelsThatHaveTags) {
-    const modelName = modelsThatHaveTags[i].name;
+  for (let i in TAGABLE_MODELS) {
+    const modelName = TAGABLE_MODELS[i].name;
     const Model = mongoose.model(modelName);
-    const pluralName = modelsThatHaveTags[i].plural;
+    const pluralName = TAGABLE_MODELS[i].plural;
     await callback(Model, modelName, pluralName);
   }
 }

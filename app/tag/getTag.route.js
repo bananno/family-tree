@@ -1,15 +1,14 @@
 import _ from 'lodash';
 import mongoose from 'mongoose';
 
-import { modelsThatHaveTags } from './constants.js';
-import MODELS_WITH_TAGS from './modelsWithTags.js';
+import TAGABLE_MODELS from './tagableModels.js';
 import Tag from './Tag.model.js';
 
 export default async function getTagRoute(req, res) {
   const tagId = req.params.id;
   const isValidId = mongoose.Types.ObjectId.isValid(tagId);
 
-  const tag = isValidId && await Tag.findById(tagId).populate('tags');
+  const tag = isValidId && (await Tag.findById(tagId).populate('tags'));
 
   if (!tag) {
     return res.status(404).json({ error: 'Tag not found' });
@@ -43,9 +42,8 @@ export default async function getTagRoute(req, res) {
 
 async function getAttachedItems(tag) {
   const results = await Promise.all(
-    MODELS_WITH_TAGS.map(async model => {
-      const modelName = model.modelName.toLowerCase();
-      const items = await getAttachedItemsForModel(tag, model);
+    TAGABLE_MODELS.map(async model => {
+      const { modelName, items } = await getAttachedItemsForModel(tag, model);
       return { modelName, items };
     }),
   );
@@ -119,9 +117,8 @@ async function getAttachedItems(tag) {
 
 async function getMissingItems(tag) {
   const results = await Promise.all(
-    MODELS_WITH_TAGS.map(async model => {
-      const modelName = model.modelName.toLowerCase();
-      const items = await getAttachedItemsForModel(tag, model);
+    TAGABLE_MODELS.map(async model => {
+      const { modelName, items } = await getAttachedItemsForModel(tag, model);
       return { modelName, items };
     }),
   );
@@ -135,7 +132,8 @@ async function getMissingItems(tag) {
   return missingItems;
 }
 
-async function getAttachedItemsForModel(tag, model) {
+async function getAttachedItemsForModel(tag, modelDetails) {
+  const model = mongoose.model(modelDetails.name);
   const modelName = model.modelName.toLowerCase();
 
   let query = model.find({ tags: tag._id }).select('title tags tagValues');
@@ -165,19 +163,24 @@ async function getAttachedItemsForModel(tag, model) {
     }
   }
 
-  return items.map(item => ({
+  const mappedItems = items.map(item => ({
     ..._.pick(item, ['id', 'title', 'fullTitle', 'numberOfChildrenInDatabase']),
     ...(item.toListApi?.() || {}),
     tagValue: tag.valueType !== 0 ? item.getTagValue(tag) : undefined,
     // TO DO: add whatever's needed for images
   }));
+
+  return {
+    modelName,
+    items: mappedItems,
+  }
 }
 
 async function forEachModel(callback) {
-  for (let i in modelsThatHaveTags) {
-    const modelName = modelsThatHaveTags[i].name;
+  for (let i in TAGABLE_MODELS) {
+    const modelName = TAGABLE_MODELS[i].name;
     const Model = mongoose.model(modelName);
-    const pluralName = modelsThatHaveTags[i].plural;
+    const pluralName = TAGABLE_MODELS[i].plural;
     await callback(Model, modelName, pluralName);
   }
 }

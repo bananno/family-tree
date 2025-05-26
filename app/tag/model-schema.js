@@ -1,4 +1,4 @@
-import modelsThatHaveTags from './constants-modelsThatHaveTags.js';
+import TAGABLE_MODELS from './tagableModels.js';
 
 export default [
   {
@@ -41,7 +41,7 @@ export default [
     dataType: Boolean,
     defaultValue: false,
   },
-  ...modelsThatHaveTags.map(getFieldNameForAllowingModels),
+  ...TAGABLE_MODELS.map(getFieldNameForAllowingModels),
 ];
 
 ////////////////////

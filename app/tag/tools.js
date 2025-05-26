@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 import { Tag } from '../import.js';
 
-import { modelsThatHaveTags } from './constants.js';
+import TAGABLE_MODELS from './tagableModels.js';
 import getTagDataFindagraveWikitree from './tools-findagrave-wikitree.js';
 
 const tools = {};
@@ -39,10 +39,10 @@ tools.createRenderTag = function(req, res, next) {
 };
 
 async function forEachModel(callback) {
-  for (let i in modelsThatHaveTags) {
-    const modelName = modelsThatHaveTags[i].name;
+  for (let i in TAGABLE_MODELS) {
+    const modelName = TAGABLE_MODELS[i].name;
     const Model = mongoose.model(modelName);
-    const pluralName = modelsThatHaveTags[i].plural;
+    const pluralName = TAGABLE_MODELS[i].plural;
     await callback(Model, modelName, pluralName);
   }
 }

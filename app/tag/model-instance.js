@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import tools from '../tools/modelTools.js';
-import { modelsThatHaveTags } from './constants.js';
+import TAGABLE_MODELS from './tagableModels.js';
 import tagModelSchema from './model-schema.js';
 
 const methods = {};
@@ -18,8 +18,8 @@ methods.isModelAllowed = function(modelName) {
 // A tag can be deleted if it's not attached to any items.
 // Note that it could be attached to a model that the tag no longer supports.
 methods.canBeDeleted = async function () {
-  for (let i in modelsThatHaveTags) {
-    const model = mongoose.model(modelsThatHaveTags[i].name);
+  for (let i in TAGABLE_MODELS) {
+    const model = mongoose.model(TAGABLE_MODELS[i].name);
     const countAttached = await model.countDocuments({ tags: this });
     if (countAttached > 0) {
       return false;
@@ -81,7 +81,7 @@ methods.getRestrictedModelList = function() {
   if (!this.restrictModels) {
     return [];
   }
-  return modelsThatHaveTags
+  return TAGABLE_MODELS
     .filter(({name}) => this.isModelAllowed(name))
     .map(({plural}) => plural);
 };
@@ -165,10 +165,10 @@ export default methods;
 /////////////////////
 
 async function forEachModel(callback) {
-  for (let i in modelsThatHaveTags) {
-    const modelName = modelsThatHaveTags[i].name;
+  for (let i in TAGABLE_MODELS) {
+    const modelName = TAGABLE_MODELS[i].name;
     const Model = mongoose.model(modelName);
-    const pluralName = modelsThatHaveTags[i].plural;
+    const pluralName = TAGABLE_MODELS[i].plural;
     await callback(Model, modelName, pluralName);
   }
 }

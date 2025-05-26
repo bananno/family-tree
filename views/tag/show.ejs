@@ -61,7 +61,7 @@
 <% } else if (tag.title === 'number of children') { %>
   <%- include('./special/number-of-children', {people: data.people, getTagValue}) %>
 <% } else if (data.groupByValue) { %>
-  <% modelsThatHaveTags
+  <% TAGABLE_MODELS
     .filter(model => model.name != 'Image')
     .forEach(model => {
   %>
@@ -103,7 +103,7 @@
     <% }); %>
   <% }); %>
 <% } else { %>
-  <% modelsThatHaveTags
+  <% TAGABLE_MODELS
     .filter(model => model.name != 'Image')
     .forEach(model => {
   %>

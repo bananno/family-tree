@@ -1,6 +1,7 @@
 import _ from 'lodash';
+import mongoose from 'mongoose';
 
-import MODELS_WITH_TAGS from './modelsWithTags.js';
+import TAGABLE_MODELS from './tagableModels.js';
 import Tag from './Tag.model.js';
 
 export default async function listTagsRoute(req, res) {
@@ -27,8 +28,11 @@ async function getTagUsageCounts() {
   const usageCount = {};
 
   const modelResults = await Promise.all(
-    MODELS_WITH_TAGS.map(model =>
-      model.find({ tags: { $ne: [] } }).select('tags'),
+    TAGABLE_MODELS.map(model =>
+      mongoose
+        .model(model.name)
+        .find({ tags: { $ne: [] } })
+        .select('tags'),
     ),
   );
 
