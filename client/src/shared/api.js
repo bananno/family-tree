@@ -33,10 +33,11 @@ export default async function api(path, options = {}) {
     return { error };
   }
 
-  if (!response.ok) {
+  if (!response.ok && response.status === 404) {
     return {
       result: response,
-      notFound: response.status === 404,
+      notFound: true,
+      // should there be an error attribute here?
     };
   }
 

@@ -27,6 +27,11 @@ export default async function getTagRoute(req, res) {
 
   data.attachedItems = await getAttachedItems(tag);
 
+  // If every model list is empty, the tag can be deleted.
+  data.canDelete = !Object.keys(data.attachedItems).some(
+    model => data.attachedItems[model].length > 0,
+  );
+
   if (data.showMissingItems) {
     data.missingItems = await getMissingItems(tag);
   }

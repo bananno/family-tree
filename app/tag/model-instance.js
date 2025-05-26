@@ -16,11 +16,12 @@ methods.isModelAllowed = function(modelName) {
 };
 
 // A tag can be deleted if it's not attached to any items.
-methods.canBeDeleted = async function() {
+// Note that it could be attached to a model that the tag no longer supports.
+methods.canBeDeleted = async function () {
   for (let i in modelsThatHaveTags) {
-    const modelName = modelsThatHaveTags[i].name;
-    const items = await mongoose.model(modelName).find({tags: this});
-    if (items.length) {
+    const model = mongoose.model(modelsThatHaveTags[i].name);
+    const countAttached = await model.countDocuments({ tags: this });
+    if (countAttached > 0) {
       return false;
     }
   }

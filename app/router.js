@@ -52,6 +52,7 @@ import getStoryRoute from './story/getStory.route.js';
 import tagCreateRoutes from './tag/index.js';
 import createTagRoute from './tag/createTag.route.js';
 import getTagRoute from './tag/getTag.route.js';
+import deleteTagRoute from './tag/deleteTag.route.js';
 import listTagsRoute from './tag/listTags.route.js';
 import updateTagRoute from './tag/updateTag.route.js';
 
@@ -142,5 +143,6 @@ router.get('/api/stories/:id', getStoryRoute);
 tagCreateRoutes(router);
 router.get('/tags', listTagsRoute);
 router.get('/tags/:id', getTagRoute);
+router.delete('/tags/:id', deleteTagRoute);
 router.post('/tags', createTagRoute);
 router.post('/tags/:id', updateTagRoute);

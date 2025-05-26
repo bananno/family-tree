@@ -10,6 +10,7 @@ export function TagProvider({ children }) {
   const [response, setResponse] = useState({});
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [wasDeleted, setWasDeleted] = useState(false);
 
   useEffect(() => {
     fetchTag();
@@ -29,6 +30,8 @@ export function TagProvider({ children }) {
     tag: response,
     tagId,
     refetch: fetchTag,
+    wasDeleted,
+    setWasDeleted,
   };
 
   return <TagContext.Provider value={value}>{children}</TagContext.Provider>;
