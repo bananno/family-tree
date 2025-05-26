@@ -2,8 +2,11 @@ import React from 'react';
 
 import PersonList from 'person/components/PersonList';
 import TagDetails from 'tag/components/TagDetails';
+import { useTagContext } from 'tag/TagContext';
 
-export default function TagNumberOfChildrenPage({ tag, refetch }) {
+export default function TagNumberOfChildrenPage() {
+  const { tag } = useTagContext();
+
   const personLists = {
     done0: [],
     doneAll: [],
@@ -37,7 +40,7 @@ export default function TagNumberOfChildrenPage({ tag, refetch }) {
 
   return (
     <>
-      <TagDetails tag={tag} specialView={true} refetch={refetch} />
+      <TagDetails specialView />
       <hr />
       <h1>people with tag</h1>
 

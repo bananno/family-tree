@@ -9,6 +9,7 @@ import Input from 'shared/form/Input';
 import Select from 'shared/form/Select';
 import Modal from 'shared/Modal';
 import useTags from 'tag/hooks/useTags';
+import { useTagContext } from 'tag/TagContext';
 
 const TAGABLE_MODEL_NAMES = [
   'events',
@@ -20,8 +21,8 @@ const TAGABLE_MODEL_NAMES = [
   'tags',
 ];
 
-// TODO: add a tag context instead of passing refetch around
-export default function EditTagModal({ tag, refetch }) {
+export default function EditTagModal() {
+  const { tag, refetch } = useTagContext();
   const { tags } = useTags({ allowedForModel: 'tags' });
 
   const defaultValues = {

@@ -6,7 +6,10 @@ import MODELS_WITH_TAGS from './modelsWithTags.js';
 import Tag from './Tag.model.js';
 
 export default async function getTagRoute(req, res) {
-  const tag = await Tag.findById(req.params.id).populate('tags');
+  const tagId = req.params.id;
+  const isValidId = mongoose.Types.ObjectId.isValid(tagId);
+
+  const tag = isValidId && await Tag.findById(tagId).populate('tags');
 
   if (!tag) {
     return res.status(404).json({ error: 'Tag not found' });

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 
 import NotationList from 'notation/components/NotationList';
 import PersonList from 'person/components/PersonList';
@@ -9,21 +8,20 @@ import SourceList from 'source/components/SourceList';
 import StoryList from 'story/components/StoryList';
 import TagDetails from 'tag/components/TagDetails';
 import TagList from 'tag/components/TagList';
-import useTag from 'tag/hooks/useTag';
 import TagNumberOfChildrenPage from 'tag/pages/TagNumberOfChildrenPage';
+import { useTagContext } from 'tag/TagContext';
 
 export default function TagPage() {
-  const { tagId } = useParams();
-  const { tag, refetch } = useTag({ tagId });
+  const { tag } = useTagContext();
 
   // TO DO: handle this in the routes later
   if (tag.title === 'number of children') {
-    return <TagNumberOfChildrenPage tag={tag} refetch={refetch} />;
+    return <TagNumberOfChildrenPage />;
   }
 
   return (
     <>
-      <TagDetails tag={tag} refetch={refetch} />
+      <TagDetails />
       <Divider />
       <h1>items with tag</h1>
       <EventsWithTag tag={tag} />

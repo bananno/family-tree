@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom';
 import BulletList from 'shared/BulletList';
 import EditTagModal from 'tag/components/EditTagModal';
 import TagList from 'tag/components/TagList';
+import { useTagContext } from 'tag/TagContext';
 
-export default function TagDetails({ tag, specialView, refetch }) {
+export default function TagDetails({ specialView = false }) {
+  const { tag } = useTagContext();
+
   const definitionParts = tag.definition?.split('\n') || [];
 
   return (
@@ -15,7 +18,7 @@ export default function TagDetails({ tag, specialView, refetch }) {
       </h1>
       <Link to={`http://localhost:9000/tag/${tag.id}`}>old version</Link>
       <br />
-      <EditTagModal tag={tag} refetch={refetch} />
+      <EditTagModal />
       <h2 style={{ margin: '10px 0' }}>definition</h2>
       {definitionParts.length > 0 ? (
         definitionParts.map((text, i) => <p key={i}>{text}</p>)

@@ -33,6 +33,13 @@ export default async function api(path, options = {}) {
     return { error };
   }
 
+  if (!response.ok) {
+    return {
+      result: response,
+      notFound: response.status === 404,
+    };
+  }
+
   // Parse JSON is optional. If it fails, return the response as is.
   try {
     const result = await response.json();

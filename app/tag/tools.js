@@ -8,7 +8,7 @@ import getTagDataFindagraveWikitree from './tools-findagrave-wikitree.js';
 const tools = {};
 
 tools.convertParamTagId = async (req, res, next, paramTagId) => {
-  if (req.originalUrl.slice(0, 4) !== '/tag') {
+  if (req.originalUrl.slice(0, 5) !== '/tag/') {
     return next();
   }
 
