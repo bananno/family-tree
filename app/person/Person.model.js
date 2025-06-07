@@ -7,18 +7,56 @@ import instanceMethods from './model-instance.js';
 import staticMethods from './model-static.js';
 
 export const PERSON_GENDER = {
+  NOT_SPECIFIED: 0,
   FEMALE: 1,
   MALE: 2,
   UNKNOWN: 3,
 };
 
-const { constants, schema } = createModel({
-  name: 'person',
+const PERSON_SHARE_LEVEL = {
+  NONE: 0,
+  RESTRICTED: 1,
+  EVERYTHING: 2,
+};
+
+const { constants, preMongooseSchema } = createModel({
   modelName: 'Person',
   modelSchema,
-  instanceMethods,
-  staticMethods,
 });
+
+const schema = new mongoose.Schema(
+  {
+    ...preMongooseSchema,
+    avatar: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'PersonAvatar',
+    },
+    customId: String,
+    gender: {
+      type: Number,
+      default: PERSON_GENDER.NOT_SPECIFIED,
+      enum: Object.values(PERSON_GENDER),
+      required: true,
+    },
+    links: [String],
+    living: {
+      type: Boolean,
+      default: false,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    shareLevel: {
+      type: Number,
+      default: PERSON_SHARE_LEVEL.NONE,
+      enum: Object.values(PERSON_SHARE_LEVEL),
+      required: true,
+    },
+    shareName: String,
+  },
+  { timestamps: true },
+);
 
 for (let methodName in instanceMethods) {
   schema.methods[methodName] = instanceMethods[methodName];
