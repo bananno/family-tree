@@ -37,8 +37,8 @@ export default function ModelTags({
     refetch();
   }
 
-  function onCreateAttachment(tagId) {
-    sendTagUpdate({ action: 'add', tagId });
+  function onCreateAttachment({ tagId, tagValue }) {
+    sendTagUpdate({ action: 'add', tagId, tagValue });
   }
 
   const context = {

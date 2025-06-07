@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import Filter from 'shared/Filter';
 import { useFilter } from 'shared/FilterContext';
+import FormSection from 'shared/form/FormSection';
+import Input from 'shared/form/Input';
 import Select from 'shared/form/Select';
 import Modal from 'shared/Modal';
 import useTags from 'tag/hooks/useTags';
@@ -19,6 +21,7 @@ export default function NewTagAttachmentModal({
 }) {
   const { clearFilter, getFilterContent } = useFilter();
   const [selectedTag, setSelectedTag] = useState('');
+  const [tagValue, setTagValue] = useState('');
 
   const { tags: allowedTags } = useTags({
     allowedForModel: modelName,
@@ -41,14 +44,16 @@ export default function NewTagAttachmentModal({
     }
   }, [filterActive, availableTags]);
 
-  const isValid = !!selectedTag;
+  const isValid =
+    !!selectedTag && (!selectedTag.allowInput || tagValue.trim() !== '');
 
-  function handleChange(newId) {
+  function handleSelectedTagChange(newId) {
     setSelectedTag(availableTags.find(tag => tag.id === newId));
+    setTagValue('');
   }
 
   async function handleConfirm() {
-    await onSubmit(selectedTag.id);
+    await onSubmit({ tagId: selectedTag.id, tagValue });
     setSelectedTag('');
     clearFilter(filterId);
   }
@@ -59,25 +64,34 @@ export default function NewTagAttachmentModal({
       onConfirm={handleConfirm}
       confirmEnabled={isValid}
       triggerButtonLabel="Add Tag"
+      confirmButtonLabel="Attach"
     >
-      <Filter filterId={filterId} />
-      <br />
-      <Select
-        onChange={handleChange}
-        value={selectedTag.id}
-        disabled={availableTags.length === 0}
-      >
-        {showEmptyOption && <option value="">Select a tag</option>}
-        {availableTags.map(tag => (
-          <option key={tag.id} value={tag.id}>
-            {tag.title}
-          </option>
-        ))}
-      </Select>
-      <p style={{ width: '500px' }}>
-        {selectedTag?.definition && <b>Definition: </b>}
-        {selectedTag?.definition}
-      </p>
+      <FormSection label="Choose tag" style={{ width: '500px' }}>
+        <Filter filterId={filterId} />
+        <br />
+        <Select
+          onChange={handleSelectedTagChange}
+          value={selectedTag.id}
+          disabled={availableTags.length === 0}
+        >
+          {showEmptyOption && <option value="">select</option>}
+          {availableTags.map(tag => (
+            <option key={tag.id} value={tag.id}>
+              {tag.title}
+            </option>
+          ))}
+        </Select>
+      </FormSection>
+      {selectedTag?.definition && (
+        <FormSection style={{ width: '500px' }} label="Definition">
+          {selectedTag.definition}
+        </FormSection>
+      )}
+      {selectedTag?.allowInput && (
+        <FormSection label="Value">
+          <Input value={tagValue} onChange={setTagValue} />
+        </FormSection>
+      )}
     </Modal>
   );
 }

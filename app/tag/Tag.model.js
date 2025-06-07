@@ -6,6 +6,12 @@ import modelSchema from './model-schema.js';
 import instanceMethods from './model-instance.js';
 import staticMethods from './model-static.js';
 
+export const TAG_VALUE_TYPE = {
+  NONE: 0,
+  TEXT: 1,
+  OPTIONS: 2,
+};
+
 const { constants, schema } = createModel({
   name: 'tag',
   modelName: 'Tag',

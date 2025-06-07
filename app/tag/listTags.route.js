@@ -2,7 +2,7 @@ import _ from 'lodash';
 import mongoose from 'mongoose';
 
 import TAGABLE_MODELS from './tagableModels.js';
-import Tag from './Tag.model.js';
+import Tag, { TAG_VALUE_TYPE } from './Tag.model.js';
 
 export default async function listTagsRoute(req, res) {
   // TODO: move the "allowedForModel" filter from the frontend to here.
@@ -18,6 +18,7 @@ export default async function listTagsRoute(req, res) {
       ..._.pick(tag, ['id', 'category', 'definition', 'title']),
       usageCount: usageCounts[tag.id] || 0,
       restrictedToModels: tag.getRestrictedModelList(),
+      allowInput: tag.valueType !== TAG_VALUE_TYPE.NONE,
     })),
   });
 }
