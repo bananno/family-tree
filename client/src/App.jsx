@@ -18,6 +18,7 @@ import PersonIndexPage from 'person/pages/PersonIndexPage';
 import PersonLinksPage from 'person/pages/PersonLinksPage';
 import PersonPhotosPage from 'person/pages/PersonPhotosPage';
 import PersonSummaryPage from 'person/pages/PersonSummaryPage';
+import PersonTagsPage from 'person/pages/PersonTagsPage';
 import PersonTechnicalPage from 'person/pages/PersonTechnicalPage';
 import PersonTimelinePage from 'person/pages/PersonTimelinePage';
 import PersonToDoPage from 'person/pages/PersonToDoPage';
@@ -71,10 +72,7 @@ function AppRoutes() {
               path="/person/:id/citations"
               element={<PersonCitationsPage />}
             />
-            <Route
-              path="/person/:id/edit"
-              element={<PersonEditPage />}
-            />
+            <Route path="/person/:id/edit" element={<PersonEditPage />} />
             <Route path="/person/:id/links" element={<PersonLinksPage />} />
             <Route path="/person/:id/photos" element={<PersonPhotosPage />} />
             {isDevelopment && (
@@ -91,6 +89,7 @@ function AppRoutes() {
                   path="/person/:id/technical"
                   element={<PersonTechnicalPage />}
                 />
+                <Route path="/person/:id/tags" element={<PersonTagsPage />} />
               </>
             )}
             <Route path="*" element={<PersonToDoPage />} />

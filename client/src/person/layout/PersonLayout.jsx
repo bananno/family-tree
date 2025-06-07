@@ -28,6 +28,7 @@ const allPersonViews = [
   { path: 'links', title: 'links', sharedUnlessLimited: true },
   { path: 'citations', title: 'citations', sharedUnlessLimited: true },
   { path: 'edit', title: 'edit' },
+  { path: 'tags', title: 'tags' },
   { path: 'technical', title: 'technical' },
   { path: 'checklist', title: 'checklist' },
 ];
