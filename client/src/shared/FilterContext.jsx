@@ -15,6 +15,14 @@ export function FilterProvider({ children }) {
     }));
   }
 
+  function clearFilter(filterId) {
+    setFilterContent(filterId, '');
+  }
+
+  function getFilterContent(filterId) {
+    return filters[filterId]?.content || '';
+  }
+
   function getFilteredList(filterId, list, getFilterableString) {
     const filterWords = filters[filterId]?.words || [];
 
@@ -31,6 +39,8 @@ export function FilterProvider({ children }) {
 
   const value = {
     setFilterContent,
+    clearFilter,
+    getFilterContent,
     getFilteredList,
     filters,
   };

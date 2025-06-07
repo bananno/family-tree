@@ -1,4 +1,5 @@
 import Person from './Person.model.js';
+import TagModel from '../tag/Tag.model.js';
 
 export default async function updatePersonTagsRoute(req, res) {
   const person = await Person.findById(req.params.id);
@@ -9,12 +10,25 @@ export default async function updatePersonTagsRoute(req, res) {
 
   const action = req.body.action;
   const index = req.body.index;
+  const tagId = req.body.tagId;
 
-  if (!['delete', 'reorder'].includes(action)) {
+  const tag = tagId ? await TagModel.findById(tagId) : null;
+  if (tagId && !tag) {
+    return res.status(404).send('Tag not found');
+  }
+
+  if (!['add', 'delete', 'reorder'].includes(action)) {
     return res.status(400).send('Invalid action');
   }
 
-  if (action !== 'add') {
+  if (action === 'add') {
+    if (!tagId) {
+      return res.status(400).send('Tag ID is required');
+    }
+    if (person.tags.map(tag => String(tag)).includes(tagId)) {
+      return res.status(400).send('Tag already attached');
+    }
+  } else {
     if (person.tags[index] === undefined) {
       return res.status(400).send('Valid index is required');
     }
@@ -23,7 +37,10 @@ export default async function updatePersonTagsRoute(req, res) {
     }
   }
 
-  if (action === 'delete') {
+  if (action === 'add') {
+    person.tags.push(tagId);
+    person.tagValues.push(req.body.tagValue || '');
+  } else if (action === 'delete') {
     person.tags = [
       ...person.tags.slice(0, index),
       ...person.tags.slice(index + 1),

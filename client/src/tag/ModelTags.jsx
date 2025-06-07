@@ -5,6 +5,7 @@ import Divider from 'shared/Divider';
 import Button from 'shared/form/Button';
 import Modal from 'shared/Modal';
 import Spacer from 'shared/Spacer';
+import NewTagAttachmentModal from 'tag/components/NewTagAttachmentModal';
 import TagItem from 'tag/components/TagItem';
 import TagList from 'tag/components/TagList';
 
@@ -36,6 +37,10 @@ export default function ModelTags({
     refetch();
   }
 
+  function onCreateAttachment(tagId) {
+    sendTagUpdate({ action: 'add', tagId });
+  }
+
   const context = {
     modelName,
     sendTagUpdate,
@@ -59,6 +64,11 @@ export default function ModelTags({
           </Button>
         </>
       )}
+      <NewTagAttachmentModal
+        attachedTags={tags}
+        modelName={modelName}
+        onSubmit={onCreateAttachment}
+      />
     </ModelTagsProvider>
   );
 }
