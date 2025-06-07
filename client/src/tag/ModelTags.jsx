@@ -78,6 +78,13 @@ function EditTagsSection({ onDone }) {
     setDeletingIndex(null);
   }
 
+  async function handleReorder(reorderIndex) {
+    await sendTagUpdate({
+      action: 'reorder',
+      index: reorderIndex,
+    });
+  }
+
   return (
     <>
       <Spacer />
@@ -99,7 +106,7 @@ function EditTagsSection({ onDone }) {
                   marginLeft: '5px',
                   visibility: index === 0 ? 'hidden' : 'visible',
                 }}
-                disabled
+                onClick={() => handleReorder(index)}
               >
                 &#9650;
               </Button>

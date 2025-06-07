@@ -10,12 +10,15 @@ export default async function updatePersonTagsRoute(req, res) {
   const action = req.body.action;
   const index = req.body.index;
 
-  if (!['delete'].includes(action)) {
+  if (!['delete', 'reorder'].includes(action)) {
     return res.status(400).send('Invalid action');
   }
 
   if (action !== 'add') {
     if (person.tags[index] === undefined) {
+      return res.status(400).send('Valid index is required');
+    }
+    if (action === 'reorder' && person.tags[index - 1] === undefined) {
       return res.status(400).send('Valid index is required');
     }
   }
@@ -29,6 +32,15 @@ export default async function updatePersonTagsRoute(req, res) {
       ...person.tagValues.slice(0, index),
       ...person.tagValues.slice(index + 1),
     ];
+  } else if (action === 'reorder') {
+    const tempTag = person.tags[index];
+    const tempTagValue = person.tagValues[index];
+
+    person.tags[index] = person.tags[index - 1];
+    person.tags[index - 1] = tempTag;
+
+    person.tagValues[index] = person.tagValues[index - 1];
+    person.tagValues[index - 1] = tempTagValue;
   }
 
   await person.save();
