@@ -21,6 +21,6 @@ export default async function updatePersonRoute(req, res) {
 
     res.send();
   } catch (error) {
-    return res.status(500).send('Internal server error');
+    return res.status(400).send(error.message);
   }
 }

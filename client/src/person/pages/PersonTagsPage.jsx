@@ -1,15 +1,17 @@
 import React from 'react';
 
 import { usePersonContext } from 'person/PersonContext';
-import TagList from 'tag/components/TagList';
+import ModelTags from 'tag/ModelTags';
 
 export default function PersonTagsPage() {
-  const { person } = usePersonContext();
+  const { person, personId, refetch } = usePersonContext();
 
   return (
-    <>
-      <h2>Tags</h2>
-      <TagList tags={person.tags} />
-    </>
+    <ModelTags
+      editTagRoutePath={`people/${personId}/tags`}
+      modelName="people"
+      refetch={refetch}
+      tags={person.tags}
+    />
   );
 }

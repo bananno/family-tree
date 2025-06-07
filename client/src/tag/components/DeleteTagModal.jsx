@@ -5,6 +5,7 @@ import api from 'shared/api';
 import Modal from 'shared/Modal';
 import { useTagContext } from 'tag/TagContext';
 
+// Delete a Tag record from the database.
 export default function DeleteTagModal() {
   const { tag, setWasDeleted } = useTagContext();
 
