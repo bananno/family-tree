@@ -20,14 +20,14 @@ const PERSON_SHARE_LEVEL = {
   EVERYTHING: 2,
 };
 
-const { constants, preMongooseSchema } = createModel({
+const { constants, legacySchemaToConvert } = createModel({
   modelName: 'Person',
   modelSchema,
 });
 
 const schema = new mongoose.Schema(
   {
-    ...preMongooseSchema,
+    ...legacySchemaToConvert,
     avatar: {
       ref: 'PersonAvatar',
       type: mongoose.Schema.Types.ObjectId,

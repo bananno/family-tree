@@ -6,13 +6,20 @@ import modelSchema from './model-schema.js';
 import instanceMethods from './model-instance.js';
 import staticMethods from './model-static.js';
 
-const { constants, schema } = createModel({
+const { constants, legacySchemaToConvert } = createModel({
   name: 'notation',
   modelName: 'Notation',
   modelSchema,
   instanceMethods,
   staticMethods,
 });
+
+const schema = new mongoose.Schema(
+  {
+    ...legacySchemaToConvert,
+  },
+  { timestamps: true },
+);
 
 for (let methodName in instanceMethods) {
   schema.methods[methodName] = instanceMethods[methodName];

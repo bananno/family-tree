@@ -186,14 +186,9 @@ export default function createModel(resource) {
 
   checkForUnusedKeys(modelName, rawFieldList, propFieldsUsed);
 
-  // TODO: start moving this line into individual models using the returned
-  // preMongooseSchema instead of accepting the returned mongooseSchema. See Person.
-  const mongooseSchema = new mongoose.Schema(modelSchema, { timestamps: true });
-
   return {
     constants: { fields },
-    schema: mongooseSchema,
-    preMongooseSchema: modelSchema,
+    legacySchemaToConvert: modelSchema,
   };
 }
 
