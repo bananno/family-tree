@@ -11,7 +11,8 @@ import SourceLink from 'source/components/SourceLink';
 import useSources from 'source/hooks/useSources';
 import StoryLink from 'story/components/StoryLink';
 
-const mainSourceTypes = [
+// Mirrors backend version (TODO: import?)
+const MAIN_SOURCE_TYPES = [
   'document',
   'index',
   'cemetery',
@@ -35,7 +36,7 @@ export default function SourceIndexPage() {
         <li>
           <Link to="/sources">all</Link>
         </li>
-        {mainSourceTypes.map(sourceType => (
+        {MAIN_SOURCE_TYPES.map(sourceType => (
           <li key={sourceType}>
             <Link to={`/sources/${sourceType}`}>{sourceType}</Link>
           </li>

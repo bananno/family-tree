@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 import { createController } from '../import.js';
 
-import { mainSourceTypes } from './constants.js';
 import sourceForm from './forms.js';
 import sourceProfile from './show.js';
 import sourceTools from './tools.js';
@@ -22,17 +21,12 @@ export default function createRoutes(router) {
     modelName: 'source',
     router,
     routes: {
-      index: getSourcesIndex('none'),
       create: createSource,
       delete: deleteSource,
       show: sourceProfile.summary,
       edit: sourceProfile.edit,
       other: sourceProfile.other,
     },
-  });
-
-  mainSourceTypes.forEach(sourceType => {
-    router.get('/sources/' + sourceType, getSourcesIndex(sourceType));
   });
 
   router.post('/source/:id/createCitationNotation', createSourceCiteNotation);
@@ -45,19 +39,6 @@ export default function createRoutes(router) {
 }
 
 ////////////////////
-
-function getSourcesIndex(subview) {
-  return async function(req, res) {
-    const sources = await sourceTools.getSourcesByType(subview);
-    Source.sortByStory(sources);
-    res.render('source/index', {
-      title: 'Sources',
-      sources,
-      subview,
-      mainSourceTypes,
-    });
-  };
-}
 
 async function createSource(req, res) {
   const newSource = Source.getFormDataNew(req);

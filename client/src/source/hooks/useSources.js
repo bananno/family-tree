@@ -8,7 +8,7 @@ export default function useSources({ sourceType, filterId }) {
   const [loading, setLoading] = useState(true);
   const { getFilteredList } = useFilter();
 
-  const requestUrl = sourceType ? `api/sources/${sourceType}` : 'api/sources';
+  const requestUrl = sourceType ? `sources/${sourceType}` : 'sources';
 
   useEffect(() => {
     fetchItems();

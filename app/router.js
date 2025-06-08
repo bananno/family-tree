@@ -140,8 +140,8 @@ router.patch('/people/:id/avatars', updatePersonAvatarRoute);
 
 sourceCreateRoutes(router);
 router.post('/sources', createSourceRoute);
-router.get('/api/sources', listSourcesRoute);
-router.get('/api/sources/:sourceType', listSourcesRoute);
+router.get('/sources', listSourcesRoute);
+router.get('/sources/:sourceType', listSourcesRoute);
 
 storyCreateRoutes(router);
 router.get('/api/stories/:id', getStoryRoute);
