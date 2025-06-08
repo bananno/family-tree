@@ -56,7 +56,7 @@ export default function TagsWorkflow({
       {editing ? (
         <>
           <Spacer />
-          {tagAttachments.map((tag, index) => (
+          {tagAttachments.map((tagAttachment, index) => (
             <div key={index}>
               <div
                 style={{
@@ -66,7 +66,7 @@ export default function TagsWorkflow({
                 }}
               >
                 <div style={{ flex: '3' }}>
-                  <TagItem tag={tag} />
+                  <TagItem tag={tagAttachment} />
                 </div>
                 <div style={{ flex: '1' }}>
                   <Button
@@ -87,7 +87,9 @@ export default function TagsWorkflow({
                   <Button
                     style={{ marginLeft: '5px' }}
                     onClick={() => setEditIndex(index)}
-                    disabled={!tag.expectsValue}
+                    disabled={
+                      !tagAttachment.expectsValue && !tagAttachment.value
+                    }
                   >
                     edit value
                   </Button>

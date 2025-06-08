@@ -8,7 +8,7 @@ import Select from 'shared/form/Select';
 import Modal from 'shared/Modal';
 import useTags from 'tag/hooks/useTags';
 
-const filterId = 'tag-picker-filter';
+const filterId = 'tag-attachment-modal-filter';
 
 // Choose a tag and attach it to an item, or edit the value of an existing attachment.
 // tagAttachment = (edit) the tag whose value is being edited.
@@ -24,9 +24,12 @@ export default function TagAttachmentModal({
 }) {
   const isNew = !tagAttachment;
 
+  const { existingValue, invalidSavedValueNote } =
+    getExistingValueAndWarnings(tagAttachment);
+
   const { clearFilter } = useFilter();
   const [selectedTag, setSelectedTag] = useState('');
-  const [tagValue, setTagValue] = useState(tagAttachment?.value || '');
+  const [tagValue, setTagValue] = useState(existingValue);
 
   function handleSelectedTagChange(newTag) {
     setSelectedTag(newTag);
@@ -46,11 +49,21 @@ export default function TagAttachmentModal({
 
   const displayedTag = isNew ? selectedTag : tagAttachment;
 
+  // When editing existing an tag attachment, the value is editable if there's
+  // a value, even if the tag no longer allows values.
+  const showTagValueField = displayedTag?.expectsValue || tagAttachment?.value;
+
   // For create mode, there must be a tag selected and a value if required.
-  // For edit mode, ignore the selected tag but still require the value.
-  const isValid =
-    (!isNew || !!selectedTag) &&
-    (!displayedTag.expectsValue || tagValue.trim() !== '');
+  // For edit mode:
+  //    - ignore the selected tag, but still require the value.
+  //    - if the tag doesn't expect a value, but a value was previously saved,
+  //        deleting the value is the only action allowed.
+  const tagIsValid = isNew ? !!selectedTag : true;
+  const valueHasValue = tagValue.trim() !== '';
+  const valueIsValid = displayedTag.expectsValue
+    ? valueHasValue
+    : !valueHasValue;
+  const isValid = tagIsValid && valueIsValid;
 
   // For create mode, the modal manages its own state internally.
   // For edit mode, the modal is managed by the parent.
@@ -84,13 +97,20 @@ export default function TagAttachmentModal({
           {displayedTag.definition}
         </FormSection>
       )}
-      {displayedTag?.expectsValue && (
+      {showTagValueField && (
         <FormSection label="Value">
           <ValueField
             tag={displayedTag}
             value={tagValue}
             setValue={setTagValue}
           />
+          {invalidSavedValueNote && (
+            <p>
+              <i>{invalidSavedValueNote}</i>
+              <br />
+              <i>Old value: </i> {tagAttachment.value}
+            </p>
+          )}
         </FormSection>
       )}
     </Modal>
@@ -161,4 +181,55 @@ function ValueField({ tag, value, setValue }) {
     );
   }
   return <Input value={value} onChange={setValue} />;
+}
+
+function getExistingValueAndWarnings(tagAttachment) {
+  // Create mode - no warning applicable.
+  if (!tagAttachment) {
+    return { existingValue: '' };
+  }
+
+  const existingValue = tagAttachment.value || '';
+  const valueIsPresent = !!existingValue;
+
+  // There's no existing value. If one is required, the regular validation
+  // will handle it.
+  if (!valueIsPresent) {
+    return { existingValue };
+  }
+
+  // No value is allowed. If a value was previously saved, show instructions
+  // to delete the value.
+  // The edit modal is normally disabled for a tag attachment that does not allow
+  // a value. If the value already exists when it shouldn't, the modal can be opened
+  // but only to delete the value.
+  // Warning is based on the actual saved state, not the current form state.
+  // User action expected: clear the field and then save.
+  if (!tagAttachment.expectsValue) {
+    return {
+      existingValue,
+      invalidSavedValueNote: valueIsPresent
+        ? 'This tag no longer supports a value. Please delete.'
+        : undefined,
+    };
+  }
+
+  // Free text is allowed, so the saved value should be used. No warnings applicable.
+  if (!tagAttachment.valueOptions) {
+    return { existingValue };
+  }
+
+  // Options are required and the saved value is a valid option. No warnings applicable.
+  if (tagAttachment.valueOptions.includes(existingValue)) {
+    return { existingValue };
+  }
+
+  // The saved value is no longer in the list of allowed values.
+  // Don't use the existing value as it's not compatible with the Select.
+  // User action expected: select a new value from the list.
+  return {
+    existingValue: '',
+    invalidSavedValueNote:
+      'The saved value is no longer available. Choose a new one.',
+  };
 }
