@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import NotationsTable from 'notation/components/NotationsTable';
 import useNotations from 'notation/hooks/useNotations';
@@ -14,6 +15,11 @@ export default function NotationIndexPage() {
   return (
     <div>
       <h2>notations</h2>
+      <p>
+        <Link to="http://localhost:9000/notations">
+          new notation (old site)
+        </Link>
+      </p>
       {!expandAll && (
         <Button onClick={() => setExpandAll(true)}>Expand all</Button>
       )}

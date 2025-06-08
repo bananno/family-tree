@@ -27,21 +27,16 @@ export default function createRoutes(router) {
 }
 
 async function notationsIndex(req, res) {
-  const notations = await Notation.find({}).populate('tags');
-  res.render('notation/index', {title: 'Notations', notations});
+  res.render('notation/index', { title: 'Notations' });
 }
 
-function createNotation(req, res) {
+async function createNotation(req, res) {
   const newNotation = Notation.getFormDataNew(req);
   if (!newNotation) {
     return res.send('error');
   }
-  Notation.create(newNotation, (err, notation) => {
-    if (err) {
-      return res.send('There was a problem adding the information to the database.');
-    }
-    res.redirect('/notation/' + notation._id + '/edit');
-  });
+  const notation = await Notation.create(newNotation);
+  res.redirect(`/notation/${notation._id}/edit`);
 }
 
 async function showNotation(req, res) {

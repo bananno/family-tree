@@ -1,100 +1,10 @@
-<%
-  const description = {
-    'person notes': 'profile summary, profile research notes, brick wall, '
-      + 'broken brick wall'
-  };
+<p>
+  <a href="http://localhost:1899/notations">Notations</a>
+</p>
 
-  const categories = {};
-
-  [
-    '',
-    'person notes',
-  ].forEach(category => categories[category] = []);
-
-  notations.forEach(notation => {
-    const tagTitles = notation.tags.map(tag => tag.title);
-
-    const category = (() => {
-      if (notation.title == 'profile summary'
-          || tagTitles.includes('profile summary')
-          || tagTitles.includes('research notes')
-          || tagTitles.includes('brick wall')
-          || tagTitles.includes('broken brick wall')) {
-        return 'person notes';
-      }
-      if (['source citation', 'checklist'].includes(notation.title)) {
-        return notation.title;
-      }
-      if (notation.title == 'excerpt') {
-        return 'source excerpt';
-      }
-      if (notation.title == 'featured quote'
-          || tagTitles.includes('featured quote')) {
-        return 'other tasks';
-      }
-      return '';
-    })();
-
-    categories[category] = categories[category] || [];
-    categories[category].push(notation);
-  });
-%>
-
-<h1>Notation</h1>
+<h1>New Notation</h1>
 
 <form method="post" action="/notations/new">
-  New notation:
   <input type="text" name="title" placeholder="title"></input>
   <button>add</button>
 </form>
-
-<table>
-  <tr>
-    <th>title</th>
-    <th>tags</th>
-    <th>sharing</th>
-  </tr>
-  <% for (let category in categories) { %>
-    <tr>
-      <th>
-        <b><%= category %></b>
-        <% if (description[category]) { %>
-          - <%= description[category] %>
-        <% } %>
-      </th>
-      <th>
-      </th>
-    </tr>
-    <% categories[category].forEach(notation => { %>
-      <tr>
-        <td>
-          <%- include('../notation/_link', {notation}) %>
-        </td>
-        <td>
-          <%- include('../tag/_list', {item: notation}) %>
-        </td>
-        <td>
-          <% if (notation.sharing) { %>
-            <img class="checkmark-inline" src="/images/check-true.png">
-          <% } else { %>
-            <img class="checkmark-inline" src="/images/check-false.png">
-          <% } %>
-        </td>
-      </tr>
-    <% }); %>
-  <% } %>
-</table>
-
-<style>
-  th {
-    text-align: left;
-    border-style: solid;
-    border-color: black;
-    border-width: 1px 0 1px 0;
-    padding: 10px;
-  }
-  td {
-    border: 1px solid black;
-    padding: 3px 5px;
-  }
-</style>
