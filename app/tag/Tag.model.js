@@ -31,6 +31,10 @@ for (let methodName in staticMethods) {
 schema.methods.constants = () => constants;
 schema.statics.constants = () => constants;
 
+schema.methods.expectsValue = function () {
+  return this.valueType !== TAG_VALUE_TYPE.NONE;
+};
+
 const Tag = mongoose.model('Tag', schema);
 
 export default Tag;

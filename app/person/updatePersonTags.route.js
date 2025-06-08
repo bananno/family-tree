@@ -11,13 +11,14 @@ export default async function updatePersonTagsRoute(req, res) {
   const action = req.body.action;
   const index = req.body.index;
   const tagId = req.body.tagId;
+  const tagValue = req.body.tagValue || '';
 
   const tag = tagId ? await TagModel.findById(tagId) : null;
   if (tagId && !tag) {
     return res.status(404).send('Tag not found');
   }
 
-  if (!['add', 'delete', 'reorder'].includes(action)) {
+  if (!['add', 'delete', 'reorder', 'edit'].includes(action)) {
     return res.status(400).send('Invalid action');
   }
 
@@ -39,7 +40,9 @@ export default async function updatePersonTagsRoute(req, res) {
 
   if (action === 'add') {
     person.tags.push(tagId);
-    person.tagValues.push(req.body.tagValue || '');
+    person.tagValues.push(tagValue);
+  } else if (action === 'edit') {
+    person.tagValues[index] = tagValue;
   } else if (action === 'delete') {
     person.tags = [
       ...person.tags.slice(0, index),

@@ -45,7 +45,7 @@ export default function NewTagAttachmentModal({
   }, [filterActive, availableTags]);
 
   const isValid =
-    !!selectedTag && (!selectedTag.allowInput || tagValue.trim() !== '');
+    !!selectedTag && (!selectedTag.expectsValue || tagValue.trim() !== '');
 
   function handleSelectedTagChange(newId) {
     setSelectedTag(availableTags.find(tag => tag.id === newId));
@@ -66,6 +66,7 @@ export default function NewTagAttachmentModal({
       triggerButtonLabel="Add Tag"
       confirmButtonLabel="Attach"
     >
+      {/* Width ensures the modal stays the same size when description comes and goes */}
       <FormSection label="Choose tag" style={{ width: '500px' }}>
         <Filter filterId={filterId} />
         <br />
@@ -87,7 +88,7 @@ export default function NewTagAttachmentModal({
           {selectedTag.definition}
         </FormSection>
       )}
-      {selectedTag?.allowInput && (
+      {selectedTag?.expectsValue && (
         <FormSection label="Value">
           <Input value={tagValue} onChange={setTagValue} />
         </FormSection>

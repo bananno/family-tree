@@ -5,9 +5,11 @@ import TagLink from 'tag/components/TagLink';
 export default function TagItem({ tag, showDefinitions, showValues = true }) {
   if (showValues) {
     // String(value) because otherwise booleans don't display
+    const value = String(tag.value);
     return (
       <>
-        <TagLink tag={tag} />: {String(tag.value)}
+        <TagLink tag={tag} />
+        {value && `: ${value}`}
       </>
     );
   }

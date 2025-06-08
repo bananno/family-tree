@@ -20,7 +20,7 @@ export default async function getPerson(req, res) {
     .populate({ path: 'spouses', populate: populateAvatarUrl })
     .populate({ path: 'children', populate: populateAvatarUrl })
     .populateAvatar()
-    .populate({ path: 'tags', select: 'title' });
+    .populate({ path: 'tags', select: 'title definition valueType' });
 
   if (!person) {
     return res.status(404).send();
@@ -77,7 +77,7 @@ export default async function getPerson(req, res) {
       person.children.map(person => person.toListApi()),
       'birthYear',
     ),
-    tags: person.convertTags({ asList: true }),
+    tags: mapTags(person.tags, person.tagValues),
     treeParents: ancestorTree.treeParents,
     gender: person.genderText(),
     profileSummary: profileSummaryNotations
@@ -115,6 +115,16 @@ function mapLinks(links) {
     const text = arr.join(' ') || url;
     return { url, text };
   });
+}
+
+function mapTags(tags, tagValues) {
+  return tags.map((tag, index) => ({
+    id: tag.id,
+    title: tag.title,
+    value: tagValues[index] || '',
+    definition: tag.definition,
+    expectsValue: tag.expectsValue(),
+  }));
 }
 
 async function populateBirthAndDeathEvents(person) {

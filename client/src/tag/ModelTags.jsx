@@ -3,6 +3,8 @@ import React, { createContext, useContext, useState } from 'react';
 import api from 'shared/api';
 import Divider from 'shared/Divider';
 import Button from 'shared/form/Button';
+import FormSection from 'shared/form/FormSection';
+import Input from 'shared/form/Input';
 import Modal from 'shared/Modal';
 import Spacer from 'shared/Spacer';
 import NewTagAttachmentModal from 'tag/components/NewTagAttachmentModal';
@@ -19,6 +21,7 @@ function ModelTagsProvider({ children, ...props }) {
   );
 }
 
+// Display and edit attached tags for any model.
 export default function ModelTags({
   editTagRoutePath,
   modelName,
@@ -77,6 +80,7 @@ export default function ModelTags({
 
 function EditTagsSection({ onDone }) {
   const [deletingIndex, setDeletingIndex] = useState(null);
+  const [editingIndex, setEditingIndex] = useState(null);
   const { sendTagUpdate, tags } = useContext(ModelTagsContext);
 
   async function handleConfirmDelete() {
@@ -126,8 +130,12 @@ function EditTagsSection({ onDone }) {
               >
                 &#10006;
               </Button>
-              <Button style={{ marginLeft: '5px' }} disabled>
-                edit
+              <Button
+                style={{ marginLeft: '5px' }}
+                onClick={() => setEditingIndex(index)}
+                disabled={!tag.expectsValue}
+              >
+                edit value
               </Button>
             </div>
           </div>
@@ -146,6 +154,49 @@ function EditTagsSection({ onDone }) {
           <TagItem tag={tags[deletingIndex]} />
         </Modal>
       )}
+      {editingIndex !== null && (
+        <EditTagAttachmentValue
+          index={editingIndex}
+          tag={tags[editingIndex]}
+          onClose={() => setEditingIndex(null)}
+        />
+      )}
     </>
+  );
+}
+
+function EditTagAttachmentValue({ index, tag, onClose }) {
+  const { sendTagUpdate } = useContext(ModelTagsContext);
+  const [value, setValue] = useState(tag.value || '');
+
+  async function handleConfirm() {
+    await sendTagUpdate({
+      action: 'edit',
+      index,
+      tagValue: value.trim(),
+    });
+    onClose();
+  }
+
+  const isValid = value.trim().length > 0;
+
+  return (
+    <Modal
+      title="Edit tag"
+      onConfirm={handleConfirm}
+      confirmEnabled={isValid}
+      onCancel={onClose}
+      open
+    >
+      <FormSection label="Tag name">{tag.title}</FormSection>
+      {tag.definition && (
+        <FormSection style={{ width: '500px' }} label="Definition">
+          {tag.definition}
+        </FormSection>
+      )}
+      <FormSection label="Value">
+        <Input value={value} onChange={setValue} />
+      </FormSection>
+    </Modal>
   );
 }
