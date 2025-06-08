@@ -1,18 +1,13 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { useState } from 'react';
 
 import api from 'shared/api';
 import Divider from 'shared/Divider';
 import Button from 'shared/form/Button';
-import FormSection from 'shared/form/FormSection';
-import Input from 'shared/form/Input';
-import Select from 'shared/form/Select';
 import Modal from 'shared/Modal';
 import Spacer from 'shared/Spacer';
 import TagAttachmentModal from 'tag/components/TagAttachmentModal';
 import TagItem from 'tag/components/TagItem';
 import TagList from 'tag/components/TagList';
-
-const TagsWorkflowContext = createContext({});
 
 // Display and edit attached tags for any model.
 export default function TagsWorkflow({
@@ -21,7 +16,11 @@ export default function TagsWorkflow({
   refetch,
   tags = [],
 }) {
+  const tagAttachments = tags;
+
   const [editing, setEditing] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(null);
+  const [editIndex, setEditIndex] = useState(null);
 
   async function sendTagUpdate(requestBody) {
     await api(editTagRoutePath, {
@@ -33,24 +32,79 @@ export default function TagsWorkflow({
     refetch();
   }
 
-  function onCreateAttachment({ tagId, tagValue }) {
+  function handleCreate(tagId, tagValue) {
     sendTagUpdate({ action: 'add', tagId, tagValue });
   }
 
-  const context = {
-    modelName,
-    sendTagUpdate,
-    tags,
-  };
+  function handleDelete() {
+    sendTagUpdate({ action: 'delete', index: deleteIndex });
+    setDeleteIndex(null);
+  }
+
+  function handleEdit(tagValue) {
+    sendTagUpdate({ action: 'edit', index: editIndex, tagValue });
+    setEditIndex(null);
+  }
+
+  function handleReorder(reorderIndex) {
+    sendTagUpdate({ action: 'reorder', index: reorderIndex });
+  }
 
   return (
-    <TagsWorkflowContext.Provider value={context}>
+    <>
       <h2>Tags</h2>
       {editing ? (
-        <EditTagsSection onDone={() => setEditing(false)} />
+        <>
+          <Spacer />
+          {tagAttachments.map((tag, index) => (
+            <div key={index}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  margin: '10px 0',
+                }}
+              >
+                <div style={{ flex: '3' }}>
+                  <TagItem tag={tag} />
+                </div>
+                <div style={{ flex: '1' }}>
+                  <Button
+                    style={{
+                      marginLeft: '5px',
+                      visibility: index === 0 ? 'hidden' : 'visible',
+                    }}
+                    onClick={() => handleReorder(index)}
+                  >
+                    &#9650;
+                  </Button>
+                  <Button
+                    style={{ marginLeft: '5px' }}
+                    onClick={() => setDeleteIndex(index)}
+                  >
+                    &#10006;
+                  </Button>
+                  <Button
+                    style={{ marginLeft: '5px' }}
+                    onClick={() => setEditIndex(index)}
+                    disabled={!tag.expectsValue}
+                  >
+                    edit value
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+          <Button
+            onClick={() => setEditing(false)}
+            style={{ marginRight: '5px' }}
+          >
+            Done
+          </Button>
+        </>
       ) : (
         <>
-          <TagList tags={tags} />
+          <TagList tags={tagAttachments} />
           <Divider />
           <Button
             onClick={() => setEditing(true)}
@@ -61,145 +115,27 @@ export default function TagsWorkflow({
         </>
       )}
       <TagAttachmentModal
-        attachedTags={tags}
+        tagAttachments={tagAttachments}
         modelName={modelName}
-        onSubmit={onCreateAttachment}
+        onSubmit={handleCreate}
       />
-    </TagsWorkflowContext.Provider>
-  );
-}
-
-////////////////////
-
-function EditTagsSection({ onDone }) {
-  const [deletingIndex, setDeletingIndex] = useState(null);
-  const [editingIndex, setEditingIndex] = useState(null);
-  const { sendTagUpdate, tags } = useContext(TagsWorkflowContext);
-
-  async function handleConfirmDelete() {
-    await sendTagUpdate({
-      action: 'delete',
-      index: deletingIndex,
-    });
-
-    setDeletingIndex(null);
-  }
-
-  async function handleReorder(reorderIndex) {
-    await sendTagUpdate({
-      action: 'reorder',
-      index: reorderIndex,
-    });
-  }
-
-  return (
-    <>
-      <Spacer />
-      {tags.map((tag, index) => (
-        <div key={index}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              margin: '10px 0',
-            }}
-          >
-            <div style={{ flex: '3' }}>
-              <TagItem tag={tag} />
-            </div>
-            <div style={{ flex: '1' }}>
-              <Button
-                style={{
-                  marginLeft: '5px',
-                  visibility: index === 0 ? 'hidden' : 'visible',
-                }}
-                onClick={() => handleReorder(index)}
-              >
-                &#9650;
-              </Button>
-              <Button
-                style={{ marginLeft: '5px' }}
-                onClick={() => setDeletingIndex(index)}
-              >
-                &#10006;
-              </Button>
-              <Button
-                style={{ marginLeft: '5px' }}
-                onClick={() => setEditingIndex(index)}
-                disabled={!tag.expectsValue}
-              >
-                edit value
-              </Button>
-            </div>
-          </div>
-        </div>
-      ))}
-      <Button onClick={onDone} style={{ marginRight: '5px' }}>
-        Done
-      </Button>
-      {deletingIndex !== null && (
+      {editIndex !== null && (
+        <TagAttachmentModal
+          tagAttachment={tagAttachments[editIndex]}
+          onSubmit={handleEdit}
+          onCancel={() => setEditIndex(null)}
+        />
+      )}
+      {deleteIndex !== null && (
         <Modal
           title="Delete tag?"
           open
-          onConfirm={handleConfirmDelete}
-          onCancel={() => setDeletingIndex(null)}
+          onConfirm={handleDelete}
+          onCancel={() => setDeleteIndex(null)}
         >
-          <TagItem tag={tags[deletingIndex]} />
+          <TagItem tag={tagAttachments[deleteIndex]} />
         </Modal>
       )}
-      {editingIndex !== null && (
-        <EditTagAttachmentValueModal
-          index={editingIndex}
-          tag={tags[editingIndex]}
-          onClose={() => setEditingIndex(null)}
-        />
-      )}
     </>
-  );
-}
-
-function EditTagAttachmentValueModal({ index, tag, onClose }) {
-  const { sendTagUpdate } = useContext(TagsWorkflowContext);
-  const [value, setValue] = useState(tag.value || '');
-
-  async function handleConfirm() {
-    await sendTagUpdate({
-      action: 'edit',
-      index,
-      tagValue: value.trim(),
-    });
-    onClose();
-  }
-
-  const isValid = value.trim().length > 0;
-
-  return (
-    <Modal
-      title="Edit tag"
-      onConfirm={handleConfirm}
-      confirmEnabled={isValid}
-      onCancel={onClose}
-      open
-    >
-      <FormSection label="Tag name">{tag.title}</FormSection>
-      {tag.definition && (
-        <FormSection style={{ width: '500px' }} label="Definition">
-          {tag.definition}
-        </FormSection>
-      )}
-      <FormSection label="Value">
-        {tag.valueOptions ? (
-          <Select value={value} onChange={setValue}>
-            {tag.valueOptions.map(opt => (
-              <option value={opt} key={opt}>
-                {opt}
-              </option>
-            ))}
-          </Select>
-        ) : (
-          <Input value={value} onChange={setValue} />
-        )}
-      </FormSection>
-    </Modal>
   );
 }
