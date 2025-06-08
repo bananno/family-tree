@@ -34,7 +34,6 @@ import getPersonPhotosRoute from './person/getPersonPhotos.route.js';
 import getPersonTimelineRoute from './person/getPersonTimeline.route.js';
 import updatePersonRoute from './person/updatePerson.route.js';
 import updatePersonLinksRoute from './person/updatePersonLinks.route.js';
-import updatePersonTagsRoute from './person/updatePersonTags.route.js';
 
 // Person - Avatar
 import createPersonAvatarRoute from './person/avatar/createPersonAvatar.route.js';
@@ -57,6 +56,7 @@ import getTagRoute from './tag/getTag.route.js';
 import deleteTagRoute from './tag/deleteTag.route.js';
 import listTagsRoute from './tag/listTags.route.js';
 import updateTagRoute from './tag/updateTag.route.js';
+import updateTagAttachmentsRoute from './tag/updateTagAttachments.route.js';
 
 const router = express.Router();
 
@@ -127,7 +127,6 @@ router.get('/people/:id/photos', getPersonPhotosRoute);
 router.get('/people/:id/timeline', getPersonTimelineRoute);
 router.post('/people/:id', updatePersonRoute);
 router.post('/people/:id/links', updatePersonLinksRoute);
-router.post('/people/:id/tags', updatePersonTagsRoute);
 
 router.post(
   '/people/:id/avatars',
@@ -150,3 +149,4 @@ router.get('/tags/:id', getTagRoute);
 router.delete('/tags/:id', deleteTagRoute);
 router.post('/tags', createTagRoute);
 router.post('/tags/:id', updateTagRoute);
+router.post('/tag-attachments', updateTagAttachmentsRoute);

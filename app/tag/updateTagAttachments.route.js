@@ -1,9 +1,19 @@
-import Person from './Person.model.js';
-import TagModel from '../tag/Tag.model.js';
+import mongoose from 'mongoose';
 
-export default async function updatePersonTagsRoute(req, res) {
-  const subject = await Person.findById(req.params.id).populate('tags');
-  const subjectModel = 'Person';
+import TagModel from './Tag.model.js';
+
+export default async function updateTagAttachmentsRoute(req, res) {
+  let subject;
+
+  try {
+    const subjectModel = req.body.modelName; // e.g., "Person"
+    const subjectId = req.body.id;
+
+    const Model = mongoose.model(subjectModel);
+    subject = await Model.findById(subjectId).populate('tags');
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 
   if (!subject) {
     return res.status(404).send('Subject not found');
@@ -92,7 +102,10 @@ export default async function updatePersonTagsRoute(req, res) {
     subject.tagValues[index - 1] = tempTagValue;
   }
 
-  await subject.save();
-
-  res.send();
+  try {
+    await subject.save();
+    res.send();
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }

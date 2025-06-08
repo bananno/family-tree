@@ -10,44 +10,45 @@ import TagItem from 'tag/components/TagItem';
 import TagList from 'tag/components/TagList';
 
 // Display and edit attached tags for any model.
-export default function TagsWorkflow({
-  editTagRoutePath,
-  modelName,
-  refetch,
-  tags = [],
-}) {
-  const tagAttachments = tags;
+export default function TagAttachments({ modelName, subject, refetch }) {
+  const tagAttachments = subject.tags;
 
   const [editing, setEditing] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
 
-  async function sendTagUpdate(requestBody) {
-    await api(editTagRoutePath, {
+  async function sendTagUpdate(action, tagChangeDetails, onComplete) {
+    await api('tag-attachments', {
       method: 'POST',
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify({
+        modelName,
+        id: subject.id,
+        action,
+        ...tagChangeDetails,
+      }),
       catchPlease: true,
     });
 
+    onComplete?.();
     refetch();
   }
 
   function handleCreate(tagId, tagValue) {
-    sendTagUpdate({ action: 'add', tagId, tagValue });
+    sendTagUpdate('add', { tagId, tagValue });
   }
 
   function handleDelete() {
-    sendTagUpdate({ action: 'delete', index: deleteIndex });
-    setDeleteIndex(null);
+    sendTagUpdate('delete', { index: deleteIndex }, () => setDeleteIndex(null));
   }
 
   function handleEdit(tagValue) {
-    sendTagUpdate({ action: 'edit', index: editIndex, tagValue });
-    setEditIndex(null);
+    sendTagUpdate('edit', { index: editIndex, tagValue }, () =>
+      setEditIndex(null),
+    );
   }
 
   function handleReorder(reorderIndex) {
-    sendTagUpdate({ action: 'reorder', index: reorderIndex });
+    sendTagUpdate('reorder', { index: reorderIndex });
   }
 
   return (
