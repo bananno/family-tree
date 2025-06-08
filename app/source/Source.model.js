@@ -6,6 +6,17 @@ import modelSchema from './model-schema.js';
 import instanceMethods from './model-instance.js';
 import staticMethods from './model-static.js';
 
+export const MAIN_SOURCE_TYPES = [
+  'document',
+  'index',
+  'cemetery',
+  'newspaper',
+  'photo',
+  'website',
+  'book',
+  'other',
+];
+
 const { constants, legacySchemaToConvert } = createModel({
   name: 'source',
   hasRoutes: true,

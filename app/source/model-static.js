@@ -59,29 +59,6 @@ methods.sortByStoryYear = sources => {
   tools.sortBy(sources, source => source.story.date.year);
 };
 
-methods.getAllByType = async sourceType => {
-  const Source = mongoose.model('Source');
-  const sources = await Source.find({}).populate('story');
-
-  if (!sourceType) {
-    return sources;
-  }
-
-  if (sourceType === 'photo') {
-    return sources.filter(source => source.story.title == 'Photo');
-  }
-
-  if (sourceType === 'other') {
-    return sources.filter(source => {
-      let storyType = source.story.type.toLowerCase();
-      return source.story.title !== 'Photo'
-        && storyType === 'other' || !mainSourceTypes.includes(storyType);
-    });
-  }
-
-  return sources.filter(source => source.story.type.toLowerCase() === sourceType);
-};
-
 // Get the full title ("story title - source title") of the given
 // source (or source-based object). Must populate story first.
 methods.getFullTitle = source => {

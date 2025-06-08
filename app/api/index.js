@@ -9,8 +9,6 @@ export default function createRoutes(router) {
   router.get('/api/notation-index', notationIndex);
   router.get('/api/notation-profile/:id', notationProfile);
   router.get('/api/person-index', personIndex);
-  router.get('/api/source-index', sourceIndex);
-  router.get('/api/source-index/:sourceType', sourceIndex);
   router.get('/api/source-profile/:id', sourceProfile);
   router.get('/api/story-index', storyIndex);
   router.get('/api/story-index/:storyType', storyIndex);
@@ -52,23 +50,6 @@ async function personIndex(req, res) {
     .select('name gender avatar');
   const data = people.map(person => person.toListApi());
   res.send({ data });
-}
-
-async function sourceIndex(req, res) {
-  // TO DO: use mainSourceTypes to populate the list on the front end?
-  const sourceType = req.params.sourceType;
-  const sources = await Source.getAllByType(sourceType);
-  sources.forEach(source => source.populateFullTitle());
-  Source.sortByStory(sources);
-
-  const data = sources.map(source => ({
-    id: source._id,
-    title: source.title,
-    fullTitle: source.fullTitle,
-  }));
-
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.send({data});
 }
 
 async function sourceProfile(req, res) {

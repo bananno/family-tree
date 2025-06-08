@@ -21,9 +21,22 @@ function FormatDate({ date }) {
   if (!date) {
     return null;
   }
+  if (!date.month && !date.day && !date.year) {
+    return null;
+  }
   if (!date.month && !date.day && date.year) {
     return date.year;
   }
+
+  // month and year only
+  if (date.month && !date.day && date.year) {
+    return (
+      <>
+        {MONTH_NAME[date.month]} {date.year}
+      </>
+    );
+  }
+
   return (
     <>
       {MONTH_NAME[date.month]} {date.day}, {date.year}

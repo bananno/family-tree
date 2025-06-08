@@ -2,9 +2,14 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import BulletList from 'shared/BulletList';
+import Checkmark from 'shared/Checkmark';
 import Filter from 'shared/Filter';
+import FormatDate from 'shared/FormatDate';
+import FormatLocation from 'shared/FormatLocation';
+import Table from 'shared/Table';
 import SourceLink from 'source/components/SourceLink';
-import useSourceList from 'source/hooks/useSourceList';
+import useSources from 'source/hooks/useSources';
+import StoryLink from 'story/components/StoryLink';
 
 const mainSourceTypes = [
   'document',
@@ -21,7 +26,7 @@ const filterId = 'FILTER_SOURCE_INDEX_PAGE';
 
 export default function SourceIndexPage() {
   const { sourceType } = useParams();
-  const { sources, isLoading } = useSourceList({ sourceType, filterId });
+  const { sources, loading } = useSources({ sourceType, filterId });
 
   return (
     <>
@@ -36,15 +41,42 @@ export default function SourceIndexPage() {
           </li>
         ))}
       </BulletList>
-      {isLoading && <p>loading...</p>}
       <Filter filterId={filterId} />
-      <BulletList>
-        {sources.map(source => (
-          <li key={source.id}>
-            <SourceLink source={source} />
-          </li>
-        ))}
-      </BulletList>
+      <Table>
+        <thead>
+          <tr>
+            <th>type</th>
+            <th>story</th>
+            <th>title</th>
+            <th>date</th>
+            <th>location</th>
+            <th>sharing</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sources.map(source => (
+            <tr key={source.id}>
+              <td>{source.story.type}</td>
+              <td>
+                <StoryLink story={source.story} />
+              </td>
+              <td>
+                <SourceLink source={source} />
+              </td>
+              <td>
+                <FormatDate date={source.date} />
+              </td>
+              <td>
+                <FormatLocation location={source.location} />
+              </td>
+              <td>
+                <Checkmark value={source.sharing} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      {loading && <p>loading...</p>}
     </>
   );
 }

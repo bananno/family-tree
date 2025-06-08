@@ -44,6 +44,7 @@ import updatePersonAvatarRoute from './person/avatar/updatePersonAvatar.route.js
 // Source
 import sourceCreateRoutes from './source/index.js';
 import createSourceRoute from './source/createSource.route.js';
+import listSourcesRoute from './source/listSources.route.js';
 
 // Story
 import storyCreateRoutes from './story/index.js';
@@ -139,6 +140,8 @@ router.patch('/people/:id/avatars', updatePersonAvatarRoute);
 
 sourceCreateRoutes(router);
 router.post('/sources', createSourceRoute);
+router.get('/api/sources', listSourcesRoute);
+router.get('/api/sources/:sourceType', listSourcesRoute);
 
 storyCreateRoutes(router);
 router.get('/api/stories/:id', getStoryRoute);
