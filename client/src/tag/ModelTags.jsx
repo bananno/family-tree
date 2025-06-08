@@ -5,6 +5,7 @@ import Divider from 'shared/Divider';
 import Button from 'shared/form/Button';
 import FormSection from 'shared/form/FormSection';
 import Input from 'shared/form/Input';
+import Select from 'shared/form/Select';
 import Modal from 'shared/Modal';
 import Spacer from 'shared/Spacer';
 import NewTagAttachmentModal from 'tag/components/NewTagAttachmentModal';
@@ -155,7 +156,7 @@ function EditTagsSection({ onDone }) {
         </Modal>
       )}
       {editingIndex !== null && (
-        <EditTagAttachmentValue
+        <EditTagAttachmentValueModal
           index={editingIndex}
           tag={tags[editingIndex]}
           onClose={() => setEditingIndex(null)}
@@ -165,7 +166,7 @@ function EditTagsSection({ onDone }) {
   );
 }
 
-function EditTagAttachmentValue({ index, tag, onClose }) {
+function EditTagAttachmentValueModal({ index, tag, onClose }) {
   const { sendTagUpdate } = useContext(ModelTagsContext);
   const [value, setValue] = useState(tag.value || '');
 
@@ -195,7 +196,17 @@ function EditTagAttachmentValue({ index, tag, onClose }) {
         </FormSection>
       )}
       <FormSection label="Value">
-        <Input value={value} onChange={setValue} />
+        {tag.valueOptions ? (
+          <Select value={value} onChange={setValue}>
+            {tag.valueOptions.map(opt => (
+              <option value={opt} key={opt}>
+                {opt}
+              </option>
+            ))}
+          </Select>
+        ) : (
+          <Input value={value} onChange={setValue} />
+        )}
       </FormSection>
     </Modal>
   );

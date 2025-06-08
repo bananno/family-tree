@@ -19,6 +19,7 @@ export default async function listTagsRoute(req, res) {
       usageCount: usageCounts[tag.id] || 0,
       restrictedToModels: tag.getRestrictedModelList(),
       expectsValue: tag.expectsValue(),
+      valueOptions: tag.valueOptions(),
     })),
   });
 }

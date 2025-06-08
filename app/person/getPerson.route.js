@@ -20,7 +20,7 @@ export default async function getPerson(req, res) {
     .populate({ path: 'spouses', populate: populateAvatarUrl })
     .populate({ path: 'children', populate: populateAvatarUrl })
     .populateAvatar()
-    .populate({ path: 'tags', select: 'title definition valueType' });
+    .populate({ path: 'tags', select: 'title definition valueType values' });
 
   if (!person) {
     return res.status(404).send();
@@ -124,6 +124,7 @@ function mapTags(tags, tagValues) {
     value: tagValues[index] || '',
     definition: tag.definition,
     expectsValue: tag.expectsValue(),
+    valueOptions: tag.valueOptions(),
   }));
 }
 

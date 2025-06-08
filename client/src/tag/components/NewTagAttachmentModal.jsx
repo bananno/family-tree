@@ -90,7 +90,18 @@ export default function NewTagAttachmentModal({
       )}
       {selectedTag?.expectsValue && (
         <FormSection label="Value">
-          <Input value={tagValue} onChange={setTagValue} />
+          {selectedTag.valueOptions ? (
+            <Select value={tagValue} onChange={setTagValue}>
+              <option value="">select value</option>
+              {selectedTag.valueOptions.map(opt => (
+                <option value={opt} key={opt}>
+                  {opt}
+                </option>
+              ))}
+            </Select>
+          ) : (
+            <Input value={tagValue} onChange={setTagValue} />
+          )}
         </FormSection>
       )}
     </Modal>

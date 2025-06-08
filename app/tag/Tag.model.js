@@ -35,6 +35,12 @@ schema.methods.expectsValue = function () {
   return this.valueType !== TAG_VALUE_TYPE.NONE;
 };
 
+schema.methods.valueOptions = function () {
+  return this.valueType === TAG_VALUE_TYPE.OPTIONS
+    ? this.values.split('\n').map(s => s.trim())
+    : null;
+};
+
 const Tag = mongoose.model('Tag', schema);
 
 export default Tag;
