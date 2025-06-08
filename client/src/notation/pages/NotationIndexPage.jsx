@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import NotationList from 'notation/components/NotationList';
-import useNotationList from 'notation/hooks/useNotationList';
+import NotationsTable from 'notation/components/NotationsTable';
+import useNotations from 'notation/hooks/useNotations';
+import Filter from 'shared/Filter';
+import Button from 'shared/form/Button';
+
+const filterId = 'NOTATIONS-INDEX';
 
 export default function NotationIndexPage() {
-  const { notations } = useNotationList();
+  const [expandAll, setExpandAll] = useState(false);
+  const { notations } = useNotations({ filterId, fullContent: expandAll });
 
   return (
     <div>
       <h2>notations</h2>
-      <NotationList notations={notations} />
+      {!expandAll && (
+        <Button onClick={() => setExpandAll(true)}>Expand all</Button>
+      )}
+      <Filter filterId={filterId} />
+      <NotationsTable notations={notations} />
     </div>
   );
 }

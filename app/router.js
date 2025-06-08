@@ -25,6 +25,9 @@ import mapCreateRoutes from './map/index.js';
 import miscCreateRoutes from './misc/index.js';
 import notationCreateRoutes from './notation/index.js';
 
+// Notation
+import listNotationsRoute from './notation/listNotations.route.js';
+
 // Person
 import personCreateRoutes from './person/index.js';
 import createPersonRoute from './person/createPerson.route.js';
@@ -118,7 +121,9 @@ imageCreateRoutes(router);
 placeCreateRoutes(router);
 mapCreateRoutes(router);
 miscCreateRoutes(router);
+
 notationCreateRoutes(router);
+router.get('/api/notations', listNotationsRoute);
 
 personCreateRoutes(router);
 router.post('/people', createPersonRoute);
