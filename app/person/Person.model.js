@@ -28,8 +28,8 @@ const schema = new mongoose.Schema(
   {
     ...preMongooseSchema,
     avatar: {
-      type: mongoose.Schema.Types.ObjectId,
       ref: 'PersonAvatar',
+      type: mongoose.Schema.Types.ObjectId,
     },
     customId: String,
     gender: {
@@ -54,6 +54,13 @@ const schema = new mongoose.Schema(
       required: true,
     },
     shareName: String,
+    tags: [
+      {
+        ref: 'Tag',
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
+    tagValues: [String],
   },
   { timestamps: true },
 );
@@ -66,10 +73,13 @@ for (let methodName in staticMethods) {
   schema.statics[methodName] = staticMethods[methodName];
 }
 
-schema.pre('validate', function(next) {
+schema.pre('validate', function (next) {
   if (this.tags.length !== this.tagValues.length) {
     this.invalidate('tags', 'tags and tagValues must have the same length.');
-    this.invalidate('tagValues', 'tags and tagValues must have the same length.');
+    this.invalidate(
+      'tagValues',
+      'tags and tagValues must have the same length.',
+    );
   }
   next();
 });

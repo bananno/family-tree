@@ -26,9 +26,4 @@ export default [
     onAdd: (person, relativeId) => person.attachChild(relativeId),
     onDelete: (person, relativeId) => person.detachChild(relativeId),
   },
-  {
-    name: 'tags',
-    dataType: 'tag',
-    isList: true,
-  },
 ];
