@@ -11,7 +11,7 @@ export default async function updatePersonTagsRoute(req, res) {
   const action = req.body.action;
   const index = req.body.index;
   const tagId = req.body.tagId;
-  const tagValue = req.body.tagValue || '';
+  const tagValue = req.body.tagValue?.trim() || '';
 
   const tag = tagId ? await TagModel.findById(tagId) : null;
   if (tagId && !tag) {
@@ -29,12 +29,29 @@ export default async function updatePersonTagsRoute(req, res) {
     if (person.tags.map(tag => String(tag)).includes(tagId)) {
       return res.status(400).send('Tag already attached');
     }
+    if (!tag.isModelAllowed('Person')) {
+      return res.status(400).send('Tag does not support this model');
+    }
   } else {
     if (person.tags[index] === undefined) {
       return res.status(400).send('Valid index is required');
     }
     if (action === 'reorder' && person.tags[index - 1] === undefined) {
       return res.status(400).send('Valid index is required');
+    }
+  }
+
+  if (action === 'add' || action === 'edit') {
+    if (tag.expectsValue()) {
+      if (!tagValue) {
+        return res.status(400).send('Tag value is required');
+      }
+      const options = tag.valueOptions();
+      if (options && !options.includes(tagValue)) {
+        return res.status(400).send('Tag value must be in the list');
+      }
+    } else if (tagValue) {
+      return res.status(400).send('Tag value is not supported');
     }
   }
 

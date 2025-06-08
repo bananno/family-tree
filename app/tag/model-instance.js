@@ -11,10 +11,6 @@ methods.getTagValue = tools.getTagValue;
 methods.hasTag = tools.hasTag;
 methods.convertTags = tools.convertTags2;
 
-methods.isModelAllowed = function(modelName) {
-  return !this.restrictModels || this['allow' + modelName];
-};
-
 // A tag can be deleted if it's not attached to any items.
 // Note that it could be attached to a model that the tag no longer supports.
 methods.canBeDeleted = async function () {

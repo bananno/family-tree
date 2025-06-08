@@ -35,6 +35,11 @@ schema.methods.expectsValue = function () {
   return this.valueType !== TAG_VALUE_TYPE.NONE;
 };
 
+// Model is singular and capitalized, e.g. "Person"
+schema.methods.isModelAllowed = function (modelName) {
+  return !this.restrictModels || this['allow' + modelName];
+};
+
 schema.methods.valueOptions = function () {
   return this.valueType === TAG_VALUE_TYPE.OPTIONS
     ? this.values.split('\n').map(s => s.trim())
