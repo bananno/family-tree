@@ -14,7 +14,7 @@ const filterId = 'tag-picker-filter';
 // attachedTags = already attached, so they cannot be selected now.
 // modelName = e.g. "people", for fetching the allowed tags.
 // onSubmit = accepts the tag ID to attach to the item.
-export default function NewTagAttachmentModal({
+export default function TagAttachmentModal({
   attachedTags,
   modelName,
   onSubmit,

@@ -8,22 +8,14 @@ import Input from 'shared/form/Input';
 import Select from 'shared/form/Select';
 import Modal from 'shared/Modal';
 import Spacer from 'shared/Spacer';
-import NewTagAttachmentModal from 'tag/components/NewTagAttachmentModal';
+import TagAttachmentModal from 'tag/components/TagAttachmentModal';
 import TagItem from 'tag/components/TagItem';
 import TagList from 'tag/components/TagList';
 
-const ModelTagsContext = createContext({});
-
-function ModelTagsProvider({ children, ...props }) {
-  return (
-    <ModelTagsContext.Provider value={props}>
-      {children}
-    </ModelTagsContext.Provider>
-  );
-}
+const TagsWorkflowContext = createContext({});
 
 // Display and edit attached tags for any model.
-export default function ModelTags({
+export default function TagsWorkflow({
   editTagRoutePath,
   modelName,
   refetch,
@@ -52,7 +44,7 @@ export default function ModelTags({
   };
 
   return (
-    <ModelTagsProvider {...context}>
+    <TagsWorkflowContext.Provider value={context}>
       <h2>Tags</h2>
       {editing ? (
         <EditTagsSection onDone={() => setEditing(false)} />
@@ -68,12 +60,12 @@ export default function ModelTags({
           </Button>
         </>
       )}
-      <NewTagAttachmentModal
+      <TagAttachmentModal
         attachedTags={tags}
         modelName={modelName}
         onSubmit={onCreateAttachment}
       />
-    </ModelTagsProvider>
+    </TagsWorkflowContext.Provider>
   );
 }
 
@@ -82,7 +74,7 @@ export default function ModelTags({
 function EditTagsSection({ onDone }) {
   const [deletingIndex, setDeletingIndex] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
-  const { sendTagUpdate, tags } = useContext(ModelTagsContext);
+  const { sendTagUpdate, tags } = useContext(TagsWorkflowContext);
 
   async function handleConfirmDelete() {
     await sendTagUpdate({
@@ -167,7 +159,7 @@ function EditTagsSection({ onDone }) {
 }
 
 function EditTagAttachmentValueModal({ index, tag, onClose }) {
-  const { sendTagUpdate } = useContext(ModelTagsContext);
+  const { sendTagUpdate } = useContext(TagsWorkflowContext);
   const [value, setValue] = useState(tag.value || '');
 
   async function handleConfirm() {
