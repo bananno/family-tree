@@ -28,6 +28,6 @@ async function showTag(req, res) {
   const data = await tagTools.getTagShowData(req.tag);
   res.renderTag('show', {
     data,
-    modelsThatHaveTags: TAGABLE_MODELS,
+    TAGABLE_MODELS,
   });
 }

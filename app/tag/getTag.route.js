@@ -20,8 +20,8 @@ export default async function getTagRoute(req, res) {
     restrictedToModels: tag.getRestrictedModelList(),
     showMissingItems: tag.hasTag('show missing items'),
     tags: tag.convertTags({ asList: true }),
-    valueOptions: (tag.valueType === 2 && tag.values?.split('\n')) || [],
-    valueTypeName: tag.getDropdownFieldValueName('valueType'),
+    valueOptions: tag.valueOptions(),
+    valueTypeName: tag.valueTypeDescription(),
   };
 
   data.attachedItems = await getAttachedItems(tag);

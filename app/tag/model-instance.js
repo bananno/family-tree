@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 import tools from '../tools/modelTools.js';
 import TAGABLE_MODELS from './tagableModels.js';
-import tagModelSchema from './model-schema.js';
 
 const methods = {};
 
@@ -81,17 +80,6 @@ methods.getRestrictedModelList = function() {
     .filter(({name}) => this.isModelAllowed(name))
     .map(({plural}) => plural);
 };
-
-// Applicable for any any field with inputType=dropdown.
-// Given the name of the field, find the corresponding text of the current value.
-// TO DO: make this more general to use for other models & fields.
-methods.getDropdownFieldValueName = function(fieldName) {
-  const field = tagModelSchema.find(field => field.name === fieldName);
-  if (field.inputType !== 'dropdown') {
-    throw `value name not applicable for this field: ${fieldName}`;
-  }
-  return field.valueNames[this[fieldName]];
-}
 
 // Attach lists of all the items that use this tag (and also the items that don't use
 // the tag, if applicable) and populate any additional data needed to display all of

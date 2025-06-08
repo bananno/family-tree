@@ -54,7 +54,7 @@ class Controller {
       }
     }
 
-    const {fields} = this.Model.constants();
+    const { fields } = this.Model.constants?.() || { fields: [] };
 
     fields.forEach(field => {
       if (field.isList) {
