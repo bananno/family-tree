@@ -27,7 +27,7 @@ import { EnvironmentProvider, useEnvironment } from 'shared/EnvironmentContext';
 import { FilterProvider } from 'shared/FilterContext';
 import SourceIndexPage from 'source/pages/SourceIndexPage';
 import SourceProfilePage from 'source/pages/SourceProfilePage';
-import StoryIndexPage from 'story/pages/StoryIndexPage';
+import StoriesIndexPage from 'story/pages/StoriesIndexPage';
 import StoryNonEntrySourcesPage from 'story/pages/StoryNonEntrySourcesPage';
 import StoryProfilePage from 'story/pages/StoryProfilePage';
 // Tag
@@ -95,8 +95,8 @@ function AppRoutes() {
             <Route path="*" element={<PersonToDoPage />} />
           </Route>
 
-          <Route path="stories" element={<StoryIndexPage />} />
-          <Route path="stories/:storyType" element={<StoryIndexPage />} />
+          <Route path="stories" element={<StoriesIndexPage />} />
+          <Route path="stories/:storyType" element={<StoriesIndexPage />} />
           {isDevelopment && (
             <Route
               path="stories-non-entry-sources"

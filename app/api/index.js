@@ -9,8 +9,6 @@ export default function createRoutes(router) {
   router.get('/api/notation-profile/:id', notationProfile);
   router.get('/api/person-index', personIndex);
   router.get('/api/source-profile/:id', sourceProfile);
-  router.get('/api/story-index', storyIndex);
-  router.get('/api/story-index/:storyType', storyIndex);
   router.get('/api/story-non-entry-source', storyWithNonEntrySource);
 }
 
@@ -68,18 +66,6 @@ async function sourceProfile(req, res) {
     },
   };
 
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.send({data});
-}
-
-async function storyIndex(req, res) {
-  // TO DO: use mainStoryTypes to populate the list on the front end?
-  const storyType = req.params.storyType;
-  const stories = await Story.getAllByType(storyType);
-  const data = stories.map(story => ({
-    id: story._id,
-    title: story.title,
-  }));
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.send({data});
 }

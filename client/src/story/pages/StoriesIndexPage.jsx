@@ -4,8 +4,8 @@ import { Link, useParams } from 'react-router-dom';
 import BulletList from 'shared/BulletList';
 import DevOnly from 'shared/DevOnly';
 import Filter from 'shared/Filter';
-import StoryList from 'story/components/StoryList';
-import useStoryList from 'story/hooks/useStoryList';
+import StoriesTable from 'story/components/StoriesTable';
+import useStories from 'story/hooks/useStories';
 
 const mainStoryTypes = [
   'book',
@@ -20,19 +20,19 @@ const mainStoryTypes = [
 
 const filterId = 'FILTER_STORY_INDEX_PAGE';
 
-export default function StoryIndexPage() {
+export default function StoriesIndexPage() {
   const { storyType } = useParams();
-  const { stories, isLoading } = useStoryList({ storyType, filterId });
+  const { stories, types, loading } = useStories({ storyType, filterId });
 
   return (
     <>
       <h1>Stories</h1>
-      {isLoading && <p>loading...</p>}
+      {loading && <p>loading...</p>}
       <BulletList>
         <li>
           <Link to="/stories">all</Link>
         </li>
-        {mainStoryTypes.map(storyType => (
+        {types.map(storyType => (
           <li key={storyType}>
             <Link to={`/stories/${storyType}`}>{storyType}</Link>
           </li>
@@ -46,7 +46,7 @@ export default function StoryIndexPage() {
         </DevOnly>
       </BulletList>
       <Filter filterId={filterId} />
-      <StoryList stories={stories} />
+      <StoriesTable stories={stories} />
     </>
   );
 }
