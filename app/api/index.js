@@ -2,7 +2,6 @@ import { Notation, Person, Source } from '../import.js';
 
 export default function createRoutes(router) {
   router.get('/api/notation-profile/:id', notationProfile);
-  router.get('/api/person-index', personIndex);
   router.get('/api/source-profile/:id', sourceProfile);
 }
 
@@ -23,14 +22,6 @@ async function notationProfile(req, res) {
   };
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.send({data});
-}
-
-async function personIndex(req, res) {
-  const people = await Person.find()
-    .populateAvatar()
-    .select('name gender avatar');
-  const data = people.map(person => person.toListApi());
-  res.send({ data });
 }
 
 async function sourceProfile(req, res) {

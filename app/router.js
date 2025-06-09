@@ -30,6 +30,7 @@ import listNotationsRoute from './notation/listNotations.route.js';
 
 // Person
 import personCreateRoutes from './person/index.js';
+import listPeopleRoute from './person/listPeople.route.js';
 import createPersonRoute from './person/createPerson.route.js';
 import getPersonRoute from './person/getPerson.route.js';
 import getPersonChecklistRoute from './person/getPersonChecklist.route.js';
@@ -129,6 +130,7 @@ notationCreateRoutes(router);
 router.get('/api/notations', listNotationsRoute);
 
 personCreateRoutes(router);
+router.get('/people', listPeopleRoute);
 router.post('/people', createPersonRoute);
 router.get('/people/:id', getPersonRoute);
 router.get('/people/:id/checklist', getPersonChecklistRoute);

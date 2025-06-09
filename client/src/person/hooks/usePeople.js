@@ -19,8 +19,8 @@ export default function usePeople({ filterId }) {
 
   async function fetchFullPeople() {
     setIsLoading(true);
-    const { result } = await api('api/person-index', { catchPlease: true });
-    setResponse(result.data || []);
+    const { result } = await api('people', { catchPlease: true });
+    setResponse(result);
     setIsLoading(false);
   }
 
@@ -34,7 +34,7 @@ export default function usePeople({ filterId }) {
     fetchPeople();
   }, [isDevelopment, isProduction]);
 
-  const allPeople = response || [];
+  const allPeople = response.items || [];
 
   const filteredPeople = getFilteredList(
     filterId,
@@ -48,7 +48,9 @@ export default function usePeople({ filterId }) {
 ////////////////////
 
 function getStaticResponse() {
-  return staticPeople.map(person =>
-    pick(person, ['id', 'name', 'avatarUrl', 'gender']),
-  );
+  return {
+    items: staticPeople.map(person =>
+      pick(person, ['id', 'name', 'avatarUrl', 'gender']),
+    ),
+  };
 }

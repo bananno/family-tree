@@ -59,9 +59,13 @@ function createLinkChecklist(person) {
     { title: 'WikiTree' },
   ];
   links.forEach(link => {
-    link.complete = !!person.getLink(link.title);
+    link.complete = personHasLink(person, link.title);
   });
   return links;
+}
+
+function personHasLink(person, title) {
+  return person.links.some(link => link.match(title));
 }
 
 function createRelativesChecklist(person) {

@@ -84,7 +84,6 @@ async function personEdit(req, res) {
 
   res.renderPersonProfile('edit', {
     tableRows,
-    missingLinks: req.person.getMissingLinks(),
     itemName: 'person',
   });
 }

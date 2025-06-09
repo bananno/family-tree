@@ -44,24 +44,6 @@ methods.getImmigrationYear = async function() {
   return this.immigration && this.immigration.date ? this.immigration.date.year : undefined;
 };
 
-// Populate tags before using these link methods.
-methods.getMissingLinks = function() {
-  const expectLinks = ['Ancestry', 'FamilySearch'];
-  const wikitreeStatus = this.getTagValue('wikitree');
-  if (wikitreeStatus !== 'ignore') {
-    expectLinks.push('WikiTree');
-  }
-  if (this.living) {
-    expectLinks.push('Facebook profile');
-  } else {
-    expectLinks.push('FindAGrave');
-  }
-  return expectLinks.filter(linkTitle => !this.getLink(linkTitle));
-};
-methods.getLink = function(linkType) {
-  return this.links.find(link => link.match(linkType));
-};
-
 // Get the list of people that are not directly attached to this person
 // as a parent, spouse, or child. For the dropdown lists on edit view.
 methods.getNonRelatives = async function() {
@@ -436,19 +418,6 @@ async function _detachRelative(person, relationship, relative) {
 
 methods.updateSelf = function(updatedObj) {
   return mongoose.model('Person').updateOne({_id: this._id}, updatedObj);
-};
-
-methods.genderText = function () {
-  return [null, 'female', 'male', 'unknown'][this.gender];
-};
-
-methods.toListApi = function () {
-  // Note that birthYear and deathYear are only populated sometimes (only needed sometimes).
-  return {
-    ..._.pick(this, ['id', 'name', 'birthYear', 'deathYear', 'living']),
-    gender: this.genderText(),
-    avatarUrl: this.avatarUrl(),
-  };
 };
 
 export default methods;

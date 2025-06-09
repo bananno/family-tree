@@ -4,6 +4,7 @@ import PersonLink from 'person/components/PersonLink';
 import classes from 'person/person.module.scss';
 import globalClasses from 'shared/global.module.scss';
 
+// TODO: rename to PeopleList
 // showCurrent = the id of the person that is currently in context; used
 // for showing the person in their own sibling list.
 export default function PersonList({

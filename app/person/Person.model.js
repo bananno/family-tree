@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import mongoose from 'mongoose';
 
 import validateTagAndValues from '../tag/validateTagAndValues.js';
@@ -89,6 +90,22 @@ schema.query.populateAvatar = function () {
 
 schema.methods.avatarUrl = function () {
   return this.avatar?.url?.() || this.profileImage;
+};
+
+schema.methods.genderText = function () {
+  return [null, 'female', 'male', 'unknown'][this.gender];
+};
+
+// This should only include items that are required for displaying people in the list.
+// If more items are needed, it can be supplemented.
+// (TODO: should birthYear, deathYear, and living be removed here?)
+schema.methods.toListApi = function () {
+  // Note that birthYear and deathYear are only populated sometimes (only needed sometimes).
+  return {
+    ..._.pick(this, ['id', 'name', 'birthYear', 'deathYear', 'living']),
+    gender: this.genderText(),
+    avatarUrl: this.avatarUrl(),
+  };
 };
 
 schema.methods.constants = () => constants;
