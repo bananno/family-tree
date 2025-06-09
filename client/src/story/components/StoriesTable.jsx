@@ -17,6 +17,7 @@ export default function StoriesTable({ stories }) {
           <th>date</th>
           <th>location</th>
           <th>notes</th>
+          <th>entries</th>
           <th>sharing</th>
         </tr>
       </thead>
@@ -38,6 +39,7 @@ export default function StoriesTable({ stories }) {
                 <p key={i}>{text}</p>
               ))}
             </td>
+            <td>{story.sourceCount || ''}</td>
             <td>
               <Checkmark value={story.sharing} />
             </td>
