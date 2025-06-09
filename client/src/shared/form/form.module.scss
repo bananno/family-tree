@@ -5,15 +5,18 @@
   cursor: pointer;
 }
 
-input.Input {
-  padding: 5px;
+.DateInput {
   width: 400px;
-}
 
-textarea.Input {
-  height: 150px;
-  width: 400px;
-  padding: 5px;
+  .mainContainer {
+    display: flex;
+
+    input,
+    select {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
 }
 
 .FormSection {
@@ -24,6 +27,17 @@ textarea.Input {
     font-weight: bold;
     margin-bottom: 5px;
   }
+}
+
+input.Input {
+  padding: 5px;
+  width: 400px;
+}
+
+textarea.Input {
+  height: 150px;
+  width: 400px;
+  padding: 5px;
 }
 
 .Select {

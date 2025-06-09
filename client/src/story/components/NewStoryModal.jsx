@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactSelect from 'react-select';
 
 import api from 'shared/api';
+import DateInput from 'shared/form/DateInput';
 import FormSection from 'shared/form/FormSection';
 import Input from 'shared/form/Input';
 import Modal from 'shared/Modal';
@@ -10,6 +11,7 @@ export default function NewStoryModal({ types = [] }) {
   const [title, setTitle] = useState('');
   const [type, setType] = useState(null);
   const [otherType, setOtherType] = useState('other');
+  const [date, setDate] = useState({});
   const [responseError, setResponseError] = useState('');
 
   const typeOptions = types.map(type => ({
@@ -28,10 +30,15 @@ export default function NewStoryModal({ types = [] }) {
 
   const valid = title.trim().length > 0 && effectiveType.trim().length > 0;
 
+  const showDateFields =
+    type && ['book', 'event', 'document', 'other'].includes(type.value);
+  const showLocationFields = type && !['artifact', 'book'].includes(type.value);
+
   async function handleConfirm() {
     const requestBody = {
       title,
       type: effectiveType,
+      date: showDateFields ? date : undefined,
     };
 
     const { result, error } = await api('api/stories', {
@@ -77,6 +84,12 @@ export default function NewStoryModal({ types = [] }) {
       <FormSection label="title">
         <Input value={title} onChange={setTitle} />
       </FormSection>
+      {showDateFields && (
+        <FormSection label="date">
+          <DateInput value={date} onChange={setDate} />
+        </FormSection>
+      )}
+      {showLocationFields && <FormSection label="location">todo</FormSection>}
       <div style={{ color: 'red' }}>{responseError}</div>
     </Modal>
   );

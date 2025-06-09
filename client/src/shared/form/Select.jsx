@@ -10,6 +10,7 @@ export default function Select({
   children,
   onChange,
   value,
+  style = {},
 }) {
   const fieldRegister = register ? register(name, rules) : {};
 
@@ -26,6 +27,7 @@ export default function Select({
       onChange={handleChange}
       value={value}
       {...fieldRegister}
+      style={style}
     >
       {children}
     </select>
