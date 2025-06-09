@@ -3,7 +3,7 @@ import React from 'react';
 import BulletList from 'shared/BulletList';
 import StoryLink from 'story/components/StoryLink';
 
-export default function StoryList({ stories }) {
+export default function StoriesList({ stories }) {
   return (
     <BulletList>
       {stories.map(story => (

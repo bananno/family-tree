@@ -52,6 +52,7 @@ import listSourcesRoute from './source/listSources.route.js';
 // Story
 import storyCreateRoutes from './story/index.js';
 import getStoryRoute from './story/getStory.route.js';
+import createStoryRoute from './story/createStory.route.js';
 import listStoriesRoute from './story/listStories.route.js';
 
 // Tag
@@ -152,6 +153,7 @@ router.get('/sources/:sourceType', listSourcesRoute);
 storyCreateRoutes(router);
 router.get('/api/stories', listStoriesRoute);
 router.get('/api/stories/:id', getStoryRoute);
+router.post('/api/stories', createStoryRoute);
 
 tagCreateRoutes(router);
 router.get('/tags', listTagsRoute);

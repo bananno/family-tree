@@ -34,8 +34,8 @@ export default function StoriesTable({ stories }) {
               <FormatLocation location={story.location} />
             </td>
             <td>
-              {story.notes?.split('\n')?.map(text => (
-                <p>{text}</p>
+              {story.notes?.split('\n')?.map((text, i) => (
+                <p key={i}>{text}</p>
               ))}
             </td>
             <td>

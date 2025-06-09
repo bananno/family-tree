@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import useNotationProfile from 'notation/hooks/useNotationProfile';
 import PersonList from 'person/components/PersonList';
-import StoryList from 'story/components/StoryList';
+import StoriesList from 'story/components/StoriesList';
 import TagList from 'tag/components/TagList';
 
 export default function NotationProfilePage() {
@@ -22,7 +22,7 @@ export default function NotationProfilePage() {
       <h2>sharing</h2>
       <p>{String(notation.sharing)}</p>
       <h2>pinned to stories</h2>
-      <StoryList stories={notation.stories} />
+      <StoriesList stories={notation.stories} />
       <h2>people</h2>
       <PersonList people={notation.people} />
       <h2>tags</h2>

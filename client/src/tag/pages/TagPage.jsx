@@ -5,7 +5,7 @@ import PersonList from 'person/components/PersonList';
 import BulletList from 'shared/BulletList';
 import Divider from 'shared/Divider';
 import SourceList from 'source/components/SourceList';
-import StoryList from 'story/components/StoryList';
+import StoriesList from 'story/components/StoriesList';
 import TagDetails from 'tag/components/TagDetails';
 import TagList from 'tag/components/TagList';
 import TagNumberOfChildrenPage from 'tag/pages/TagNumberOfChildrenPage';
@@ -42,7 +42,7 @@ export default function TagPage() {
       {tag.attachedItems?.story?.length > 0 && (
         <>
           <h2>stories</h2>
-          <StoryList stories={tag.attachedItems.story || []} />
+          <StoriesList stories={tag.attachedItems.story || []} />
         </>
       )}
       <TagsWithTag tag={tag} />
