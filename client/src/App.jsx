@@ -28,7 +28,7 @@ import { FilterProvider } from 'shared/FilterContext';
 import SourceIndexPage from 'source/pages/SourceIndexPage';
 import SourceProfilePage from 'source/pages/SourceProfilePage';
 import StoriesIndexPage from 'story/pages/StoriesIndexPage';
-import StoryNonEntrySourcesPage from 'story/pages/StoryNonEntrySourcesPage';
+import StoriesNonEntrySourcesPage from 'story/pages/StoriesNonEntrySourcesPage';
 import StoryProfilePage from 'story/pages/StoryProfilePage';
 // Tag
 import TagIndexPage from 'tag/pages/TagIndexPage';
@@ -100,7 +100,7 @@ function AppRoutes() {
           {isDevelopment && (
             <Route
               path="stories-non-entry-sources"
-              element={<StoryNonEntrySourcesPage />}
+              element={<StoriesNonEntrySourcesPage />}
             />
           )}
           <Route path="story/:storyId" element={<StoryProfilePage />} />

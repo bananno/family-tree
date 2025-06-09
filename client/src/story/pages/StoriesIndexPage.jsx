@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import BulletList from 'shared/BulletList';
 import DevOnly from 'shared/DevOnly';
 import Filter from 'shared/Filter';
+import Spacer from 'shared/Spacer';
 import NewStoryModal from 'story/components/NewStoryModal';
 import StoriesTable from 'story/components/StoriesTable';
 import useStories from 'story/hooks/useStories';
@@ -19,6 +20,8 @@ export default function StoriesIndexPage() {
       <h1>Stories</h1>
       {loading && <p>loading...</p>}
       <NewStoryModal types={types} />
+      <Spacer />
+      <p>Filter by type:</p>
       <BulletList>
         <li>
           <Link to="/stories">all</Link>
@@ -28,14 +31,18 @@ export default function StoriesIndexPage() {
             <Link to={`/stories/${storyType}`}>{storyType}</Link>
           </li>
         ))}
-        <DevOnly>
+      </BulletList>
+      <DevOnly>
+        <p>Other story views:</p>
+        <BulletList>
           <li>
             <Link to="/stories-non-entry-sources">
               stories with non-entry sources
             </Link>
           </li>
-        </DevOnly>
-      </BulletList>
+        </BulletList>
+      </DevOnly>
+      <Spacer />
       <Filter filterId={filterId} />
       <StoriesTable stories={stories} />
     </>

@@ -11,12 +11,9 @@ export default function useStories({ storyType, filterId }) {
   const [loading, setLoading] = useState(true);
   const { getFilteredList } = useFilter();
 
-  const requestUrl =
-    storyType === 'nonEntrySources'
-      ? 'api/story-non-entry-source'
-      : storyType
-        ? `api/stories?storyType=${storyType}`
-        : 'api/stories';
+  const requestUrl = storyType
+    ? `api/stories?storyType=${storyType}`
+    : 'api/stories';
 
   useEffect(() => {
     if (isProduction) {
