@@ -44,7 +44,7 @@ export default function NewStoryModal({ types = [] }) {
       location: showLocationFields ? loc : undefined,
     };
 
-    const { result, error } = await api('api/stories', {
+    const { result, error } = await api('stories', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       catchPlease: true,

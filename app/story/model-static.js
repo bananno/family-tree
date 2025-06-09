@@ -22,54 +22,6 @@ methods.getAllEntries = async function(stories) {
   return entries;
 };
 
-// Return a list of stories with given type.
-// TO DO: sort stories by sub-type; pull logic from views/story/index.ejs
-methods.getAllByType = async type => {
-  const Story = mongoose.model('Story');
-
-  if (!type) {
-    return await Story.find({}).populate('tags');
-  }
-
-  if (type == 'other') {
-    return await Story
-      .find({type: { $nin: mainStoryTypes }})
-      .populate('tags');
-  }
-
-  return await Story.find({type}).populate('tags');
-};
-
-// Get a list of all stories that have non-entry sources (that is,
-// the sources belong to one story and are pinned to another story).
-methods.getWithNonEntrySources = async () => {
-  const allSources = await mongoose.model('Source')
-    .find({'stories.0': {'$exists': true}})
-    .populate('story')
-    .populate('stories');
-
-  allSources.forEach(source => {
-    source.populateFullTitle();
-  });
-
-  const stories = [];
-  const sourcesByStory = {};
-
-  allSources.forEach(source => {
-    source.stories.forEach(story => {
-      const id = String(story._id);
-      if (!sourcesByStory[id]) {
-        stories.push(story);
-        sourcesByStory[id] = story;
-        story.sources = [];
-      }
-      story.sources.push(source);
-    });
-  });
-
-  return stories;
-};
-
 // Given an item, get the list of stories that are available to be attached
 // to that item to populate dropdown on edit table.
 methods.getAvailableForItem = async function(item, fieldName) {

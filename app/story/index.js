@@ -18,8 +18,6 @@ export default function createRoutes(router) {
     modelNamePlural: 'stories',
     router: router,
     routes: {
-      index: storyIndex,
-      create: createStory,
       show: storyShowMain,
       edit: storyEdit,
       other: {
@@ -33,37 +31,10 @@ export default function createRoutes(router) {
   });
 
   router.post('/story/:id/createNotation', createStoryNotation);
-  router.get('/stories/with-sources', storiesWithSources);
-  router.get('/stories/:type', storyIndex);
   router.get('/story/:id/entries/region1/:region1', storyEntries);
 }
 
 ////////////////////
-
-async function storyIndex(req, res) {
-  const storyType = req.params.type;
-  const stories = await Story.getAllByType(storyType);
-
-  Story.sortByTypeTitle(stories);
-
-  res.render('story/index', {
-    title: 'Stories',
-    stories,
-    subview: storyType,
-    mainStoryTypes: [...mainStoryTypes, 'other'],
-  });
-}
-
-async function createStory(req, res) {
-  const newStory = Story.getFormDataNew(req);
-
-  if (!newStory) {
-    return res.send('error');
-  }
-
-  const story = await Story.create(newStory);
-  res.redirect(`/story/${story._id}/edit`);
-}
 
 async function createStoryNotation(req, res) {
   const storyId = req.params.id;
@@ -161,13 +132,4 @@ async function storyHighlightMentions(req, res) {
   req.story = await Story.findById(req.params.id);
   await req.story.populateHighlightMentions();
   res.renderStory('mentions');
-}
-
-async function storiesWithSources(req, res) {
-  const stories = await Story.getWithNonEntrySources();
-
-  res.render('story/withSources', {
-    title: 'Stories with Sources',
-    stories,
-  });
 }

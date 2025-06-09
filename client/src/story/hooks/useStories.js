@@ -11,9 +11,7 @@ export default function useStories({ storyType, filterId }) {
   const [loading, setLoading] = useState(true);
   const { getFilteredList } = useFilter();
 
-  const requestUrl = storyType
-    ? `api/stories?storyType=${storyType}`
-    : 'api/stories';
+  const requestUrl = storyType ? `stories?storyType=${storyType}` : 'stories';
 
   useEffect(() => {
     if (isProduction) {
@@ -34,7 +32,11 @@ export default function useStories({ storyType, filterId }) {
   const allItems = response.items || [];
   const types = response.types || [];
 
-  const filteredItems = getFilteredList(filterId, allItems, item => item.title);
+  const filteredItems = getFilteredList(
+    filterId,
+    allItems,
+    item => item.filterText,
+  );
 
   return { stories: filteredItems, types, loading };
 }

@@ -1,15 +1,9 @@
-import {
-  Notation,
-  Person,
-  Source,
-  Story,
-} from '../import.js';
+import { Notation, Person, Source } from '../import.js';
 
 export default function createRoutes(router) {
   router.get('/api/notation-profile/:id', notationProfile);
   router.get('/api/person-index', personIndex);
   router.get('/api/source-profile/:id', sourceProfile);
-  router.get('/api/story-non-entry-source', storyWithNonEntrySource);
 }
 
 async function notationProfile(req, res) {
@@ -66,20 +60,6 @@ async function sourceProfile(req, res) {
     },
   };
 
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.send({data});
-}
-
-async function storyWithNonEntrySource(req, res) {
-  const stories = await Story.getWithNonEntrySources();
-  const data = stories.map(story => ({
-    id: story._id,
-    title: story.title,
-    sources: story.sources.map(source => ({
-      id: source._id,
-      fullTitle: source.fullTitle,
-    })),
-  }));
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.send({data});
 }

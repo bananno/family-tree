@@ -20,6 +20,7 @@ export default async function listStoriesRoute(req, res) {
       'type',
       'notes',
     ]),
+    filterText: [story.title, story.notes].filter(Boolean).join(' '),
   }));
 
   res.send({ items, types });

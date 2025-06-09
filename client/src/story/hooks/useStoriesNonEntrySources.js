@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import api from 'shared/api';
 
 export default function useStoriesNonEntrySources() {
-  const [response, setResponse] = useState([]);
+  const [response, setResponse] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export default function useStoriesNonEntrySources() {
 
   async function fetchItems() {
     setLoading(true);
-    const { result, error } = await api('api/stories-non-entry-sources', {
+    const { result, error } = await api('stories-non-entry-sources', {
       catchPlease: true,
     });
     setResponse(result);

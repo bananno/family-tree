@@ -152,10 +152,10 @@ router.get('/sources', listSourcesRoute);
 router.get('/sources/:sourceType', listSourcesRoute);
 
 storyCreateRoutes(router);
-router.get('/api/stories', listStoriesRoute);
-router.get('/api/stories-non-entry-sources', listStoriesNonEntrySourcesRoute);
+router.get('/stories', listStoriesRoute);
+router.get('/stories-non-entry-sources', listStoriesNonEntrySourcesRoute);
 router.get('/api/stories/:id', getStoryRoute);
-router.post('/api/stories', createStoryRoute);
+router.post('/stories', createStoryRoute);
 
 tagCreateRoutes(router);
 router.get('/tags', listTagsRoute);
