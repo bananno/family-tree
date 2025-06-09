@@ -7,6 +7,13 @@ export default async function createStoryRoute(req, res) {
     type: req.body.type,
     title: req.body.title,
     date: _.pick(req.body.date, ['year', 'month', 'day', 'display']),
+    location: _.pick(req.body.location, [
+      'country',
+      'region1',
+      'region2',
+      'city',
+      'notes',
+    ]),
   });
 
   res.json({ story: { id: story.id } });

@@ -5,6 +5,7 @@ import api from 'shared/api';
 import DateInput from 'shared/form/DateInput';
 import FormSection from 'shared/form/FormSection';
 import Input from 'shared/form/Input';
+import LocationInput from 'shared/form/LocationInput';
 import Modal from 'shared/Modal';
 
 export default function NewStoryModal({ types = [] }) {
@@ -12,6 +13,7 @@ export default function NewStoryModal({ types = [] }) {
   const [type, setType] = useState(null);
   const [otherType, setOtherType] = useState('other');
   const [date, setDate] = useState({});
+  const [loc, setLoc] = useState({ country: 'United States' });
   const [responseError, setResponseError] = useState('');
 
   const typeOptions = types.map(type => ({
@@ -39,6 +41,7 @@ export default function NewStoryModal({ types = [] }) {
       title,
       type: effectiveType,
       date: showDateFields ? date : undefined,
+      location: showLocationFields ? loc : undefined,
     };
 
     const { result, error } = await api('api/stories', {
@@ -89,7 +92,11 @@ export default function NewStoryModal({ types = [] }) {
           <DateInput value={date} onChange={setDate} />
         </FormSection>
       )}
-      {showLocationFields && <FormSection label="location">todo</FormSection>}
+      {showLocationFields && (
+        <FormSection label="location">
+          <LocationInput value={loc} onChange={setLoc} />
+        </FormSection>
+      )}
       <div style={{ color: 'red' }}>{responseError}</div>
     </Modal>
   );

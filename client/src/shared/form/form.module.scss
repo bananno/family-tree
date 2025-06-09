@@ -40,6 +40,13 @@ textarea.Input {
   padding: 5px;
 }
 
+.LocationInput {
+  input,
+  select {
+    display: block;
+  }
+}
+
 .Select {
   padding: 5px;
   width: 400px;
