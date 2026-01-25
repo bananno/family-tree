@@ -1,5 +1,4 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import ChecklistIndexPage from 'checklist/pages/ChecklistIndexPage';
 import ChecklistPersonVitalsPage from 'checklist/pages/ChecklistPersonVitalsPage';
@@ -23,8 +22,7 @@ import PersonTechnicalPage from 'person/pages/PersonTechnicalPage';
 import PersonTimelinePage from 'person/pages/PersonTimelinePage';
 import PersonToDoPage from 'person/pages/PersonToDoPage';
 //
-import { EnvironmentProvider, useEnvironment } from 'shared/EnvironmentContext';
-import { FilterProvider } from 'shared/FilterContext';
+import { useEnvironment } from 'shared/EnvironmentContext';
 import SourceIndexPage from 'source/pages/SourceIndexPage';
 import SourceProfilePage from 'source/pages/SourceProfilePage';
 import StoriesIndexPage from 'story/pages/StoriesIndexPage';
@@ -42,119 +40,93 @@ import ToDoPage from './ToDoPage';
 import UtilitiesPage from './UtilitiesPage';
 
 export default function AppRoutes() {
-  return (
-    <GlobalProviders>
-      <AppRoutes />
-    </GlobalProviders>
-  );
-}
-
-////////////////////
-
-function AppRoutes() {
   const { isDevelopment } = useEnvironment();
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
 
-          {/* PERSON */}
-          <Route path="/people" element={<PeopleIndexPage />} />
-          <Route path="/person/:id" element={<PersonLayout />}>
-            <Route index element={<PersonSummaryPage />} />
-            <Route
-              path="/person/:id/timeline"
-              element={<PersonTimelinePage />}
-            />
-            <Route
-              path="/person/:id/citations"
-              element={<PersonCitationsPage />}
-            />
-            <Route path="/person/:id/edit" element={<PersonEditPage />} />
-            <Route path="/person/:id/links" element={<PersonLinksPage />} />
-            <Route path="/person/:id/photos" element={<PersonPhotosPage />} />
-            {isDevelopment && (
-              <>
-                <Route
-                  path="/person/:id/avatar"
-                  element={<PersonAvatarPage />}
-                />
-                <Route
-                  path="/person/:id/checklist"
-                  element={<PersonChecklistPage />}
-                />
-                <Route
-                  path="/person/:id/technical"
-                  element={<PersonTechnicalPage />}
-                />
-                <Route path="/person/:id/tags" element={<PersonTagsPage />} />
-              </>
-            )}
-            <Route path="*" element={<PersonToDoPage />} />
-          </Route>
-
-          <Route path="stories" element={<StoriesIndexPage />} />
-          <Route path="stories/:storyType" element={<StoriesIndexPage />} />
-          {isDevelopment && (
-            <Route
-              path="stories-non-entry-sources"
-              element={<StoriesNonEntrySourcesPage />}
-            />
-          )}
-          <Route path="story/:storyId" element={<StoryProfilePage />} />
-
-          {isDevelopment && (
-            <Route path="sources" element={<SourceIndexPage />} />
-          )}
-          {isDevelopment && (
-            <Route path="sources/:sourceType" element={<SourceIndexPage />} />
-          )}
-          <Route path="source/:sourceId" element={<SourceProfilePage />} />
-
+        {/* PERSON */}
+        <Route path="/people" element={<PeopleIndexPage />} />
+        <Route path="/person/:id" element={<PersonLayout />}>
+          <Route index element={<PersonSummaryPage />} />
+          <Route path="/person/:id/timeline" element={<PersonTimelinePage />} />
+          <Route
+            path="/person/:id/citations"
+            element={<PersonCitationsPage />}
+          />
+          <Route path="/person/:id/edit" element={<PersonEditPage />} />
+          <Route path="/person/:id/links" element={<PersonLinksPage />} />
+          <Route path="/person/:id/photos" element={<PersonPhotosPage />} />
           {isDevelopment && (
             <>
-              <Route path="events" element={<EventsPage />} />
-              <Route path="events/:category" element={<EventsPage />} />
-
-              <Route path="files" element={<FilesPage />} />
-
-              <Route path="featured-quotes" element={<FeaturedQuotesPage />} />
-
-              <Route path="notations" element={<NotationIndexPage />} />
+              <Route path="/person/:id/avatar" element={<PersonAvatarPage />} />
               <Route
-                path="notation/:notationId"
-                element={<NotationProfilePage />}
+                path="/person/:id/checklist"
+                element={<PersonChecklistPage />}
               />
-
-              <Route path="tags" element={<TagIndexPage />} />
-              <Route path="tags/:showTagsBy" element={<TagIndexPage />} />
-              <Route path="/tag/:id" element={<TagLayout />}>
-                <Route index element={<TagPage />} />
-              </Route>
-
-              <Route path="checklists" element={<ChecklistIndexPage />} />
               <Route
-                path="checklist/person-vitals"
-                element={<ChecklistPersonVitalsPage />}
+                path="/person/:id/technical"
+                element={<PersonTechnicalPage />}
               />
-
-              <Route path="map" element={<ToDoPage title="map" />} />
-              <Route path="utilities" element={<UtilitiesPage />} />
+              <Route path="/person/:id/tags" element={<PersonTagsPage />} />
             </>
           )}
-          <Route path="*" element={<PageNotFound />} />
+          <Route path="*" element={<PersonToDoPage />} />
         </Route>
-      </Routes>
-    </BrowserRouter>
-  );
-}
 
-function GlobalProviders({ children }) {
-  return (
-    <EnvironmentProvider>
-      <FilterProvider>{children}</FilterProvider>
-    </EnvironmentProvider>
+        <Route path="stories" element={<StoriesIndexPage />} />
+        <Route path="stories/:storyType" element={<StoriesIndexPage />} />
+        {isDevelopment && (
+          <Route
+            path="stories-non-entry-sources"
+            element={<StoriesNonEntrySourcesPage />}
+          />
+        )}
+        <Route path="story/:storyId" element={<StoryProfilePage />} />
+
+        {isDevelopment && (
+          <Route path="sources" element={<SourceIndexPage />} />
+        )}
+        {isDevelopment && (
+          <Route path="sources/:sourceType" element={<SourceIndexPage />} />
+        )}
+        <Route path="source/:sourceId" element={<SourceProfilePage />} />
+
+        {isDevelopment && (
+          <>
+            <Route path="events" element={<EventsPage />} />
+            <Route path="events/:category" element={<EventsPage />} />
+
+            <Route path="files" element={<FilesPage />} />
+
+            <Route path="featured-quotes" element={<FeaturedQuotesPage />} />
+
+            <Route path="notations" element={<NotationIndexPage />} />
+            <Route
+              path="notation/:notationId"
+              element={<NotationProfilePage />}
+            />
+
+            <Route path="tags" element={<TagIndexPage />} />
+            <Route path="tags/:showTagsBy" element={<TagIndexPage />} />
+            <Route path="/tag/:id" element={<TagLayout />}>
+              <Route index element={<TagPage />} />
+            </Route>
+
+            <Route path="checklists" element={<ChecklistIndexPage />} />
+            <Route
+              path="checklist/person-vitals"
+              element={<ChecklistPersonVitalsPage />}
+            />
+
+            <Route path="map" element={<ToDoPage title="map" />} />
+            <Route path="utilities" element={<UtilitiesPage />} />
+          </>
+        )}
+        <Route path="*" element={<PageNotFound />} />
+      </Route>
+    </Routes>
   );
 }
