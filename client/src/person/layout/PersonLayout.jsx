@@ -1,3 +1,4 @@
+import partition from 'lodash/partition';
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
@@ -66,7 +67,7 @@ function PersonNavigation({ person }) {
   const { pathname } = useLocation();
   const basePath = `/person/${person.id}`;
 
-  const [productionPersonViews, developmentPersonViews] = _.partition(
+  const [productionPersonViews, developmentPersonViews] = partition(
     allPersonViews,
     view => {
       if (view.sharedUnlessLimited) {

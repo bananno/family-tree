@@ -1,7 +1,7 @@
 import { pick } from 'lodash';
 import { useState, useEffect } from 'react';
 
-import staticPeople from 'db/people.json';
+// import staticPeople from 'db/people.json';
 import api from 'shared/api';
 import { useFilter } from 'shared/FilterContext';
 import useEnvironment from 'shared/useEnvironment';
@@ -48,6 +48,7 @@ export default function usePeople({ filterId }) {
 ////////////////////
 
 function getStaticResponse() {
+  return { items: [] };
   return {
     items: staticPeople.map(person =>
       pick(person, ['id', 'name', 'avatarUrl', 'gender']),
