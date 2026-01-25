@@ -41,7 +41,7 @@ import PageNotFound from './PageNotFound';
 import ToDoPage from './ToDoPage';
 import UtilitiesPage from './UtilitiesPage';
 
-export default function App() {
+export default function AppRoutes() {
   return (
     <GlobalProviders>
       <AppRoutes />
