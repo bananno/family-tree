@@ -33,6 +33,7 @@ import TagIndexPage from 'tag/pages/TagIndexPage';
 import TagPage from 'tag/pages/TagPage';
 import TagLayout from 'tag/TagLayout';
 
+import AccountPage from './AccountPage';
 import HomePage from './HomePage';
 import Layout from './Layout';
 import PageNotFound from './PageNotFound';
@@ -125,6 +126,7 @@ export default function AppRoutes() {
             <Route path="utilities" element={<UtilitiesPage />} />
           </>
         )}
+        <Route path="/account" element={<AccountPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>

@@ -44,7 +44,12 @@ Server (and old UI) running at http://localhost:9000/
 
 Client is running at http://localhost:1899/
 
+
 ## .env
+
+```sh
+touch .env && touch client/.env
+```
 
 ```sh
 AWS_REGION=us-east-1
@@ -56,7 +61,18 @@ IMAGE_HOSTING_PATH=<path>
 # for deploying client
 DEPLOYMENT_S3_BUCKET_NAME=<bucket>
 DEPLOYMENT_CLOUDFRONT_DISTRIBUTION_ID=<id>
+
+# sso
+GOOGLE_CLIENT_ID=value
+GOOGLE_CLIENT_SECRET=value
 ```
+
+client env
+
+```sh
+VITE_GOOGLE_CLIENT_ID=value
+```
+
 
 ## other scripts
 

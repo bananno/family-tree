@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import ejs from 'ejs';
 import express from 'express';
+import session from 'express-session';
 import createError from 'http-errors';
 import mongoose from 'mongoose';
 import logger from 'morgan';
@@ -12,6 +13,7 @@ import { fileURLToPath } from 'url';
 import './app/models.js';
 
 import router from './app/router.js';
+import sessionRouter from './app/session/sessionRouter.js';
 
 dotenv.config();
 
@@ -26,8 +28,6 @@ mongoose.connect('mongodb://localhost/ancestry').catch(err => {
 
 const app = express();
 
-app.use(cors());
-
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'ejs');
@@ -38,6 +38,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(
+  cors({
+    origin: 'http://localhost:1899',
+    credentials: true,
+  }),
+);
+
+app.use(
+  session({
+    secret: 'dev-session-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    },
+  }),
+);
+
+app.use('/session', sessionRouter);
 app.use('/', router);
 
 app.use((req, res, next) => {

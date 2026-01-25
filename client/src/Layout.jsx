@@ -62,6 +62,7 @@ function LayoutNavigation() {
         <LayoutNavItem path="/tags" text="Tags" />
         <LayoutNavItem path="/utilities" text="Utilities" />
         <LayoutNavItem path="/files" text="Files" />
+        <LayoutNavItem path="/account" text="Account" />
         <LayoutNavItem path="/404" text="404" />
         <LayoutNavItem path="http://localhost:9000/" text="old site" />
       </ul>
