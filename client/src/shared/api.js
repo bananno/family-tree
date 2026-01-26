@@ -13,9 +13,14 @@ export default async function api(path, options = {}) {
   };
 
   const fetchOptions = {
+    credentials: 'include',
     headers,
     ...options,
   };
+
+  if (options.body && typeof options.body === 'object') {
+    fetchOptions.body = JSON.stringify(options.body);
+  }
 
   const fullPath = path.startsWith('/')
     ? `${API_URL}${path}`

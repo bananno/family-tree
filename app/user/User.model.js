@@ -4,7 +4,6 @@ const schema = new mongoose.Schema(
   {
     email: { type: String, required: true, unique: true },
     firstLoginAt: { type: Date },
-    invitedAt: { type: Date },
     lastLoginAt: { type: Date },
     name: { type: String, required: true },
     ssoId: { type: String },
@@ -32,7 +31,10 @@ schema.statics.login = async function (payload) {
   }
 
   user.lastLoginAt = loginDate;
+
+  // Update user preferences
   user.ssoPicture = payload.picture;
+  user.name = payload.name;
 
   await user.save();
 
