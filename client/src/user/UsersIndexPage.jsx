@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import PersonLink from 'person/components/PersonLink';
 import api from 'shared/api';
 import Button from 'shared/form/Button';
 
@@ -7,6 +8,7 @@ import UserModal from './UserModal.jsx';
 
 export default function UsersIndexPage() {
   const [users, setUsers] = useState([]);
+  const [unlinkedPeople, setUnlinkedPeople] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editUser, setEditUser] = useState(null);
@@ -20,6 +22,9 @@ export default function UsersIndexPage() {
     if (result.users) {
       setUsers(result.users);
     }
+    if (result.unlinkedPeople) {
+      setUnlinkedPeople(result.unlinkedPeople);
+    }
     if (result.error) {
       setError(result.error);
     }
@@ -31,13 +36,17 @@ export default function UsersIndexPage() {
       <h1>Users Index Page</h1>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      <UserModal create afterSubmit={fetchUsers} />
+      <UserModal
+        create
+        afterSubmit={fetchUsers}
+        unlinkedPeople={unlinkedPeople}
+      />
       {editUser && (
         <UserModal
-          edit
           afterSubmit={fetchUsers}
           editUser={editUser}
           onClose={() => setEditUser(null)}
+          unlinkedPeople={unlinkedPeople}
         />
       )}
       <table border="1" cellPadding="5">
@@ -72,7 +81,7 @@ export default function UsersIndexPage() {
                   ? new Date(user.lastLoginAt).toLocaleString()
                   : '--'}
               </td>
-              <td>TODO</td>
+              <td>{user.person && <PersonLink person={user.person} />}</td>
               <td>
                 <Button text="Edit" onClick={() => setEditUser(user)} />
               </td>

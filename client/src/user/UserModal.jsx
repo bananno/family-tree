@@ -3,17 +3,23 @@ import { useForm } from 'react-hook-form';
 
 import api from 'shared/api';
 import Input from 'shared/form/Input';
+import Select from 'shared/form/Select';
 import Modal from 'shared/Modal';
 
 export default function UserModal({
   create,
-  edit,
   afterSubmit,
   editUser,
   onClose,
+  unlinkedPeople,
 }) {
   const { register, handleSubmit } = useForm({
-    defaultValues: create ? {} : editUser,
+    defaultValues: create
+      ? {}
+      : {
+          name: editUser.name,
+          person: editUser.person?.id,
+        },
   });
 
   const [error, setError] = useState('');
@@ -21,6 +27,7 @@ export default function UserModal({
   async function onSubmit(data) {
     const body = {
       name: data.name.trim(),
+      person: data.person || null,
     };
 
     if (create) {
@@ -82,6 +89,21 @@ export default function UserModal({
           <div>{editUser?.email}</div>
         )}
         <Input register={register} name="name" placeholder="Name (optional)" />
+        <Select
+          register={register}
+          name="person"
+          placeholder="Link to person (optional)"
+        >
+          <option value="">-- person in tree --</option>
+          {editUser?.person && (
+            <option value={editUser.person.id}>{editUser.person.name}</option>
+          )}
+          {unlinkedPeople.map(person => (
+            <option key={person.id} value={person.id}>
+              {person.name}
+            </option>
+          ))}
+        </Select>
       </div>
     </Modal>
   );

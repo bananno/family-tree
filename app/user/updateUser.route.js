@@ -11,6 +11,7 @@ export default async function updateUserRoute(req, res) {
   }
 
   user.name = req.body.name;
+  user.person = req.body.person;
 
   await user.save();
 
