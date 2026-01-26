@@ -11,6 +11,7 @@ const customRules = {
 
 const EXTERNAL_DEPENDENCIES = [
   'lodash',
+  'lodash/partition',
   'react',
   'react-dom/client',
   'react-hook-form',

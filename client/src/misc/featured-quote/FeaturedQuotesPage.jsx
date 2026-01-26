@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import partition from 'lodash/partition';
+import { useEffect, useState } from 'react';
 
 import { useFeaturedQuotes } from 'misc/featured-quote/useFeaturedQuotes';
 import Button from 'shared/form/Button';
@@ -73,7 +74,7 @@ function EditQuoteModal({ quote, refetch, clearSelection }) {
 }
 
 function FeaturedQuotesTable({ quotes, setSelectedQuote }) {
-  const [enabled, disabled] = _.partition(quotes, 'enabled');
+  const [enabled, disabled] = partition(quotes, 'enabled');
 
   return (
     <table border="1">

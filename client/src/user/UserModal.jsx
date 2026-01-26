@@ -5,40 +5,59 @@ import api from 'shared/api';
 import Input from 'shared/form/Input';
 import Modal from 'shared/Modal';
 
-export default function CreateUserModal({ afterCreate }) {
-  const { register, handleSubmit } = useForm();
+export default function UserModal({
+  create,
+  edit,
+  afterSubmit,
+  editUser,
+  onClose,
+}) {
+  const { register, handleSubmit } = useForm({
+    defaultValues: create ? {} : editUser,
+  });
+
   const [error, setError] = useState('');
 
   async function onSubmit(data) {
-    const name = data.name.trim();
-    const email = data.email.trim();
+    const body = {
+      name: data.name.trim(),
+    };
 
-    if (!email) {
-      return false;
+    if (create) {
+      body.email = body.email.trim();
+
+      if (!body.email) {
+        return false;
+      }
     }
 
-    const { error, result } = await api('/users', {
+    const path = create ? '/users' : `/users/${editUser.id}/update`;
+
+    const { error, result } = await api(path, {
       catchPlease: true,
       method: 'POST',
-      body: { email, name },
+      body,
     });
 
-    if (error || !result.user) {
-      setError(error || 'Something went wrong');
+    if (error) {
+      setError(error);
       return false;
     }
 
     setError('');
-    afterCreate();
+    afterSubmit();
+    onClose?.();
   }
 
   return (
     <Modal
-      triggerButtonLabel="Create User"
+      triggerButtonLabel={create && 'Create User'}
       handleSubmit={handleSubmit}
       onConfirm={onSubmit}
+      onCancel={onClose}
+      open={create ? undefined : true}
     >
-      <h2>Create User</h2>
+      <h2>{create ? 'Create User' : 'Edit User'}</h2>
       {error && (
         <div
           style={{
@@ -57,8 +76,12 @@ export default function CreateUserModal({ afterCreate }) {
           marginTop: '20px',
         }}
       >
+        {create ? (
+          <Input register={register} name="email" placeholder="Email" />
+        ) : (
+          <div>{editUser?.email}</div>
+        )}
         <Input register={register} name="name" placeholder="Name (optional)" />
-        <Input register={register} name="email" placeholder="Email" />
       </div>
     </Modal>
   );

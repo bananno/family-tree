@@ -3,11 +3,9 @@ import _ from 'lodash';
 import UserModel from './User.model.js';
 
 export default async function createUserRoute(req, res) {
-  console.log('starting')
   const { name, email } = req.body;
 
   if (!email) {
-    console.log('invalid');
     res.status(400).json({ error: 'Email is required' });
     return;
   }
@@ -15,7 +13,6 @@ export default async function createUserRoute(req, res) {
   const existingUser = await UserModel.findOne({ email });
 
   if (existingUser) {
-    console.log('existing');
     res.status(409).json({ error: 'User with this email already exists' });
     return;
   }

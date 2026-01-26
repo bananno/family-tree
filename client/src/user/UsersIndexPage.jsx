@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 
 import api from 'shared/api';
+import Button from 'shared/form/Button';
 
-import CreateUserModal from './CreateUserModal.jsx';
+import UserModal from './UserModal.jsx';
 
 export default function UsersIndexPage() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editUser, setEditUser] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -29,7 +31,15 @@ export default function UsersIndexPage() {
       <h1>Users Index Page</h1>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      <CreateUserModal afterCreate={fetchUsers} />
+      <UserModal create afterSubmit={fetchUsers} />
+      {editUser && (
+        <UserModal
+          edit
+          afterSubmit={fetchUsers}
+          editUser={editUser}
+          onClose={() => setEditUser(null)}
+        />
+      )}
       <table border="1" cellPadding="5">
         <thead>
           <tr>
@@ -39,6 +49,7 @@ export default function UsersIndexPage() {
             <th>first login</th>
             <th>last login</th>
             <th>person</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -62,6 +73,9 @@ export default function UsersIndexPage() {
                   : '--'}
               </td>
               <td>TODO</td>
+              <td>
+                <Button text="Edit" onClick={() => setEditUser(user)} />
+              </td>
             </tr>
           ))}
         </tbody>

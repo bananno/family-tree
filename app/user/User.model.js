@@ -30,6 +30,7 @@ schema.statics.login = async function (payload) {
     });
   }
 
+  user.firstLoginAt = user.firstLoginAt || loginDate;
   user.lastLoginAt = loginDate;
 
   // Update user preferences

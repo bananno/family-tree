@@ -69,6 +69,7 @@ import updateTagAttachmentsRoute from './tag/updateTagAttachments.route.js';
 // User
 import listUsersRoute from './user/listUsers.route.js';
 import createUserRoute from './user/createUser.route.js';
+import updateUserRoute from './user/updateUser.route.js';
 
 const router = express.Router();
 
@@ -173,3 +174,4 @@ router.post('/tag-attachments', updateTagAttachmentsRoute);
 
 router.get('/users', listUsersRoute);
 router.post('/users', createUserRoute);
+router.post('/users/:id/update', updateUserRoute);
