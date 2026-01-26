@@ -38,6 +38,7 @@ import HomePage from './HomePage';
 import Layout from './Layout';
 import PageNotFound from './PageNotFound';
 import ToDoPage from './ToDoPage';
+import UsersIndexPage from './user/UsersIndexPage';
 import UtilitiesPage from './UtilitiesPage';
 
 export default function AppRoutes() {
@@ -124,6 +125,7 @@ export default function AppRoutes() {
 
             <Route path="map" element={<ToDoPage title="map" />} />
             <Route path="utilities" element={<UtilitiesPage />} />
+            <Route path="users" element={<UsersIndexPage />} />
           </>
         )}
         <Route path="/account" element={<AccountPage />} />

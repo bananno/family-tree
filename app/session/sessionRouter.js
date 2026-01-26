@@ -1,6 +1,8 @@
 import express from 'express';
 import { OAuth2Client } from 'google-auth-library';
 
+import UserModel from '../user/User.model.js';
+
 const oauthClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // This router uses the /session prefix
@@ -27,6 +29,8 @@ router.post('/authorize', async (req, res) => {
       name: payload.name,
       picture: payload.picture,
     };
+
+    const user = await UserModel.login(payload);
 
     res.json({
       success: true,
