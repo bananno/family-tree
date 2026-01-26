@@ -20,7 +20,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-mongoose.connect('mongodb://localhost/ancestry').catch(err => {
+mongoose.connect(process.env.MONGODB_URI).catch(err => {
   console.log('--- mongoose.connect() failed ---');
   console.log(err);
   console.log('\nIs mongod instance running?');

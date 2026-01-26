@@ -54,6 +54,9 @@ touch .env && touch client/.env
 ```sh
 AWS_REGION=us-east-1
 
+# database
+MONGODB_URI=mongodb+srv://...
+
 # for uploading images
 IMAGE_UPLOAD_S3_BUCKET=<bucket>
 IMAGE_HOSTING_PATH=<path>
