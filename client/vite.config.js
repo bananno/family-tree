@@ -9,6 +9,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      // Also update jsconfig.json
       assets: path.resolve(__dirname, './src/assets'),
       db: path.resolve(__dirname, './src/db'),
       checklist: path.resolve(__dirname, './src/checklist'),
@@ -18,6 +19,7 @@ export default defineConfig({
       misc: path.resolve(__dirname, './src/misc'),
       notation: path.resolve(__dirname, './src/notation'),
       person: path.resolve(__dirname, './src/person'),
+      session: path.resolve(__dirname, './src/session'),
       shared: path.resolve(__dirname, './src/shared'),
       source: path.resolve(__dirname, './src/source'),
       staticDb: path.resolve(__dirname, './src/database/staticDb'),

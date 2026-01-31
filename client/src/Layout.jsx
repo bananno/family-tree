@@ -2,17 +2,21 @@ import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
 import { useFeaturedQuoteText } from 'misc/featured-quote/useFeaturedQuoteText';
+import useSessionContext from 'session/useSessionContext';
 import Button from 'shared/form/Button';
 import useEnvironment from 'shared/useEnvironment';
 
 import layoutClasses from './Layout.module.scss';
 
 export default function Layout() {
+  const { currentUser } = useSessionContext();
+
   return (
     <div className={layoutClasses.Layout}>
       <header className={layoutClasses.LayoutHeader}>
         <h1>Family Tree</h1>
         <EnvironmentButton />
+        <span>{currentUser?.name}</span>
         <LayoutNavigation />
       </header>
       <main className={layoutClasses.LayoutContent1}>

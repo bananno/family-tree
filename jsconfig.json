@@ -11,6 +11,7 @@
       "misc/*": ["./client/src/misc/*"],
       "notation/*": ["./client/src/notation/*"],
       "person/*": ["./client/src/person/*"],
+      "session/*": ["./client/src/session/*"],
       "shared/*": ["./client/src/shared/*"],
       "source/*": ["./client/src/source/*"],
       "staticDb/*": ["./client/src/database/staticDb/*"],
