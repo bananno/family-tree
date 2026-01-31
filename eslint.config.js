@@ -10,6 +10,7 @@ const customRules = {
 };
 
 const EXTERNAL_DEPENDENCIES = [
+  '@react-oauth/google',
   'lodash',
   'lodash/partition',
   'react',

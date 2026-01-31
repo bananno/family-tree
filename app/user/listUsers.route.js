@@ -27,11 +27,12 @@ export default async function listUsersRoute(req, res) {
     users: users.map(user => ({
       ..._.pick(user, [
         'id',
-        'name',
+        'admin',
         'email',
-        'ssoPicture',
         'firstLoginAt',
         'lastLoginAt',
+        'name',
+        'ssoPicture',
       ]),
       person: user.person.toListApi(),
     })),

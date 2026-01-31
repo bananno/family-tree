@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const schema = new mongoose.Schema(
   {
+    admin: { type: Boolean, default: false },
     email: { type: String, required: true, unique: true },
     firstLoginAt: { type: Date },
     lastLoginAt: { type: Date },
@@ -21,17 +22,17 @@ schema.statics.login = async function (payload) {
   let user = await UserModel.findOne({ email: payload.email });
 
   if (!user) {
-    user = new UserModel({
-      email: payload.email,
-      name: payload.name,
-      ssoId: payload.sub,
-      ssoProvider: 'google',
-      firstLoginAt: loginDate,
-    });
+    // Don't auto-create users as they must be invited.
+    return false;
   }
 
-  user.firstLoginAt = user.firstLoginAt || loginDate;
   user.lastLoginAt = loginDate;
+
+  if (!user.firstLoginAt) {
+    user.ssoId = payload.sub;
+    user.ssoProvider = 'google';
+    user.firstLoginAt = loginDate;
+  }
 
   // Update user preferences
   user.ssoPicture = payload.picture;

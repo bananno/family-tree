@@ -58,6 +58,7 @@ export default function UsersIndexPage() {
             <th>first login</th>
             <th>last login</th>
             <th>person</th>
+            <th>access</th>
             <th></th>
           </tr>
         </thead>
@@ -82,6 +83,7 @@ export default function UsersIndexPage() {
                   : '--'}
               </td>
               <td>{user.person && <PersonLink person={user.person} />}</td>
+              <td>{user.admin && 'Admin'}</td>
               <td>
                 <Button text="Edit" onClick={() => setEditUser(user)} />
               </td>

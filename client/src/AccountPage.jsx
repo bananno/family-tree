@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { useEffect, useState } from 'react';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 export default function AccountPage() {
   const [user, setUser] = useState(null);
+  const [userError, setUserError] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function AccountPage() {
       if (data.success) {
         setUser(data.user);
       } else {
-        console.log('Authorization failed');
+        setUserError(true);
       }
     } catch (error) {
       console.error('Error during authorization:', error);
@@ -90,7 +90,15 @@ export default function AccountPage() {
         </div>
       ) : (
         <div style={{ textAlign: 'center', width: '300px', margin: '0 auto' }}>
-          <h2>Please log in</h2>
+          {userError ? (
+            <div style={{ color: 'red' }}>
+              <h2>Login failed</h2>
+              <p>Please try again.</p>
+            </div>
+          ) : (
+            <h2>Please log in</h2>
+          )}
+
           <GoogleLogin
             onSuccess={handleSuccess}
             onError={() => console.log('Login Failed')}

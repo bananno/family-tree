@@ -23,14 +23,18 @@ router.post('/authorize', async (req, res) => {
 
     const payload = ticket.getPayload();
 
-    req.session.user = {
-      id: payload.sub,
-      email: payload.email,
-      name: payload.name,
-      picture: payload.picture,
-    };
-
     const user = await UserModel.login(payload);
+
+    if (!user) {
+      return res.status(401).json({ success: false, error: 'Unauthorized' });
+    }
+
+    req.session.user = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      picture: user.ssoPicture,
+    };
 
     res.json({
       success: true,
