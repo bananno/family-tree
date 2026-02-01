@@ -2,6 +2,9 @@ import express from 'express';
 
 import * as routerTools from './tools/routerTools.js';
 
+import requireAdmin from './session/requireAdmin.js';
+import sessionRouter from './session/sessionRouter.js';
+
 import apiCreateRoutes from './api/index.js';
 import checklistCreateRoutes from './checklist/index.js';
 import citationCreateRoutes from './citation/index.js';
@@ -72,8 +75,7 @@ import createUserRoute from './user/createUser.route.js';
 import updateUserRoute from './user/updateUser.route.js';
 
 const router = express.Router();
-
-export default router;
+const router2 = express.Router();
 
 router.use((req, res, next) => {
   res.renderOriginal = res.render;
@@ -112,7 +114,7 @@ router.get('/export/full', exportFullDataRoute);
 router.get('/export/publish', exportPublishedDataRoute);
 
 router.get('/featured-quotes', featuredQuoteRoutes.listFeaturedQuotesRoute);
-router.get(
+router2.get(
   '/featured-quotes-text',
   featuredQuoteRoutes.listFeaturedQuotesTextRoute,
 );
@@ -135,9 +137,9 @@ notationCreateRoutes(router);
 router.get('/api/notations', listNotationsRoute);
 
 personCreateRoutes(router);
-router.get('/people', listPeopleRoute);
+router2.get('/people', listPeopleRoute);
 router.post('/people', createPersonRoute);
-router.get('/people/:id', getPersonRoute);
+router2.get('/people/:id', getPersonRoute);
 router.get('/people/:id/checklist', getPersonChecklistRoute);
 router.get('/people/:id/photos', getPersonPhotosRoute);
 router.get('/people/:id/timeline', getPersonTimelineRoute);
@@ -159,7 +161,7 @@ router.get('/sources', listSourcesRoute);
 router.get('/sources/:sourceType', listSourcesRoute);
 
 storyCreateRoutes(router);
-router.get('/stories', listStoriesRoute);
+router2.get('/stories', listStoriesRoute);
 router.get('/stories-non-entry-sources', listStoriesNonEntrySourcesRoute);
 router.get('/api/stories/:id', getStoryRoute);
 router.post('/stories', createStoryRoute);
@@ -175,3 +177,9 @@ router.post('/tag-attachments', updateTagAttachmentsRoute);
 router.get('/users', listUsersRoute);
 router.post('/users', createUserRoute);
 router.post('/users/:id/update', updateUserRoute);
+
+export default function registerRouters(app) {
+  app.use('/session', sessionRouter);
+  app.use('/', router2);
+  app.use('/', requireAdmin, router);
+}

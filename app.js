@@ -12,8 +12,7 @@ import { fileURLToPath } from 'url';
 
 import './app/models.js';
 
-import router from './app/router.js';
-import sessionRouter from './app/session/sessionRouter.js';
+import registerRouters from './app/router.js';
 
 dotenv.config();
 
@@ -58,8 +57,7 @@ app.use(
   }),
 );
 
-app.use('/session', sessionRouter);
-app.use('/', router);
+registerRouters(app);
 
 app.use((req, res, next) => {
   next(createError(404));
