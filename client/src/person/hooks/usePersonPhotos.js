@@ -1,44 +1,29 @@
 import { useEffect, useState } from 'react';
 
 import { usePersonContext } from 'person/PersonContext';
-import useEnvironment from 'shared/useEnvironment';
-
-const API_URL = 'http://localhost:9000';
+import api from 'shared/api';
 
 export default function usePersonPhotos() {
   const { personId } = usePersonContext();
-  const { isProduction } = useEnvironment();
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    getPhotos();
+  }, [personId]);
+
+  async function getPhotos() {
     setLoading(true);
 
-    if (isProduction) {
-      setPhotos(getStaticResponse(personId));
-      setLoading(false);
-      return;
+    const { result, error } = await api(`/people/${personId}/photos`);
+
+    if (error || !result?.photos) {
+      console.error('Error fetching person photos:', error);
     }
 
-    fetch(`${API_URL}/people/${personId}/photos`)
-      .then(res => res.json())
-      .then(res => {
-        setPhotos(res.photos);
-      })
-      .catch(err => {
-        console.log('ERROR', err.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [isProduction, personId]);
+    setPhotos(result?.photos || []);
+    setLoading(false);
+  }
 
   return { photos, loading };
-}
-
-////////////////////
-
-// TODO
-function getStaticResponse(personId) {
-  return [];
 }

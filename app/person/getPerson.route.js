@@ -31,6 +31,7 @@ export default async function getPerson(req, res) {
     parents: { $in: person.parents },
   }).populateAvatar();
 
+  // Slow. TODO: move citations to separate route.
   await person.populateCitations({ populateSources: true });
   await Citation.populateStories(person.citations);
   Citation.sortByItem(person.citations);

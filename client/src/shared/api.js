@@ -1,12 +1,8 @@
 // TODO: clean up the remaining occurences of API_URL.
-// TODO: update everything to the catchPlease version, then remove catchPlease.
 const API_URL = 'http://localhost:9000';
 
+// Returns a promise that resolves to { result, error }.
 export default async function api(path, options = {}) {
-  if (!options.catchPlease) {
-    console.warn('Update api() usage with catchPlease');
-  }
-
   const headers = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -25,10 +21,6 @@ export default async function api(path, options = {}) {
   const fullPath = path.startsWith('/')
     ? `${API_URL}${path}`
     : `${API_URL}/${path}`;
-
-  if (!options.catchPlease) {
-    return fetch(fullPath, fetchOptions);
-  }
 
   let response;
 

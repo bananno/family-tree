@@ -53,7 +53,7 @@ export default async function getPersonTimelineRoute(req, res) {
   ]);
 
   res.json({
-    data: sortedItems,
+    items: sortedItems,
   });
 }
 
@@ -83,11 +83,11 @@ async function getPersonalEvents(person) {
   }).populate(populatePeople);
 
   const birthYear = events.find(event =>
-    ['birth', 'birth and death'].includes(event.title)
+    ['birth', 'birth and death'].includes(event.title),
   )?.date?.year;
 
   const deathYear = events.find(event =>
-    ['death', 'birth and death'].includes(event.title)
+    ['death', 'birth and death'].includes(event.title),
   )?.date?.year;
 
   return {

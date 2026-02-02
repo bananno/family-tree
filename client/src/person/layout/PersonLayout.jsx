@@ -4,6 +4,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import PersonProfileIcon from 'person/components/PersonProfileIcon';
 import { PersonProvider, usePersonContext } from 'person/PersonContext';
+import AdminOnly from 'session/AdminOnly';
 import DevOnly from 'shared/DevOnly';
 import ExternalLink from 'shared/ExternalLink';
 import useEnvironment from 'shared/useEnvironment';
@@ -58,7 +59,10 @@ function PersonOutlet() {
         </div>
         {person && <PersonNavigation person={person} />}
       </aside>
-      <main className={classes.content}>{person && <Outlet />}</main>
+      <main className={classes.content}>
+        {!person && loading && 'Loading...'}
+        {person && <Outlet />}
+      </main>
     </div>
   );
 }
@@ -67,7 +71,7 @@ function PersonNavigation({ person }) {
   const { pathname } = useLocation();
   const basePath = `/person/${person.id}`;
 
-  const [productionPersonViews, developmentPersonViews] = partition(
+  const [publicPersonViews, adminPersonViews] = partition(
     allPersonViews,
     view => {
       if (view.sharedUnlessLimited) {
@@ -80,16 +84,16 @@ function PersonNavigation({ person }) {
   return (
     <nav className={classes.navigation}>
       <ul>
-        {productionPersonViews.map(view => (
+        {publicPersonViews.map(view => (
           <li key={view.path}>
             <LinkOrText to={`${basePath}/${view.path}`} pathname={pathname}>
               {view.title}
             </LinkOrText>
           </li>
         ))}
-        <DevOnly>
+        <AdminOnly>
           <hr />
-          {developmentPersonViews.map(view => (
+          {adminPersonViews.map(view => (
             <li key={view.path}>
               <LinkOrText to={`${basePath}/${view.path}`} pathname={pathname}>
                 {view.title}
@@ -98,24 +102,26 @@ function PersonNavigation({ person }) {
           ))}
           <li>
             <ExternalLink
-              to={`https://tree.annabidstrup.com/person/${person.id}`}
-            >
-              new site
-            </ExternalLink>
-          </li>
-          <li>
-            <ExternalLink
               to={`https://ancestry.annacpeterson.com/person/${person.id}`}
             >
               old site
             </ExternalLink>
           </li>
-          <li>
-            <Link to={`http://localhost:9000/person/${person.id}`}>
-              ejs app
-            </Link>
-          </li>
-        </DevOnly>
+          <DevOnly>
+            <li>
+              <ExternalLink
+                to={`https://tree.annabidstrup.com/person/${person.id}`}
+              >
+                production
+              </ExternalLink>
+            </li>
+            <li>
+              <Link to={`http://localhost:9000/person/${person.id}`}>
+                ejs app
+              </Link>
+            </li>
+          </DevOnly>
+        </AdminOnly>
       </ul>
     </nav>
   );

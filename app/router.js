@@ -141,8 +141,8 @@ router2.get('/people', listPeopleRoute);
 router.post('/people', createPersonRoute);
 router2.get('/people/:id', getPersonRoute);
 router.get('/people/:id/checklist', getPersonChecklistRoute);
-router.get('/people/:id/photos', getPersonPhotosRoute);
-router.get('/people/:id/timeline', getPersonTimelineRoute);
+router2.get('/people/:id/photos', getPersonPhotosRoute);
+router2.get('/people/:id/timeline', getPersonTimelineRoute);
 router.post('/people/:id', updatePersonRoute);
 router.post('/people/:id/links', updatePersonLinksRoute);
 
