@@ -41,13 +41,13 @@ function EnvironmentButton() {
 }
 
 function FeaturedQuote() {
+  const { currentUser } = useSessionContext();
   const { quote } = useFeaturedQuoteText();
-  const { isProduction } = useEnvironment();
 
-  return isProduction ? (
-    <p>{quote}</p>
-  ) : (
+  return currentUser?.admin ? (
     <Link to="/featured-quotes">{quote}</Link>
+  ) : (
+    <p>{quote}</p>
   );
 }
 
@@ -66,7 +66,7 @@ function LayoutNavigation() {
         <LayoutNavItem path="/tags" text="Tags" />
         <LayoutNavItem path="/utilities" text="Utilities" />
         <LayoutNavItem path="/files" text="Files" />
-        <LayoutNavItem path="/account" text="Account" />
+        <LayoutNavItem path="/account" text="Account" isPublic />
         <LayoutNavItem path="/users" text="Users" />
         <LayoutNavItem path="/404" text="404" />
         <LayoutNavItem path="http://localhost:9000/" text="old site" />
@@ -76,9 +76,9 @@ function LayoutNavigation() {
 }
 
 function LayoutNavItem({ path, text, isPublic }) {
-  const { isDevelopment } = useEnvironment();
+  const { currentUser } = useSessionContext();
   return (
-    (isPublic || isDevelopment) && (
+    (isPublic || currentUser?.admin) && (
       <li>
         {' '}
         <Link to={path}>{text}</Link>{' '}

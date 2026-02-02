@@ -31,6 +31,7 @@ router.post('/authorize', async (req, res) => {
 
     req.session.user = {
       id: user.id,
+      admin: user.admin,
       email: user.email,
       name: user.name,
       picture: user.ssoPicture,

@@ -15,7 +15,7 @@ export const PERSON_GENDER = {
   UNKNOWN: 3,
 };
 
-const PERSON_SHARE_LEVEL = {
+export const PERSON_SHARE_LEVEL = {
   NONE: 0,
   RESTRICTED: 1,
   EVERYTHING: 2,
@@ -99,7 +99,20 @@ schema.methods.genderText = function () {
 // This should only include items that are required for displaying people in the list.
 // If more items are needed, it can be supplemented.
 // (TODO: should birthYear, deathYear, and living be removed here?)
-schema.methods.toListApi = function () {
+schema.methods.toListApi = function (options = {}) {
+  if (options.restrict) {
+    // If shareLevel was not populated, play it safe and assume NONE.
+    if (!this.shareLevel || this.shareLevel === PERSON_SHARE_LEVEL.NONE) {
+      return null; // Raise error? TBD.
+    }
+    if (this.shareLevel === PERSON_SHARE_LEVEL.RESTRICTED) {
+      return {
+        id: this.id,
+        name: this.shareName || 'Person',
+      };
+    }
+  }
+
   // Note that birthYear and deathYear are only populated sometimes (only needed sometimes).
   return {
     ..._.pick(this, ['id', 'name', 'birthYear', 'deathYear', 'living']),
