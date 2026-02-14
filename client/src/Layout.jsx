@@ -1,28 +1,23 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useFeaturedQuoteText } from 'misc/featured-quote/useFeaturedQuoteText';
 import useSessionContext from 'session/useSessionContext';
-import Button from 'shared/form/Button';
-import useEnvironment from 'shared/useEnvironment';
 
 import layoutClasses from './Layout.module.scss';
 
-export default function Layout() {
+export default function Layout({ children }) {
   const { currentUser } = useSessionContext();
 
   return (
     <div className={layoutClasses.Layout}>
       <header className={layoutClasses.LayoutHeader}>
         <h1>Family Tree</h1>
-        <EnvironmentButton />
         <span>{currentUser?.name}</span>
         <LayoutNavigation />
       </header>
       <main className={layoutClasses.LayoutContent1}>
-        <div className={layoutClasses.LayoutContent2}>
-          <Outlet />
-        </div>
+        <div className={layoutClasses.LayoutContent2}>{children}</div>
       </main>
       <footer className={layoutClasses.LayoutFooter}>
         <FeaturedQuote />
@@ -32,13 +27,6 @@ export default function Layout() {
 }
 
 ////////////////////
-
-function EnvironmentButton() {
-  const { isLocal, environment, toggleEnvironment } = useEnvironment();
-  return isLocal ? (
-    <Button text={environment} onClick={toggleEnvironment} />
-  ) : null;
-}
 
 function FeaturedQuote() {
   const { currentUser } = useSessionContext();

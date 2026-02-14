@@ -15,6 +15,7 @@ const EXTERNAL_DEPENDENCIES = [
   'lodash/partition',
   'react',
   'react-dom/client',
+  'react-error-boundary',
   'react-hook-form',
   'react-router-dom',
   'react-select',

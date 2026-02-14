@@ -35,7 +35,6 @@ import TagLayout from 'tag/TagLayout';
 
 import AccountPage from './AccountPage';
 import HomePage from './HomePage';
-import Layout from './Layout';
 import PageNotFound from './PageNotFound';
 import ToDoPage from './ToDoPage';
 import UsersIndexPage from './user/UsersIndexPage';
@@ -46,7 +45,7 @@ export default function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path="/">
         <Route index element={<HomePage />} />
 
         {/* PERSON */}
