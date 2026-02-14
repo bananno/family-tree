@@ -12,9 +12,7 @@ export default function useStoriesNonEntrySources() {
 
   async function fetchItems() {
     setLoading(true);
-    const { result, error } = await api('stories-non-entry-sources', {
-      catchPlease: true,
-    });
+    const { result, error } = await api('stories/special/non-entry-sources');
     setResponse(result);
     setLoading(false);
   }

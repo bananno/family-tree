@@ -25,11 +25,14 @@ import { useEnvironment } from 'shared/EnvironmentContext';
 // Story/Source
 import SourceIndexPage from 'source/pages/SourceIndexPage';
 import SourceProfilePage from 'source/pages/SourceProfilePage';
+import StoryLayout from 'story/layout/StoryLayout';
 import CemeteriesIndexPage from 'story/pages/CemeteriesIndexPage';
 import CemeteryPage from 'story/pages/CemeteryPage';
 import StoriesIndexPage from 'story/pages/StoriesIndexPage';
 import StoriesNonEntrySourcesPage from 'story/pages/StoriesNonEntrySourcesPage';
-import StoryProfilePage from 'story/pages/StoryProfilePage';
+import StoryDetailsPage from 'story/pages/StoryDetailsPage';
+import StoryEntriesPage from 'story/pages/StoryEntriesPage';
+import StoryMainPage from 'story/pages/StoryMainPage';
 // Tag
 import TagIndexPage from 'tag/pages/TagIndexPage';
 import TagPage from 'tag/pages/TagPage';
@@ -89,7 +92,11 @@ export default function AppRoutes() {
             element={<StoriesNonEntrySourcesPage />}
           />
         )}
-        <Route path="story/:storyId" element={<StoryProfilePage />} />
+        <Route path="/story/:id" element={<StoryLayout />}>
+          <Route index element={<StoryMainPage />} />
+          <Route path="/story/:id/details" element={<StoryDetailsPage />} />
+          <Route path="/story/:id/entries" element={<StoryEntriesPage />} />
+        </Route>
 
         {isDevelopment && (
           <Route path="sources" element={<SourceIndexPage />} />

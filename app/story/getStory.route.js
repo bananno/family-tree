@@ -4,10 +4,20 @@ import Story from './Story.model.js';
 import Source from '../source/Source.model.js';
 
 export default async function getStoryRoute(req, res) {
+  const admin = req.session?.user?.admin;
+
   const story = await Story.findById(req.params.id).populate([
     'people',
     'tags',
   ]);
+
+  if (!story) {
+    return res.status(404).send({ message: 'Story not found' });
+  }
+
+  if (!admin && !story.sharing) {
+    return res.status(403).send({ message: 'Forbidden' });
+  }
 
   const entries = await Source.find({ story })
     .populate(['images', 'people'])

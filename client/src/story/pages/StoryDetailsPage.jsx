@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import PersonList from 'person/components/PersonList';
+import AdminOnly from 'session/AdminOnly';
 import BulletList from 'shared/BulletList';
 import Checkmark from 'shared/Checkmark';
-import DevOnly from 'shared/DevOnly';
+import Divider from 'shared/Divider';
 import FormatContent from 'shared/FormatContent';
 import FormatDate from 'shared/FormatDate';
 import FormatLocation from 'shared/FormatLocation';
@@ -12,58 +13,60 @@ import LinkList from 'shared/LinkList';
 import NewEntrySourceModal from 'source/components/NewEntrySourceModal';
 import SourceLink from 'source/components/SourceLink';
 import SourceList from 'source/components/SourceList';
-import useStoryProfile from 'story/hooks/useStoryProfile';
+import useStoryContext from 'story/hooks/useStoryContext';
 import classes from 'story/story.module.scss';
 import TagList from 'tag/components/TagList';
 
-export default function StoryProfilePage() {
-  const { storyId } = useParams();
-  const { story, isLoading } = useStoryProfile({ storyId });
-
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
+export default function StoryDetailsPage() {
+  const { story } = useStoryContext();
 
   return (
     <div>
-      <h2>STORY:</h2>
-      <h2>{story.title}</h2>
-      <Link to={`http://localhost:9000/story/${storyId}`}>old site</Link>
-      <hr />
       <h2>type</h2>
       <p>{story.type}</p>
-      <DevOnly>
+      <Divider />
+      <AdminOnly>
         <h2>sharing</h2>
         <Checkmark value={story.sharing} />
+        <Divider />
         <h2>tags</h2>
         <TagList tags={story.tags} />
-      </DevOnly>
+      </AdminOnly>
+      <Divider />
       <h2>date</h2>
       <p>
         <FormatDate date={story.date} />
       </p>
+      <Divider />
       <h2>location</h2>
       <p>
         <FormatLocation location={story.location} />
       </p>
+      <Divider />
       <h2>people</h2>
       <PersonList people={story.people} />
+      <Divider />
       <h2>links</h2>
       <LinkList links={story.links || []} />
+      <Divider />
       <h2>notes</h2>
       <BulletList>
         {story.notes?.map((note, i) => (
           <li key={i}>{note}</li>
         ))}
       </BulletList>
+      <Divider />
       <h2>content</h2>
       <FormatContent content={story.content} />
+      <Divider />
       <h2>sources (belong to another story, but is related to this story)</h2>
       <SourceList sources={story.nonEntrySources} />
+      <Divider />
       <h2>entries (belong to this story)</h2>
-      <DevOnly>
+      <AdminOnly>
         <NewEntrySourceModal story={story} />
-      </DevOnly>
+      </AdminOnly>
+      <Divider />
       {story.type === 'newspaper' ? (
         <NewspaperEntryList sources={story.entries} />
       ) : story.type === 'cemetery' ? (

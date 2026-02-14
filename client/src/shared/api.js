@@ -30,12 +30,20 @@ export default async function api(path, options = {}) {
     return { error };
   }
 
-  if (!response.ok && response.status === 404) {
-    return {
-      result: response,
-      notFound: true,
-      // should there be an error attribute here?
-    };
+  if (!response.ok) {
+    if (response.status === 403) {
+      return {
+        result: response,
+        notAuthorized: true,
+      };
+    }
+    if (response.status === 404) {
+      return {
+        result: response,
+        notFound: true,
+        // should there be an error attribute here?
+      };
+    }
   }
 
   // Parse JSON is optional. If it fails, return the response as is.

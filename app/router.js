@@ -7,6 +7,7 @@ import personRouter from './person/personRouter.js';
 import requireAdmin from './session/requireAdmin.js';
 import sessionRouter from './session/sessionRouter.js';
 import sourceRouter from './source/sourceRouter.js';
+import storyRouter from './story/storyRouter.js';
 
 import apiCreateRoutes from './api/index.js';
 import checklistCreateRoutes from './checklist/index.js';
@@ -36,13 +37,7 @@ import listNotationsRoute from './notation/listNotations.route.js';
 
 import personCreateRoutes from './person/index.js';
 import sourceCreateRoutes from './source/index.js';
-
-// Story
 import storyCreateRoutes from './story/index.js';
-import getStoryRoute from './story/getStory.route.js';
-import createStoryRoute from './story/createStory.route.js';
-import listStoriesRoute from './story/listStories.route.js';
-import listStoriesNonEntrySourcesRoute from './story/listStoriesNonEntrySources.route.js';
 
 // Tag
 import tagCreateRoutes from './tag/index.js';
@@ -122,12 +117,7 @@ router.get('/api/notations', listNotationsRoute);
 
 personCreateRoutes(router);
 sourceCreateRoutes(router);
-
 storyCreateRoutes(router);
-router2.get('/stories', listStoriesRoute);
-router.get('/stories-non-entry-sources', listStoriesNonEntrySourcesRoute);
-router.get('/stories/:id', getStoryRoute);
-router.post('/stories', createStoryRoute);
 
 tagCreateRoutes(router);
 router.get('/tags', listTagsRoute);
@@ -147,6 +137,7 @@ export default function registerRouters(app) {
   app.use('/citations', citationRouter);
   app.use('/people', personRouter);
   app.use('/sources', sourceRouter);
+  app.use('/stories', storyRouter);
 
   app.use('/', router2);
   app.use('/', requireAdmin, router);
