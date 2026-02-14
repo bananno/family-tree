@@ -1,6 +1,6 @@
+@import 'tailwindcss';
+
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
   font-family: 'Lucida Grande', Helvetica, Arial, sans-serif;
 }
