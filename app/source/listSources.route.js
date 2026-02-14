@@ -11,7 +11,7 @@ export default async function listSourcesRoute(req, res) {
     ? allSources
     : allSources.filter(source => source.sharing && source.story.sharing);
 
-  const sourceType = req.params.sourceType;
+  const sourceType = req.query.sourceType;
   const sources = await filterSourcesByType(sourceType, viewableSources);
 
   Source.sortByStory(sources);

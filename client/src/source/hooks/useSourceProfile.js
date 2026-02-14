@@ -9,8 +9,8 @@ export default function useSourceProfile({ sourceId }) {
   const { currentUser } = useSessionContext();
 
   async function fetchSource() {
-    const { result } = await api(`api/source-profile/${sourceId}`);
-    setSource(result?.data);
+    const { result } = await api(`/sources/${sourceId}`);
+    setSource(result || null);
     setLoading(false);
   }
 
