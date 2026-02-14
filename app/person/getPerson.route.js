@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import mongoose from 'mongoose';
 
-const Citation = mongoose.model('Citation');
 const Event = mongoose.model('Event');
 const Notation = mongoose.model('Notation');
 const Person = mongoose.model('Person');
@@ -30,11 +29,6 @@ export default async function getPerson(req, res) {
   const siblings = await Person.find({
     parents: { $in: person.parents },
   }).populateAvatar();
-
-  // Slow. TODO: move citations to separate route.
-  await person.populateCitations({ populateSources: true });
-  await Citation.populateStories(person.citations);
-  Citation.sortByItem(person.citations);
 
   const ancestorTree = await buildTree(person);
 
@@ -66,7 +60,6 @@ export default async function getPerson(req, res) {
     avatarUrl: person.avatarUrl() || person.profileImage,
     birth: mapBirthAndDeathEvent(person.birth),
     death: mapBirthAndDeathEvent(person.death),
-    citations: mapCitationsIncludeSource(person.citations),
     links: mapLinks(person.links),
     parents: person.parents.map(person => person.toListApi()),
     siblings: _.sortBy(
@@ -95,18 +88,6 @@ function findPersonByValidId(id) {
   return mongoose.Types.ObjectId.isValid(id)
     ? Person.findById(id)
     : Person.findById(null); // This is chainable; simply returning null would not be.
-}
-
-function mapCitationsIncludeSource(citations) {
-  return citations.map(citation => ({
-    id: citation._id,
-    information: citation.information,
-    ...splitCitationItem(citation),
-    source: {
-      id: citation.source._id,
-      fullTitle: citation.source.fullTitle,
-    },
-  }));
 }
 
 function mapLinks(links) {
@@ -168,11 +149,6 @@ async function populateBirthAndDeathYears(people) {
       event.people.includes(person.id),
     )?.date.year;
   });
-}
-
-function splitCitationItem(citation) {
-  const arr = citation.item.split(' - ');
-  return { itemPart1: arr.shift(), itemPart2: arr.join(' ') };
 }
 
 function mapBirthAndDeathEvent(event) {

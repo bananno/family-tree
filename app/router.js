@@ -2,6 +2,7 @@ import express from 'express';
 
 import * as routerTools from './tools/routerTools.js';
 
+import citationRouter from './citation/citationRouter.js';
 import personRouter from './person/personRouter.js';
 import requireAdmin from './session/requireAdmin.js';
 import sessionRouter from './session/sessionRouter.js';
@@ -150,6 +151,7 @@ router.post('/users/:id/update', updateUserRoute);
 
 export default function registerRouters(app) {
   app.use('/session', sessionRouter);
+  app.use('/citations', citationRouter);
   app.use('/people', personRouter);
   app.use('/', router2);
   app.use('/', requireAdmin, router);
