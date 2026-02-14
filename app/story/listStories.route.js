@@ -7,7 +7,7 @@ export default async function listStoriesRoute(req, res) {
   const storyType = req.query.storyType;
   const filter = storyType ? { type: storyType } : {};
 
-  const stories = await Story.find(filter);
+  const stories = await Story.find(filter).populate('images');
 
   const types = await Story.distinct('type');
 
@@ -23,6 +23,7 @@ export default async function listStoriesRoute(req, res) {
       'type',
       'notes',
     ]),
+    coverImage: story.images[0]?.url,
     filterText: [story.title, story.notes].filter(Boolean).join(' '),
     sourceCount: sourceCountsMap[story.id] || 0,
   }));
