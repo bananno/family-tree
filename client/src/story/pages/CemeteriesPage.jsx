@@ -1,5 +1,7 @@
 import React from 'react';
 
+import AdminOnly from 'session/AdminOnly';
+import Checkmark from 'shared/Checkmark';
 import Filter from 'shared/Filter';
 import FormatLocation from 'shared/FormatLocation';
 import Spacer from 'shared/Spacer';
@@ -30,7 +32,7 @@ export default function CemeteriesPage() {
 
   return (
     <>
-      <h1>Cemeteries</h1>
+      <h1 className="text-3xl font-bold">Cemeteries</h1>
       <Spacer />
       <Spacer />
       <Filter filterId={filterId} />
@@ -73,29 +75,33 @@ function getGroupKey(story) {
 
 function CemeteryCard({ story }) {
   return (
-    <div className="bg-stone-50 border border-stone-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200">
-      <div className="flex gap-4">
-        {story.coverImage ? (
-          <img
-            src={story.coverImage}
-            alt={story.title}
-            className="w-36 h-36 rounded-tl-2xl rounded-bl-2xl object-cover flex-shrink-0"
-          />
-        ) : (
-          <div className="w-36 h-36 rounded-tl-2xl rounded-bl-2xl bg-stone-200" />
-        )}
-        <div className="flex flex-col space-y-2 p-2">
-          <h2 className="text-lg font-semibold text-stone-800 font-serif">
-            <StoryLink story={story} />
-          </h2>
-          <p className="text-sm text-stone-500 mb-2">
-            <FormatLocation location={story.location} v2 />
-          </p>
-          <p className="text-stone-700 leading-relaxed line-clamp-3 text-md">
-            {story.sourceCount || 0}{' '}
-            {story.sourceCount == 1 ? 'burial' : 'burials'} in the database
-          </p>
-        </div>
+    <div className="bg-stone-50 border border-stone-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 flex gap-4">
+      {story.coverImage ? (
+        <img
+          src={story.coverImage}
+          alt={story.title}
+          className="w-36 rounded-tl-2xl rounded-bl-2xl object-cover flex-shrink-0 self-stretch"
+        />
+      ) : (
+        <div className="w-36 rounded-tl-2xl rounded-bl-2xl  bg-stone-200" />
+      )}
+      <div className="flex flex-col space-y-2 p-2">
+        <h2 className="text-lg font-semibold text-stone-800 font-serif">
+          <StoryLink story={story} />
+        </h2>
+        <p className="text-sm text-stone-500 mb-2">
+          <FormatLocation location={story.location} v2 />
+        </p>
+        <p className="text-stone-700 leading-relaxed line-clamp-3 text-md">
+          {story.sourceCount || 0}{' '}
+          {story.sourceCount == 1 ? 'burial' : 'burials'} in the database
+        </p>
+        <AdminOnly>
+          <div className="flex items-center gap-1 text-sm text-stone-500">
+            <Checkmark value={story.sharing} />
+            <span>{story.sharing ? 'shared' : 'private'}</span>
+          </div>
+        </AdminOnly>
       </div>
     </div>
   );

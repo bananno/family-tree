@@ -4,8 +4,14 @@ import Source from '../source/Source.model.js';
 import Story from './Story.model.js';
 
 export default async function listStoriesRoute(req, res) {
+  const admin = req.session?.user?.admin;
+
   const storyType = req.query.storyType;
   const filter = storyType ? { type: storyType } : {};
+
+  if (!admin) {
+    filter.sharing = true;
+  }
 
   const stories = await Story.find(filter).populate('images');
 
