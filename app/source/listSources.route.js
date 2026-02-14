@@ -3,8 +3,16 @@ import _ from 'lodash';
 import Source, { MAIN_SOURCE_TYPES } from './Source.model.js';
 
 export default async function listSourcesRoute(req, res) {
+  const admin = req.session?.user?.admin;
+
+  const allSources = await Source.find().populate('story');
+
+  const viewableSources = admin
+    ? allSources
+    : allSources.filter(source => source.sharing && source.story.sharing);
+
   const sourceType = req.params.sourceType;
-  const sources = await getAllSourcesByType(sourceType);
+  const sources = await filterSourcesByType(sourceType, viewableSources);
 
   Source.sortByStory(sources);
 
@@ -20,9 +28,7 @@ export default async function listSourcesRoute(req, res) {
 
 ////////////////////
 
-async function getAllSourcesByType(sourceType) {
-  const sources = await Source.find().populate('story');
-
+async function filterSourcesByType(sourceType, sources) {
   if (!sourceType) {
     return sources;
   }

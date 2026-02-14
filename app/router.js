@@ -6,6 +6,7 @@ import citationRouter from './citation/citationRouter.js';
 import personRouter from './person/personRouter.js';
 import requireAdmin from './session/requireAdmin.js';
 import sessionRouter from './session/sessionRouter.js';
+import sourceRouter from './source/sourceRouter.js';
 
 import apiCreateRoutes from './api/index.js';
 import checklistCreateRoutes from './checklist/index.js';
@@ -33,13 +34,8 @@ import notationCreateRoutes from './notation/index.js';
 // Notation
 import listNotationsRoute from './notation/listNotations.route.js';
 
-// Person
 import personCreateRoutes from './person/index.js';
-
-// Source
 import sourceCreateRoutes from './source/index.js';
-import createSourceRoute from './source/createSource.route.js';
-import listSourcesRoute from './source/listSources.route.js';
 
 // Story
 import storyCreateRoutes from './story/index.js';
@@ -125,11 +121,7 @@ notationCreateRoutes(router);
 router.get('/api/notations', listNotationsRoute);
 
 personCreateRoutes(router);
-
 sourceCreateRoutes(router);
-router.post('/sources', createSourceRoute);
-router.get('/sources', listSourcesRoute);
-router.get('/sources/:sourceType', listSourcesRoute);
 
 storyCreateRoutes(router);
 router2.get('/stories', listStoriesRoute);
@@ -151,8 +143,11 @@ router.post('/users/:id/update', updateUserRoute);
 
 export default function registerRouters(app) {
   app.use('/session', sessionRouter);
+
   app.use('/citations', citationRouter);
   app.use('/people', personRouter);
+  app.use('/sources', sourceRouter);
+
   app.use('/', router2);
   app.use('/', requireAdmin, router);
 }

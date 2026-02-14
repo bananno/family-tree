@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { usePersonContext } from 'person/PersonContext';
+import AdminOnly from 'session/AdminOnly';
 import api from 'shared/api';
-import DevOnly from 'shared/DevOnly';
 import Divider from 'shared/Divider';
 import Button from 'shared/form/Button';
 import Input from 'shared/form/Input';
@@ -25,7 +25,7 @@ export default function PersonLinksPage() {
       ) : (
         <>
           <LinkList links={person.links} />
-          <DevOnly>
+          <AdminOnly>
             <Divider />
             <Button
               onClick={() => setEditing(true)}
@@ -33,13 +33,13 @@ export default function PersonLinksPage() {
             >
               Edit
             </Button>
-          </DevOnly>
+          </AdminOnly>
         </>
       )}
-      <DevOnly>
+      <AdminOnly>
         <NewOrEditLinkModal />
         <MissingItemsSection />
-      </DevOnly>
+      </AdminOnly>
     </>
   );
 }

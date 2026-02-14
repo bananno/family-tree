@@ -15,10 +15,14 @@ import TagList from 'tag/components/TagList';
 
 export default function SourceProfilePage() {
   const { sourceId } = useParams();
-  const { source, isLoading } = useSourceProfile({ sourceId });
+  const { source, loading } = useSourceProfile({ sourceId });
 
-  if (isLoading) {
+  if (loading) {
     return <div>loading...</div>;
+  }
+
+  if (!source) {
+    return <div>error or source not found</div>;
   }
 
   return (

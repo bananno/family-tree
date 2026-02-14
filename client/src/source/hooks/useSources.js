@@ -16,7 +16,7 @@ export default function useSources({ sourceType, filterId }) {
 
   async function fetchItems() {
     setLoading(true);
-    const { result, error } = await api(requestUrl, { catchPlease: true });
+    const { result, error } = await api(requestUrl);
     setItems(result.items || []);
     setLoading(false);
   }
