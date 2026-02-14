@@ -33,7 +33,7 @@ export default async function getStoryRoute(req, res) {
     })),
   };
 
-  res.send({ data });
+  res.send(data);
 }
 
 ////////////////////

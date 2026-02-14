@@ -126,7 +126,7 @@ sourceCreateRoutes(router);
 storyCreateRoutes(router);
 router2.get('/stories', listStoriesRoute);
 router.get('/stories-non-entry-sources', listStoriesNonEntrySourcesRoute);
-router.get('/api/stories/:id', getStoryRoute);
+router.get('/stories/:id', getStoryRoute);
 router.post('/stories', createStoryRoute);
 
 tagCreateRoutes(router);

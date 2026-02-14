@@ -1,16 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import AdminOnly from 'session/AdminOnly';
 import Checkmark from 'shared/Checkmark';
 import Filter from 'shared/Filter';
 import FormatLocation from 'shared/FormatLocation';
 import Spacer from 'shared/Spacer';
-import StoryLink from 'story/components/StoryLink';
 import useStories from 'story/hooks/useStories';
 
 const filterId = 'FILTER_CEMETERIES_PAGE';
 
-export default function CemeteriesPage() {
+export default function CemeteriesIndexPage() {
   const { stories, loading } = useStories({
     storyType: 'cemetery',
     filterId,
@@ -87,7 +87,7 @@ function CemeteryCard({ story }) {
       )}
       <div className="flex flex-col space-y-2 p-2">
         <h2 className="text-lg font-semibold text-stone-800 font-serif">
-          <StoryLink story={story} />
+          <Link to={`/stories/cemetery/${story.id}`}>{story.title}</Link>
         </h2>
         <p className="text-sm text-stone-500 mb-2">
           <FormatLocation location={story.location} v2 />

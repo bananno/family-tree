@@ -23,9 +23,10 @@ import PersonTimelinePage from 'person/pages/PersonTimelinePage';
 import PersonToDoPage from 'person/pages/PersonToDoPage';
 import { useEnvironment } from 'shared/EnvironmentContext';
 // Story/Source
-import CemeteriesPage from 'story/pages/CemeteriesPage';
 import SourceIndexPage from 'source/pages/SourceIndexPage';
 import SourceProfilePage from 'source/pages/SourceProfilePage';
+import CemeteriesIndexPage from 'story/pages/CemeteriesIndexPage';
+import CemeteryPage from 'story/pages/CemeteryPage';
 import StoriesIndexPage from 'story/pages/StoriesIndexPage';
 import StoriesNonEntrySourcesPage from 'story/pages/StoriesNonEntrySourcesPage';
 import StoryProfilePage from 'story/pages/StoryProfilePage';
@@ -80,7 +81,8 @@ export default function AppRoutes() {
 
         <Route path="stories" element={<StoriesIndexPage />} />
         <Route path="stories/:storyType" element={<StoriesIndexPage />} />
-        <Route path="cemeteries" element={<CemeteriesPage />} />
+        <Route path="cemeteries" element={<CemeteriesIndexPage />} />
+        <Route path="stories/cemetery/:id" element={<CemeteryPage />} />
         {isDevelopment && (
           <Route
             path="stories-non-entry-sources"

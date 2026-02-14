@@ -66,17 +66,15 @@ function FormatLocation({ location: loc, v2 = false, stateOnly = false }) {
   }
 
   // "Auburn Nemaha County NE United States" -> "Auburn, Nebraska"
-  if (v2) {
-    if (
-      loc.country === 'United States' &&
-      stateNames[loc.region1] &&
-      loc.city
-    ) {
-      return (
-        <>
-          {loc.city}, {stateNames[loc.region1]}
-        </>
-      );
+  if (v2 && loc.country === 'United States') {
+    const stateName = stateNames[loc.region1];
+
+    if (stateName && loc.city) {
+      return [loc.city, stateName].join(', ');
+    }
+
+    if (stateName && loc.region2) {
+      return [loc.region2, stateName].join(', ');
     }
   }
 
