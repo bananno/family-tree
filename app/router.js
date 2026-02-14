@@ -2,6 +2,7 @@ import express from 'express';
 
 import * as routerTools from './tools/routerTools.js';
 
+import personRouter from './person/personRouter.js';
 import requireAdmin from './session/requireAdmin.js';
 import sessionRouter from './session/sessionRouter.js';
 
@@ -33,20 +34,6 @@ import listNotationsRoute from './notation/listNotations.route.js';
 
 // Person
 import personCreateRoutes from './person/index.js';
-import listPeopleRoute from './person/listPeople.route.js';
-import createPersonRoute from './person/createPerson.route.js';
-import getPersonRoute from './person/getPerson.route.js';
-import getPersonChecklistRoute from './person/getPersonChecklist.route.js';
-import getPersonPhotosRoute from './person/getPersonPhotos.route.js';
-import getPersonTimelineRoute from './person/getPersonTimeline.route.js';
-import updatePersonRoute from './person/updatePerson.route.js';
-import updatePersonLinksRoute from './person/updatePersonLinks.route.js';
-
-// Person - Avatar
-import createPersonAvatarRoute from './person/avatar/createPersonAvatar.route.js';
-import deletePersonAvatarRoute from './person/avatar/deletePersonAvatar.route.js';
-import getPersonAvatarsRoute from './person/avatar/getPersonAvatars.route.js';
-import updatePersonAvatarRoute from './person/avatar/updatePersonAvatar.route.js';
 
 // Source
 import sourceCreateRoutes from './source/index.js';
@@ -137,23 +124,6 @@ notationCreateRoutes(router);
 router.get('/api/notations', listNotationsRoute);
 
 personCreateRoutes(router);
-router2.get('/people', listPeopleRoute);
-router.post('/people', createPersonRoute);
-router2.get('/people/:id', getPersonRoute);
-router.get('/people/:id/checklist', getPersonChecklistRoute);
-router2.get('/people/:id/photos', getPersonPhotosRoute);
-router2.get('/people/:id/timeline', getPersonTimelineRoute);
-router.post('/people/:id', updatePersonRoute);
-router.post('/people/:id/links', updatePersonLinksRoute);
-
-router.post(
-  '/people/:id/avatars',
-  uploadFileMiddleware,
-  createPersonAvatarRoute,
-);
-router.delete('/people/:id/avatars/:avatarId', deletePersonAvatarRoute);
-router.get('/people/:id/avatars', getPersonAvatarsRoute);
-router.patch('/people/:id/avatars', updatePersonAvatarRoute);
 
 sourceCreateRoutes(router);
 router.post('/sources', createSourceRoute);
@@ -180,6 +150,7 @@ router.post('/users/:id/update', updateUserRoute);
 
 export default function registerRouters(app) {
   app.use('/session', sessionRouter);
+  app.use('/people', personRouter);
   app.use('/', router2);
   app.use('/', requireAdmin, router);
 }

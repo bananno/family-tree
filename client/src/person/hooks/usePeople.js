@@ -34,7 +34,7 @@ export default function usePeople({ filterId }) {
     fetchPeople();
   }, [isDevelopment, isProduction]);
 
-  const allPeople = response.items || [];
+  const allPeople = response?.items || [];
 
   const filteredPeople = getFilteredList(
     filterId,
