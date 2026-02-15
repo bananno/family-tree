@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 
 import './app/models.js';
 
-import registerRouters from './app/router.js';
+import registerRouters from './app/routes.js';
 
 dotenv.config();
 
