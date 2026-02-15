@@ -96,6 +96,14 @@ schema.methods.genderText = function () {
   return [null, 'female', 'male', 'unknown'][this.gender];
 };
 
+// The details that are public for a person with "restricted" share level.
+schema.methods.restrictedData = function () {
+  return {
+    id: this.id,
+    name: this.shareName || 'Person',
+  };
+};
+
 // This should only include items that are required for displaying people in the list.
 // If more items are needed, it can be supplemented.
 // (TODO: should birthYear, deathYear, and living be removed here?)
@@ -107,10 +115,7 @@ schema.methods.toListApi = function (options = {}) {
       return null; // If they weren't filtered out before, the caller must filter them now.
     }
     if (this.shareLevel === PERSON_SHARE_LEVEL.RESTRICTED) {
-      return {
-        id: this.id,
-        name: this.shareName || 'Person',
-      };
+      return this.restrictedData();
     }
   }
 

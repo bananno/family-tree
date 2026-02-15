@@ -1,9 +1,12 @@
 import _ from 'lodash';
 import mongoose from 'mongoose';
 
+import PersonModel, { PERSON_SHARE_LEVEL } from './Person.model.js';
+
 const Event = mongoose.model('Event');
 const Notation = mongoose.model('Notation');
-const Person = mongoose.model('Person');
+
+const Person = PersonModel; // prefer PersonModel
 
 const populateAvatarUrl = {
   path: 'avatar',
@@ -12,6 +15,8 @@ const populateAvatarUrl = {
 };
 
 export default async function getPerson(req, res) {
+  const admin = req.session?.user?.admin;
+
   const personId = req.params.id;
 
   const person = await findPersonByValidId(personId)
@@ -22,7 +27,22 @@ export default async function getPerson(req, res) {
     .populate({ path: 'tags', select: 'title definition valueType values' });
 
   if (!person) {
-    return res.status(404).send();
+    return res.status(404).send('Person not found');
+  }
+
+  if (!admin) {
+    if (person.shareLevel === PERSON_SHARE_LEVEL.NONE) {
+      return res.status(403).send('Not authorized');
+    }
+
+    // TODO: A restricted person may show up in the family lists of non-restricted
+    // people, so should we show family lists on restricted person profile too?
+    if (person.shareLevel === PERSON_SHARE_LEVEL.RESTRICTED) {
+      return res.json({
+        ...person.restrictedData(),
+        private: true,
+      });
+    }
   }
 
   // The person is included in their own siblings list.
@@ -30,7 +50,7 @@ export default async function getPerson(req, res) {
     parents: { $in: person.parents },
   }).populateAvatar();
 
-  const ancestorTree = await buildTree(person);
+  const ancestorTree = await buildTree(person, admin);
 
   await populateBirthAndDeathEvents(person);
   await populateBirthAndDeathYears([
@@ -61,16 +81,10 @@ export default async function getPerson(req, res) {
     birth: mapBirthAndDeathEvent(person.birth),
     death: mapBirthAndDeathEvent(person.death),
     links: mapLinks(person.links),
-    parents: person.parents.map(person => person.toListApi()),
-    siblings: _.sortBy(
-      siblings.map(person => person.toListApi()),
-      'birthYear',
-    ),
-    spouses: person.spouses.map(person => person.toListApi()),
-    children: _.sortBy(
-      person.children.map(person => person.toListApi()),
-      'birthYear',
-    ),
+    parents: sortAndMapPeople(person.parents, null, admin),
+    siblings: sortAndMapPeople(siblings, 'birthYear', admin),
+    spouses: sortAndMapPeople(person.spouses, null, admin),
+    children: sortAndMapPeople(person.children, 'birthYear', admin),
     tags: mapTags(person.tags, person.tagValues),
     treeParents: ancestorTree.treeParents,
     gender: person.genderText(),
@@ -79,7 +93,7 @@ export default async function getPerson(req, res) {
       .join(' '),
   };
 
-  res.json({ person: data });
+  res.json(data);
 }
 
 ////////////////////
@@ -97,6 +111,16 @@ function mapLinks(links) {
     const text = arr.join(' ') || url;
     return { url, text };
   });
+}
+
+function sortAndMapPeople(people, sortBy, admin) {
+  // Sort (by birth year) even if the person's details will be restricted.
+  const sorted = sortBy ? _.sortBy(people, sortBy) : people;
+
+  // Eliminate unshared information. If a person is fully private, delete them.
+  return sorted
+    .map(person => person.toListApi({ restrict: !admin }))
+    .filter(Boolean);
 }
 
 function mapTags(tags, tagValues) {
@@ -161,12 +185,12 @@ function mapBirthAndDeathEvent(event) {
   };
 }
 
-async function buildTree(rootPerson) {
+async function buildTree(rootPerson, admin) {
   const allPeople = await Person.find({
     children: { $not: { $size: 0 } },
   })
     .populateAvatar()
-    .select('id name parents avatar gender');
+    .select('id name parents avatar gender shareLevel');
 
   const map = {};
 
@@ -191,7 +215,7 @@ async function buildTree(rootPerson) {
     }
 
     return {
-      ...nextPerson.toListApi(),
+      ...nextPerson.toListApi({ restrict: !admin }),
       treeParents,
     };
   }

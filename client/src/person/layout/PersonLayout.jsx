@@ -37,7 +37,10 @@ const allPersonViews = [
 ];
 
 function PersonOutlet() {
-  const { person, loading, notFound } = usePersonContext();
+  const { loading, notAuthorized, notFound, person } = usePersonContext();
+
+  const visiblePerson = person && !person.private;
+  const privatePerson = (person && person.private) || notAuthorized;
 
   const birthYear = person?.birth?.date?.year;
   const deathYear = person?.death?.date?.year || (person?.living && 'living');
@@ -58,11 +61,12 @@ function PersonOutlet() {
             </h2>
           )}
         </div>
-        {person && <PersonNavigation person={person} />}
+        {visiblePerson && <PersonNavigation person={person} />}
       </aside>
       <main className={classes.content}>
         {!person && loading && 'Loading...'}
-        {person && <Outlet />}
+        {privatePerson && <p>This page is private.</p>}
+        {visiblePerson && <Outlet />}
       </main>
     </div>
   );
