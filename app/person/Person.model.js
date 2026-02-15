@@ -100,10 +100,11 @@ schema.methods.genderText = function () {
 // If more items are needed, it can be supplemented.
 // (TODO: should birthYear, deathYear, and living be removed here?)
 schema.methods.toListApi = function (options = {}) {
+  // restrict is true when the current user is not an admin.
   if (options.restrict) {
     // If shareLevel was not populated, play it safe and assume NONE.
     if (!this.shareLevel || this.shareLevel === PERSON_SHARE_LEVEL.NONE) {
-      return null; // Raise error? TBD.
+      return null; // If they weren't filtered out before, the caller must filter them now.
     }
     if (this.shareLevel === PERSON_SHARE_LEVEL.RESTRICTED) {
       return {
