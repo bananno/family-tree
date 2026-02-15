@@ -1,7 +1,7 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { useFeaturedQuoteText } from 'misc/featured-quote/useFeaturedQuoteText';
+import LoginModal from 'session/LoginModal';
 import useSessionContext from 'session/useSessionContext';
 
 import layoutClasses from './Layout.module.scss';
@@ -14,6 +14,7 @@ export default function Layout({ children }) {
       <header className={layoutClasses.LayoutHeader}>
         <h1>Family Tree</h1>
         <span>{currentUser?.name}</span>
+        <LoginModal />
         <LayoutNavigation />
       </header>
       <main className={layoutClasses.LayoutContent1}>

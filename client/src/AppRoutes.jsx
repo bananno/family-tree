@@ -38,7 +38,7 @@ import TagIndexPage from 'tag/pages/TagIndexPage';
 import TagPage from 'tag/pages/TagPage';
 import TagLayout from 'tag/TagLayout';
 
-import AccountPage from './AccountPage';
+import AccountPage from './session/AccountPage';
 import HomePage from './HomePage';
 import PageNotFound from './PageNotFound';
 import ToDoPage from './ToDoPage';
