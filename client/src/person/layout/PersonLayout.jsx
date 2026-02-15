@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import partition from 'lodash/partition';
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
@@ -43,7 +44,7 @@ function PersonOutlet() {
 
   return (
     <div className={classes.PersonLayout}>
-      <aside className={classes.sidebar}>
+      <aside className={clsx(classes.sidebar, 'flex-shrink-0')}>
         <div className={classes.header}>
           <PersonAvatar person={person} />
           <h1>

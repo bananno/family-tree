@@ -11,6 +11,7 @@ const customRules = {
 
 const EXTERNAL_DEPENDENCIES = [
   '@react-oauth/google',
+  'clsx',
   'lodash',
   'lodash/partition',
   'react',
