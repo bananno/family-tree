@@ -9,6 +9,8 @@ import requireAdmin from './session/requireAdmin.js';
 import sessionRouter from './session/sessionRouter.js';
 import sourceRouter from './source/sourceRouter.js';
 import storyRouter from './story/storyRouter.js';
+import tagRouter from './tag/tagRouter.js';
+import userRouter from './user/userRouter.js';
 
 import apiCreateRoutes from './api/index.js';
 import checklistCreateRoutes from './checklist/index.js';
@@ -38,20 +40,7 @@ import listNotationsRoute from './notation/listNotations.route.js';
 import personCreateRoutes from './person/index.js';
 import sourceCreateRoutes from './source/index.js';
 import storyCreateRoutes from './story/index.js';
-
-// Tag
 import tagCreateRoutes from './tag/index.js';
-import createTagRoute from './tag/createTag.route.js';
-import getTagRoute from './tag/getTag.route.js';
-import deleteTagRoute from './tag/deleteTag.route.js';
-import listTagsRoute from './tag/listTags.route.js';
-import updateTagRoute from './tag/updateTag.route.js';
-import updateTagAttachmentsRoute from './tag/updateTagAttachments.route.js';
-
-// User
-import listUsersRoute from './user/listUsers.route.js';
-import createUserRoute from './user/createUser.route.js';
-import updateUserRoute from './user/updateUser.route.js';
 
 const router = express.Router();
 
@@ -106,18 +95,7 @@ router.get('/api/notations', listNotationsRoute);
 personCreateRoutes(router);
 sourceCreateRoutes(router);
 storyCreateRoutes(router);
-
 tagCreateRoutes(router);
-router.get('/tags', listTagsRoute);
-router.get('/tags/:id', getTagRoute);
-router.delete('/tags/:id', deleteTagRoute);
-router.post('/tags', createTagRoute);
-router.post('/tags/:id', updateTagRoute);
-router.post('/tag-attachments', updateTagAttachmentsRoute);
-
-router.get('/users', listUsersRoute);
-router.post('/users', createUserRoute);
-router.post('/users/:id/update', updateUserRoute);
 
 export default function registerRouters(app) {
   app.use('/session', sessionRouter);
@@ -127,6 +105,8 @@ export default function registerRouters(app) {
   app.use('/people', personRouter);
   app.use('/sources', sourceRouter);
   app.use('/stories', storyRouter);
+  app.use('/tags', requireAdmin, tagRouter);
+  app.use('/users', requireAdmin, userRouter);
 
   app.use('/', requireAdmin, router);
 }

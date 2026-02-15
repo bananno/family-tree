@@ -1,12 +1,15 @@
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
 import PersonLink from 'person/components/PersonLink';
+import useSessionContext from 'session/useSessionContext';
 import api from 'shared/api';
 import Button from 'shared/form/Button';
 
 import UserModal from './UserModal.jsx';
 
 export default function UsersIndexPage() {
+  const { currentUser } = useSessionContext();
   const [users, setUsers] = useState([]);
   const [unlinkedPeople, setUnlinkedPeople] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +18,7 @@ export default function UsersIndexPage() {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [currentUser]);
 
   async function fetchUsers() {
     const { result } = await api('/users', { catchPlease: true });
@@ -31,9 +34,12 @@ export default function UsersIndexPage() {
     setLoading(false);
   }
 
+  const headerClass = 'p-4 text-left border border-gray-300';
+  const cellClass = 'p-4 border border-gray-300';
+
   return (
     <>
-      <h1>Users Index Page</h1>
+      <h1 className="text-2xl font-bold">Users Index Page</h1>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       <UserModal
@@ -49,42 +55,48 @@ export default function UsersIndexPage() {
           unlinkedPeople={unlinkedPeople}
         />
       )}
-      <table border="1" cellPadding="5">
+      <table className="mt-4">
         <thead>
           <tr>
-            <th></th>
-            <th>name</th>
-            <th>email</th>
-            <th>first login</th>
-            <th>last login</th>
-            <th>person</th>
-            <th>access</th>
-            <th></th>
+            <th className={headerClass}></th>
+            <th className={headerClass}>name</th>
+            <th className={headerClass}>email</th>
+            <th className={headerClass}>first login</th>
+            <th className={headerClass}>last login</th>
+            <th className={headerClass}>person</th>
+            <th className={headerClass}>access</th>
+            <th className={headerClass}></th>
           </tr>
         </thead>
         <tbody>
           {users.map(user => (
             <tr key={user.id}>
-              <td>
+              <td className={clsx(cellClass, 'w-32 flex-shrink-0')}>
                 {user.ssoPicture && (
-                  <img src={user.ssoPicture} alt={user.name} width="50" />
+                  <img
+                    src={user.ssoPicture}
+                    alt={user.name}
+                    className="w-24 h-24 flex-shrink-0"
+                  />
                 )}
               </td>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>
+              <td className={cellClass}>{user.name}</td>
+              <td className={cellClass}>{user.email}</td>
+              <td className={cellClass}>
                 {user.firstLoginAt
                   ? new Date(user.firstLoginAt).toLocaleString()
                   : '--'}
               </td>
-              <td>
+              <td className={cellClass}>
                 {user.lastLoginAt
                   ? new Date(user.lastLoginAt).toLocaleString()
                   : '--'}
               </td>
-              <td>{user.person && <PersonLink person={user.person} />}</td>
-              <td>{user.admin && 'Admin'}</td>
-              <td>
+              <td className={cellClass}>
+                {user.person && <PersonLink person={user.person} />}
+              </td>
+              <td className={cellClass}>{user.admin && 'Admin'}</td>
+              <td className={cellClass}>
                 <Button text="Edit" onClick={() => setEditUser(user)} />
               </td>
             </tr>
