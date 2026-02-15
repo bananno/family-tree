@@ -1,20 +1,20 @@
+import clsx from 'clsx';
 import partition from 'lodash/partition';
 import { useEffect, useState } from 'react';
 
 import { useFeaturedQuotes } from 'misc/featured-quote/useFeaturedQuotes';
+import api from 'shared/api';
 import Button from 'shared/form/Button';
 import Input from 'shared/form/Input';
 import Modal from 'shared/Modal';
-
-const API_URL = 'http://localhost:9000';
 
 export default function FeaturedQuotesPage() {
   const { quotes, refetch } = useFeaturedQuotes();
   const [selectedQuote, setSelectedQuote] = useState(null);
 
   return (
-    <>
-      <h1>Featured Quotes</h1>
+    <div className="flex flex-col items-start space-y-4">
+      <h1 className="text-2xl font-bold">Featured Quotes</h1>
       <NewFeaturedQuoteModal refetch={refetch} />
       <FeaturedQuotesTable
         quotes={quotes}
@@ -25,7 +25,7 @@ export default function FeaturedQuotesPage() {
         refetch={refetch}
         clearSelection={() => setSelectedQuote(null)}
       />
-    </>
+    </div>
   );
 }
 
@@ -42,13 +42,9 @@ function EditQuoteModal({ quote, refetch, clearSelection }) {
 
   async function handleSubmit() {
     const body = { text, enabled };
-    const path = `${API_URL}/featured-quotes/${quote.id}`;
+    const path = `/featured-quotes/${quote.id}`;
 
-    await fetch(path, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
+    await api(path, { method: 'PUT', body });
 
     clearSelection();
     refetch();
@@ -76,27 +72,32 @@ function EditQuoteModal({ quote, refetch, clearSelection }) {
 function FeaturedQuotesTable({ quotes, setSelectedQuote }) {
   const [enabled, disabled] = partition(quotes, 'enabled');
 
+  const headerClass = 'p-4 text-left border border-gray-300 p-4';
+  const cellClass = 'p-4 border border-gray-300';
+
   return (
-    <table border="1">
+    <table className="mt-4">
       <thead>
         <tr>
-          <th>Quote</th>
-          <th>Created At</th>
-          <th>Edit</th>
+          <th className={headerClass}>Quote</th>
+          <th className={clsx(headerClass, 'min-w-40')}>Created At</th>
+          <th className={headerClass}>Edit</th>
         </tr>
       </thead>
       {[enabled, disabled].map((quotes, i) => (
         <tbody key={i}>
           {i > 0 && (
             <tr>
-              <th colSpan="3">Disabled</th>
+              <th colSpan="3" className="p-4 border border-gray-300">
+                Disabled
+              </th>
             </tr>
           )}
           {quotes.map(quote => (
             <tr key={quote.id}>
-              <td>{quote.text}</td>
-              <td>{quote.createdAt.slice(0, 10)}</td>
-              <td>
+              <td className={cellClass}>{quote.text}</td>
+              <td className={cellClass}>{quote.createdAt.slice(0, 10)}</td>
+              <td className={cellClass}>
                 <Button text="Edit" onClick={() => setSelectedQuote(quote)} />
               </td>
             </tr>
@@ -111,13 +112,9 @@ function NewFeaturedQuoteModal({ refetch }) {
   const [newQuote, setNewQuote] = useState('');
 
   async function handleSubmit() {
-    const body = { text: newQuote };
-    const path = `${API_URL}/featured-quotes`;
-
-    await fetch(path, {
+    await api('/featured-quotes', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+      body: { text: newQuote },
     });
 
     setNewQuote('');

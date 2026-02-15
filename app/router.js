@@ -4,6 +4,7 @@ import * as routerTools from './tools/routerTools.js';
 
 import citationRouter from './citation/citationRouter.js';
 import personRouter from './person/personRouter.js';
+import featuredQuoteRouter from './misc/featuredQuoteRouter.js';
 import requireAdmin from './session/requireAdmin.js';
 import sessionRouter from './session/sessionRouter.js';
 import sourceRouter from './source/sourceRouter.js';
@@ -24,7 +25,6 @@ import {
   createUploadedFileRoute,
   listUploadedFilesRoute,
 } from './file/uploadedFileRoutes.js';
-import * as featuredQuoteRoutes from './misc/featuredQuoteRoutes.js';
 import highlightCreateRoutes from './highlight/index.js';
 import imageCreateRoutes from './image/index.js';
 import placeCreateRoutes from './place/index.js';
@@ -54,7 +54,6 @@ import createUserRoute from './user/createUser.route.js';
 import updateUserRoute from './user/updateUser.route.js';
 
 const router = express.Router();
-const router2 = express.Router();
 
 router.use((req, res, next) => {
   res.renderOriginal = res.render;
@@ -92,17 +91,6 @@ router.get('/api/events', listEventsRoute);
 router.get('/export/full', exportFullDataRoute);
 router.get('/export/publish', exportPublishedDataRoute);
 
-router.get('/featured-quotes', featuredQuoteRoutes.listFeaturedQuotesRoute);
-router2.get(
-  '/featured-quotes-text',
-  featuredQuoteRoutes.listFeaturedQuotesTextRoute,
-);
-router.post('/featured-quotes', featuredQuoteRoutes.createFeaturedQuoteRoute);
-router.put(
-  '/featured-quotes/:id',
-  featuredQuoteRoutes.updateFeaturedQuoteRoute,
-);
-
 router.get('/files', listUploadedFilesRoute);
 router.post('/files', uploadFileMiddleware, createUploadedFileRoute);
 
@@ -135,10 +123,10 @@ export default function registerRouters(app) {
   app.use('/session', sessionRouter);
 
   app.use('/citations', citationRouter);
+  app.use('/featured-quotes', featuredQuoteRouter);
   app.use('/people', personRouter);
   app.use('/sources', sourceRouter);
   app.use('/stories', storyRouter);
 
-  app.use('/', router2);
   app.use('/', requireAdmin, router);
 }

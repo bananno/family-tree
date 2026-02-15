@@ -1,25 +1,24 @@
 import { useEffect, useState } from 'react';
 
-const API_URL = 'http://localhost:9000';
+import useSessionContext from 'session/useSessionContext';
+import api from 'shared/api';
 
 // Get the list of featured quotes for the featured quotes page.
 export function useFeaturedQuotes() {
+  const { currentUser } = useSessionContext();
   const [quotes, setQuotes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  function fetchQuotes() {
-    fetch(`${API_URL}/featured-quotes`)
-      .then(res => res.json())
-      .then(res => {
-        setQuotes(res.data);
-      })
-      .catch(err => {
-        console.log('ERROR', err.message);
-      });
+  async function fetchQuotes() {
+    setLoading(true);
+    const { result } = await api('/featured-quotes');
+    setQuotes(result?.items || []);
+    setLoading(false);
   }
 
   useEffect(() => {
     fetchQuotes();
-  }, []);
+  }, [currentUser]);
 
-  return { quotes, refetch: fetchQuotes };
+  return { quotes, loading, refetch: fetchQuotes };
 }
