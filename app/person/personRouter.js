@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { uploadFileMiddleware } from '../file/uploadedFileRoutes.js';
+import uploadFileMiddleware from '../file/uploadFileMiddleware.js';
 
 import requireAdmin from '../session/requireAdmin.js';
 

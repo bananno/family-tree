@@ -11,11 +11,7 @@ import listEventsRoute from './event/listEvents.route.js';
 
 import exportFullDataRoute from './export/exportFullData.route.js';
 import exportPublishedDataRoute from './export/exportPublishedData.route.js';
-import {
-  uploadFileMiddleware,
-  createUploadedFileRoute,
-  listUploadedFilesRoute,
-} from './file/uploadedFileRoutes.js';
+
 import highlightCreateRoutes from './highlight/index.js';
 import imageCreateRoutes from './image/index.js';
 import placeCreateRoutes from './place/index.js';
@@ -59,9 +55,6 @@ router.get('/api/events', listEventsRoute);
 
 router.get('/export/full', exportFullDataRoute);
 router.get('/export/publish', exportPublishedDataRoute);
-
-router.get('/files', listUploadedFilesRoute);
-router.post('/files', uploadFileMiddleware, createUploadedFileRoute);
 
 highlightCreateRoutes(router);
 imageCreateRoutes(router);

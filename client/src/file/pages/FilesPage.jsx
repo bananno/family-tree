@@ -1,16 +1,36 @@
 import React, { useEffect, useState } from 'react';
 
 import UploadFileForm from 'file/components/UploadFileForm';
-
-const API_URL = 'http://localhost:9000';
+import useSessionContext from 'session/useSessionContext';
+import api from 'shared/api';
 
 export default function FilesPage() {
-  const { files } = useFiles();
+  const { admin } = useSessionContext();
+  const [error, setError] = useState(null);
+  const [files, setFiles] = useState([]);
+
+  async function fetchFiles() {
+    const { error, result } = await api(`/files`);
+
+    setError(error);
+    setFiles(result?.items || []);
+  }
+
+  useEffect(() => {
+    fetchFiles();
+  }, [admin]);
+
+  if (!admin) {
+    return <p>This page is private.</p>;
+  }
 
   return (
-    <>
-      <h2>Files</h2>
+    <div className="flex flex-col gap-4">
+      <h2 className="text-3xl font-bold">Files</h2>
+      <h3 className="text-xl font-bold">new file form</h3>
       <UploadFileForm />
+      {error && <p className="text-red-500">{error}</p>}
+      <h3 className="text-xl font-bold">files</h3>
       <ul>
         {files.map(file => (
           <li key={file.id}>
@@ -26,24 +46,6 @@ export default function FilesPage() {
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
-}
-
-////////////////////
-
-function useFiles() {
-  const [files, setFiles] = useState([]);
-
-  async function fetchFiles() {
-    const response = await fetch(`${API_URL}/files`);
-    const data = await response.json();
-    setFiles(data);
-  }
-
-  useEffect(() => {
-    fetchFiles();
-  }, []);
-
-  return { files };
 }

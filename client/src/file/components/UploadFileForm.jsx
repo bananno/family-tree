@@ -42,12 +42,12 @@ export default function UploadFileForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>new file form</h3>
       <input
         type="file"
         onChange={handleSelectFile}
         accept="image/*"
         disabled={submitting}
+        className="border border-gray-300 rounded p-2"
       />
       {file && (
         <>
