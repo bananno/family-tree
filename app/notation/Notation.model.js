@@ -32,6 +32,12 @@ for (let methodName in staticMethods) {
 schema.methods.constants = () => constants;
 schema.statics.constants = () => constants;
 
+schema.statics.findBySafeId = function (id) {
+  return mongoose.Types.ObjectId.isValid(id)
+    ? this.findById(id)
+    : this.findById(null); // chainable
+};
+
 const Notation = mongoose.model('Notation', schema);
 
 export default Notation;

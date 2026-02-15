@@ -65,6 +65,7 @@ export function SessionProvider({ children }) {
   return (
     <SessionContext.Provider
       value={{
+        admin: currentUser?.admin,
         checkExistingSession,
         currentUser,
         logout,

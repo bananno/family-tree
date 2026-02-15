@@ -5,6 +5,7 @@ import * as routerTools from './tools/routerTools.js';
 import citationRouter from './citation/citationRouter.js';
 import personRouter from './person/personRouter.js';
 import featuredQuoteRouter from './misc/featuredQuoteRouter.js';
+import notationRouter from './notation/notationRouter.js';
 import requireAdmin from './session/requireAdmin.js';
 import sessionRouter from './session/sessionRouter.js';
 import sourceRouter from './source/sourceRouter.js';
@@ -12,7 +13,6 @@ import storyRouter from './story/storyRouter.js';
 import tagRouter from './tag/tagRouter.js';
 import userRouter from './user/userRouter.js';
 
-import apiCreateRoutes from './api/index.js';
 import checklistCreateRoutes from './checklist/index.js';
 import citationCreateRoutes from './citation/index.js';
 
@@ -33,10 +33,6 @@ import placeCreateRoutes from './place/index.js';
 import mapCreateRoutes from './map/index.js';
 import miscCreateRoutes from './misc/index.js';
 import notationCreateRoutes from './notation/index.js';
-
-// Notation
-import listNotationsRoute from './notation/listNotations.route.js';
-
 import personCreateRoutes from './person/index.js';
 import sourceCreateRoutes from './source/index.js';
 import storyCreateRoutes from './story/index.js';
@@ -70,7 +66,7 @@ router.get('/', (req, res) => {
 
 // RESOURCES
 
-apiCreateRoutes(router);
+// CreateRoutes = old EJS stuff to be migrated to API/registerRouters
 checklistCreateRoutes(router);
 citationCreateRoutes(router);
 
@@ -88,10 +84,7 @@ imageCreateRoutes(router);
 placeCreateRoutes(router);
 mapCreateRoutes(router);
 miscCreateRoutes(router);
-
 notationCreateRoutes(router);
-router.get('/api/notations', listNotationsRoute);
-
 personCreateRoutes(router);
 sourceCreateRoutes(router);
 storyCreateRoutes(router);
@@ -102,6 +95,7 @@ export default function registerRouters(app) {
 
   app.use('/citations', citationRouter);
   app.use('/featured-quotes', featuredQuoteRouter);
+  app.use('/notations', requireAdmin, notationRouter);
   app.use('/people', personRouter);
   app.use('/sources', sourceRouter);
   app.use('/stories', storyRouter);
