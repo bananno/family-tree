@@ -43,6 +43,16 @@ schema.statics.login = async function (payload) {
   return user;
 };
 
+schema.methods.toSession = function () {
+  return {
+    id: this.id,
+    admin: this.admin,
+    email: this.email,
+    name: this.name,
+    picture: this.ssoPicture,
+  };
+};
+
 const UserModel = mongoose.model('User', schema);
 
 export default UserModel;

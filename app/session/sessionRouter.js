@@ -9,7 +9,8 @@ const oauthClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.json({ user: req.session.user });
+  const sessionUser = req.session.user;
+  res.json({ user: sessionUser });
 });
 
 router.post('/authorize', async (req, res) => {
@@ -29,13 +30,7 @@ router.post('/authorize', async (req, res) => {
       return res.status(401).json({ success: false, error: 'Unauthorized' });
     }
 
-    req.session.user = {
-      id: user.id,
-      admin: user.admin,
-      email: user.email,
-      name: user.name,
-      picture: user.ssoPicture,
-    };
+    req.session.user = user.toSession();
 
     res.json({
       success: true,

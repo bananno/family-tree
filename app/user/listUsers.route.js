@@ -34,7 +34,7 @@ export default async function listUsersRoute(req, res) {
         'name',
         'ssoPicture',
       ]),
-      person: user.person.toListApi(),
+      person: user.person?.toListApi(),
     })),
     unlinkedPeople: unlinkedLivingPeople.map(person => ({
       ..._.pick(person, ['id', 'name']),
