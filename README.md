@@ -52,6 +52,8 @@ touch .env && touch client/.env
 ```
 
 ```sh
+NODE_ENV=production
+
 AWS_REGION=us-east-1
 
 # database
@@ -68,6 +70,9 @@ DEPLOYMENT_CLOUDFRONT_DISTRIBUTION_ID=<id>
 # sso
 GOOGLE_CLIENT_ID=value
 GOOGLE_CLIENT_SECRET=value
+
+# local development
+MOCK_LOGIN=true
 ```
 
 client env

@@ -11,6 +11,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import './app/models.js';
+import mockLogin from './app/tools/mockLogin.js';
 
 import registerRouters from './app/routes.js';
 
@@ -56,6 +57,7 @@ app.use(
     },
   }),
 );
+app.use(mockLogin);
 
 registerRouters(app);
 
