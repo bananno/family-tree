@@ -31,9 +31,12 @@ export default function FilesPage() {
       <UploadFileForm />
       {error && <p className="text-red-500">{error}</p>}
       <h3 className="text-xl font-bold">files</h3>
+      <p>
+        Number of items: {files.length}
+      </p>
       <ul>
         {files.map(file => (
-          <li key={file.id}>
+          <li key={file.id} className="border-t border-gray-300 py-4">
             {file.filename}
             <img
               src={file.url}
