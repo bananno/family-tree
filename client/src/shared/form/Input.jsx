@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React, { forwardRef } from 'react';
-
-import formClasses from './form.module.scss';
 
 export default forwardRef((props, ref) => {
   const {
@@ -29,7 +28,10 @@ export default forwardRef((props, ref) => {
         ref={ref}
         onChange={handleChange}
         placeholder={placeholder}
-        className={formClasses.Input}
+        className={clsx(
+          'w-[400px] h-[150px] border border-gray-300 rounded px-3 py-2',
+          'text-sm bg-white focus:outline-none focus:border-gray-500',
+        )}
         style={style}
         {...fieldRegister}
       />
@@ -43,7 +45,10 @@ export default forwardRef((props, ref) => {
       ref={ref}
       type="text"
       placeholder={placeholder}
-      className={formClasses.Input}
+      className={clsx(
+        'w-[400px] border border-gray-300 rounded px-3 py-2',
+        'text-sm bg-white focus:outline-none focus:border-gray-500',
+      )}
       style={style}
       {...fieldRegister}
     />

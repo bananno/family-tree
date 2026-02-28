@@ -1,7 +1,5 @@
 import React from 'react';
 
-import formClasses from './form.module.scss';
-
 export default function Select({
   disabled,
   register,
@@ -22,7 +20,7 @@ export default function Select({
 
   return (
     <select
-      className={formClasses.Select}
+      className="w-[400px] border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:border-gray-500"
       disabled={disabled}
       onChange={handleChange}
       value={value}
