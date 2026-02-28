@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-link: #72bbd6;
+  --color-link-hover: #3a9fbf;
+}
+
 * {
   box-sizing: border-box;
   font-family: 'Lucida Grande', Helvetica, Arial, sans-serif;

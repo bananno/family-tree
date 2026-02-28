@@ -12,6 +12,7 @@ import getPersonPhotosRoute from './getPersonPhotos.route.js';
 import getPersonTimelineRoute from './getPersonTimeline.route.js';
 import updatePersonRoute from './updatePerson.route.js';
 import updatePersonLinksRoute from './updatePersonLinks.route.js';
+import updatePersonRelationshipsRoute from './updatePersonRelationships.route.js';
 
 import createPersonAvatarRoute from './avatar/createPersonAvatar.route.js';
 import deletePersonAvatarRoute from './avatar/deletePersonAvatar.route.js';
@@ -33,6 +34,7 @@ router.post('/', createPersonRoute);
 router.get('/:id/checklist', getPersonChecklistRoute);
 router.post('/:id', updatePersonRoute);
 router.post('/:id/links', updatePersonLinksRoute);
+router.post('/:id/relationships', updatePersonRelationshipsRoute);
 router.post('/:id/avatars', uploadFileMiddleware, createPersonAvatarRoute);
 router.delete('/:id/avatars/:avatarId', deletePersonAvatarRoute);
 router.get('/:id/avatars', getPersonAvatarsRoute);

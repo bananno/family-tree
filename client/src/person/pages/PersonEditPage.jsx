@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import PersonRelationshipsEditor from 'person/components/PersonRelationshipsEditor';
 import { usePersonContext } from 'person/PersonContext';
 import api from 'shared/api';
 import Button from 'shared/form/Button';
 import ButtonSelector from 'shared/form/ButtonSelector';
 import FormSection from 'shared/form/FormSection';
 import Input from 'shared/form/Input';
-import Select from 'shared/form/Select';
 
 export default function PersonEditPage() {
   const { person, refetch } = usePersonContext();
@@ -67,62 +67,65 @@ export default function PersonEditPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg py-2">
-      <FormSection label="full name">
-        <Input name="name" register={register} rules={{ required: true }} />
-        {errors.name && (
-          <div className="text-red-600 text-sm mt-1">{errors.name.type}</div>
-        )}
-      </FormSection>
-      <FormSection label="custom ID">
-        <Input name="customId" register={register} />
-      </FormSection>
-      <FormSection label="share level">
-        <ButtonSelector
-          value={watch('shareLevel')}
-          onChange={val => setValue('shareLevel', val)}
-          options={[
-            { value: '0', label: 'none' },
-            { value: '1', label: 'restricted' },
-            { value: '2', label: 'everything' },
-          ]}
-        />
-      </FormSection>
-      {shareRestricted && (
-        <FormSection label="shared name">
-          <Input name="shareName" register={register} />
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg py-2">
+        <FormSection label="full name">
+          <Input name="name" register={register} rules={{ required: true }} />
+          {errors.name && (
+            <div className="text-red-600 text-sm mt-1">{errors.name.type}</div>
+          )}
         </FormSection>
-      )}
-      <FormSection label="gender">
-        <ButtonSelector
-          value={watch('gender')}
-          onChange={val => setValue('gender', val)}
-          options={[
-            { value: '', label: 'no selection' },
-            { value: 'female', label: 'female' },
-            { value: 'male', label: 'male' },
-            { value: 'unknown', label: 'unknown' },
-          ]}
-        />
-      </FormSection>
-      <FormSection label="living">
-        <ButtonSelector
-          value={watch('living')}
-          onChange={val => setValue('living', val)}
-          options={[
-            { value: 'true', label: 'true' },
-            { value: 'false', label: 'false' },
-          ]}
-        />
-      </FormSection>
-      {submitError && (
-        <div className="text-red-600 text-sm mb-3">
-          {submitError.message || 'An error occurred while saving.'}
-        </div>
-      )}
-      <Button type="submit" disabled={!isValid}>
-        Save
-      </Button>
-    </form>
+        <FormSection label="custom ID">
+          <Input name="customId" register={register} />
+        </FormSection>
+        <FormSection label="share level">
+          <ButtonSelector
+            value={watch('shareLevel')}
+            onChange={val => setValue('shareLevel', val)}
+            options={[
+              { value: '0', label: 'none' },
+              { value: '1', label: 'restricted' },
+              { value: '2', label: 'everything' },
+            ]}
+          />
+        </FormSection>
+        {shareRestricted && (
+          <FormSection label="shared name">
+            <Input name="shareName" register={register} />
+          </FormSection>
+        )}
+        <FormSection label="gender">
+          <ButtonSelector
+            value={watch('gender')}
+            onChange={val => setValue('gender', val)}
+            options={[
+              { value: '', label: 'no selection' },
+              { value: 'female', label: 'female' },
+              { value: 'male', label: 'male' },
+              { value: 'unknown', label: 'unknown' },
+            ]}
+          />
+        </FormSection>
+        <FormSection label="living">
+          <ButtonSelector
+            value={watch('living')}
+            onChange={val => setValue('living', val)}
+            options={[
+              { value: 'true', label: 'true' },
+              { value: 'false', label: 'false' },
+            ]}
+          />
+        </FormSection>
+        {submitError && (
+          <div className="text-red-600 text-sm mb-3">
+            {submitError.message || 'An error occurred while saving.'}
+          </div>
+        )}
+        <Button type="submit" disabled={!isValid}>
+          Save
+        </Button>
+      </form>
+      <PersonRelationshipsEditor />
+    </>
   );
 }
