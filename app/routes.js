@@ -9,6 +9,7 @@ import sessionRouter from './session/sessionRouter.js';
 import sourceRouter from './source/sourceRouter.js';
 import storyRouter from './story/storyRouter.js';
 import tagRouter from './tag/tagRouter.js';
+import topicRouter from './topic/topicRouter.js';
 import userRouter from './user/userRouter.js';
 
 export default function registerRouters(app) {
@@ -22,6 +23,7 @@ export default function registerRouters(app) {
   app.use('/sources', sourceRouter);
   app.use('/stories', storyRouter);
   app.use('/tags', requireAdmin, tagRouter);
+  app.use('/topics', topicRouter);
   app.use('/users', requireAdmin, userRouter);
 
   app.use('/', requireAdmin, ejsRouter);

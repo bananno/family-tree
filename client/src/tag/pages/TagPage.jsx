@@ -8,7 +8,7 @@ import SourceList from 'source/components/SourceList';
 import StoriesList from 'story/components/StoriesList';
 import TagDetails from 'tag/components/TagDetails';
 import TagList from 'tag/components/TagList';
-import TagNumberOfChildrenPage from 'tag/pages/TagNumberOfChildrenPage';
+import NumberOfChildrenPage from 'tag/special/NumberOfChildrenPage';
 import { useTagContext } from 'tag/TagContext';
 
 export default function TagPage() {
@@ -16,7 +16,7 @@ export default function TagPage() {
 
   // TO DO: handle this in the routes later
   if (tag.title === 'number of children') {
-    return <TagNumberOfChildrenPage />;
+    return <NumberOfChildrenPage />;
   }
 
   return (

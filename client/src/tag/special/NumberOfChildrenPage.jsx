@@ -4,7 +4,7 @@ import PersonList from 'person/components/PersonList';
 import TagDetails from 'tag/components/TagDetails';
 import { useTagContext } from 'tag/TagContext';
 
-export default function TagNumberOfChildrenPage() {
+export default function NumberOfChildrenPage() {
   const { tag } = useTagContext();
 
   const personLists = {

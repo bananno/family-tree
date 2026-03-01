@@ -36,11 +36,12 @@ import StoryMainPage from 'story/pages/StoryMainPage';
 // Tag
 import TagIndexPage from 'tag/pages/TagIndexPage';
 import TagPage from 'tag/pages/TagPage';
+import CauseOfDeathPage from 'tag/special/CauseOfDeathPage';
 import TagLayout from 'tag/TagLayout';
 
-import AccountPage from './session/AccountPage';
 import HomePage from './HomePage';
 import PageNotFound from './PageNotFound';
+import AccountPage from './session/AccountPage';
 import ToDoPage from './ToDoPage';
 import UsersIndexPage from './user/UsersIndexPage';
 import UtilitiesPage from './UtilitiesPage';
@@ -126,6 +127,7 @@ export default function AppRoutes() {
             <Route path="/tag/:id" element={<TagLayout />}>
               <Route index element={<TagPage />} />
             </Route>
+            <Route path="cause-of-death" element={<CauseOfDeathPage />} />
 
             <Route path="checklists" element={<ChecklistIndexPage />} />
             <Route
