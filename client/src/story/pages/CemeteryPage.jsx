@@ -42,6 +42,8 @@ export default function CemeteryPage() {
             </p>
             <AdminOnly>
               <p>
+                <Link to={`/story/${story.id}`}>generic story view</Link>
+                <span className="mx-2">|</span>
                 <Link to={`http://localhost:9000/story/${story.id}`}>
                   ejs app
                 </Link>

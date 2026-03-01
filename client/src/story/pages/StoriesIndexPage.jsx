@@ -40,6 +40,9 @@ export default function StoriesIndexPage() {
               stories with non-entry sources
             </Link>
           </li>
+          <li>
+            <Link to="/cemeteries">cemeteries: alternate index</Link>
+          </li>
         </BulletList>
       </DevOnly>
       <Spacer />

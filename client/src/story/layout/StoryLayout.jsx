@@ -22,7 +22,7 @@ function StoryOutlet() {
   }
 
   if (notAuthorized) {
-    return <h1>You are not authorized to view this page</h1>;
+    return <h1>This page is private</h1>;
   }
 
   if (loading && !story) {
@@ -44,6 +44,12 @@ function StoryOutlet() {
         <Link to={`/story/${story.id}/entries`}>entry details</Link>
         <span>|</span>
         <Link to={`http://localhost:9000/story/${story.id}`}>old site</Link>
+        {story.type === 'cemetery' && (
+          <>
+            <span>|</span>
+            <Link to={`/stories/cemetery/${story.id}`}>alternate view</Link>
+          </>
+        )}
       </div>
       <hr className="my-4" />
       <Outlet />
