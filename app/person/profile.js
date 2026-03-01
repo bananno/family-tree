@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { getEditTableRows, sorting } from '../import.js';
+import { sorting } from '../import.js';
 
 import childrenRoute from './profile.children.js';
 import descendantsRoute from './profile.descendants.js';
@@ -13,7 +13,6 @@ const Person = mongoose.model('Person');
 
 export default {
   show: personSummary,
-  edit: personEdit,
   other: {
     children: childrenRoute,
     connection: personConnection,
@@ -64,27 +63,6 @@ async function personSummary(req, res) {
     events,
     findPersonInList: Person.findInList,
     people,
-  });
-}
-
-async function personEdit(req, res) {
-  req.person = await Person.findById(req.personId)
-    .populate('parents')
-    .populate('spouses')
-    .populate('children')
-    .populate('tags');
-
-  const unlinkedPeople = await req.person.getNonRelatives();
-
-  const tableRows = await getEditTableRows({
-    item: req.person,
-    rootPath: req.rootPath,
-    unlinkedPeople,
-  });
-
-  res.renderPersonProfile('edit', {
-    tableRows,
-    itemName: 'person',
   });
 }
 

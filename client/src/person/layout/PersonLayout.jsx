@@ -52,7 +52,7 @@ function PersonOutlet() {
           <PersonAvatar person={person} />
           <h1>
             {notFound && 'Person Not Found'}
-            {loading && <>&nbsp;</>}
+            {loading && !person?.name && <>&nbsp;</>}
             {person?.name}
           </h1>
           {(birthYear || deathYear) && (

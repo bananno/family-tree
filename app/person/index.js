@@ -17,7 +17,6 @@ export default function createRoutes(router) {
     router,
     routes: {
       show: personProfileRoutes.show,
-      edit: personProfileRoutes.edit,
       delete: null,
       other: personProfileRoutes.other,
     },

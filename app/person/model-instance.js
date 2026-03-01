@@ -55,14 +55,6 @@ methods.getNonRelatives = async function() {
   return people;
 }
 
-methods.addRelative = async function(relationship, relative) {
-  const updatedPerson = {
-    [relationship]: (this[relationship] || []).concat(relative)
-  };
-
-  await this.update(updatedPerson);
-};
-
 methods.getLifeEvents = async function() {
   const Event = mongoose.model('Event');
   const events = await Event.find({people: this}).populate('people');
@@ -359,65 +351,6 @@ methods.populateWikiTreeSources = async function() {
   this.wikiTreeSources = sources.filter(source => source.citeText.length);
 
   Source.sortByStory(this.wikiTreeSources);
-};
-
-// RELATIVES - data modifications
-
-methods.attachParent = async function(relativeId) {
-  const relative = await mongoose.model('Person').findById(relativeId);
-  await _attachRelative(this, 'parents', relative);
-  await _attachRelative(relative, 'children', this);
-};
-
-methods.detachParent = async function(relativeId) {
-  const relative = await mongoose.model('Person').findById(relativeId);
-  await _detachRelative(this, 'parents', relative);
-  await _detachRelative(relative, 'children', this);
-};
-
-methods.attachSpouse = async function(relativeId) {
-  const relative = await mongoose.model('Person').findById(relativeId);
-  await _attachRelative(this, 'spouses', relative);
-  await _attachRelative(relative, 'spouses', this);
-};
-
-methods.detachSpouse = async function(relativeId) {
-  const relative = await mongoose.model('Person').findById(relativeId);
-  await _detachRelative(this, 'spouses', relative);
-  await _detachRelative(relative, 'spouses', this);
-};
-
-methods.attachChild = async function(relativeId) {
-  const relative = await mongoose.model('Person').findById(relativeId);
-  await _attachRelative(this, 'children', relative);
-  await _attachRelative(relative, 'parents', this);
-};
-
-methods.detachChild = async function(relativeId) {
-  const relative = await mongoose.model('Person').findById(relativeId);
-  await _detachRelative(this, 'children', relative);
-  await _detachRelative(relative, 'parents', this);
-};
-
-async function _attachRelative(person, relationship, relative) {
-  const updatedPerson = {
-    [relationship]: person[relationship].concat(relative)
-  };
-
-  await person.updateSelf(updatedPerson);
-}
-
-async function _detachRelative(person, relationship, relative) {
-  const updatedPerson = {
-    [relationship]: mongoose.model('Person')
-      .removeFromList(person[relationship], relative)
-  };
-
-  await person.updateSelf(updatedPerson);
-}
-
-methods.updateSelf = function(updatedObj) {
-  return mongoose.model('Person').updateOne({_id: this._id}, updatedObj);
 };
 
 export default methods;

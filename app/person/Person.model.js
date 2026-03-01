@@ -33,6 +33,12 @@ const schema = new mongoose.Schema(
       ref: 'PersonAvatar',
       type: mongoose.Schema.Types.ObjectId,
     },
+    children: [
+      {
+        ref: 'Person',
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
     customId: String,
     gender: {
       type: Number,
@@ -49,6 +55,12 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    parents: [
+      {
+        ref: 'Person',
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
     shareLevel: {
       type: Number,
       default: PERSON_SHARE_LEVEL.NONE,
@@ -56,6 +68,12 @@ const schema = new mongoose.Schema(
       required: true,
     },
     shareName: String,
+    spouses: [
+      {
+        ref: 'Person',
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
     tags: [
       {
         ref: 'Tag',
