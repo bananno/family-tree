@@ -18,15 +18,14 @@ export default function TagAttachments({ modelName, subject, refetch }) {
   const [editIndex, setEditIndex] = useState(null);
 
   async function sendTagUpdate(action, tagChangeDetails, onComplete) {
-    await api('tag-attachments', {
+    await api('tags/tag-attachments', {
       method: 'POST',
-      body: JSON.stringify({
+      body: {
         modelName,
         id: subject.id,
         action,
         ...tagChangeDetails,
-      }),
-      catchPlease: true,
+      },
     });
 
     onComplete?.();

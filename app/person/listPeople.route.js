@@ -15,7 +15,7 @@ export default async function listPeople(req, res) {
 async function getItemsForAdmin() {
   const people = await PersonModel.find()
     .populateAvatar()
-    .select('name gender avatar');
+    .select('name gender avatar shareLevel');
 
   return people.map(person => ({
     ...person.toListApi(),

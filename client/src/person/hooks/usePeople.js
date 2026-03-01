@@ -1,57 +1,31 @@
-import { pick } from 'lodash';
 import { useState, useEffect } from 'react';
 
-// import staticPeople from 'db/people.json';
+import useSessionContext from 'session/useSessionContext';
 import api from 'shared/api';
 import { useFilter } from 'shared/FilterContext';
-import useEnvironment from 'shared/useEnvironment';
 
 export default function usePeople({ filterId }) {
-  const { isDevelopment, isProduction } = useEnvironment();
-  const [response, setResponse] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { currentUser } = useSessionContext();
+  const [people, setPeople] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { getFilteredList } = useFilter();
 
-  function getStaticPeople() {
-    setResponse(getStaticResponse());
-    setIsLoading(false);
+  async function fetchPeople() {
+    setLoading(true);
+    const { result } = await api('people');
+    setPeople(result?.items || []);
+    setLoading(false);
   }
-
-  async function fetchFullPeople() {
-    setIsLoading(true);
-    const { result } = await api('people', { catchPlease: true });
-    setResponse(result);
-    setIsLoading(false);
-  }
-
-  const fetchPeople = isProduction
-    ? getStaticPeople
-    : isDevelopment
-      ? fetchFullPeople
-      : () => {};
 
   useEffect(() => {
     fetchPeople();
-  }, [isDevelopment, isProduction]);
-
-  const allPeople = response?.items || [];
+  }, [currentUser]);
 
   const filteredPeople = getFilteredList(
     filterId,
-    allPeople,
+    people,
     person => person.name,
   );
 
-  return { people: filteredPeople, isLoading };
-}
-
-////////////////////
-
-function getStaticResponse() {
-  return { items: [] };
-  return {
-    items: staticPeople.map(person =>
-      pick(person, ['id', 'name', 'avatarUrl', 'gender']),
-    ),
-  };
+  return { people: filteredPeople, loading };
 }

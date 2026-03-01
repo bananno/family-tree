@@ -46,12 +46,17 @@ export default function CauseOfDeathPage() {
       <AdminOnly>
         <HeaderLinks />
       </AdminOnly>
-      <Section title="Accident" description="">
+      <Section title="Accidents" description="">
         <PersonList people={sections.accident} getNote={getNote} />
       </Section>
-      <Section title="Disease" description="">
+      <Section title="Disease & Illness" description="">
         {/* TODO: link to disease topic page */}
-        <PersonList people={sections.disease} getNote={getNote} />
+        <PersonList
+          people={[...sections.disease].sort((a, b) =>
+            (a.note || '').localeCompare(b.note || ''),
+          )}
+          getNote={getNote}
+        />
       </Section>
       <Section title="War" description="">
         {/* TODO: link to war topic page */}

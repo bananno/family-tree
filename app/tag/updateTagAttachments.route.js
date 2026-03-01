@@ -3,16 +3,18 @@ import mongoose from 'mongoose';
 import TagModel from './Tag.model.js';
 
 export default async function updateTagAttachmentsRoute(req, res) {
+  console.log('====== updateTagAttachmentsRoute ======');
   let subject;
 
-  try {
-    const subjectModel = req.body.modelName; // e.g., "Person"
-    const subjectId = req.body.id;
+  const subjectModel = req.body.modelName; // e.g., "Person"
+  const subjectId = req.body.id;
 
+  try {
     const Model = mongoose.model(subjectModel);
     subject = await Model.findById(subjectId).populate('tags');
   } catch (error) {
     res.status(500).json({ error: error.message });
+    return;
   }
 
   if (!subject) {

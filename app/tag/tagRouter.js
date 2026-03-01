@@ -15,7 +15,7 @@ router.get('/', listTagsRoute);
 router.get('/:id', getTagRoute);
 router.delete('/:id', deleteTagRoute);
 router.post('', createTagRoute);
+router.post('/tag-attachments', updateTagAttachmentsRoute); // must be before /:id
 router.post('/:id', updateTagRoute);
-router.post('/tag-attachments', updateTagAttachmentsRoute);
 
 export default router;

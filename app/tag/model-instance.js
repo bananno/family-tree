@@ -72,13 +72,13 @@ methods.getEditTableSettings = function(tagValue) {
 
 // Get the list of model names that can use this tag to display in the UI.
 // If not restricted, return an empty list.
-methods.getRestrictedModelList = function() {
+methods.getRestrictedModelList = function () {
   if (!this.restrictModels) {
     return [];
   }
-  return TAGABLE_MODELS
-    .filter(({name}) => this.isModelAllowed(name))
-    .map(({plural}) => plural);
+  return TAGABLE_MODELS.filter(({ name }) => this.isModelAllowed(name)).map(
+    ({ name }) => name,
+  );
 };
 
 // Attach lists of all the items that use this tag (and also the items that don't use

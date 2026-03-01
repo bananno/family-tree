@@ -12,13 +12,13 @@ import useTags from 'tag/hooks/useTags';
 import { useTagContext } from 'tag/TagContext';
 
 const TAGABLE_MODEL_NAMES = [
-  'events',
-  'images',
-  'notations',
-  'people',
-  'sources',
-  'stories',
-  'tags',
+  'Event',
+  'Image',
+  'Notation',
+  'Person',
+  'Source',
+  'Story',
+  'Tag',
 ];
 
 export default function EditTagModal() {
