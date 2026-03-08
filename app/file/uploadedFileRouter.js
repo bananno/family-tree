@@ -1,5 +1,6 @@
 import express from 'express';
 
+import listUploadedFilesRoute from './listUploadedFiles.route.js';
 import UploadedFileModel from './UploadedFile.model.js';
 import uploadFileMiddleware from './uploadFileMiddleware.js';
 
@@ -24,10 +25,4 @@ async function createUploadedFileRoute(req, res) {
   await uploadedFile.executeUpload(file);
 
   res.send();
-}
-
-async function listUploadedFilesRoute(req, res) {
-  const uploadedFiles = await UploadedFileModel.find().sort({ createdAt: -1 });
-  const items = uploadedFiles.map(file => file.toApi());
-  res.json({ items });
 }
