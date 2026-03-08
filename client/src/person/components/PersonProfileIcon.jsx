@@ -16,7 +16,7 @@ export default function PersonProfileIcon({
   style = {},
 }) {
   const classNames = [
-    'inline-block align-middle bg-cover border-solid border-gray-400',
+    'inline-block align-middle object-cover bg-cover border-solid border-gray-400',
   ];
 
   if (large) {

@@ -19,6 +19,6 @@ export default async function getPersonAvatarsRoute(req, res) {
     .populate('file');
 
   res.json({
-    data: avatars.map(avatar => avatar.toApi(selectedAvatar)),
+    items: avatars.map(avatar => avatar.toApi(selectedAvatar)),
   });
 }

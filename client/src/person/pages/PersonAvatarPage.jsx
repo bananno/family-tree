@@ -17,46 +17,49 @@ export default function PersonAvatarPage() {
     ...avatars.filter(avatar => !avatar.selected),
   ];
 
+  console.log('avatars', avatars);
+
   return (
     <>
-      <h2>Avatar</h2>
+      <h2 className="text-2xl font-bold">Avatar</h2>
       <Spacer />
-      <h3>Add new</h3>
-      <p>Must be square. Reduce to 300x300 px.</p>
+      <h3 className="text-lg font-semibold mb-1">Add new</h3>
+      <p className="text-sm text-gray-500 mb-3">
+        Must be square. Reduce to 300x300 px.
+      </p>
       <UploadAvatarForm refetch={refetch} />
       <Spacer />
-      {avatarsSorted.map((avatar, i) => (
-        <div
-          key={avatar.id}
-          style={{
-            display: 'flex',
-            margin: '5px',
-            padding: '5px',
-            borderColor: deletingAvatar === avatar.id ? 'red' : 'gray',
-            borderStyle: 'solid',
-            borderWidth: avatar.selected ? '2px' : '1px',
-          }}
-        >
-          <div style={{ flex: 2 }}>
-            <PersonProfileIcon src={avatar.url} large square />
-            <PersonProfileIcon src={avatar.url} medium />
+      <div className="flex flex-col gap-3">
+        {avatarsSorted.map(avatar => (
+          <div
+            key={avatar.id}
+            className={`flex items-center gap-4 rounded-lg border p-3 ${
+              avatar.selected
+                ? 'border-2 border-[var(--color-link)] bg-sky-50'
+                : deletingAvatar?.id === avatar.id
+                  ? 'border-red-400'
+                  : 'border-gray-300'
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <PersonProfileIcon src={avatar.url} large square />
+              <PersonProfileIcon src={avatar.url} medium />
+            </div>
+            <div className="flex flex-col gap-2 ml-auto">
+              {avatar.selected && (
+                <span className="text-sm font-semibold text-[var(--color-link)]">
+                  Selected
+                </span>
+              )}
+              <SelectOrDeselectAvatarButton
+                avatar={avatar}
+                refetchAvatars={refetch}
+              />
+              <Button onClick={() => setDeletingAvatar(avatar)}>Delete</Button>
+            </div>
           </div>
-          <div style={{ flex: 1 }}>
-            {avatar.selected ? (
-              <>
-                <b>selected</b>
-                <br />
-              </>
-            ) : null}
-            <SelectOrDeselectAvatarButton
-              avatar={avatar}
-              refetchAvatars={refetch}
-            />
-            <br />
-            <Button onClick={() => setDeletingAvatar(avatar)}>Delete</Button>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
       {deletingAvatar !== null && (
         <DeleteAvatarModal
           avatar={deletingAvatar}
@@ -77,9 +80,8 @@ function usePersonAvatars() {
 
   async function fetchAvatars() {
     setLoading(true);
-    const response = await api(`people/${personId}/avatars`);
-    const json = await response.json();
-    setAvatars(json.data);
+    const { result } = await api(`people/${personId}/avatars`);
+    setAvatars(result.items);
     setLoading(false);
   }
 
