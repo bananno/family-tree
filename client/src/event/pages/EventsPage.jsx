@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import EventsTable from 'event/components/EventsTable';
 import useEvents from 'event/hooks/useEvents';
+import { ROUTE_PATHS } from 'routePaths';
 import BulletList from 'shared/BulletList';
 import Filter from 'shared/Filter';
 import Spacer from 'shared/Spacer';
@@ -33,7 +34,7 @@ export default function EventsPage() {
       <BulletList>
         {eventCategories.map(({ to, title }) => (
           <li key={to}>
-            <Link to={`/events/${to}`}>{title}</Link>
+            <Link to={ROUTE_PATHS.eventIndexCategory(to)}>{title}</Link>
           </li>
         ))}
       </BulletList>

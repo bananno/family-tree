@@ -39,6 +39,7 @@ import TagPage from 'tag/pages/TagPage';
 import CauseOfDeathPage from 'tag/special/CauseOfDeathPage';
 import TagLayout from 'tag/TagLayout';
 
+import { ROUTE_PATHS } from './routePaths';
 import HomePage from './HomePage';
 import PageNotFound from './PageNotFound';
 import AccountPage from './session/AccountPage';
@@ -109,8 +110,11 @@ export default function AppRoutes() {
 
         {isDevelopment && (
           <>
-            <Route path="events" element={<EventsPage />} />
-            <Route path="events/:category" element={<EventsPage />} />
+            <Route path={ROUTE_PATHS.eventIndex} element={<EventsPage />} />
+            <Route
+              path={ROUTE_PATHS.eventIndexCategory(':category')}
+              element={<EventsPage />}
+            />
 
             <Route path="files" element={<FilesPage />} />
 

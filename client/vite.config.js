@@ -20,6 +20,7 @@ export default defineConfig({
       misc: path.resolve(__dirname, './src/misc'),
       notation: path.resolve(__dirname, './src/notation'),
       person: path.resolve(__dirname, './src/person'),
+      routePaths: path.resolve(__dirname, './src/routePaths'),
       session: path.resolve(__dirname, './src/session'),
       shared: path.resolve(__dirname, './src/shared'),
       source: path.resolve(__dirname, './src/source'),

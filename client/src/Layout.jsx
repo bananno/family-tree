@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { useFeaturedQuoteText } from 'misc/featured-quote/useFeaturedQuoteText';
+import { ROUTE_PATHS } from 'routePaths';
 import LoginModal from 'session/LoginModal';
 import useSessionContext from 'session/useSessionContext';
 
@@ -48,7 +49,7 @@ function LayoutNavigation() {
         <LayoutNavItem path="/people" text="People" isPublic />
         <LayoutNavItem path="/stories" text="Stories" isPublic />
         <LayoutNavItem path="/sources" text="Sources" />
-        <LayoutNavItem path="/events" text="Events" />
+        <LayoutNavItem path={ROUTE_PATHS.eventIndex} text="Events" />
         <LayoutNavItem path="/notations" text="Notations" />
         <LayoutNavItem path="/map" text="Map" />
         <LayoutNavItem path="/checklists" text="Checklists" />
