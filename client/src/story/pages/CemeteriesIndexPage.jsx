@@ -33,7 +33,12 @@ export default function CemeteriesIndexPage() {
   return (
     <>
       <h1 className="text-3xl font-bold">Cemeteries</h1>
-      <Spacer />
+      <AdminOnly>
+        <p>
+          <Link to="/cemeteries">special cemetery view</Link> |{' '}
+          <Link to="/stories/cemetery">generic story index for cemeteries</Link>
+        </p>
+      </AdminOnly>
       <Spacer />
       <Filter filterId={filterId} />
       {loading && stories.length === 0 && <p>loading...</p>}

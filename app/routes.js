@@ -1,5 +1,6 @@
 import ejsRouter from './ejsRouter.js';
 import citationRouter from './citation/citationRouter.js';
+import eventRouter from './event/eventRouter.js';
 import uploadedFileRouter from './file/uploadedFileRouter.js';
 import personRouter from './person/personRouter.js';
 import featuredQuoteRouter from './misc/featuredQuoteRouter.js';
@@ -16,6 +17,7 @@ export default function registerRouters(app) {
   app.use('/session', sessionRouter);
 
   app.use('/citations', citationRouter);
+  app.use('/events', requireAdmin, eventRouter);
   app.use('/featured-quotes', featuredQuoteRouter);
   app.use('/files', requireAdmin, uploadedFileRouter);
   app.use('/notations', requireAdmin, notationRouter);

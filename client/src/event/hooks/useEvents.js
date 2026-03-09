@@ -17,9 +17,8 @@ export default function useEvents({ category, filterId }) {
     setLoading(true);
     try {
       const queryParams = category === 'all' ? '' : `?category=${category}`;
-      const res = await api(`api/events${queryParams}`);
-      const json = await res.json();
-      setEvents(json.events);
+      const { result } = await api(`events${queryParams}`);
+      setEvents(result.items);
     } catch (err) {
       console.error(err);
     } finally {

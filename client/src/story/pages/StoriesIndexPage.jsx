@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
+import AdminOnly from 'session/AdminOnly';
 import BulletList from 'shared/BulletList';
-import DevOnly from 'shared/DevOnly';
 import Filter from 'shared/Filter';
 import Spacer from 'shared/Spacer';
 import NewStoryModal from 'story/components/NewStoryModal';
@@ -17,7 +17,17 @@ export default function StoriesIndexPage() {
 
   return (
     <>
-      <h1>Stories</h1>
+      <h1 className="text-3xl font-bold">Stories</h1>
+      {storyType === 'cemetery' && (
+        <AdminOnly>
+          <p>
+            <Link to="/cemeteries">special cemetery view</Link> |{' '}
+            <Link to="/stories/cemetery">
+              generic story index for cemeteries
+            </Link>
+          </p>
+        </AdminOnly>
+      )}
       {loading && <p>loading...</p>}
       <NewStoryModal types={types} />
       <Spacer />
@@ -32,7 +42,7 @@ export default function StoriesIndexPage() {
           </li>
         ))}
       </BulletList>
-      <DevOnly>
+      <AdminOnly>
         <p>Other story views:</p>
         <BulletList>
           <li>
@@ -44,7 +54,7 @@ export default function StoriesIndexPage() {
             <Link to="/cemeteries">cemeteries: alternate index</Link>
           </li>
         </BulletList>
-      </DevOnly>
+      </AdminOnly>
       <Spacer />
       <Filter filterId={filterId} />
       <StoriesTable stories={stories} />

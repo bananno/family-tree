@@ -79,8 +79,8 @@ export default async function listEventsRoute(req, res) {
     .sort({ 'date.year': 1, 'date.month': 1, 'date.day': 1 })
     .select('title date location people notes tags tagValues');
 
-  res.send({
-    events: events.map(event => ({
+  res.json({
+    items: events.map(event => ({
       ..._.pick(event, ['id', 'title', 'location', 'notes']),
       date: {
         year: event.date.year || 0,
