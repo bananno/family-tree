@@ -42,8 +42,7 @@ export default function PersonRelationshipsEditor() {
   }
 
   return (
-    <div className="mt-8">
-      <h3 className="text-lg font-semibold mb-4">Relationships</h3>
+    <div>
       {RELATIONSHIP_TYPES.map(({ key, label }) => (
         <PersonListEditor
           key={key}

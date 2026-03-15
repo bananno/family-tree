@@ -10,6 +10,23 @@ import FormSection from 'shared/form/FormSection';
 import Input from 'shared/form/Input';
 
 export default function PersonEditPage() {
+  return (
+    <>
+      <div className="border border-gray-300 rounded-lg p-4 max-w-lg mt-2">
+        <h3 className="text-lg font-semibold mb-4">Basics</h3>
+        <PersonMainEditForm />
+      </div>
+      <div className="border border-gray-300 rounded-lg p-4 max-w-lg mt-4">
+        <h3 className="text-lg font-semibold mb-4">Relationships</h3>
+        <PersonRelationshipsEditor />
+      </div>
+    </>
+  );
+}
+
+////////////////////
+
+function PersonMainEditForm() {
   const { person, refetch } = usePersonContext();
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState(null);
@@ -32,8 +49,6 @@ export default function PersonEditPage() {
     watch,
   } = useForm({ mode: 'onChange', defaultValues });
 
-  // In case the changed data does not match what was submitted for some reason,
-  // the form is reset to the most current person data.
   useEffect(() => {
     reset(defaultValues);
   }, [person, reset]);
@@ -67,65 +82,62 @@ export default function PersonEditPage() {
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg py-2">
-        <FormSection label="full name">
-          <Input name="name" register={register} rules={{ required: true }} />
-          {errors.name && (
-            <div className="text-red-600 text-sm mt-1">{errors.name.type}</div>
-          )}
-        </FormSection>
-        <FormSection label="custom ID">
-          <Input name="customId" register={register} />
-        </FormSection>
-        <FormSection label="share level">
-          <ButtonSelector
-            value={watch('shareLevel')}
-            onChange={val => setValue('shareLevel', val)}
-            options={[
-              { value: '0', label: 'none' },
-              { value: '1', label: 'restricted' },
-              { value: '2', label: 'everything' },
-            ]}
-          />
-        </FormSection>
-        {shareRestricted && (
-          <FormSection label="shared name">
-            <Input name="shareName" register={register} />
-          </FormSection>
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg py-2">
+      <FormSection label="full name">
+        <Input name="name" register={register} rules={{ required: true }} />
+        {errors.name && (
+          <div className="text-red-600 text-sm mt-1">{errors.name.type}</div>
         )}
-        <FormSection label="gender">
-          <ButtonSelector
-            value={watch('gender')}
-            onChange={val => setValue('gender', val)}
-            options={[
-              { value: '', label: 'no selection' },
-              { value: 'female', label: 'female' },
-              { value: 'male', label: 'male' },
-              { value: 'unknown', label: 'unknown' },
-            ]}
-          />
+      </FormSection>
+      <FormSection label="custom ID">
+        <Input name="customId" register={register} />
+      </FormSection>
+      <FormSection label="share level">
+        <ButtonSelector
+          value={watch('shareLevel')}
+          onChange={val => setValue('shareLevel', val)}
+          options={[
+            { value: '0', label: 'none' },
+            { value: '1', label: 'restricted' },
+            { value: '2', label: 'everything' },
+          ]}
+        />
+      </FormSection>
+      {shareRestricted && (
+        <FormSection label="shared name">
+          <Input name="shareName" register={register} />
         </FormSection>
-        <FormSection label="living">
-          <ButtonSelector
-            value={watch('living')}
-            onChange={val => setValue('living', val)}
-            options={[
-              { value: 'true', label: 'true' },
-              { value: 'false', label: 'false' },
-            ]}
-          />
-        </FormSection>
-        {submitError && (
-          <div className="text-red-600 text-sm mb-3">
-            {submitError.message || 'An error occurred while saving.'}
-          </div>
-        )}
-        <Button type="submit" disabled={!isValid}>
-          Save
-        </Button>
-      </form>
-      <PersonRelationshipsEditor />
-    </>
+      )}
+      <FormSection label="gender">
+        <ButtonSelector
+          value={watch('gender')}
+          onChange={val => setValue('gender', val)}
+          options={[
+            { value: '', label: 'no selection' },
+            { value: 'female', label: 'female' },
+            { value: 'male', label: 'male' },
+            { value: 'unknown', label: 'unknown' },
+          ]}
+        />
+      </FormSection>
+      <FormSection label="living">
+        <ButtonSelector
+          value={watch('living')}
+          onChange={val => setValue('living', val)}
+          options={[
+            { value: 'true', label: 'true' },
+            { value: 'false', label: 'false' },
+          ]}
+        />
+      </FormSection>
+      {submitError && (
+        <div className="text-red-600 text-sm mb-3">
+          {submitError.message || 'An error occurred while saving.'}
+        </div>
+      )}
+      <Button type="submit" disabled={!isValid}>
+        Save
+      </Button>
+    </form>
   );
 }
