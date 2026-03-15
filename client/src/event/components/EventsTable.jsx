@@ -13,7 +13,7 @@ export default function EventsTable({ events }) {
         <tr>
           <th>title</th>
           <th>date</th>
-          <th colSpan="2">location</th>
+          <th colSpan="3">location</th>
           <th>people</th>
           <th>notes / tags</th>
         </tr>
@@ -35,6 +35,7 @@ export default function EventsTable({ events }) {
             <td>
               <FormatCountry location={event.location} />
             </td>
+            <td>{event.location.notes}</td>
             <td style={{ minWidth: '200px' }}>
               <PersonList people={event.people} smallText />
             </td>

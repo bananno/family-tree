@@ -6,19 +6,21 @@ import PersonList from 'person/components/PersonList';
 import PersonTree from 'person/components/PersonTree';
 import { usePersonContext } from 'person/PersonContext';
 import { ROUTE_PATHS } from 'routePaths';
-import AdminOnly from 'session/AdminOnly';
+import useSessionContext from 'session/useSessionContext';
+import FormatDate from 'shared/FormatDate';
+import FormatLocation from 'shared/FormatLocation';
 
 export default function PersonSummaryPage() {
   const { person } = usePersonContext();
 
   return (
     <>
-      {person.profileSummary && <p>{person.profileSummary}</p>}
-      <BirthAndDeath title="birth" event={person.birth} person={person} />
-      <BirthAndDeath title="death" event={person.death} person={person} />
+      {person.profileSummary && <p className="m-2">{person.profileSummary}</p>}
+      <PersonBirthEventCard person={person} />
+      <PersonDeathEventCard person={person} />
       <PersonImmediateFamily />
-      <hr />
-      <h3>tree</h3>
+      <hr className="my-4" />
+      <h3 className="text-lg font-semibold mb-2">tree</h3>
       <PersonTree person={person} />
     </>
   );
@@ -26,46 +28,80 @@ export default function PersonSummaryPage() {
 
 ////////////////////
 
-function BirthAndDeath({ event, person, title }) {
+function PersonBirthEventCard() {
+  const { person } = usePersonContext();
+  const event = person.birth;
+
   if (!event) {
-    return (
-      <div
-        style={{
-          border: '1px solid gray',
-          padding: '10px',
-          marginBottom: '10px',
-        }}
-      >
-        <h3>{title} - unknown</h3>
-      </div>
-    );
+    return <VitalEventCard title="birth - unknown" />;
   }
+
+  return <VitalEventCard event={event} />;
+}
+
+function PersonDeathEventCard() {
+  const { person } = usePersonContext();
+
+  if (person.living) {
+    return <VitalEventCard title="living" />;
+  }
+
+  const event = person.death;
+
+  if (!event) {
+    return <VitalEventCard title="death - unknown" />;
+  }
+
+  // If birth and death are the same event, e.g. "birth and death",
+  // only show birth and skip death.
+  if (event.id === person.birth?.id) {
+    return null;
+  }
+
+  return <VitalEventCard event={event} />;
+}
+
+function VitalEventCard({ title, event }) {
+  const { admin } = useSessionContext();
+
   return (
-    <div
-      style={{
-        border: '1px solid gray',
-        padding: '10px',
-        marginBottom: '10px',
-      }}
-    >
-      <h3>
-        {event.title}{' '}
-        <AdminOnly>
-          <Link to={ROUTE_PATHS.eventDetail(event.id)}>(event)</Link>
-        </AdminOnly>
-      </h3>
-      {event.date.year}-{event.date.month}-{event.date.day} /{' '}
-      {event.date.display}
-      <br />
-      {[
-        event.location.city,
-        event.location.region2,
-        event.location.region1,
-        event.location.country !== 'United States' && event.location.country,
-      ]
-        .filter(Boolean)
-        .join(', ')}
-      {event.people.length > 1 && <PersonList people={event.people} />}
+    <div className="rounded-lg bg-white shadow-sm border border-gray-200 p-4 mb-3">
+      {title && (
+        <h3 className="text-lg font-semibold text-gray-500 italic">{title}</h3>
+      )}
+      {event && (
+        <div className="space-y-1">
+          <h3 className="text-lg font-semibold">
+            {admin ? (
+              <Link to={ROUTE_PATHS.eventDetail(event.id)}>{event.title}</Link>
+            ) : (
+              event.title
+            )}
+          </h3>
+          {event.date && (
+            <p className="text-gray-600">
+              <FormatDate date={event.date} />
+            </p>
+          )}
+          {event.location && (
+            <p className="text-gray-600">
+              <FormatLocation location={event.location} variant="full" />
+            </p>
+          )}
+          {event.notes && (
+            <div className="mt-2 bg-gray-100 rounded p-2 text-gray-700">
+              {event.notes.split('\n').map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
+            </div>
+          )}
+          {event.people.length > 1 && (
+            <div className="mt-2">
+              <PersonList people={event.people} />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -17,10 +17,15 @@ const MONTH_NAME = [
 ];
 
 // TO DO: finish making this
-function FormatDate({ date }) {
+export default function FormatDate({ date }) {
   if (!date) {
     return null;
   }
+
+  if (date.display) {
+    return date.display;
+  }
+
   if (!date.month && !date.day && !date.year) {
     return null;
   }
@@ -43,5 +48,3 @@ function FormatDate({ date }) {
     </>
   );
 }
-
-export default FormatDate;

@@ -44,7 +44,7 @@ schema.query.populatePeople = function () {
         select: 'key',
       },
     },
-    select: 'name avatar',
+    select: 'name avatar gender',
   });
 };
 
