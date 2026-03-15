@@ -52,7 +52,11 @@ export default async function getPerson(req, res) {
 
   const ancestorTree = await buildTree(person, admin);
 
-  await populateBirthAndDeathEvents(person);
+  const birthAndDeathEvents = await Event.find({
+    people: person,
+    title: { $in: ['birth', 'death', 'birth and death'] },
+  }).populatePeople();
+
   await populateBirthAndDeathYears([
     person,
     ...siblings,
@@ -78,8 +82,8 @@ export default async function getPerson(req, res) {
       'customId',
     ]),
     avatarUrl: person.avatarUrl() || person.profileImage,
-    birth: mapBirthAndDeathEvent(person.birth),
-    death: mapBirthAndDeathEvent(person.death),
+    birth: mapBirthAndDeathEvent('birth', admin, birthAndDeathEvents),
+    death: mapBirthAndDeathEvent('death', admin, birthAndDeathEvents),
     links: mapLinks(person.links),
     parents: sortAndMapPeople(person.parents, null, admin),
     siblings: sortAndMapPeople(siblings, 'birthYear', admin),
@@ -134,20 +138,6 @@ function mapTags(tags, tagValues) {
   }));
 }
 
-async function populateBirthAndDeathEvents(person) {
-  const Event = mongoose.model('Event');
-
-  person.birth = await Event.findOne({
-    people: person,
-    title: { $in: ['birth', 'birth and death'] },
-  }).populatePeople();
-
-  person.death = await Event.findOne({
-    people: person,
-    title: { $in: ['death', 'birth and death'] },
-  }).populatePeople();
-}
-
 async function populateBirthAndDeathYears(people) {
   const events = await Event.find({
     people: { $in: people },
@@ -175,14 +165,21 @@ async function populateBirthAndDeathYears(people) {
   });
 }
 
-function mapBirthAndDeathEvent(event) {
+// Given either "birth" or "death" and a list of birth-and-death events
+// for the person, find the relevant event and return the details for profile display.
+// Events may be shared by multiple people, e.g., a twin birth.
+function mapBirthAndDeathEvent(eventType, admin, events) {
+  const event = events.find(
+    event => event.title === eventType || event.title === 'birth and death',
+  );
+
   if (!event) {
     return null;
   }
-  return {
-    ..._.pick(event, ['title', 'date', 'location', 'notes']),
-    people: event.people.map(person => person.toListApi()),
-  };
+
+  // Events don't have their own share level. The "restrict" option could affect people
+  // in the list if there is a multiple-person event.
+  return event.toApi({ restrict: !admin });
 }
 
 async function buildTree(rootPerson, admin) {

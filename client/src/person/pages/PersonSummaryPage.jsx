@@ -5,6 +5,8 @@ import PersonImmediateFamily from 'person/components/PersonImmediateFamily';
 import PersonList from 'person/components/PersonList';
 import PersonTree from 'person/components/PersonTree';
 import { usePersonContext } from 'person/PersonContext';
+import { ROUTE_PATHS } from 'routePaths';
+import AdminOnly from 'session/AdminOnly';
 
 export default function PersonSummaryPage() {
   const { person } = usePersonContext();
@@ -47,7 +49,10 @@ function BirthAndDeath({ event, person, title }) {
       }}
     >
       <h3>
-        <Link to={`/event/${event.title}`}>{event.title}</Link>
+        {event.title}{' '}
+        <AdminOnly>
+          <Link to={ROUTE_PATHS.eventDetail(event.id)}>(event)</Link>
+        </AdminOnly>
       </h3>
       {event.date.year}-{event.date.month}-{event.date.day} /{' '}
       {event.date.display}

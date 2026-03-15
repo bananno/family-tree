@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import mongoose from 'mongoose';
 
 import createModel from '../tools/createModel.js';
@@ -53,6 +54,20 @@ schema.methods.getMappedTags = function () {
     title: tag.title,
     value: this.tagValues[i],
   }));
+};
+
+// Returns the details needed to display or edit the event in a non-event-centric view.
+// Options: { restrict: boolean } - if true, only include info that should be visible to non-admins.
+// Events don't have their own share level.
+schema.methods.toApi = function (options = {}) {
+  const restrict = options.restrict || false;
+
+  return {
+    ..._.pick(this, ['id', 'title', 'date', 'location', 'notes']),
+    people: this.people
+      .map(person => person.toListApi({ restrict }))
+      .filter(Boolean),
+  };
 };
 
 const Event = mongoose.model('Event', schema);
