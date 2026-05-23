@@ -1,5 +1,3 @@
-import React from 'react';
-
 import PersonList from 'person/components/PersonList';
 import { usePersonContext } from 'person/PersonContext';
 import globalClasses from 'shared/global.module.scss';
@@ -88,7 +86,7 @@ function PersonFamilySection({ title, people, showCurrent }) {
   }
   return (
     <>
-      <h3 style={{ margin: '20px 0' }}>{title}</h3>
+      <h2 className="text-xl font-bold py-4">{title}</h2>
       <PersonList
         people={people}
         showDates

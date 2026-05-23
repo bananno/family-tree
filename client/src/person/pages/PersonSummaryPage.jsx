@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import PersonImmediateFamily from 'person/components/PersonImmediateFamily';
@@ -16,8 +15,11 @@ export default function PersonSummaryPage() {
   return (
     <>
       {person.profileSummary && <p className="m-2">{person.profileSummary}</p>}
-      <PersonBirthEventCard person={person} />
-      <PersonDeathEventCard person={person} />
+      <h2 className="text-xl font-bold py-4">life</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <PersonBirthEventCard person={person} />
+        <PersonDeathEventCard person={person} />
+      </div>
       <PersonImmediateFamily />
       <hr className="my-4" />
       <h3 className="text-lg font-semibold mb-2">tree</h3>
@@ -65,7 +67,7 @@ function VitalEventCard({ title, event }) {
   const { admin } = useSessionContext();
 
   return (
-    <div className="rounded-lg bg-white shadow-sm border border-gray-200 p-4 mb-3">
+    <div className="rounded-lg bg-white shadow-sm border border-gray-200 p-4">
       {title && (
         <h3 className="text-lg font-semibold text-gray-500 italic">{title}</h3>
       )}

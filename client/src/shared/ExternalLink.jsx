@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function ExternalLink({ to, children }) {
@@ -6,6 +5,7 @@ export default function ExternalLink({ to, children }) {
     <Link to={to} target="_blank">
       {children}{' '}
       <svg
+        className="inline align-baseline"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         width="1em"

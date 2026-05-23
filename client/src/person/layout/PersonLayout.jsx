@@ -1,6 +1,4 @@
-import clsx from 'clsx';
 import partition from 'lodash/partition';
-import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import PersonProfileIcon from 'person/components/PersonProfileIcon';
@@ -9,8 +7,6 @@ import AdminOnly from 'session/AdminOnly';
 import DevOnly from 'shared/DevOnly';
 import ExternalLink from 'shared/ExternalLink';
 import useEnvironment from 'shared/useEnvironment';
-
-import classes from './PersonLayout.module.scss';
 
 export default function PersonLayout() {
   return (
@@ -46,24 +42,24 @@ function PersonOutlet() {
   const deathYear = person?.death?.date?.year || (person?.living && 'living');
 
   return (
-    <div className={classes.PersonLayout}>
-      <aside className={clsx(classes.sidebar, 'flex-shrink-0')}>
-        <div className={classes.header}>
-          <PersonAvatar person={person} />
-          <h1>
+    <div className="p-5">
+      <header className="flex items-center gap-4 mb-4">
+        <PersonAvatar person={person} />
+        <div>
+          <h1 className="text-2xl font-bold">
             {notFound && 'Person Not Found'}
             {loading && !person?.name && <>&nbsp;</>}
             {person?.name}
           </h1>
           {(birthYear || deathYear) && (
-            <h2>
+            <p className="text-gray-500">
               {birthYear || '?'} - {deathYear}
-            </h2>
+            </p>
           )}
         </div>
-        {visiblePerson && <PersonNavigation person={person} />}
-      </aside>
-      <main className={classes.content}>
+      </header>
+      {visiblePerson && <PersonNavigation person={person} />}
+      <main className="max-w-full">
         {!person && loading && 'Loading...'}
         {privatePerson && <p>This page is private.</p>}
         {visiblePerson && <Outlet />}
@@ -87,8 +83,8 @@ function PersonNavigation({ person }) {
   );
 
   return (
-    <nav className={classes.navigation}>
-      <ul>
+    <nav className="mb-4">
+      <ul className="flex flex-wrap gap-4 list-none p-0">
         {publicPersonViews.map(view => (
           <li key={view.path}>
             <LinkOrText to={`${basePath}/${view.path}`} pathname={pathname}>
@@ -97,7 +93,7 @@ function PersonNavigation({ person }) {
           </li>
         ))}
         <AdminOnly>
-          <hr />
+          <li>|</li>
           {adminPersonViews.map(view => (
             <li key={view.path}>
               <LinkOrText to={`${basePath}/${view.path}`} pathname={pathname}>
@@ -133,7 +129,6 @@ function PersonNavigation({ person }) {
 }
 
 function LinkOrText({ pathname, to, children }) {
-  // Ignore trailing slashes when comparing paths.
   if (pathname.replace(/\/$/, '') === to.replace(/\/$/, '')) {
     return <>{children}</>;
   }
