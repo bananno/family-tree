@@ -15,7 +15,11 @@ export default async function listStoriesRoute(req, res) {
 
   const stories = await Story.find(filter).populate('images');
 
-  const types = await Story.distinct('type');
+  const allTypes = await Story.distinct('type');
+
+  const createableTypes = (
+    await Story.distinct('type', { kind: { $exists: false } })
+  ).sort();
 
   const sourceCountsMap = await getNumberOfSourcesPerStoryId();
 
@@ -35,7 +39,7 @@ export default async function listStoriesRoute(req, res) {
     sourceCount: sourceCountsMap[story.id] || 0,
   }));
 
-  res.send({ items, types });
+  res.send({ items, allTypes, createableTypes });
 }
 
 ////////////////////

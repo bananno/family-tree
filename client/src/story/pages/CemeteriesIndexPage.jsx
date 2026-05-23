@@ -6,6 +6,7 @@ import Checkmark from 'shared/Checkmark';
 import Filter from 'shared/Filter';
 import FormatLocation from 'shared/FormatLocation';
 import Spacer from 'shared/Spacer';
+import NewStoryModal from 'story/components/NewStoryModal';
 import useStories from 'story/hooks/useStories';
 
 const filterId = 'FILTER_CEMETERIES_PAGE';
@@ -42,6 +43,8 @@ export default function CemeteriesIndexPage() {
       <Spacer />
       <Filter filterId={filterId} />
       {loading && stories.length === 0 && <p>loading...</p>}
+      <Spacer />
+      <NewStoryModal kind="cemetery" />
       <Spacer />
       {groupKeys.map(groupKey => {
         const groupItems = stateGroups[groupKey];

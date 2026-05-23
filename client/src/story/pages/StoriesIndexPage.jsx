@@ -13,7 +13,10 @@ const filterId = 'FILTER_STORY_INDEX_PAGE';
 
 export default function StoriesIndexPage() {
   const { storyType } = useParams();
-  const { stories, types, loading } = useStories({ storyType, filterId });
+  const { stories, allTypes, createableTypes, loading } = useStories({
+    storyType,
+    filterId,
+  });
 
   return (
     <>
@@ -29,14 +32,14 @@ export default function StoriesIndexPage() {
         </AdminOnly>
       )}
       {loading && <p>loading...</p>}
-      <NewStoryModal types={types} />
+      <NewStoryModal types={createableTypes} />
       <Spacer />
       <p>Filter by type:</p>
       <BulletList>
         <li>
           <Link to="/stories">all</Link>
         </li>
-        {types.map(storyType => (
+        {allTypes.map(storyType => (
           <li key={storyType}>
             <Link to={`/stories/${storyType}`}>{storyType}</Link>
           </li>

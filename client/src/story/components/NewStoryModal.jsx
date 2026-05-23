@@ -8,7 +8,7 @@ import Input from 'shared/form/Input';
 import LocationInput from 'shared/form/LocationInput';
 import Modal from 'shared/Modal';
 
-export default function NewStoryModal({ types = [] }) {
+export default function NewStoryModal({ kind, types = [] }) {
   const [title, setTitle] = useState('');
   const [type, setType] = useState(null);
   const [otherType, setOtherType] = useState('other');
@@ -28,17 +28,29 @@ export default function NewStoryModal({ types = [] }) {
     });
   }
 
-  const effectiveType = type?.value === 'other' ? otherType : type?.value || '';
+  const modalLabel = kind === 'cemetery' ? 'New cemetery' : 'New story';
+  const editableType = !kind;
+
+  const effectiveType =
+    kind === 'cemetery'
+      ? 'cemetery'
+      : type?.value === 'other'
+        ? otherType
+        : type?.value || '';
 
   const valid = title.trim().length > 0 && effectiveType.trim().length > 0;
 
   const showDateFields =
-    type && ['book', 'event', 'document', 'other'].includes(type.value);
-  const showLocationFields = type && !['artifact', 'book'].includes(type.value);
+    effectiveType &&
+    ['book', 'event', 'document', 'other'].includes(effectiveType);
+
+  const showLocationFields =
+    effectiveType && !['artifact', 'book'].includes(effectiveType);
 
   async function handleConfirm() {
     const requestBody = {
       title,
+      kind,
       type: effectiveType,
       date: showDateFields ? date : undefined,
       location: showLocationFields ? loc : undefined,
@@ -61,19 +73,21 @@ export default function NewStoryModal({ types = [] }) {
 
   return (
     <Modal
-      title="New story"
-      triggerButtonLabel="New story"
+      title={modalLabel}
+      triggerButtonLabel={modalLabel}
       onConfirm={handleConfirm}
       confirmEnabled={valid}
     >
-      <FormSection label="type">
-        <ReactSelect
-          options={typeOptions}
-          value={type}
-          onChange={setType}
-          closeMenuOnSelect
-        />
-      </FormSection>
+      {editableType && (
+        <FormSection label="type">
+          <ReactSelect
+            options={typeOptions}
+            value={type}
+            onChange={setType}
+            closeMenuOnSelect
+          />
+        </FormSection>
+      )}
       {type?.value === 'other' && (
         <FormSection label="other type">
           <Input

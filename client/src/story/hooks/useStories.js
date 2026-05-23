@@ -30,7 +30,8 @@ export default function useStories({ storyType, filterId }) {
   }
 
   const allItems = response.items || [];
-  const types = response.types || [];
+  const allTypes = response.allTypes || [];
+  const createableTypes = response.createableTypes || [];
 
   const filteredItems = getFilteredList(
     filterId,
@@ -38,7 +39,7 @@ export default function useStories({ storyType, filterId }) {
     item => item.filterText,
   );
 
-  return { stories: filteredItems, types, loading };
+  return { stories: filteredItems, allTypes, createableTypes, loading };
 }
 
 ////////////////////
