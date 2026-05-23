@@ -23,7 +23,7 @@ import PersonTimelinePage from 'person/pages/PersonTimelinePage';
 import PersonToDoPage from 'person/pages/PersonToDoPage';
 // Misc
 import { ROUTE_PATHS } from 'routePaths';
-import { useEnvironment } from 'shared/EnvironmentContext';
+import useSessionContext from 'session/useSessionContext';
 // Story/Source
 import SourceIndexPage from 'source/pages/SourceIndexPage';
 import SourceProfilePage from 'source/pages/SourceProfilePage';
@@ -50,7 +50,7 @@ import UsersIndexPage from './user/UsersIndexPage';
 import UtilitiesPage from './UtilitiesPage';
 
 export default function AppRoutes() {
-  const { isDevelopment } = useEnvironment();
+  const { admin } = useSessionContext();
 
   return (
     <Routes>
@@ -58,40 +58,73 @@ export default function AppRoutes() {
         <Route index element={<HomePage />} />
 
         {/* PERSON */}
-        <Route path="/people" element={<PeopleIndexPage />} />
-        <Route path="/person/:id" element={<PersonLayout />}>
+        <Route path={ROUTE_PATHS.personIndex} element={<PeopleIndexPage />} />
+        <Route
+          path={ROUTE_PATHS.personDetail(':id')}
+          element={<PersonLayout />}
+        >
           <Route index element={<PersonSummaryPage />} />
-          <Route path="/person/:id/timeline" element={<PersonTimelinePage />} />
           <Route
-            path="/person/:id/citations"
+            path={ROUTE_PATHS.personDetailTimeline(':id')}
+            element={<PersonTimelinePage />}
+          />
+          <Route
+            path={ROUTE_PATHS.personDetailCitations(':id')}
             element={<PersonCitationsPage />}
           />
-          <Route path="/person/:id/edit" element={<PersonEditPage />} />
-          <Route path="/person/:id/links" element={<PersonLinksPage />} />
-          <Route path="/person/:id/photos" element={<PersonPhotosPage />} />
-          {isDevelopment && (
+          <Route
+            path={ROUTE_PATHS.personDetailEdit(':id')}
+            element={<PersonEditPage />}
+          />
+          <Route
+            path={ROUTE_PATHS.personDetailLinks(':id')}
+            element={<PersonLinksPage />}
+          />
+          <Route
+            path={ROUTE_PATHS.personDetailPhotos(':id')}
+            element={<PersonPhotosPage />}
+          />
+          {admin && (
             <>
-              <Route path="/person/:id/avatar" element={<PersonAvatarPage />} />
               <Route
-                path="/person/:id/checklist"
+                path={ROUTE_PATHS.personDetailAvatar(':id')}
+                element={<PersonAvatarPage />}
+              />
+              <Route
+                path={ROUTE_PATHS.personDetailChecklist(':id')}
                 element={<PersonChecklistPage />}
               />
               <Route
-                path="/person/:id/technical"
+                path={ROUTE_PATHS.personDetailTechnical(':id')}
                 element={<PersonTechnicalPage />}
               />
-              <Route path="/person/:id/tags" element={<PersonTagsPage />} />
+              <Route
+                path={ROUTE_PATHS.personDetailTags(':id')}
+                element={<PersonTagsPage />}
+              />
             </>
           )}
           <Route path="*" element={<PersonToDoPage />} />
         </Route>
 
         <Route path={ROUTE_PATHS.storyIndex} element={<StoriesIndexPage />} />
-        <Route path={ROUTE_PATHS.storyIndexWithType(':storyType')} element={<StoriesIndexPage />} />
-        <Route path={ROUTE_PATHS.cemeteryIndex} element={<CemeteriesIndexPage />} />
-        <Route path={ROUTE_PATHS.newspaperIndex} element={<NewspapersIndexPage />} />
-        <Route path={ROUTE_PATHS.cemeteryDetail(':id')} element={<CemeteryPage />} />
-        {isDevelopment && (
+        <Route
+          path={ROUTE_PATHS.storyIndexWithType(':storyType')}
+          element={<StoriesIndexPage />}
+        />
+        <Route
+          path={ROUTE_PATHS.cemeteryIndex}
+          element={<CemeteriesIndexPage />}
+        />
+        <Route
+          path={ROUTE_PATHS.newspaperIndex}
+          element={<NewspapersIndexPage />}
+        />
+        <Route
+          path={ROUTE_PATHS.cemeteryDetail(':id')}
+          element={<CemeteryPage />}
+        />
+        {admin && (
           <Route
             path="stories-non-entry-sources"
             element={<StoriesNonEntrySourcesPage />}
@@ -103,15 +136,13 @@ export default function AppRoutes() {
           <Route path="/story/:id/entries" element={<StoryEntriesPage />} />
         </Route>
 
-        {isDevelopment && (
-          <Route path="sources" element={<SourceIndexPage />} />
-        )}
-        {isDevelopment && (
+        {admin && <Route path="sources" element={<SourceIndexPage />} />}
+        {admin && (
           <Route path="sources/:sourceType" element={<SourceIndexPage />} />
         )}
         <Route path="source/:sourceId" element={<SourceProfilePage />} />
 
-        {isDevelopment && (
+        {admin && (
           <>
             <Route path={ROUTE_PATHS.eventIndex} element={<EventsPage />} />
             <Route
@@ -134,7 +165,10 @@ export default function AppRoutes() {
             <Route path="/tag/:id" element={<TagLayout />}>
               <Route index element={<TagPage />} />
             </Route>
-            <Route path="cause-of-death" element={<CauseOfDeathPage />} />
+            <Route
+              path={ROUTE_PATHS.specialCauseOfDeath}
+              element={<CauseOfDeathPage />}
+            />
 
             <Route path="checklists" element={<ChecklistIndexPage />} />
             <Route
