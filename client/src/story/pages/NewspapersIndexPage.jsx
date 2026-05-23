@@ -113,31 +113,45 @@ function getGroupKey(story) {
 
 function NewspaperCard({ story }) {
   return (
-    <div
+    <Link
+      to={ROUTE_PATHS.newspaperDetail(story.id)}
       className={clsx(
-        'bg-stone-50 border border-stone-200 rounded-2xl',
-        'shadow-sm hover:shadow-md transition-shadow duration-200 flex gap-4',
+        'block border border-stone-300 rounded-sm',
+        'shadow-sm hover:shadow-md transition-shadow duration-200',
+        'bg-gradient-to-b from-amber-50 to-stone-50',
+        'relative overflow-hidden',
       )}
     >
-      <div className="flex flex-col space-y-2 p-2">
-        <h2 className="text-lg font-semibold text-stone-800 font-serif">
-          <Link to={ROUTE_PATHS.newspaperDetail(story.id)}>{story.title}</Link>
+      <div className="border-b border-stone-300 bg-stone-800 px-4 py-2">
+        <h2 className="text-lg font-bold text-amber-50 font-serif tracking-wide text-center uppercase">
+          {story.title}
         </h2>
-        <p className="text-sm text-stone-500 mb-2">
+      </div>
+      <div className="px-4 py-3 space-y-2">
+        <p className="text-lg text-stone-600 text-center italic">
           <FormatLocation location={story.location} v2 />
         </p>
-        <p className="text-stone-700 leading-relaxed line-clamp-3 text-md">
-          {story.sourceCount || 0}{' '}
-          {story.sourceCount == 1 ? 'article' : 'articles'} in the database
-        </p>
-        {/* TODO: show earliest + latest years for entries */}
+        <div className="border-t border-dashed border-stone-300 pt-2 flex items-center justify-between">
+          <span className="text-stone-700 text-lg">
+            {story.sourceCount || 0}{' '}
+            {story.sourceCount == 1 ? 'article' : 'articles'} in the database
+          </span>
+          <span className="text-stone-500 text-lg">
+            {/* TODO: show a range of earlist to latest article years */}
+          </span>
+        </div>
+        <div className="text-right">
+          <span className="text-lg text-stone-500 underline">
+            View articles &rarr;
+          </span>
+        </div>
         <AdminOnly>
-          <div className="flex items-center gap-1 text-sm text-stone-500">
+          <div className="flex items-center gap-1 text-xs text-stone-500">
             <Checkmark value={story.sharing} />
             <span>{story.sharing ? 'shared' : 'private'}</span>
           </div>
         </AdminOnly>
       </div>
-    </div>
+    </Link>
   );
 }
