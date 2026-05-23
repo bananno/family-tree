@@ -11,3 +11,6 @@ import './person/avatar/PersonAvatar.model.js';
 import './source/Source.model.js';
 import './story/Story.model.js';
 import './tag/Tag.model.js';
+
+// kinds must be registered after their parent
+import './story/kinds/Cemetery.model.js';

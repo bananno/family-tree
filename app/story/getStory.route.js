@@ -52,7 +52,15 @@ export default async function getStoryRoute(req, res) {
   nonEntrySources.forEach(source => source.populateFullTitle());
 
   const data = {
-    ..._.pick(story, ['id', 'date', 'location', 'sharing', 'title', 'type']),
+    ..._.pick(story, [
+      'id',
+      'date',
+      'kind',
+      'location',
+      'sharing',
+      'title',
+      'type',
+    ]),
     content: story.content?.split('\n') || [],
     links: mapLinks(story.links),
     notes: splitNotes(story.notes),

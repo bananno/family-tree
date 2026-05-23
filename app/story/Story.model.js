@@ -18,7 +18,10 @@ const schema = new mongoose.Schema(
   {
     ...legacySchemaToConvert,
   },
-  { timestamps: true },
+  {
+    discriminatorKey: 'kind',
+    timestamps: true,
+  },
 );
 
 for (let methodName in instanceMethods) {

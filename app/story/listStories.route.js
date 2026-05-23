@@ -27,6 +27,7 @@ export default async function listStoriesRoute(req, res) {
       'date',
       'sharing',
       'type',
+      'kind',
       'notes',
     ]),
     coverImage: story.images[0]?.url,
