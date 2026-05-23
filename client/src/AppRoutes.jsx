@@ -28,6 +28,7 @@ import SourceProfilePage from 'source/pages/SourceProfilePage';
 import StoryLayout from 'story/layout/StoryLayout';
 import CemeteriesIndexPage from 'story/pages/CemeteriesIndexPage';
 import CemeteryPage from 'story/pages/CemeteryPage';
+import NewspapersIndexPage from 'story/pages/NewspapersIndexPage';
 import StoriesIndexPage from 'story/pages/StoriesIndexPage';
 import StoriesNonEntrySourcesPage from 'story/pages/StoriesNonEntrySourcesPage';
 import StoryDetailsPage from 'story/pages/StoryDetailsPage';
@@ -87,6 +88,7 @@ export default function AppRoutes() {
         <Route path="stories" element={<StoriesIndexPage />} />
         <Route path="stories/:storyType" element={<StoriesIndexPage />} />
         <Route path="cemeteries" element={<CemeteriesIndexPage />} />
+        <Route path="newspapers" element={<NewspapersIndexPage />} />
         <Route path="stories/cemetery/:id" element={<CemeteryPage />} />
         {isDevelopment && (
           <Route

@@ -9,6 +9,8 @@ import NewStoryModal from 'story/components/NewStoryModal';
 import StoriesTable from 'story/components/StoriesTable';
 import useStories from 'story/hooks/useStories';
 
+import { ROUTE_PATHS } from '../../routePaths';
+
 const filterId = 'FILTER_STORY_INDEX_PAGE';
 
 export default function StoriesIndexPage() {
@@ -18,19 +20,14 @@ export default function StoriesIndexPage() {
     filterId,
   });
 
+  const updatedToKind = allTypes.filter(t => !createableTypes.includes(t));
+
   return (
     <>
       <h1 className="text-3xl font-bold">Stories</h1>
-      {storyType === 'cemetery' && (
-        <AdminOnly>
-          <p>
-            <Link to="/cemeteries">special cemetery view</Link> |{' '}
-            <Link to="/stories/cemetery">
-              generic story index for cemeteries
-            </Link>
-          </p>
-        </AdminOnly>
-      )}
+      <AdminOnly>
+        <TransitionNavigation storyType={storyType} />
+      </AdminOnly>
       {loading && <p>loading...</p>}
       <NewStoryModal types={createableTypes} />
       <Spacer />
@@ -40,6 +37,14 @@ export default function StoriesIndexPage() {
           <Link to="/stories">all</Link>
         </li>
         {allTypes.map(storyType => (
+          <li key={storyType}>
+            <Link to={`/stories/${storyType}`}>{storyType}</Link>
+          </li>
+        ))}
+      </BulletList>
+      <p>Filter by kind:</p>
+      <BulletList>
+        {updatedToKind.map(storyType => (
           <li key={storyType}>
             <Link to={`/stories/${storyType}`}>{storyType}</Link>
           </li>
@@ -63,4 +68,27 @@ export default function StoriesIndexPage() {
       <StoriesTable stories={stories} />
     </>
   );
+}
+
+////////////////////
+
+// TODO: Clean up eventually
+function TransitionNavigation({ storyType }) {
+  if (storyType === 'cemetery') {
+    return (
+      <p>
+        <Link to="/cemeteries">special cemetery view</Link> |{' '}
+        <Link to="/stories/cemetery">generic story index for cemeteries</Link>
+      </p>
+    );
+  }
+  if (storyType === 'newspaper') {
+    return (
+      <p>
+        <Link to={ROUTE_PATHS.newspaperIndex}>special newspaper view</Link> |{' '}
+        <Link to="/stories/newspaper">generic story index for newspapers</Link>
+      </p>
+    );
+  }
+  return null;
 }

@@ -14,3 +14,4 @@ import './tag/Tag.model.js';
 
 // kinds must be registered after their parent
 import './story/kinds/Cemetery.model.js';
+import './story/kinds/Newspaper.model.js';

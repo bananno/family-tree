@@ -47,8 +47,9 @@ function LayoutNavigation() {
       <ul>
         <LayoutNavItem path="/" text="Home" isPublic />
         <LayoutNavItem path="/people" text="People" isPublic />
-        <LayoutNavItem path="/stories" text="Stories" isPublic />
+        <LayoutNavItem path="/stories" text="Stories" />
         <LayoutNavItem path="/cemeteries" text="Cemeteries" isPublic />
+        <LayoutNavItem path={ROUTE_PATHS.newspaperIndex} text="Newspapers" isPublic />
         <LayoutNavItem path="/sources" text="Sources" />
         <LayoutNavItem path={ROUTE_PATHS.eventIndex} text="Events" />
         <LayoutNavItem path="/notations" text="Notations" />

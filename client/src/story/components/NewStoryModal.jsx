@@ -8,7 +8,12 @@ import Input from 'shared/form/Input';
 import LocationInput from 'shared/form/LocationInput';
 import Modal from 'shared/Modal';
 
-export default function NewStoryModal({ kind, types = [] }) {
+export default function NewStoryModal({
+  kind,
+  types = [],
+  allowDate,
+  allowLocation,
+}) {
   const [title, setTitle] = useState('');
   const [type, setType] = useState(null);
   const [otherType, setOtherType] = useState('other');
@@ -28,12 +33,12 @@ export default function NewStoryModal({ kind, types = [] }) {
     });
   }
 
-  const modalLabel = kind === 'cemetery' ? 'New cemetery' : 'New story';
+  const modalLabel = kind ? `New ${kind}` : 'New story';
   const editableType = !kind;
 
   const effectiveType =
-    kind === 'cemetery'
-      ? 'cemetery'
+    kind !== undefined
+      ? kind
       : type?.value === 'other'
         ? otherType
         : type?.value || '';
@@ -41,11 +46,15 @@ export default function NewStoryModal({ kind, types = [] }) {
   const valid = title.trim().length > 0 && effectiveType.trim().length > 0;
 
   const showDateFields =
-    effectiveType &&
-    ['book', 'event', 'document', 'other'].includes(effectiveType);
+    allowDate === undefined
+      ? effectiveType &&
+        ['book', 'event', 'document', 'other'].includes(effectiveType)
+      : allowDate;
 
   const showLocationFields =
-    effectiveType && !['artifact', 'book'].includes(effectiveType);
+    allowLocation === undefined
+      ? effectiveType && !['artifact', 'book'].includes(effectiveType)
+      : allowLocation;
 
   async function handleConfirm() {
     const requestBody = {
