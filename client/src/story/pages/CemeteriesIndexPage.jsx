@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { ROUTE_PATHS } from 'routePaths';
 import AdminOnly from 'session/AdminOnly';
@@ -8,16 +8,49 @@ import Filter from 'shared/Filter';
 import FormatLocation from 'shared/FormatLocation';
 import Spacer from 'shared/Spacer';
 import NewStoryModal from 'story/components/NewStoryModal';
+import StoriesTable from 'story/components/StoriesTable';
 import useStories from 'story/hooks/useStories';
 
 const filterId = 'FILTER_CEMETERIES_PAGE';
 
 export default function CemeteriesIndexPage() {
+  const [searchParams] = useSearchParams();
+  const viewAsTable = searchParams.get('view') === 'table';
+
   const { stories, loading } = useStories({
     storyType: 'cemetery',
     filterId,
   });
 
+  return (
+    <>
+      <h1 className="text-3xl font-bold">Cemeteries</h1>
+      <AdminOnly>
+        <p>
+          <Link to={ROUTE_PATHS.cemeteryIndex}>cemetery view</Link> |{' '}
+          <Link to={`${ROUTE_PATHS.cemeteryIndex}?view=table`}>
+            stories table
+          </Link>
+        </p>
+      </AdminOnly>
+      <Spacer />
+      <Filter filterId={filterId} />
+      {loading && stories.length === 0 && <p>loading...</p>}
+      <Spacer />
+      <NewStoryModal kind="cemetery" />
+      <Spacer />
+      {viewAsTable ? (
+        <StoriesTable stories={stories} />
+      ) : (
+        <CemeteriesAsCards stories={stories} />
+      )}
+    </>
+  );
+}
+
+////////////////////
+
+function CemeteriesAsCards({ stories }) {
   const stateGroups = {};
 
   stories.forEach(story => {
@@ -34,21 +67,6 @@ export default function CemeteriesIndexPage() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold">Cemeteries</h1>
-      <AdminOnly>
-        <p>
-          <Link to={ROUTE_PATHS.cemeteryIndex}>special cemetery view</Link> |{' '}
-          <Link to={ROUTE_PATHS.storyIndexWithType('cemetery')}>
-            generic story index for cemeteries
-          </Link>
-        </p>
-      </AdminOnly>
-      <Spacer />
-      <Filter filterId={filterId} />
-      {loading && stories.length === 0 && <p>loading...</p>}
-      <Spacer />
-      <NewStoryModal kind="cemetery" />
-      <Spacer />
       {groupKeys.map(groupKey => {
         const groupItems = stateGroups[groupKey];
         return (
@@ -71,8 +89,6 @@ export default function CemeteriesIndexPage() {
     </>
   );
 }
-
-////////////////////
 
 function getGroupKey(story) {
   if (story.location?.country !== 'United States') {

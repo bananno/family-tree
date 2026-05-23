@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { ROUTE_PATHS } from 'routePaths';
 import AdminOnly from 'session/AdminOnly';
@@ -8,16 +9,59 @@ import Filter from 'shared/Filter';
 import FormatLocation from 'shared/FormatLocation';
 import Spacer from 'shared/Spacer';
 import NewStoryModal from 'story/components/NewStoryModal';
+import StoriesTable from 'story/components/StoriesTable';
 import useStories from 'story/hooks/useStories';
 
 const filterId = 'FILTER_NEWSPAPERS_PAGE';
 
 export default function NewspapersIndexPage() {
+  const [searchParams] = useSearchParams();
+  const viewAsTable = searchParams.get('view') === 'table';
+
   const { stories, loading } = useStories({
     storyType: 'newspaper',
     filterId,
   });
 
+  const totalEntries = useMemo(() => {
+    return stories.reduce((sum, story) => sum + (story.sourceCount || 0), 0);
+  }, [stories]);
+
+  return (
+    <>
+      <h1 className="text-3xl font-bold">Newspapers</h1>
+      <AdminOnly>
+        <p>
+          <Link to={ROUTE_PATHS.newspaperIndex}>newspaper view</Link> |{' '}
+          <Link to={`${ROUTE_PATHS.newspaperIndex}?view=table`}>
+            stories table
+          </Link>
+        </p>
+      </AdminOnly>
+      <Spacer />
+      <Filter filterId={filterId} />
+      {loading && stories.length === 0 && <p>loading...</p>}
+      <Spacer />
+      <NewStoryModal kind="newspaper" allowDate={false} allowLocation />
+      <Spacer />
+      <p>
+        {stories.length} {stories.length === 1 ? 'newspaper' : 'newspapers'}{' '}
+        with {totalEntries} {totalEntries === 1 ? 'article' : 'articles'} in the
+        database
+      </p>
+      <Spacer />
+      {viewAsTable ? (
+        <StoriesTable stories={stories} />
+      ) : (
+        <NewspapersAsCards stories={stories} />
+      )}
+    </>
+  );
+}
+
+////////////////////
+
+function NewspapersAsCards({ stories }) {
   const stateGroups = {};
 
   stories.forEach(story => {
@@ -34,21 +78,6 @@ export default function NewspapersIndexPage() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold">Newspapers</h1>
-      <AdminOnly>
-        <p>
-          <Link to={ROUTE_PATHS.newspaperIndex}>special newspaper view</Link> |{' '}
-          <Link to={ROUTE_PATHS.storyIndexWithType('newspaper')}>
-            generic story index for newspapers
-          </Link>
-        </p>
-      </AdminOnly>
-      <Spacer />
-      <Filter filterId={filterId} />
-      {loading && stories.length === 0 && <p>loading...</p>}
-      <Spacer />
-      <NewStoryModal kind="newspaper" allowDate={false} allowLocation />
-      <Spacer />
       {groupKeys.map(groupKey => {
         const groupItems = stateGroups[groupKey];
         return (
@@ -71,8 +100,6 @@ export default function NewspapersIndexPage() {
     </>
   );
 }
-
-////////////////////
 
 function getGroupKey(story) {
   if (story.location?.country !== 'United States') {
