@@ -4,10 +4,7 @@ import * as routerTools from './tools/routerTools.js';
 
 import checklistCreateRoutes from './checklist/index.js';
 import citationCreateRoutes from './citation/index.js';
-
-// Event
 import eventCreateRoutes from './event/index.js';
-import listEventsRoute from './event/listEvents.route.js';
 
 import exportFullDataRoute from './export/exportFullData.route.js';
 import exportPublishedDataRoute from './export/exportPublishedData.route.js';
@@ -51,7 +48,6 @@ checklistCreateRoutes(router);
 citationCreateRoutes(router);
 
 eventCreateRoutes(router);
-router.get('/api/events', listEventsRoute);
 
 router.get('/export/full', exportFullDataRoute);
 router.get('/export/publish', exportPublishedDataRoute);

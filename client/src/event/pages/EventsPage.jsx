@@ -29,7 +29,6 @@ export default function EventsPage() {
   return (
     <>
       <h1>Events</h1>
-      <Link to="http://localhost:9000/events">old version</Link>
       <Spacer />
       <BulletList>
         {eventCategories.map(({ to, title }) => (
