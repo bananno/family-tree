@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
+import { ROUTE_PATHS } from 'routePaths';
 import AdminOnly from 'session/AdminOnly';
 import Checkmark from 'shared/Checkmark';
 import Filter from 'shared/Filter';
@@ -8,8 +9,6 @@ import FormatLocation from 'shared/FormatLocation';
 import Spacer from 'shared/Spacer';
 import NewStoryModal from 'story/components/NewStoryModal';
 import useStories from 'story/hooks/useStories';
-
-import { ROUTE_PATHS } from '../../routePaths';
 
 const filterId = 'FILTER_NEWSPAPERS_PAGE';
 
@@ -39,7 +38,7 @@ export default function NewspapersIndexPage() {
       <AdminOnly>
         <p>
           <Link to={ROUTE_PATHS.newspaperIndex}>special newspaper view</Link> |{' '}
-          <Link to="/stories/newspaper">
+          <Link to={ROUTE_PATHS.storyIndexWithType('newspaper')}>
             generic story index for newspapers
           </Link>
         </p>
@@ -95,7 +94,7 @@ function NewspaperCard({ story }) {
     >
       <div className="flex flex-col space-y-2 p-2">
         <h2 className="text-lg font-semibold text-stone-800 font-serif">
-          <Link to={ROUTE_PATHS.newspaperDetail(story)}>{story.title}</Link>
+          <Link to={ROUTE_PATHS.newspaperDetail(story.id)}>{story.title}</Link>
         </h2>
         <p className="text-sm text-stone-500 mb-2">
           <FormatLocation location={story.location} v2 />

@@ -21,6 +21,8 @@ import PersonTagsPage from 'person/pages/PersonTagsPage';
 import PersonTechnicalPage from 'person/pages/PersonTechnicalPage';
 import PersonTimelinePage from 'person/pages/PersonTimelinePage';
 import PersonToDoPage from 'person/pages/PersonToDoPage';
+// Misc
+import { ROUTE_PATHS } from 'routePaths';
 import { useEnvironment } from 'shared/EnvironmentContext';
 // Story/Source
 import SourceIndexPage from 'source/pages/SourceIndexPage';
@@ -40,7 +42,6 @@ import TagPage from 'tag/pages/TagPage';
 import CauseOfDeathPage from 'tag/special/CauseOfDeathPage';
 import TagLayout from 'tag/TagLayout';
 
-import { ROUTE_PATHS } from './routePaths';
 import HomePage from './HomePage';
 import PageNotFound from './PageNotFound';
 import AccountPage from './session/AccountPage';
@@ -85,11 +86,11 @@ export default function AppRoutes() {
           <Route path="*" element={<PersonToDoPage />} />
         </Route>
 
-        <Route path="stories" element={<StoriesIndexPage />} />
-        <Route path="stories/:storyType" element={<StoriesIndexPage />} />
-        <Route path="cemeteries" element={<CemeteriesIndexPage />} />
-        <Route path="newspapers" element={<NewspapersIndexPage />} />
-        <Route path="stories/cemetery/:id" element={<CemeteryPage />} />
+        <Route path={ROUTE_PATHS.storyIndex} element={<StoriesIndexPage />} />
+        <Route path={ROUTE_PATHS.storyIndexWithType(':storyType')} element={<StoriesIndexPage />} />
+        <Route path={ROUTE_PATHS.cemeteryIndex} element={<CemeteriesIndexPage />} />
+        <Route path={ROUTE_PATHS.newspaperIndex} element={<NewspapersIndexPage />} />
+        <Route path={ROUTE_PATHS.cemeteryDetail(':id')} element={<CemeteryPage />} />
         {isDevelopment && (
           <Route
             path="stories-non-entry-sources"

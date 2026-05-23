@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { ROUTE_PATHS } from 'routePaths';
 import AdminOnly from 'session/AdminOnly';
 import Checkmark from 'shared/Checkmark';
 import Filter from 'shared/Filter';
@@ -36,8 +37,10 @@ export default function CemeteriesIndexPage() {
       <h1 className="text-3xl font-bold">Cemeteries</h1>
       <AdminOnly>
         <p>
-          <Link to="/cemeteries">special cemetery view</Link> |{' '}
-          <Link to="/stories/cemetery">generic story index for cemeteries</Link>
+          <Link to={ROUTE_PATHS.cemeteryIndex}>special cemetery view</Link> |{' '}
+          <Link to={ROUTE_PATHS.storyIndexWithType('cemetery')}>
+            generic story index for cemeteries
+          </Link>
         </p>
       </AdminOnly>
       <Spacer />
@@ -95,7 +98,7 @@ function CemeteryCard({ story }) {
       )}
       <div className="flex flex-col space-y-2 p-2">
         <h2 className="text-lg font-semibold text-stone-800 font-serif">
-          <Link to={`/stories/cemetery/${story.id}`}>{story.title}</Link>
+          <Link to={ROUTE_PATHS.cemeteryDetail(story.id)}>{story.title}</Link>
         </h2>
         <p className="text-sm text-stone-500 mb-2">
           <FormatLocation location={story.location} v2 />

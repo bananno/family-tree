@@ -20,7 +20,9 @@ export default function StoriesIndexPage() {
     filterId,
   });
 
-  const updatedToKind = allTypes.filter(t => !createableTypes.includes(t));
+  const typesAlreadyUpdatedToKind = allTypes.filter(
+    t => !createableTypes.includes(t),
+  );
 
   return (
     <>
@@ -34,19 +36,23 @@ export default function StoriesIndexPage() {
       <p>Filter by type:</p>
       <BulletList>
         <li>
-          <Link to="/stories">all</Link>
+          <Link to={ROUTE_PATHS.storyIndex}>all</Link>
         </li>
-        {allTypes.map(storyType => (
+        {createableTypes.map(storyType => (
           <li key={storyType}>
-            <Link to={`/stories/${storyType}`}>{storyType}</Link>
+            <Link to={ROUTE_PATHS.storyIndexWithType(storyType)}>
+              {storyType}
+            </Link>
           </li>
         ))}
       </BulletList>
       <p>Filter by kind:</p>
       <BulletList>
-        {updatedToKind.map(storyType => (
+        {typesAlreadyUpdatedToKind.map(storyType => (
           <li key={storyType}>
-            <Link to={`/stories/${storyType}`}>{storyType}</Link>
+            <Link to={ROUTE_PATHS.storyIndexWithType(storyType)}>
+              {storyType}
+            </Link>
           </li>
         ))}
       </BulletList>
@@ -59,7 +65,10 @@ export default function StoriesIndexPage() {
             </Link>
           </li>
           <li>
-            <Link to="/cemeteries">cemeteries: alternate index</Link>
+            <Link to={ROUTE_PATHS.cemeteryIndex}>cemeteries index</Link>
+          </li>
+          <li>
+            <Link to={ROUTE_PATHS.newspaperIndex}>newspapers index</Link>
           </li>
         </BulletList>
       </AdminOnly>
@@ -77,8 +86,10 @@ function TransitionNavigation({ storyType }) {
   if (storyType === 'cemetery') {
     return (
       <p>
-        <Link to="/cemeteries">special cemetery view</Link> |{' '}
-        <Link to="/stories/cemetery">generic story index for cemeteries</Link>
+        <Link to={ROUTE_PATHS.cemeteryIndex}>special cemetery view</Link> |{' '}
+        <Link to={ROUTE_PATHS.storyIndexWithType('cemetery')}>
+          generic story index for cemeteries
+        </Link>
       </p>
     );
   }
@@ -86,7 +97,9 @@ function TransitionNavigation({ storyType }) {
     return (
       <p>
         <Link to={ROUTE_PATHS.newspaperIndex}>special newspaper view</Link> |{' '}
-        <Link to="/stories/newspaper">generic story index for newspapers</Link>
+        <Link to={ROUTE_PATHS.storyIndexWithType('newspaper')}>
+          generic story index for newspapers
+        </Link>
       </p>
     );
   }

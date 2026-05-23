@@ -34,7 +34,10 @@
       <a href="<%= rootPath + '/' + path %>" class="main-link"><%= text %></a>
     <% }); %>
     <% if (subview !== 'edit') { %>
-      <a href="http://localhost:1899/story/<%= story.id %>" class="main-link">new site</a>
+      <%
+        const routeName = ['cemetery'].includes(story.type) ? story.type : 'story';
+      %>
+      <a href="http://localhost:1899/<%= routeName %>/<%= story.id %>" class="main-link">new site</a>
     <% } %>
   </p>
 </div>
