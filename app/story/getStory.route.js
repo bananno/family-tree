@@ -74,6 +74,7 @@ export default async function getStoryRoute(req, res) {
         'sharing',
         'summary',
         'title',
+        'useMarkdown',
       ]),
       content: source.content?.split('\n') || [],
       imageUrl: source.images[0]?.url,

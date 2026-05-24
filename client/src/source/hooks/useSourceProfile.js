@@ -20,5 +20,5 @@ export default function useSourceProfile({ sourceId }) {
     fetchSource();
   }, [currentUser, sourceId]);
 
-  return { loading, source };
+  return { loading, source, refetch: fetchSource };
 }

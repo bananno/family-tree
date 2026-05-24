@@ -1,22 +1,29 @@
-import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import CitationList from 'citation/components/CitationList';
 import PersonList from 'person/components/PersonList';
 import { ROUTE_PATHS } from 'routePaths';
+import useSessionContext from 'session/useSessionContext';
 import BulletList from 'shared/BulletList';
+import Checkmark from 'shared/Checkmark';
 import DevOnly from 'shared/DevOnly';
 import FormatContent from 'shared/FormatContent';
 import FormatDate from 'shared/FormatDate';
 import FormatLocation from 'shared/FormatLocation';
 import LinkList from 'shared/LinkList';
+import EditContentModal from 'source/components/EditContentModal';
 import useSourceProfile from 'source/hooks/useSourceProfile';
 import StoryLink from 'story/components/StoryLink';
 import TagList from 'tag/components/TagList';
 
 export default function SourceProfilePage() {
+  const { admin } = useSessionContext();
   const { sourceId } = useParams();
-  const { source, loading } = useSourceProfile({ sourceId });
+  const { source, loading, refetch } = useSourceProfile({ sourceId });
+
+  if (!admin) {
+    return <div>page not available</div>;
+  }
 
   if (loading) {
     return <div>loading...</div>;
@@ -70,7 +77,15 @@ export default function SourceProfilePage() {
       <p>(to do)</p>
       <hr />
       <h2 className="font-bold text-xl">content</h2>
-      <FormatContent content={source.content} />
+      <EditContentModal source={source} sourceId={sourceId} onSave={refetch} />
+      <div className="border border-gray-300 p-4">
+        <FormatContent markdown={source.useMarkdown}>
+          {source.originalContent}
+        </FormatContent>
+      </div>
+      <p className="flex items-center gap-1 text-sm">
+        <Checkmark value={source.useMarkdown} /> markdown
+      </p>
       <hr />
       <h2 className="font-bold text-xl">citations</h2>
       <CitationList citations={source.citations} showSource={false} />

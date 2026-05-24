@@ -1,8 +1,29 @@
-import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
 
 import classes from './FormatContent.module.scss';
 
-export default function FormatContent({ content }) {
+// children = pass raw content (newer version)
+// content = array of lines of content (older version, to be phased out)
+export default function FormatContent({
+  markdown,
+  children,
+  content: contentProp,
+}) {
+  if (markdown) {
+    if (contentProp !== undefined) {
+      throw new Error('FormatContent: pass children as raw content string');
+    }
+
+    return (
+      <div className="space-y-4">
+        <ReactMarkdown remarkPlugins={[remarkBreaks]}>{children}</ReactMarkdown>
+      </div>
+    );
+  }
+
+  const content = contentProp || children.split('\n') || [];
+
   const contentComponents = [];
 
   // TO DO: add more edge cases and formatting options here

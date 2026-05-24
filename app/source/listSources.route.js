@@ -17,7 +17,7 @@ export default async function listSourcesRoute(req, res) {
   Source.sortByStory(sources);
 
   const items = sources.map(source => ({
-    ..._.pick(source, ['id', 'title', 'location', 'date']),
+    ..._.pick(source, ['id', 'title', 'location', 'date', 'useMarkdown']),
     story: _.pick(source.story, ['id', 'title', 'type']),
     sharing: source.sharing && source.story.sharing,
     filterText: getFilterText(source),

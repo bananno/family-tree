@@ -18,10 +18,13 @@ export default async function getSource(req, res) {
 
   await source.populateAndSortCitations();
 
+  const splitContent = source.content?.split('\n') || [];
+
   const data = {
     id: source._id,
     citations: mapCitationsIncludePerson(source.citationsByPerson),
-    content: source.content?.split('\n') || [],
+    content: splitContent,
+    originalContent: source.content,
     date: source.date,
     links: mapLinks(source.links),
     location: source.location,
@@ -30,6 +33,7 @@ export default async function getSource(req, res) {
     sharing: source.sharing,
     tags: source.convertTags({ asList: true }),
     title: source.title,
+    useMarkdown: source.useMarkdown,
     story: {
       id: source.story._id,
       title: source.story.title,

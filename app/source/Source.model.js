@@ -30,6 +30,10 @@ const { constants, legacySchemaToConvert } = createModel({
 const schema = new mongoose.Schema(
   {
     ...legacySchemaToConvert,
+    useMarkdown: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );
