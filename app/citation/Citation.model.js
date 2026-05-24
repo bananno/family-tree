@@ -32,6 +32,14 @@ for (let methodName in staticMethods) {
 schema.methods.constants = () => constants;
 schema.statics.constants = () => constants;
 
+schema.methods.splitItem = function () {
+  const arr = this.item.split(' - ');
+  return {
+    itemPart1: arr.shift(),
+    itemPart2: arr.join(' '),
+  };
+};
+
 const Citation = mongoose.model('Citation', schema);
 
 export default Citation;

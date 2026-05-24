@@ -114,6 +114,10 @@ schema.methods.genderText = function () {
   return [null, 'female', 'male', 'unknown'][this.gender];
 };
 
+schema.methods.isPublic = function () {
+  return this.shareLevel === PERSON_SHARE_LEVEL.EVERYTHING;
+};
+
 // The details that are public for a person with "restricted" share level.
 schema.methods.restrictedData = function () {
   return {

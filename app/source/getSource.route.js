@@ -1,4 +1,13 @@
+import _ from 'lodash';
+
 import SourceModel from './Source.model.js';
+import CitationModel from '../citation/Citation.model.js';
+
+const populateAvatarUrl = {
+  path: 'avatar',
+  select: 'file',
+  populate: { path: 'file', select: 'key' },
+};
 
 export default async function getSource(req, res) {
   const admin = req.session?.user?.admin;
@@ -16,20 +25,20 @@ export default async function getSource(req, res) {
     return res.status(403).send('Forbidden');
   }
 
-  await source.populateAndSortCitations();
+  const citations = await getCitations(source, admin);
 
   const splitContent = source.content?.split('\n') || [];
 
   const data = {
     id: source._id,
-    citations: mapCitationsIncludePerson(source.citationsByPerson),
+    citations,
     content: splitContent,
     originalContent: source.content,
     date: source.date,
     links: mapLinks(source.links),
     location: source.location,
     notes: splitNotes(source.notes),
-    people: source.people.map(person => person.toListApi()),
+    people: source.people.map(person => person.toListApi({ restrict: !admin })),
     sharing: source.sharing,
     tags: source.convertTags({ asList: true }),
     title: source.title,
@@ -46,24 +55,57 @@ export default async function getSource(req, res) {
 
 ////////////////////
 
-// TODO: revisit old stuff here
+// Get the citations for the source.
+// If not admin, only get citations for people that are public (fully shared).
+// Sort the citations by person, then by item.
+async function getCitations(source, admin) {
+  if (source.people.length === 0) {
+    return [];
+  }
 
-function mapCitationsIncludePerson(citations) {
-  return citations.map(citation => ({
-    id: citation._id,
-    information: citation.information,
-    ...splitCitationItem(citation),
-    person: {
-      id: citation.person._id,
-      name: citation.person.name,
-    },
+  const filter = { source: source._id };
+
+  if (!admin) {
+    const publicPersonIds = source.people
+      .filter(person => person.isPublic())
+      .map(person => person.id);
+
+    if (publicPersonIds.length === 0) {
+      return [];
+    }
+
+    if (publicPersonIds.length < source.people.length) {
+      filter.person = { $in: publicPersonIds };
+    }
+  }
+
+  // TODO: add a populatePerson method on the Citation model
+  // similar to source.populatePeople().
+  const citations = await CitationModel.find(filter).populate({
+    path: 'person',
+    populate: populateAvatarUrl,
+  });
+
+  const mappedCitations = citations.map(citation => ({
+    ..._.pick(citation, ['id', 'information']),
+    ...citation.splitItem(),
+    // person not restricted because non-public is already filtered out
+    person: citation.person.toListApi(),
   }));
+
+  // Sort by
+  // 1. the person's position in the source's people list
+  // 2. itemPart1 (e.g. "birth")
+  // 3. itemPart2 (e.g. "date")
+  // TODO: sort item parts by specified order instead of alphabetically.
+  return _.sortBy(mappedCitations, citation => {
+    const personId = citation.person?.id;
+    const index = source.people.findIndex(person => person.id === personId);
+    return [index, citation.itemPart1, citation.itemPart2];
+  });
 }
 
-function splitCitationItem(citation) {
-  const arr = citation.item.split(' - ');
-  return { itemPart1: arr.shift(), itemPart2: arr.join(' ') };
-}
+// TODO: revisit old stuff here
 
 function mapLinks(links) {
   return links.map(link => {
