@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
+import { ROUTE_PATHS } from 'routePaths';
 import AdminOnly from 'session/AdminOnly';
 import api from 'shared/api';
 import Checkmark from 'shared/Checkmark';
@@ -24,7 +25,7 @@ export default function CemeteryPage() {
 
   return (
     <>
-      <Link to="/cemeteries" className="mb-4 inline-block">
+      <Link to={ROUTE_PATHS.cemeteryIndex} className="mb-4 inline-block">
         Back to cemeteries
       </Link>
       {loading && <p>Loading...</p>}
@@ -42,7 +43,9 @@ export default function CemeteryPage() {
             </p>
             <AdminOnly>
               <p>
-                <Link to={`/story/${story.id}`}>generic story view</Link>
+                <Link to={ROUTE_PATHS.storyDetail(story.id)}>
+                  generic story view
+                </Link>
                 <span className="mx-2">|</span>
                 <Link to={`http://localhost:9000/story/${story.id}`}>
                   ejs app
@@ -70,7 +73,10 @@ export default function CemeteryPage() {
 
 function EntryCard({ source }) {
   return (
-    <div className="flex items-center gap-4 mb-4">
+    <Link
+      to={ROUTE_PATHS.sourceDetail(source.id)}
+      className="flex items-center gap-4 mb-4"
+    >
       {source.imageUrl && (
         <img
           src={source.imageUrl}
@@ -79,8 +85,8 @@ function EntryCard({ source }) {
         />
       )}
       <div>
-        <h3 className="text-xl font-semibold">{source.title}</h3>
+        <h3 className="text-xl font-semibold text-gray-900">{source.title}</h3>
       </div>
-    </div>
+    </Link>
   );
 }

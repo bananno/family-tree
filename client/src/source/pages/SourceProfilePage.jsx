@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import CitationList from 'citation/components/CitationList';
 import PersonList from 'person/components/PersonList';
+import { ROUTE_PATHS } from 'routePaths';
 import BulletList from 'shared/BulletList';
 import DevOnly from 'shared/DevOnly';
 import FormatContent from 'shared/FormatContent';
@@ -26,42 +27,52 @@ export default function SourceProfilePage() {
   }
 
   return (
-    <div>
-      <h2>
+    <div className="flex flex-col gap-4">
+      <h2 className="font-bold text-xl">
         {source.story.type}: <StoryLink story={source.story} />
       </h2>
-      <h2>{source.title}</h2>
-      <Link to={`http://localhost:9000/source/${sourceId}`}>old site</Link>
       <hr />
-      <h2>sharing</h2>
+      <h2 className="font-bold text-xl">{source.title}</h2>
+      <Link to={ROUTE_PATHS.sourceDetailOld(sourceId)}>old site</Link>
+      <hr />
+      <h2 className="font-bold text-xl">sharing</h2>
       <p>{String(source.sharing)}</p>
-      <h2>date</h2>
+      <hr />
+      <h2 className="font-bold text-xl">date</h2>
       <p>
         <FormatDate date={source.date} />
       </p>
-      <h2>location</h2>
+      <hr />
+      <h2 className="font-bold text-xl">location</h2>
       <p>
         <FormatLocation location={source.location} />
       </p>
       <DevOnly>
-        <h2>tags</h2>
+        <hr />
+        <h2 className="font-bold text-xl">tags</h2>
         <TagList tags={source.tags} />
       </DevOnly>
-      <h2>people</h2>
+      <hr />
+      <h2 className="font-bold text-xl">people</h2>
       <PersonList people={source.people} />
-      <h2>links</h2>
+      <hr />
+      <h2 className="font-bold text-xl">links</h2>
       <LinkList links={source.links} />
-      <h2>notes</h2>
+      <hr />
+      <h2 className="font-bold text-xl">notes</h2>
       <BulletList>
         {source.notes.map((note, i) => (
           <li key={i}>{note}</li>
         ))}
       </BulletList>
-      <h2>images</h2>
+      <hr />
+      <h2 className="font-bold text-xl">images</h2>
       <p>(to do)</p>
-      <h2>content</h2>
+      <hr />
+      <h2 className="font-bold text-xl">content</h2>
       <FormatContent content={source.content} />
-      <h2>citations</h2>
+      <hr />
+      <h2 className="font-bold text-xl">citations</h2>
       <CitationList citations={source.citations} showSource={false} />
     </div>
   );

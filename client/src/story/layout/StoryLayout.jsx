@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
+import { ROUTE_PATHS } from 'routePaths';
 import useStoryContext from 'story/hooks/useStoryContext';
 import { StoryProvider } from 'story/layout/StoryContext';
 
@@ -37,17 +38,19 @@ function StoryOutlet() {
     <>
       <h1 className="text-3xl font-bold">{story.title}</h1>
       <div className="flex gap-4">
-        <Link to={`/story/${story.id}`}>nice view</Link>
+        <Link to={ROUTE_PATHS.storyDetail(story.id)}>nice view</Link>
         <span>|</span>
         <Link to={`/story/${story.id}/details`}>technical details</Link>
         <span>|</span>
         <Link to={`/story/${story.id}/entries`}>entry details</Link>
         <span>|</span>
-        <Link to={`http://localhost:9000/story/${story.id}`}>old site</Link>
+        <Link to={ROUTE_PATHS.storyDetailOld(story.id)}>old site</Link>
         {story.type === 'cemetery' && (
           <>
             <span>|</span>
-            <Link to={`/stories/cemetery/${story.id}`}>alternate view</Link>
+            <Link to={ROUTE_PATHS.cemeteryDetail(story.id)}>
+              alternate view
+            </Link>
           </>
         )}
       </div>
