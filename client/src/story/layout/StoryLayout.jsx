@@ -40,7 +40,11 @@ function StoryOutlet() {
       <div className="flex gap-4">
         <Link to={ROUTE_PATHS.storyDetail(story.id)}>nice view</Link>
         <span>|</span>
-        <Link to={`/story/${story.id}/details`}>technical details</Link>
+        <Link to={ROUTE_PATHS.storyDetailTechnical(story.id)}>
+          technical details
+        </Link>
+        <span>|</span>
+        <Link to={ROUTE_PATHS.storyDetailEdit(story.id)}>edit story</Link>
         <span>|</span>
         <Link to={`/story/${story.id}/entries`}>entry details</Link>
         <span>|</span>

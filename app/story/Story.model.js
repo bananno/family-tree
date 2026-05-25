@@ -17,6 +17,13 @@ const { constants, legacySchemaToConvert } = createModel({
 const schema = new mongoose.Schema(
   {
     ...legacySchemaToConvert,
+    summary: {
+      type: String,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
   },
   {
     discriminatorKey: 'kind',

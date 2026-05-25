@@ -5,6 +5,7 @@ import requireAdmin from '../session/requireAdmin.js';
 import createStoryRoute from './createStory.route.js';
 import getStoryRoute from './getStory.route.js';
 import listStoriesRoute from './listStories.route.js';
+import updateStoryRoute from './updateStory.route.js';
 import listStoriesNonEntrySourcesRoute from './listStoriesNonEntrySources.route.js';
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.use(requireAdmin);
 // protected routes
 router.get('/special/non-entry-sources', listStoriesNonEntrySourcesRoute);
 router.post('/', createStoryRoute);
+router.patch('/:id', updateStoryRoute);
 
 export default router;

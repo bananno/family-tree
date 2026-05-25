@@ -27,7 +27,9 @@ export const ROUTE_PATHS = new Proxy(
     sourceDetail: id => `/source/${id}`,
     sourceDetailOld: id => `${OLD_APP_URL}/source/${id}`, // for intentionally linking to old version
     storyDetail: id => `/story/${id}`,
+    storyDetailEdit: id => `/story/${id}/edit`,
     storyDetailOld: id => `${OLD_APP_URL}/story/${id}`, // for intentionally linking to old version
+    storyDetailTechnical: id => `/story/${id}/details`,
     storyIndex: '/stories',
     storyIndexWithType: storyType => `/stories/${storyType}`,
   },

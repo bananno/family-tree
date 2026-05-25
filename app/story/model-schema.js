@@ -22,10 +22,6 @@ export default [
     includeInExport: false,
   },
   {
-    name: 'title',
-    dataType: String,
-  },
-  {
     name: 'date',
     dataType: 'date',
     isEditable: story => story.canHaveDate(),
@@ -56,11 +52,6 @@ export default [
   },
   {
     name: 'notes',
-    dataType: String,
-    inputType: 'textarea',
-  },
-  {
-    name: 'summary',
     dataType: String,
     inputType: 'textarea',
   },

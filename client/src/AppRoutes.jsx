@@ -34,6 +34,7 @@ import NewspapersIndexPage from 'story/pages/NewspapersIndexPage';
 import StoriesIndexPage from 'story/pages/StoriesIndexPage';
 import StoriesNonEntrySourcesPage from 'story/pages/StoriesNonEntrySourcesPage';
 import StoryDetailsPage from 'story/pages/StoryDetailsPage';
+import StoryEditPage from 'story/pages/StoryEditPage';
 import StoryEntriesPage from 'story/pages/StoryEntriesPage';
 import StoryMainPage from 'story/pages/StoryMainPage';
 // Tag
@@ -132,7 +133,14 @@ export default function AppRoutes() {
         )}
         <Route path="/story/:id" element={<StoryLayout />}>
           <Route index element={<StoryMainPage />} />
-          <Route path="/story/:id/details" element={<StoryDetailsPage />} />
+          <Route
+            path={ROUTE_PATHS.storyDetailTechnical(':id')}
+            element={<StoryDetailsPage />}
+          />
+          <Route
+            path={ROUTE_PATHS.storyDetailEdit(':id')}
+            element={<StoryEditPage />}
+          />
           <Route path="/story/:id/entries" element={<StoryEntriesPage />} />
         </Route>
 
