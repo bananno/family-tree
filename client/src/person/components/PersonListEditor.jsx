@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 
 import PersonProfileIcon from 'person/components/PersonProfileIcon';
@@ -12,6 +13,8 @@ export default function PersonListEditor({
   onAdd,
   onRemove,
   onReorder,
+  confirmBeforeRemove = false,
+  singleColumn = false,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,7 +36,12 @@ export default function PersonListEditor({
         {currentPeople.length === 0 ? (
           <p className="text-sm text-gray-400">None</p>
         ) : (
-          <div className="flex flex-wrap gap-2">
+          <div
+            className={clsx(
+              'flex gap-2',
+              singleColumn ? 'flex-col' : 'flex-wrap',
+            )}
+          >
             {currentPeople.map(person => (
               <div
                 key={person.id}
@@ -56,6 +64,7 @@ export default function PersonListEditor({
           onRemove={onRemove}
           onReorder={onReorder}
           onClose={() => setIsOpen(false)}
+          confirmBeforeRemove={confirmBeforeRemove}
         />
       )}
     </>
@@ -70,6 +79,7 @@ function EditorModal({
   onRemove,
   onReorder,
   onClose,
+  confirmBeforeRemove,
 }) {
   const { people } = usePeopleContext();
   const [search, setSearch] = useState('');
@@ -100,7 +110,8 @@ function EditorModal({
 
   async function handleSelect(personId) {
     setSearch('');
-    await onAdd(personId);
+    const person = people.find(p => p.id === personId);
+    await onAdd(person);
   }
 
   async function handleConfirmRemove() {
@@ -112,6 +123,14 @@ function EditorModal({
   function onClickBackdrop(event) {
     if (event.target === event.currentTarget) {
       onClose();
+    }
+  }
+
+  function handleStartRemove(personId) {
+    if (confirmBeforeRemove) {
+      setConfirmRemove(personId);
+    } else {
+      onRemove(personId);
     }
   }
 
@@ -176,7 +195,7 @@ function EditorModal({
               ) : (
                 <button
                   type="button"
-                  onClick={() => setConfirmRemove(person.id)}
+                  onClick={() => handleStartRemove(person.id)}
                   className="text-gray-400 hover:text-red-500 text-lg leading-none px-1"
                   title="Remove"
                 >

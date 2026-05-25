@@ -1,3 +1,6 @@
+import mongoose from 'mongoose';
+
+import PersonModel from '../person/Person.model.js';
 import StoryModel from './Story.model.js';
 
 export default async function updateStoryRoute(req, res) {
@@ -13,6 +16,14 @@ export default async function updateStoryRoute(req, res) {
 
   if ('notesMarkdown' in req.body) {
     story.notesMarkdown = String(req.body.notesMarkdown) === 'true';
+  }
+
+  if ('people' in req.body) {
+    const peopleError = await getValidationErrorsForPersonIds(req.body.people);
+    if (peopleError) {
+      return res.status(400).send({ error: peopleError });
+    }
+    story.people = req.body.people;
   }
 
   if ('sharing' in req.body) {
@@ -34,4 +45,28 @@ export default async function updateStoryRoute(req, res) {
   await story.save();
 
   res.send();
+}
+
+////////////////////
+
+async function getValidationErrorsForPersonIds(personIds) {
+  if (!Array.isArray(personIds)) {
+    return 'people must be an array of person ids';
+  }
+
+  const allValidIds = personIds.every(id =>
+    mongoose.Types.ObjectId.isValid(id),
+  );
+  if (!allValidIds) {
+    return 'people must be an array of person ids';
+  }
+
+  const countPeople = await PersonModel.countDocuments({
+    _id: { $in: personIds },
+  });
+  if (countPeople !== personIds.length) {
+    return 'one or more person ids are duplicated or invalid';
+  }
+
+  return null;
 }

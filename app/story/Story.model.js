@@ -25,6 +25,12 @@ const schema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    people: [
+      {
+        ref: 'Person',
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
     sharing: {
       type: Boolean,
       default: false,

@@ -20,11 +20,6 @@ export default [
     dataType: 'location',
   },
   {
-    name: 'people',
-    dataType: 'person',
-    isList: true,
-  },
-  {
     name: 'links',
     dataType: 'link',
     isList: true,

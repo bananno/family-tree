@@ -15,10 +15,10 @@ export default function PersonRelationshipsEditor() {
   const { person, refetch: refetchPerson } = usePersonContext();
   const { refetch: refetchPeople } = usePeopleContext();
 
-  async function handleAdd(relationship, relativeId) {
+  async function handleAdd(relationship, relative) {
     await api(`people/${person.id}/relationships`, {
       method: 'POST',
-      body: { action: 'add', relationship, relativeId },
+      body: { action: 'add', relationship, relativeId: relative.id },
     });
     await refetchPerson();
     await refetchPeople();
@@ -49,9 +49,10 @@ export default function PersonRelationshipsEditor() {
           label={label}
           currentPeople={person[key] || []}
           excludeIds={[person.id]}
-          onAdd={relativeId => handleAdd(key, relativeId)}
+          onAdd={relative => handleAdd(key, relative)}
           onRemove={relativeId => handleRemove(key, relativeId)}
           onReorder={index => handleReorder(key, index)}
+          confirmBeforeRemove
         />
       ))}
     </div>
