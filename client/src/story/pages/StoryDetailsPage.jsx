@@ -1,4 +1,3 @@
-import ReactMarkdown from 'react-markdown';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +10,7 @@ import FormatContent from 'shared/FormatContent';
 import FormatDate from 'shared/FormatDate';
 import FormatLocation from 'shared/FormatLocation';
 import LinkList from 'shared/LinkList';
+import Markdown from 'shared/Markdown';
 import NewEntrySourceModal from 'source/components/NewEntrySourceModal';
 import SourceLink from 'source/components/SourceLink';
 import SourceList from 'source/components/SourceList';
@@ -165,7 +165,7 @@ function StoryNotes({ story }) {
   }
 
   if (story.notesMarkdown) {
-    return <ReactMarkdown>{story.notes}</ReactMarkdown>;
+    return <Markdown>{story.notes}</Markdown>;
   }
 
   const storyParts = story.notes
