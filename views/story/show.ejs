@@ -1,130 +1,20 @@
-<%
-  const linksList = story.links;
+<hr style="margin-top: 20px;">
 
-  if (story.sharing) {
-    linksList.push('https://ancestry.annacpeterson.com/?' + story.type
-      + '/' + story._id + ' CustomSite');
-  }
-%>
-
-<h2>sharing</h2>
-
-<p>
-  <% if (story.sharing) { %>
-    <img class="checkmark-inline" src="/images/check-true.png"> yes
-  <% } else { %>
-    <img class="checkmark-inline" src="/images/check-false.png"> no
-  <% } %>
-</p>
-
-<h2>type</h2>
-<p>
-  <%= story.type %>
-</p>
-
-<% if (story.tags.length) { %>
-  <h2>tags</h2>
-  <%- include('../tag/_list', {item: story}) %>
-<% } %>
-
-<% if (story.summary) { %>
-  <%
-    const summaryItems = story.summary.split('\n');
-  %>
-  <h2>summary</h2>
-  <% summaryItems.forEach(str => { %>
-    <p style="max-width: 600px;">
-      <%= str %>
-    </p>
-  <% }); %>
-<% } %>
-
-<% if (story.canHaveDate() && story.date) { %>
-  <h2>date</h2>
-  <p>
-    <%- include('../format/date', {date: story.date}) %>
-  </p>
-<% } %>
-
-<% if (story.location) { %>
-  <h2>location</h2>
-  <p>
-    <%- include('../format/location', {location: story.location}) %>
-  </p>
-<% } %>
-
-<% if (story.people.length) { %>
-  <h2>people</h2>
-  <%- include('../person/_list', {
-    people: story.people,
-    format: 'bullet',
-  }) %>
-<% } %>
-
-<% if (story.links.length) { %>
-  <h2>links</h2>
-  <ul class="bullet-list">
-    <% story.links.forEach(linkUrl => { %>
-      <li>
-        <%- include('../format/externalLink', { url: linkUrl }) %>
-      </li>
-    <% }); %>
-  </ul>
-<% } %>
-
+<h2>images</h2>
 <% if (story.images.length) { %>
-  <h2>images</h2>
   <p>
     <% story.images.forEach(image => { %>
       <%- include('../image/_link', {image}) %>
     <% }); %>
   </p>
-<% } %>
-
-<% if (story.notes) { %>
-  <% const notesList = story.notes.split('\n'); %>
-  <h2>notes</h2>
-  <ul class="bullet-list">
-    <% notesList.forEach(note => { %>
-      <li style="max-width: 600px;">
-        <%= note %>
-      </li>
-    <% }); %>
-  </ul>
-<% } %>
-
-<% if (story.content) { %>
-  <h2>content</h2>
-  <%- include('../format/content', {
-    content: story.content,
-    limit: false,
-  }) %>
-<% } %>
-
-<% if (story.citeText.length) { %>
-  <h2>citation text</h2>
-  <ul class="bullet-list">
-    <% story.citeText.forEach(text => { %>
-      <li><%= text %></li>
-    <% }); %>
-  </ul>
-<% } %>
-
-<% if (story.entries.length) { %>
-  <h2>entries</h2>
-  <ul class="bullet-list">
-    <% story.entries.forEach(source => { %>
-      <li>
-        <%- include('../source/_link', {source}) %>
-      </li>
-    <% }); %>
-  </ul>
+<% } else { %>
+  <p>--</p>
 <% } %>
 
 <hr style="margin-top: 20px;">
 
+<h2>non-entry sources</h2>
 <% if (story.nonEntrySources.length) { %>
-  <h2>sources</h2>
   <ul class="bullet-list">
     <% story.nonEntrySources.forEach(source => { %>
       <li>
@@ -132,10 +22,14 @@
       </li>
     <% }); %>
   </ul>
+<% } else { %>
+  <p>--</p>
 <% } %>
 
+<hr style="margin-top: 20px;">
+
+<h2>newspapers, cemeteries, landmarks</h2>
 <% if (locals.storiesInLocation) { %>
-  <h2>newspapers, cemeteries, landmarks</h2>
   <ul class="bullet-list">
     <% locals.storiesInLocation.forEach(otherStory => { %>
       <li>
@@ -143,4 +37,6 @@
       </li>
     <% }); %>
   </ul>
+<% } else { %>
+  <p>--</p>
 <% } %>

@@ -36,7 +36,7 @@ function StoryOutlet() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold">{story.title}</h1>
+      <h1 className="text-3xl font-bold">Story: {story.title}</h1>
       <div className="flex gap-4">
         <Link to={ROUTE_PATHS.storyDetail(story.id)}>nice view</Link>
         <span>|</span>

@@ -20,53 +20,70 @@ import TagList from 'tag/components/TagList';
 export default function StoryDetailsPage() {
   const { story } = useStoryContext();
 
+  const summaryItems = story.summary?.split('\n') || [];
+
   return (
     <div>
-      <h2>type</h2>
+      <h2 className="text-xl font-bold">type</h2>
       <p>{story.type}</p>
       <Divider />
       <AdminOnly>
-        <h2>sharing</h2>
+        <h2 className="text-xl font-bold">sharing</h2>
         <Checkmark value={story.sharing} />
         <Divider />
-        <h2>tags</h2>
+        <h2 className="text-xl font-bold">tags</h2>
         <TagList tags={story.tags} />
+        <Divider />
       </AdminOnly>
-      <Divider />
-      <h2>date</h2>
+      <h2 className="text-xl font-bold">date</h2>
       <p>
         <FormatDate date={story.date} />
       </p>
       <Divider />
-      <h2>location</h2>
+      <h2 className="text-xl font-bold">location</h2>
       <p>
         <FormatLocation location={story.location} />
       </p>
       <Divider />
-      <h2>people</h2>
+      <h2 className="text-xl font-bold">people</h2>
       <PersonList people={story.people} />
       <Divider />
-      <h2>links</h2>
+      <h2 className="text-xl font-bold">links</h2>
       <LinkList links={story.links || []} />
       <Divider />
-      <h2>notes</h2>
+      <h2 className="text-xl font-bold">notes</h2>
       <BulletList>
         {story.notes?.map((note, i) => (
           <li key={i}>{note}</li>
         ))}
       </BulletList>
       <Divider />
-      <h2>content</h2>
+      <h2 className="text-xl font-bold">summary</h2>
+      {summaryItems.length === 0 && <p>--</p>}
+      {summaryItems.map((paragraph, i) => (
+        <p key={i}>{paragraph}</p>
+      ))}
+      <Divider />
+      <h2 className="text-xl font-bold">citation</h2>
+      {story.citationText?.map((text, i) => (
+        <p key={i}>{text}</p>
+      ))}
+      <Divider />
+      <h2 className="text-xl font-bold">images</h2>
+      <p>(todo)</p>
+      <Divider />
+      <h2 className="text-xl font-bold">content</h2>
       <FormatContent content={story.content} />
       <Divider />
-      <h2>sources (belong to another story, but is related to this story)</h2>
+      <h2 className="text-xl font-bold">
+        sources (belong to another story, but is related to this story)
+      </h2>
       <SourceList sources={story.nonEntrySources} />
       <Divider />
-      <h2>entries (belong to this story)</h2>
+      <h2 className="text-xl font-bold">entries (belong to this story)</h2>
       <AdminOnly>
         <NewEntrySourceModal story={story} />
       </AdminOnly>
-      <Divider />
       {story.type === 'newspaper' ? (
         <NewspaperEntryList sources={story.entries} />
       ) : story.type === 'cemetery' ? (
