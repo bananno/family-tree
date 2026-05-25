@@ -61,17 +61,14 @@ export default function StoryForm({ story, afterSave }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg py-2">
-      <FormSection label="title">
+      <FormSection label="title" error={errors.title}>
         <Input
           name="title"
           register={register}
           rules={{ required: 'Title is required' }}
         />
-        {errors.title && (
-          <div className="text-red-600 text-sm mt-1">{errors.title.type}</div>
-        )}
       </FormSection>
-      <FormSection label="sharing">
+      <FormSection label="sharing" error={errors.sharing}>
         <ButtonSelector
           value={watch('sharing')}
           onChange={val => setValue('sharing', val)}
@@ -81,13 +78,10 @@ export default function StoryForm({ story, afterSave }) {
           ]}
         />
       </FormSection>
-      <FormSection label="summary">
+      <FormSection label="summary" error={errors.summary}>
         <Input name="summary" register={register} textarea />
-        {errors.summary && (
-          <div className="text-red-600 text-sm mt-1">{errors.summary.type}</div>
-        )}
       </FormSection>
-      <FormSection label="notes">
+      <FormSection label="notes" error={errors.notes}>
         <div className="space-y-2">
           <ButtonSelector
             value={watch('notesMarkdown')}
@@ -99,23 +93,15 @@ export default function StoryForm({ story, afterSave }) {
           />
           <Input name="notes" register={register} textarea />
         </div>
-        {errors.notes && (
-          <div className="text-red-600 text-sm mt-1">{errors.notes.type}</div>
-        )}
       </FormSection>
-      <FormSection label="people">
+      <FormSection label="people" error={errors.people}>
         <StoryPeopleField
           currentPeople={watch('people')}
           onChange={val => setValue('people', val)}
         />
       </FormSection>
-      <FormSection label="citationText">
+      <FormSection label="citationText" error={errors.citationText}>
         <Input name="citationText" register={register} textarea />
-        {errors.citationText && (
-          <div className="text-red-600 text-sm mt-1">
-            {errors.citationText.type}
-          </div>
-        )}
       </FormSection>
       {submitError && (
         <div className="text-red-600 text-sm mb-3">

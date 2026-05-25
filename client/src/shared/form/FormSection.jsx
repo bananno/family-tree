@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function FormSection({ label, children, style = {} }) {
+export default function FormSection({ label, children, style = {}, error }) {
   return (
     <div className="mb-6" style={style}>
       {label && (
@@ -9,6 +9,7 @@ export default function FormSection({ label, children, style = {} }) {
         </label>
       )}
       {children}
+      {error && <div className="text-red-600 text-sm mt-1">{error.type}</div>}
     </div>
   );
 }
