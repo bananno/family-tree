@@ -49,7 +49,6 @@ async function storyShowMain(req, res) {
     .populate('people')
     .populate('images')
     .populate('tags');
-  await req.story.populateCiteText();
   await req.story.populateNonEntrySources();
   const data = await storyTools.getShowStoryInfo(req.story);
   res.renderStory('show', data);

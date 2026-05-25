@@ -17,6 +17,10 @@ const { constants, legacySchemaToConvert } = createModel({
 const schema = new mongoose.Schema(
   {
     ...legacySchemaToConvert,
+    citationText: {
+      type: String,
+      default: '',
+    },
     notes: {
       type: String,
       default: '',

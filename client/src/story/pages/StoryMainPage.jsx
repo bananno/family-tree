@@ -24,6 +24,12 @@ export default function StoryMainPage() {
             {part.text}
           </p>
         ))}
+      {story.citationText && (
+        <>
+          <h2 className="text-lg font-bold mb-2">Citation</h2>
+          <p className="mb-4 italic">{story.citationText}</p>
+        </>
+      )}
     </>
   );
 }

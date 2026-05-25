@@ -77,19 +77,6 @@ methods.populateNotations = async function() {
 };
 
 
-// =============================== notation cite text (unrelated to citation model)
-
-// Get official text about story origin (e.g., MLA) NOT the citation model.
-methods.populateCiteText = async function() {
-  const notations = await mongoose.model('Notation').getCitesForStory(this);
-  this.citeText = notations.map(notation => notation.text);
-};
-
-methods.shouldHaveCiteText = async function() {
-  return !['event', 'place'].includes(this.type);
-};
-
-
 // =============================== sources
 
 // Assign list of sources that belong to THIS story.

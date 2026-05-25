@@ -187,23 +187,22 @@ methods.populateAndProcessHighlights = async function() {
 
 // Get official text about source origin (e.g., MLA) via notations; NOT the citation model.
 methods.populateCiteText = async function(options = {}) {
-  const sourceNotations = await mongoose.model('Notation')
-    .getCitesForSource(this);
+  const sourceNotations = await mongoose.model('Notation').getCitesForSource(this);
 
-  let notations = [...sourceNotations];
+  const sourceNotationTexts = [...sourceNotations].map(notation => notation.text);
 
-  if (options.includeStory !== false) {
-    const storyNotations = await mongoose.model('Notation')
-      .getCitesForStory(this.story);
-
-    if (options.storyFirst) {
-      notations = [...storyNotations, ...notations];
-    } else {
-      notations = [...notations, ...storyNotations];
+  if (options.includeStory === false) {
+    this.citeText = sourceNotationTexts;
+  } else {
+    const storyCitationText = this.story.citationText;
+    if (storyCitationText) {
+      if (options.storyFirst) {
+        this.citeText = [storyCitationText, ...sourceNotationTexts];
+      } else {
+        this.citeText = [...sourceNotationTexts, storyCitationText];
+      }
     }
   }
-
-  this.citeText = notations.map(notation => notation.text);
 };
 
 // Populate notations for this source.

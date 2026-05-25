@@ -62,9 +62,7 @@ export default function StoryDetailsPage() {
       ))}
       <Divider />
       <h2 className="text-xl font-bold">citation</h2>
-      {story.citationText?.map((text, i) => (
-        <p key={i}>{text}</p>
-      ))}
+      <p>{story.citationText}</p>
       <Divider />
       <h2 className="text-xl font-bold">images</h2>
       <p>(todo)</p>

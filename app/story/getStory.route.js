@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import NotationModel from '../notation/Notation.model.js';
 import Story from './Story.model.js';
 import Source from '../source/Source.model.js';
 
@@ -52,16 +51,10 @@ export default async function getStoryRoute(req, res) {
 
   nonEntrySources.forEach(source => source.populateFullTitle());
 
-  // Get official text about story origin (e.g., MLA) NOT the citation model.
-  // TODO: move this to an attribute on the story model.
-  const citationTextNotations = story.shouldHaveCiteText()
-    ? await NotationModel.getCitesForStory(story)
-    : [];
-  const citationText = citationTextNotations.map(notation => notation.text);
-
   const data = {
     ..._.pick(story, [
       'id',
+      'citationText',
       'date',
       'kind',
       'location',
@@ -97,7 +90,6 @@ export default async function getStoryRoute(req, res) {
       id: source.id,
       fullTitle: source.fullTitle,
     })),
-    citationText,
   };
 
   res.send(data);

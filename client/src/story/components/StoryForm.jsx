@@ -13,6 +13,7 @@ export default function StoryForm({ story, afterSave }) {
   const [submitError, setSubmitError] = useState(null);
 
   const defaultValues = {
+    citationText: story.citationText,
     notes: story.notes,
     notesMarkdown: story.notesMarkdown ? 'true' : 'false',
     people: story.people,
@@ -107,6 +108,14 @@ export default function StoryForm({ story, afterSave }) {
           currentPeople={watch('people')}
           onChange={val => setValue('people', val)}
         />
+      </FormSection>
+      <FormSection label="citationText">
+        <Input name="citationText" register={register} textarea />
+        {errors.citationText && (
+          <div className="text-red-600 text-sm mt-1">
+            {errors.citationText.type}
+          </div>
+        )}
       </FormSection>
       {submitError && (
         <div className="text-red-600 text-sm mb-3">

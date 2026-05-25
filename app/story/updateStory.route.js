@@ -10,6 +10,10 @@ export default async function updateStoryRoute(req, res) {
     return res.status(404).send();
   }
 
+  if ('citationText' in req.body) {
+    story.citationText = req.body.citationText?.trim();
+  }
+
   if ('notes' in req.body) {
     story.notes = req.body.notes?.trim();
   }
