@@ -1,16 +1,5 @@
 export default [
   {
-    // _id should be included in the export; that's the only reason it is in this list
-    name: '_id',
-    includeInSchema: false,
-  },
-  {
-    name: 'sharing',
-    dataType: Boolean,
-    defaultValue: false,
-    includeInExport: false,
-  },
-  {
     name: 'type',
     dataType: String,
   },
@@ -49,11 +38,6 @@ export default [
     name: 'tags',
     dataType: 'tag',
     isList: true,
-  },
-  {
-    name: 'notes',
-    dataType: String,
-    inputType: 'textarea',
   },
   {
     name: 'content',

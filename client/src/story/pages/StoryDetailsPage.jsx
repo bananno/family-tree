@@ -1,3 +1,4 @@
+import ReactMarkdown from 'react-markdown';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -52,11 +53,7 @@ export default function StoryDetailsPage() {
       <LinkList links={story.links || []} />
       <Divider />
       <h2 className="text-xl font-bold">notes</h2>
-      <BulletList>
-        {story.notes?.map((note, i) => (
-          <li key={i}>{note}</li>
-        ))}
-      </BulletList>
+      <StoryNotes story={story} />
       <Divider />
       <h2 className="text-xl font-bold">summary</h2>
       {summaryItems.length === 0 && <p>--</p>}
@@ -160,4 +157,27 @@ function formatNewspaperDate(date) {
   }
 
   return year || '';
+}
+
+function StoryNotes({ story }) {
+  if (!story.notes) {
+    return <p>--</p>;
+  }
+
+  if (story.notesMarkdown) {
+    return <ReactMarkdown>{story.notes}</ReactMarkdown>;
+  }
+
+  const storyParts = story.notes
+    .split('\n')
+    .filter(Boolean)
+    .map((text, i) => ({ key: i, text }));
+
+  return (
+    <BulletList>
+      {storyParts.map(part => (
+        <li key={part.key}>{part.text}</li>
+      ))}
+    </BulletList>
+  );
 }

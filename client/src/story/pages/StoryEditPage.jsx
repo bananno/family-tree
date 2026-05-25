@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import api from 'shared/api';
 import Button from 'shared/form/Button';
+import ButtonSelector from 'shared/form/ButtonSelector';
 import FormSection from 'shared/form/FormSection';
 import Input from 'shared/form/Input';
 import useStoryContext from 'story/hooks/useStoryContext';
@@ -13,6 +14,9 @@ export default function StoryEditPage() {
   const [submitError, setSubmitError] = useState(null);
 
   const defaultValues = {
+    notes: story.notes,
+    notesMarkdown: story.notesMarkdown ? 'true' : 'false',
+    sharing: story.sharing ? 'true' : 'false',
     summary: story.summary,
     title: story.title,
   };
@@ -64,10 +68,34 @@ export default function StoryEditPage() {
           <div className="text-red-600 text-sm mt-1">{errors.title.type}</div>
         )}
       </FormSection>
+      <FormSection label="sharing">
+        <ButtonSelector
+          value={watch('sharing')}
+          onChange={val => setValue('sharing', val)}
+          options={[
+            { value: 'true', label: 'true' },
+            { value: 'false', label: 'false' },
+          ]}
+        />
+      </FormSection>
       <FormSection label="summary">
         <Input name="summary" register={register} textarea />
         {errors.summary && (
           <div className="text-red-600 text-sm mt-1">{errors.summary.type}</div>
+        )}
+      </FormSection>
+      <FormSection label="notes">
+        <ButtonSelector
+          value={watch('notesMarkdown')}
+          onChange={val => setValue('notesMarkdown', val)}
+          options={[
+            { value: 'true', label: 'markdown' },
+            { value: 'false', label: 'legacy' },
+          ]}
+        />
+        <Input name="notes" register={register} textarea />
+        {errors.notes && (
+          <div className="text-red-600 text-sm mt-1">{errors.notes.type}</div>
         )}
       </FormSection>
       {submitError && (

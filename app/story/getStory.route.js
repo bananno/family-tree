@@ -65,6 +65,8 @@ export default async function getStoryRoute(req, res) {
       'date',
       'kind',
       'location',
+      'notes',
+      'notesMarkdown',
       'sharing',
       'summary',
       'title',
@@ -72,7 +74,6 @@ export default async function getStoryRoute(req, res) {
     ]),
     content: story.content?.split('\n') || [],
     links: mapLinks(story.links),
-    notes: splitNotes(story.notes),
     people: mapPeople(story.people, admin),
     tags: story.convertTags({ asList: true }),
     entries: entries.map(source => ({

@@ -3,6 +3,8 @@ import remarkBreaks from 'remark-breaks';
 
 import classes from './FormatContent.module.scss';
 
+// This component is only for "content" data. For other data that can make
+// use of markdown, just use ReactMarkdown directly.
 // children = pass raw content (newer version)
 // content = array of lines of content (older version, to be phased out)
 export default function FormatContent({

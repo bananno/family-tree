@@ -17,8 +17,21 @@ const { constants, legacySchemaToConvert } = createModel({
 const schema = new mongoose.Schema(
   {
     ...legacySchemaToConvert,
+    notes: {
+      type: String,
+      default: '',
+    },
+    notesMarkdown: {
+      type: Boolean,
+      default: false,
+    },
+    sharing: {
+      type: Boolean,
+      default: false,
+    },
     summary: {
       type: String,
+      default: '',
     },
     title: {
       type: String,
