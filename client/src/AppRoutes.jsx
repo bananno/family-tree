@@ -7,6 +7,9 @@ import FilesPage from 'file/pages/FilesPage';
 import FeaturedQuotesPage from 'misc/featured-quote/FeaturedQuotesPage';
 import NotationIndexPage from 'notation/pages/NotationIndexPage';
 import NotationProfilePage from 'notation/pages/NotationProfilePage';
+import InventoryIndexPage from 'object/pages/InventoryIndexPage';
+import ObjectEditPage from 'object/pages/ObjectEditPage';
+import ObjectViewPage from 'object/pages/ObjectViewPage';
 // Person
 import PersonLayout from 'person/layout/PersonLayout';
 import PeopleIndexPage from 'person/pages/PeopleIndexPage';
@@ -187,6 +190,19 @@ export default function AppRoutes() {
             <Route path="map" element={<ToDoPage title="map" />} />
             <Route path="utilities" element={<UtilitiesPage />} />
             <Route path="users" element={<UsersIndexPage />} />
+
+            <Route
+              path={ROUTE_PATHS.inventoryIndex}
+              element={<InventoryIndexPage />}
+            />
+            <Route
+              path={ROUTE_PATHS.objectDetail(':id')}
+              element={<ObjectViewPage />}
+            />
+            <Route
+              path={ROUTE_PATHS.objectDetailEdit(':id')}
+              element={<ObjectEditPage />}
+            />
           </>
         )}
         <Route path="/account" element={<AccountPage />} />

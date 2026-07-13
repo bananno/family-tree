@@ -5,6 +5,7 @@ import uploadedFileRouter from './file/uploadedFileRouter.js';
 import personRouter from './person/personRouter.js';
 import featuredQuoteRouter from './misc/featuredQuoteRouter.js';
 import notationRouter from './notation/notationRouter.js';
+import objectRouter from './object/objectRouter.js';
 import requireAdmin from './session/requireAdmin.js';
 import sessionRouter from './session/sessionRouter.js';
 import sourceRouter from './source/sourceRouter.js';
@@ -21,6 +22,7 @@ export default function registerRouters(app) {
   app.use('/featured-quotes', featuredQuoteRouter);
   app.use('/files', requireAdmin, uploadedFileRouter);
   app.use('/notations', requireAdmin, notationRouter);
+  app.use('/objects', requireAdmin, objectRouter);
   app.use('/people', personRouter);
   app.use('/sources', sourceRouter);
   app.use('/stories', storyRouter);

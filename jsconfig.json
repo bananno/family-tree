@@ -10,6 +10,7 @@
       "file/*": ["./client/src/file/*"],
       "misc/*": ["./client/src/misc/*"],
       "notation/*": ["./client/src/notation/*"],
+      "object/*": ["./client/src/object/*"],
       "person/*": ["./client/src/person/*"],
       "session/*": ["./client/src/session/*"],
       "shared/*": ["./client/src/shared/*"],

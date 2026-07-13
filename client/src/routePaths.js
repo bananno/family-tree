@@ -10,8 +10,11 @@ export const ROUTE_PATHS = new Proxy(
     eventDetailOld: id => `${OLD_APP_URL}/event/${id}`, // use for specifically linking to old version
     eventIndex: '/events',
     eventIndexCategory: category => `/events/${category}`,
+    inventoryIndex: '/inventory',
     newspaperDetail: id => `/story/${id}`, // to replace with newspaper specific route eventually
     newspaperIndex: '/newspapers',
+    objectDetail: id => `/object/${id}`,
+    objectDetailEdit: id => `/object/${id}/edit`,
     personDetail: id => `/person/${id}`,
     personDetailAvatar: id => `/person/${id}/avatar`,
     personDetailChecklist: id => `/person/${id}/checklist`,

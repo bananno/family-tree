@@ -19,6 +19,7 @@ export default defineConfig({
       file: path.resolve(__dirname, './src/file'),
       misc: path.resolve(__dirname, './src/misc'),
       notation: path.resolve(__dirname, './src/notation'),
+      object: path.resolve(__dirname, './src/object'),
       person: path.resolve(__dirname, './src/person'),
       routePaths: path.resolve(__dirname, './src/routePaths'),
       session: path.resolve(__dirname, './src/session'),
